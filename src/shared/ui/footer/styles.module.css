@@ -1,0 +1,87 @@
+@import url("@/app/styles/mixin.css");
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  padding: var(--adaptive-section-py) rem(0);
+  border-top: rem(1px) solid rgba(255, 255, 255, 0.12);
+  background: var(--color-black);
+  z-index: 0;
+}
+.box {
+  width: 1340px;
+  padding: 0 10px;
+  margin: 0 auto;
+}
+.footer-grid {
+  flex: 1;
+  max-width: 850px;
+  --grid-gutter: 0 !important;
+  overflow: initial;
+  margin: 0;
+}
+
+.footer-grid > div {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 1200px) {
+  .footer-grid {
+    width: 100%;
+  }
+  .footer-grid > div {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-grid > div > div {
+    text-align: center;
+  }
+  .footer-grid > div {
+    grid-gap: 12px 0;
+  }
+  .left-side > div {
+    width: 100% !important;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .box {
+    grid-gap: 28px;
+  }
+}
+
+.link {
+  @mixin text-5-full;
+  --text-color: var(--color-grey);
+
+  cursor: pointer;
+  text-decoration: none;
+  @mixin transition;
+
+  & svg {
+    & path {
+      @mixin transition;
+    }
+  }
+
+  @mixin hover {
+    --text-color: var(--color-blue);
+    text-shadow: 0px 2px 8px rgba(98, 95, 244, 0.64);
+
+    & svg {
+      @mixin transition;
+      & path {
+        fill: var(--color-blue);
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .footer-grid {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,80 @@
+.mainTitle {
+  font-size: 54px;
+  color: white;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.subTitle {
+  color: var(--color-white);
+  font-family: ProximaNova;
+  font-size: var(--text-5-fz);
+  line-height: rem(17px);
+}
+.boxWrapper {
+  width: 100%;
+  border-radius: 0 8px 8px 0;
+  overflow: hidden;
+}
+.box-red {
+  border-radius: 8px 0 0 8px;
+  padding: 16px 32px;
+  border: none;
+  overflow: hidden;
+  background-clip: padding-box;
+  background: linear-gradient(313.06deg, rgba(228, 34, 34, 0.2) 6.43%, rgba(12, 13, 16, 0.2) 99.25%);
+  border-left: 2px solid #e42222;
+}
+
+.actionArrow {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  height: 24px;
+  cursor: pointer;
+}
+
+.box-orange {
+  padding: 16px 32px;
+  border-radius: 8px 0 0 8px;
+  border: none;
+  overflow: hidden;
+  background-clip: padding-box;
+  border-left: 2px solid var(--color-orange);
+  background: linear-gradient(313deg, rgba(255, 158, 43, 0.2) 6.43%, rgba(12, 13, 16, 0.2) 99.25%);
+}
+.text-red {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  color: var(--color-red);
+}
+.text-orange {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  color: var(--color-orange);
+}
+
+@media (max-width: 1400px) {
+  .text-red,
+  .text-orange {
+    font-size: 1.125rem;
+  }
+  .mainTitle {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 500px) {
+  .text-red,
+  .text-orange {
+    font-size: 1rem;
+  }
+  .box-red,
+  .box-orange {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+}

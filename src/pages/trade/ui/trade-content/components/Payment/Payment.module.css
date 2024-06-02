@@ -1,0 +1,7 @@
+.payment {
+  flex: 1 1 75%;
+}
+
+.ordersAll {
+  flex: 1 1 25%;
+}

@@ -1,0 +1,85 @@
+@import url("@/app/styles/mixin.css");
+
+.content-wrapper {
+  flex: 1;
+  padding: rem(96) rem(165);
+  position: relative;
+  min-height: 880px;
+}
+
+.form-wrapper {
+  /*min-width: rem(600px);*/
+}
+
+.form {
+  width: 100%;
+  min-width: rem(600);
+  max-width: rem(600);
+}
+
+.z-index {
+  z-index: 10;
+}
+
+.passwordInput {
+  padding-right: 80px;
+}
+
+.grey-text {
+  @mixin textGrey;
+}
+
+.blue-text {
+  background-image: var(--gradient-webkit-linear);
+  background-image: var(--gradient-linear);
+  background-position: right center;
+  background-size: 400% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: white;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  transition:
+    color 200ms linear,
+    background-position 2000ms ease-out;
+}
+
+.light-left {
+  bottom: 0;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-right {
+  bottom: 0;
+  right: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+@media (max-width: 1200px) {
+  .form {
+    min-width: auto;
+  }
+  .btn span {
+    font-size: 1.125rem;
+  }
+  .btn svg {
+    width: 22px;
+    height: 22px;
+  }
+  .btn {
+    height: 78px;
+  }
+  .content-wrapper {
+    align-items: center;
+    padding: 2rem 1rem !important;
+    min-height: 500px;
+  }
+  .form-wrapper {
+    width: 100%;
+  }
+}

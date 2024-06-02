@@ -1,0 +1,177 @@
+@import url("@/app/styles/mixin.css");
+
+.light-one {
+  top: 0;
+  width: auto;
+  right: 0;
+  z-index: -1;
+  position: absolute;
+}
+
+.crypto-grid {
+  display: grid;
+}
+
+.crypto-grid > div {
+  padding: 0;
+}
+
+.light-two {
+  top: 0;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-three {
+  top: rem(75);
+  right: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-four {
+  top: 58%;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-five {
+  right: 0;
+  bottom: -38%;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.content-wrapper {
+  flex: 1;
+  padding: clamp(1.75rem, 4vw, 4rem) 0;
+  position: relative;
+}
+
+.blue-text {
+  @mixin textLinearGradient;
+}
+
+.grey-text {
+  @mixin textGrey;
+}
+
+.rates-table-wrapper {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: clamp(2rem, 4vw, 4rem) clamp(1.25rem, 4vw, 4rem);
+  border-radius: rem(8px);
+  background: var(--color-black);
+}
+
+.rates-divider-root {
+  --divider-color: rgba(255, 255, 255, 0.12);
+}
+
+.categories-wrapper {
+  padding-top: rem(32px);
+}
+
+.category-button-wrapper {
+  height: rem(54);
+  cursor: pointer;
+  padding: 0 16px 30px 16px;
+  position: relative;
+  @mixin transition;
+
+  &::after {
+    content: "";
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    opacity: 0;
+    position: absolute;
+    background: transparent;
+    border-radius: rem(8) rem(8) 0 0;
+    @mixin transition;
+  }
+
+  &:hover,
+  &[data-active] {
+    &::after {
+      opacity: 1;
+      background: var(--gradient-radial);
+      box-shadow: 0px 0px 8px 0px rgba(98, 95, 244, 0.64);
+    }
+
+    & :local(.category-button) {
+      --text-color: var(--color-blue);
+      text-shadow: 0px 2px 8px rgba(98, 95, 244, 0.64);
+    }
+  }
+
+  &[data-active] {
+    &::after {
+      box-shadow: none;
+    }
+
+    & :local(.category-button) {
+      text-shadow: none;
+    }
+  }
+}
+
+.category-button {
+  @mixin text-4-full var(--color-grey);
+  @mixin transition;
+}
+
+@media (max-width: 1440px) {
+  .rates-table-wrapper {
+    padding: 2rem 1.25rem;
+  }
+  .rates-table-wrapper > div:nth-child(2) {
+    overflow-x: scroll;
+  }
+  .rates-table-wrapper > div > table {
+    min-width: 440px;
+  }
+  .categories-wrapper {
+    grid-gap: 12px;
+    padding-top: 1.5rem;
+  }
+  .category-button-wrapper {
+    padding: 0 0.75rem;
+    height: 42px;
+  }
+  .category-button-wrapper button {
+    font-size: 14px;
+  }
+  .table-head th {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 48em) {
+  .grey-text {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 470px) {
+  .gridCols > div {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .gridColsItem {
+    --col-width: 100%;
+    max-width: 100%;
+  }
+  .gridColsItem h4 {
+    font-size: 12px !important;
+  }
+  .gridColsItem p {
+    font-size: 12px !important;
+  }
+}

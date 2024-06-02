@@ -1,0 +1,22 @@
+.dropdown {
+  background-color: var(--color-black) !important;
+  border: var(--border1);
+}
+.option {
+  color: var(--color-blue);
+  --text-fz: var(--text-3-fz) !important;
+  --_text-line-height: var(--text-3-lh) !important;
+
+  font-size: var(--text-3-fs) !important;
+  font-family: var(--text-font-family) !important;
+  font-weight: 500 !important;
+  &:hover {
+    background: #1a1c23;
+  }
+}
+.active {
+  background-color: #11131b;
+  &:hover {
+    background-color: #11131b;
+  }
+}

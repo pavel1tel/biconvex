@@ -1,0 +1,288 @@
+.sectionContainer {
+  gap: 64px;
+  padding: var(--adaptive-section-py) 0;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.cardDescription {
+  gap: 48px;
+  max-width: 736px;
+}
+
+.cardTitle {
+  font-size: 79px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: white;
+  span {
+    color: var(--color-blue);
+  }
+}
+
+.cardDescriptionText {
+  font-family: "ProximaNova";
+  font-size: 32px;
+  line-height: 1.2;
+  color: white;
+  width: 60%;
+}
+
+.cardImageWrapper {
+  position: relative;
+  flex: 1;
+  align-self: stretch;
+}
+
+.cardImage {
+  position: absolute;
+  top: -210px;
+  left: -348px;
+  zoom: 0.98;
+  width: auto;
+}
+.button {
+  height: 125px;
+  width: 446px;
+  margin-top: 54px;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 8px;
+  box-shadow:
+    inset 0px 4px 4px 0px rgba(255, 255, 255, 0.25),
+    inset 0px -4px 4px 0px rgba(12, 13, 16, 0.25),
+    0px 0px 1px 8px rgba(255, 255, 255, 0.05),
+    0px 0px 128px 0px rgba(98, 95, 244, 0.48);
+
+  background: radial-gradient(50% 50% at 50% 50%, rgb(118, 115, 245), rgb(98, 95, 244) 100%);
+  filter: grayscale(100);
+  span:has(> svg) {
+    margin-left: 8px;
+  }
+  &:hover {
+    box-shadow:
+      0px 8px 8px 0px rgba(255, 255, 255, 0.3) inset,
+      0px -8px 8px 0px rgba(12, 13, 16, 0.3) inset,
+      0px 0px 1px 8px rgba(255, 255, 255, 0.08),
+      0px 0px 160px 0px rgba(98, 95, 244, 0.48) !important;
+  }
+  &:active {
+    box-shadow:
+      0px 0px 8px 0px rgba(12, 13, 16, 0.96) inset,
+      0px 0px 1px 8px rgba(255, 255, 255, 0.08),
+      0px 0px 160px 0px rgba(98, 95, 244, 0.48) !important;
+  }
+}
+
+.giftMainWrapper {
+  gap: 32px;
+  max-width: 636px;
+}
+
+.giftTitle,
+.bonusesTitle {
+  font-size: 54px;
+  font-weight: 600;
+  color: white;
+  line-height: 1.2;
+}
+
+.bonusesTitle {
+  text-align: left;
+}
+
+.giftSubtitle {
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--color-grey);
+  font-family: "ProximaNova";
+}
+
+.giftListTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-blue);
+  width: 60%;
+}
+
+.giftListNumberWrapper {
+  position: relative;
+  flex: 1 0 48px;
+  height: 48px;
+  svg {
+    position: absolute;
+    top: -12px;
+    left: -16px;
+  }
+}
+
+.giftListText {
+  color: white;
+  font-family: "ProximaNova";
+  font-size: 20px;
+  line-height: 1.2;
+}
+.stepContainer {
+  display: flex;
+  gap: 32px;
+  flex-wrap: nowrap;
+  flex: 1 1 33.3%;
+}
+.outerRing {
+  border: 3px solid var(--color-blue);
+  border-radius: 50%;
+}
+
+.innerRing {
+  position: relative;
+  background-color: var(--color-blue);
+  border-radius: 50%;
+  border: 6px solid black;
+  width: 122px;
+  height: 122px;
+  svg {
+    position: absolute;
+    top: 15px;
+    left: 7px;
+  }
+}
+.stepWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  line-height: 1.2;
+}
+
+.stepNumber {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.stepText {
+  font-size: 14px;
+  font-family: "ProximaNova";
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.stepDescriptionWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  .stepTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-blue);
+    line-height: 1.2;
+  }
+  .stepDescription {
+    font-size: 16px;
+    text-align: left;
+    line-height: 1.2;
+    color: white;
+    font-family: "ProximaNova";
+  }
+}
+
+@media (max-width: 1200px) {
+  .grid {
+    flex-direction: column;
+  }
+  .divider {
+    display: none;
+  }
+  .grid > div {
+    width: 100%;
+    align-items: center;
+  }
+  .cardTitle {
+    font-size: 48px;
+    margin-bottom: 2rem;
+  }
+  .gift-image {
+    max-width: 340px;
+  }
+  .box {
+    justify-content: center;
+  }
+  .box p {
+    margin-bottom: 8px;
+    font-size: 20px;
+    width: 100%;
+  }
+  .button {
+    min-width: 342px;
+    width: auto;
+    margin: 0 auto;
+    height: 92px;
+    font-size: 1.125rem;
+  }
+  .button svg {
+    width: 22px;
+    height: 22px;
+  }
+  .sectionContainer {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+  .giftSubtitle {
+    font-size: 1rem;
+  }
+  .giftTitle {
+    font-size: 40px;
+  }
+  .giftMainWrapper {
+    text-align: left;
+    grid-gap: 1rem;
+  }
+  .giftListNumberWrapper {
+    height: 2rem;
+    width: 2rem;
+    flex: 0 0 2rem;
+    border-radius: 4px;
+  }
+  .giftListNumberWrapper svg {
+    top: 50%;
+    left: 50%;
+    transform-origin: left top;
+    transform: scale(0.75) translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 700px) {
+  .card-image {
+    height: 29rem !important;
+    width: 30rem !important;
+    margin: 0 auto;
+  }
+  .stepContainer > div:nth-child(2) {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-image {
+    height: 20rem !important;
+    width: 21rem !important;
+    margin: 0 auto;
+  }
+  .cardTitle {
+    font-size: 32px;
+  }
+  .bonusesTitle {
+    font-size: 2rem !important ;
+  }
+  .box p {
+    font-size: 1rem;
+  }
+  .stepContainer {
+    grid-gap: 1.5rem;
+  }
+}

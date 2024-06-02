@@ -1,0 +1,1 @@
+export { StakingMain } from "./ui";

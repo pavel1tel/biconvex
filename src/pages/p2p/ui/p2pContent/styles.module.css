@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: var(--adaptive-section-py) 0;
+  gap: 32px;
+}
+
+@media (max-width: 1360px) {
+  .flex {
+    flex-direction: column;
+  }
+  .flex > div:nth-child(2) {
+    width: 100%;
+    padding: 2rem 1.25rem;
+  }
+}

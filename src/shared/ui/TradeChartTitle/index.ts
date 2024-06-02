@@ -1,0 +1,1 @@
+export { TradeChartTitle } from "./ui";

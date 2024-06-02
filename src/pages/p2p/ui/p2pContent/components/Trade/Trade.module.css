@@ -1,0 +1,177 @@
+.tableContainer {
+  border: var(--border1);
+  border-radius: 8px;
+  background-color: var(--color-black);
+  padding: 64px;
+  flex: 1;
+}
+.tableHeaderTr,
+.tableBodyTr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.tableTh {
+  color: var(--color-grey);
+  font-size: 18px;
+  font-family: "ProximaNova";
+  font-weight: 400;
+  padding: 0;
+  padding-bottom: 20px;
+  &:first-child {
+    padding-left: 32px;
+  }
+  &:last-child {
+    padding-right: 32px;
+    text-align: center;
+  }
+}
+.tableTd {
+  padding: 24px 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: white;
+  font-family: "ProximaNova";
+  &:first-child {
+    padding-left: 32px;
+  }
+  &:last-child {
+    padding-right: 32px;
+  }
+}
+.imageWrapper {
+  position: relative;
+  overflow: hidden;
+}
+.indicator {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-grey);
+  box-shadow: 0px 0px 0px 4px var(--color-black);
+  &.online {
+    background-color: var(--color-green);
+  }
+}
+.userName {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  font-family: "ProximaNova";
+  &.online {
+    color: var(--color-green);
+  }
+}
+.userStats {
+  font-size: 14px;
+  font-family: "ProximaNova";
+  color: var(--color-grey);
+}
+.badge {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "ProximaNova";
+  width: fit-content;
+
+  &.orange {
+    background-color: rgba(255, 158, 43, 0.1);
+    color: #ff9e2b;
+  }
+}
+.price {
+  color: var(--color-green);
+}
+
+.sellButton {
+  height: 43px;
+  width: 109px;
+  padding: 11px 19px;
+  background-color: transparent;
+  border: 1px solid var(--color-blue);
+  color: var(--color-blue);
+  font-size: 16px;
+  font-weight: 400;
+  font-family: "ProximaNova";
+}
+.control {
+  width: 35px;
+  height: 35px;
+  &:first-child {
+    margin-right: 8px;
+  }
+  &:last-child {
+    margin-left: 8px;
+  }
+}
+.paginationText {
+  color: var(--color-grey);
+}
+
+@media (max-width: 1200px) {
+  .tableWrapper {
+    overflow-x: scroll;
+  }
+  .tableWrapper table {
+    min-width: 500px;
+  }
+  .tableTd {
+    padding: 12px 0 !important;
+  }
+  .imageWrapper {
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .tableTh {
+    padding: 12px 0 !important;
+    font-size: 14px;
+  }
+  .userName {
+    font-size: 1rem !important;
+    margin-left: 1.25rem;
+  }
+  .badge {
+    font-size: 14px !important;
+    border-radius: 4px !important;
+  }
+  .tableTd p {
+    font-size: 14px !important;
+  }
+  .sellButton {
+    border: none;
+    font-size: 14px !important;
+    padding: 0 !important;
+    width: auto !important;
+  }
+  .userStats {
+    font-size: 12px !important;
+  }
+  .tableTd > div:nth-child(1) {
+    grid-gap: 2px;
+    position: relative;
+  }
+  .indicator {
+    width: 6px;
+    height: 6px;
+    box-shadow: 0px 0px 0px 2px var(--color-black);
+  }
+  .badge {
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: "ProximaNova";
+    width: fit-content;
+    margin: 0 15px 0 10px;
+    padding-right: 0;
+    &.orange {
+      background-color: rgba(255, 158, 43, 0.1);
+      color: #ff9e2b;
+    }
+  }
+}

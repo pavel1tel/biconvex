@@ -1,0 +1,25 @@
+@import url("./mixin.css");
+
+.root {
+  line-height: 1.2;
+
+  &[data-variant="text-1"] {
+    @mixin text-1;
+  }
+
+  &[data-variant="text-2"] {
+    @mixin text-2;
+  }
+
+  &[data-variant="text-3"] {
+    @mixin text-3;
+  }
+
+  &[data-variant="text-4"] {
+    @mixin text-4;
+  }
+
+  &[data-variant="text-5"] {
+    @mixin text-5;
+  }
+}

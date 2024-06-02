@@ -1,0 +1,31 @@
+@import url("./mixin.css");
+
+.wrapper {
+  --_input-bd: var(--color-secondary-light-grey);
+  --input-height-lg: rem(54px);
+  --input-label-size: rem(var(--text-body-3-fz));
+}
+
+.input {
+  --_input-bg: var(--color-black);
+  --_input-color: var(--color-white);
+  --_input-placeholder-color: var(--color-grey);
+
+  font-weight: 500;
+  border: none;
+  border-left: rem(4px) solid var(--color-grey);
+  background: var(--color-black);
+  box-shadow: 0 0 12px 0 rgba(108, 112, 128, 0.04) inset;
+
+  @mixin text-input-full;
+  &[data-error] {
+    border-left: rem(4px) solid var(--color-red);
+    color: var(--color-red) !important;
+  }
+}
+
+.section {
+  &[data-position="right"] {
+    --_right-section-right: rem(28px);
+  }
+}

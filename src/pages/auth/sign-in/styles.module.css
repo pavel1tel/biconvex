@@ -1,0 +1,80 @@
+@import url("@/app/styles/mixin.css");
+
+.content-wrapper {
+  flex: 1;
+  padding: rem(96) rem(165) rem(128);
+  position: relative;
+  min-height: 880px;
+}
+
+.form-wrapper {
+  min-width: rem(600px);
+}
+
+.form {
+  width: rem(600px);
+}
+
+.passwordInput {
+  padding-right: 80px;
+}
+
+.z-index {
+  z-index: 10;
+}
+
+.grey-text {
+  @mixin textGrey;
+}
+
+.rememberMeLabel,
+.blue-text {
+  font-family: var(--text-font-family);
+}
+
+.blue-text {
+  --text-color: var(--color-blue) !important;
+  @mixin transition;
+
+  @mixin hover {
+    text-shadow: 0px 2px 8px rgba(98, 95, 244, 0.64);
+    text-decoration-line: underline;
+  }
+}
+
+.light-left {
+  left: 0;
+  width: auto;
+  bottom: 0;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-right {
+  right: 0;
+  width: auto;
+  bottom: 0;
+  z-index: -1;
+  position: absolute;
+}
+
+@media (max-width: 1200px) {
+  .form-wrapper {
+    min-width: auto !important;
+  }
+  .content-wrapper {
+    padding: 2rem 1rem;
+    align-items: center;
+    min-height: 500px;
+  }
+  .btn span {
+    font-size: 1.125rem;
+  }
+  .btn svg {
+    width: 22px;
+    height: 22px;
+  }
+  .form {
+    width: 100%;
+  }
+}

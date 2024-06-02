@@ -1,0 +1,121 @@
+@import url("@/app/styles/mixin.css");
+
+.tableHeader {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  &.alignFromStart {
+    align-items: flex-start;
+  }
+
+  .coin-buttons {
+    flex-basis: 60%;
+  }
+
+  div:last-child {
+    flex-basis: 30%;
+  }
+
+  .search-input-wrapper {
+    .search-input {
+      --input-padding-y: 0;
+      --_input-padding-left: rem(43);
+      --_input-padding-right: rem(16);
+
+      @mixin text-5-full;
+
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: none;
+      border-radius: 4px;
+
+      &::placeholder {
+        color: var(--color-grey) !important;
+        font-size: var(--text-5-fz) !important;
+      }
+    }
+  }
+}
+
+.rates-button-root {
+  --_button-bd: 1px solid rgba(255, 255, 255, 0.12);
+  --button-hover: transparent !important;
+  --button-radius: rem(4px) !important;
+
+  transform: none;
+  @mixin transition;
+
+  & :local(.rates-button-label) {
+    --text-color: var(--color-grey);
+  }
+
+  @mixin hover {
+    --_button-bd: 1px solid #7673f5;
+    box-shadow: 0px 0px 8px 0px rgba(98, 95, 244, 0.64);
+
+    & :local(.rates-button-label) {
+      --text-color: var(--color-blue);
+      text-shadow: 0px 2px 8px rgba(98, 95, 244, 0.64);
+    }
+  }
+
+  &:active,
+  &:local(.rates-button-root-active) {
+    --_button-bd: 1px solid #7673f5;
+    box-shadow: none;
+    & :local(.rates-button-label) {
+      --text-color: var(--color-blue);
+      text-shadow: none;
+    }
+  }
+}
+
+.rates-button-root-active {
+  transform: none;
+}
+
+.rates-button-label {
+  @mixin transition;
+  @mixin text-4-full var(--color-grey);
+}
+
+.rates-divider-root {
+  --divider-color: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 1440px) {
+  .tableHeader {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+
+    .coin-buttons {
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      grid-gap: 0.75rem;
+      flex-basis: 100%;
+
+      button {
+        height: 40px;
+
+        span {
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    div:last-child {
+      flex-basis: 100%;
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .tableHeader {
+    .coin-buttons {
+      flex-basis: 100%;
+    }
+  }
+}

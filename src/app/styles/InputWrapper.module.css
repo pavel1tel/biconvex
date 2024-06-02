@@ -1,0 +1,22 @@
+@import url("./mixin.css");
+
+.root {
+  --input-padding-y: rem(28px);
+  --input-height-xxl: rem(77px);
+  --input-right-section-width: rem(21px);
+  --_input-size: rem(77px);
+  --_input-fz: rem(18px);
+  --_input-radius: rem(8px);
+  --_input-font-family: CraftworkGrotesk;
+  --_input-padding-left: rem(28px);
+  --_input-padding-right: rem(28px);
+
+  &[data-with-right-section] {
+    --_input-padding-right: rem(62px);
+  }
+}
+
+.label {
+  @mixin text-4-full var(--color-white);
+  margin-bottom: rem(8);
+}

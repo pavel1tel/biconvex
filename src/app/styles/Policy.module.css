@@ -1,0 +1,86 @@
+@import url("./mixin.css");
+
+.content-wrapper {
+  flex: 1;
+  padding: var(--adaptive-section-py) 0;
+  position: relative;
+}
+
+.light-one {
+  top: 0;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-two {
+  top: 0;
+  right: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-three {
+  bottom: 0;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-four {
+  position: absolute;
+  top: 10%;
+  left: -3%;
+  width: auto;
+  z-index: -1;
+}
+
+.light-five {
+  position: absolute;
+  top: 28%;
+  right: 0;
+  width: auto;
+  z-index: -1;
+}
+
+.light-six {
+  position: absolute;
+  top: 46%;
+  left: -3%;
+  width: auto;
+  z-index: -1;
+}
+
+.light-seven {
+  position: absolute;
+  top: 60%;
+  right: 0;
+  width: auto;
+  z-index: -1;
+}
+
+.icon-wrapper {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: rem(10px);
+  border-radius: rem(8px);
+  background: var(--color-black);
+}
+
+.blue-text {
+  background-image: var(--gradient-webkit-linear);
+  background-image: var(--gradient-linear);
+  background-position: right center;
+  background-size: 400% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: white;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  transition:
+    color 200ms linear,
+    background-position 2000ms ease-out;
+  @mixin text-2;
+}

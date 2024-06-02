@@ -1,0 +1,116 @@
+@import url("./mixin.css");
+
+.control:first-child,
+.control:last-child {
+  border: 1px solid var(--color-blue);
+}
+
+.control {
+  --_control-color: var(--color-grey);
+
+  @mixin text-4-full var(--color-grey);
+  @mixin transition;
+
+  &[data-active] {
+    --_control-bg-color: transparent !important;
+    --_control-border-color: transparent !important;
+    --text-color: var(--color-blue) !important;
+  }
+
+  &:active {
+    transform: none;
+  }
+
+  @mixin light {
+    --_control-border-color: transparent;
+    --_control-bg-color: transparent;
+    --_control-bg-hover: transparent;
+  }
+
+  &:disabled {
+    background: transparent;
+    border-color: var(--color-grey);
+  }
+
+  & svg {
+    & path {
+      @mixin transition;
+    }
+  }
+
+  &:not([data-disabled]) {
+    background-color: transparent;
+    border: none;
+
+    &:first-child,
+    &:last-child {
+      border: 1px solid var(--color-grey);
+
+      &:hover {
+        border-color: var(--color-blue);
+      }
+    }
+
+    & svg {
+      & path {
+        fill: var(--color-grey);
+      }
+    }
+    @mixin hover {
+      --text-color: var(--color-blue);
+
+      &:first-child {
+        --_control-border-color: var(--color-blue) !important;
+      }
+
+      &:last-child {
+        --_control-border-color: var(--color-blue) !important;
+      }
+
+      & svg {
+        & path {
+          fill: var(--color-blue);
+        }
+      }
+    }
+  }
+}
+
+.dots {
+  align-items: flex-end;
+  padding: rem(8px) rem(8px) rem(3px) rem(8px);
+
+  & svg {
+    & path {
+      fill: var(--color-grey);
+    }
+  }
+}
+
+[data-mantine-color-scheme="light"] {
+  & :local(.control):first-child {
+    --_control-border-color: var(--color-grey);
+  }
+  & :local(.control):last-child {
+    --_control-border-color: var(--color-grey);
+  }
+}
+
+@media screen and (max-width: 551px) {
+  .root {
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 383px) {
+  .root {
+    div:first-child {
+      flex-wrap: nowrap;
+
+      .control {
+        width: 33px;
+        height: 33px;
+      }
+    }
+  }
+}

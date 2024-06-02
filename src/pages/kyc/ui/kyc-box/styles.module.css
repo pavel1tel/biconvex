@@ -1,0 +1,210 @@
+@import url("@/app/styles/mixin.css");
+
+.title {
+  @mixin text-title;
+}
+.boxWrapper {
+  border-radius: 0 8px 8px 0;
+  overflow: hidden;
+  width: 219px;
+}
+.box-red {
+  cursor: pointer;
+  border: none;
+  overflow: hidden;
+  background-clip: padding-box;
+  border-radius: 8px 0 0 8px;
+  padding: rem(16px) rem(32px);
+  background: linear-gradient(313.06deg, rgba(228, 34, 34, 0.2) 6.43%, rgba(12, 13, 16, 0.2) 99.25%);
+  border-left: 2px solid #e42222;
+}
+.text-red {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  color: var(--color-red);
+}
+.sub-title {
+  color: var(--color-white);
+  font-family: ProximaNova;
+  font-size: var(--text-5-fz);
+  line-height: rem(17px);
+}
+.body {
+  @mixin box-with-border;
+  max-width: 891px;
+
+  padding: 31px;
+}
+.subTitle2 {
+  @mixin text-2-craft-font;
+  font-weight: 600;
+}
+
+.inputLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-grey);
+  line-height: 1.2;
+  flex: 1 1 calc(50% - 8px);
+  font-family: "ProximaNova";
+}
+
+.input {
+  &.blueBorder {
+    input {
+      border-color: var(--color-blue);
+    }
+  }
+  &.greenBorder {
+    input {
+      border-color: var(--color-green);
+    }
+  }
+  input {
+    font-family: ProximaNova;
+    font-size: 16px;
+    font-weight: 400;
+
+    color: var(--color-grey);
+    padding: 16px;
+    height: 51px;
+    background-color: var(--color-black-bg);
+    border-radius: 4px;
+    border-left: 2px solid;
+    &:focus {
+      border-color: white;
+      color: white;
+    }
+    &[data-error] {
+      border-left: rem(2px) solid var(--color-red);
+      color: var(--color-red) !important;
+    }
+  }
+}
+.rates-divider-root {
+  --divider-color: rgba(255, 255, 255, 0.12);
+}
+.rates-button-root {
+  --_button-bd: 1px solid rgba(255, 255, 255, 0.12);
+  /* --button-hover: transparent !important; */
+  --button-radius: rem(4px) !important;
+
+  transform: none;
+  @mixin transition;
+
+  & :local(.rates-button-label) {
+    --text-color: var(--color-grey);
+  }
+
+  &:hover,
+  &:active,
+  &.rates-button-root-active {
+    border: 1px solid #7673f5 !important;
+  }
+
+  &:hover {
+    box-shadow: 0px 0px 8px 0px rgba(98, 95, 244, 0.64);
+
+    .rates-button-label {
+      color: var(--color-blue);
+      text-shadow: 0px 2px 8px rgba(98, 95, 244, 0.64);
+    }
+  }
+
+  &:active,
+  &.rates-button-root-active {
+    box-shadow: none;
+
+    .rates-button-label {
+      color: var(--color-blue);
+      text-shadow: none;
+    }
+  }
+}
+
+.rates-button-root-active {
+  transform: none;
+}
+
+.rates-button-label {
+  @mixin transition;
+  @mixin text-3-full var(--color-grey);
+}
+.subTitle3 {
+  @mixin text-4;
+}
+.span {
+  color: var(--color-blue);
+}
+.subTitle4 {
+  @mixin text-5;
+  color: var(--color-grey);
+}
+
+.select-box {
+  position: relative;
+  width: 265px;
+  height: 115px;
+  z-index: 10;
+  padding: 24px 21px;
+  cursor: pointer;
+  background-color: #080808;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23333' stroke-width='2' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
+  border-radius: 8px;
+  user-select: none;
+}
+.last-box {
+  padding: 24px 32px !important;
+}
+.btn {
+  @mixin text-3;
+  width: 202px !important;
+  height: 54px !important;
+}
+
+form .body {
+  width: 100%;
+  max-width: 100%;
+}
+
+.documentTypeBtn {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+@media (max-width: 1400px) {
+  .body {
+    grid-gap: 1rem;
+  }
+  .rates-button-root span {
+    font-size: 14px !important;
+  }
+  .rates-button-root {
+    height: 40px;
+    padding: 0 1.25rem;
+  }
+  .columns {
+    flex-direction: column;
+  }
+  .select-box {
+    width: 100%;
+    justify-content: center;
+  }
+  .title {
+    font-size: 40px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .body {
+    padding: 2rem 1.25rem;
+  }
+  .header-flex {
+    flex-direction: column;
+  }
+  .boxWrapper {
+    width: 100%;
+  }
+}

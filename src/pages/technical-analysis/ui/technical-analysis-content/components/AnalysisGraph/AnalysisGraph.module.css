@@ -1,0 +1,175 @@
+.analysisGraphContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 75%;
+  padding-top: 20px;
+  margin-top: 29px;
+}
+.analysisGraphSectorsContainer {
+  width: 335px;
+  height: 167px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+}
+.analysisGraphSections {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.analysisGraphInnerContainer {
+  width: 300px;
+  height: 150px;
+  overflow: hidden;
+  z-index: 6;
+}
+
+.analysisGraphInnerGradient {
+  padding: 5px;
+  overflow: hidden;
+  width: 100%;
+  height: 200%;
+
+  background-color: var(--color-black);
+  border-radius: 50%;
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgb(32, 33, 36), rgb(12, 13, 16) 44.062%);
+    border-radius: 50%;
+  }
+}
+
+.analysisGraphArrowRound {
+  position: absolute;
+  z-index: 8;
+  translate: 0 50%;
+  width: 32px;
+  height: 32px;
+  background-color: white;
+  border-radius: 50%;
+  border: 4px solid var(--color-black-bg);
+}
+
+.analysisGraphArrow {
+  position: absolute;
+  right: 50%;
+  bottom: 0;
+  translate: 0 50%;
+  transform-origin: center right;
+  border-right: 120px solid white;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  z-index: 7;
+  transition: rotate 0.1s;
+}
+
+.analysisLabel {
+  position: absolute;
+  width: min-content;
+  color: var(--color-grey);
+  font-family: "ProximaNova";
+  font-size: 14px;
+  &.levelOne {
+    left: 9px;
+    top: 109px;
+  }
+  &.levelTwo {
+    left: 97px;
+    top: 31px;
+  }
+  &.levelThree {
+    left: 50%;
+    translate: -50% 0;
+    top: 0;
+  }
+  &.levelFour {
+    right: 97px;
+    top: 31px;
+  }
+  &.levelFive {
+    right: 9px;
+    top: 109px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .analysisGraphSectorsContainer {
+    transform: scale(0.75);
+  }
+  .analysisGraphContainer {
+    width: 100%;
+  }
+  .analysisLabel {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 800px) {
+  .analysisGraphSectorsContainer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scale(0.45);
+  }
+  .analysisGraphContainer {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  .relative {
+    min-height: 130px;
+    width: 100%;
+  }
+  .levelOne {
+    top: 90px !important;
+  }
+  .levelTwo {
+    top: 50px !important;
+    left: 14px !important;
+  }
+  .levelThree {
+    top: 24px !important;
+  }
+  .levelFive {
+    right: -10px !important;
+    top: 80px !important;
+  }
+  .levelFour {
+    right: 40px !important;
+    top: 42px !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .levelTwo {
+    top: 45px !important;
+    left: 64px !important;
+  }
+  .levelOne {
+    left: 50px !important;
+  }
+  .levelThree {
+    top: 24px !important;
+  }
+  .levelFive {
+    right: 40px !important;
+    top: 80px !important;
+  }
+  .levelFour {
+    right: 90px !important;
+    top: 42px !important;
+  }
+  .analysisGraphContainer {
+    max-width: 340px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .levelOne {
+    left: 40px !important;
+  }
+}

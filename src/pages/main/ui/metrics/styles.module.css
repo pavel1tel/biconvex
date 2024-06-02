@@ -1,0 +1,120 @@
+@import url("@/app/styles/mixin.css");
+
+.metrics-wrapper {
+  flex: 1;
+  padding: var(--adaptive-section-py) 0;
+  position: relative;
+  z-index: 2;
+}
+
+.metrics-title {
+  color: white;
+  font-size: 54px;
+}
+
+.metrics-title-highlighted {
+  font-size: inherit !important;
+  font-style: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  font-family: inherit !important;
+  @mixin textLinearGradient;
+}
+
+.metrics-sub-title {
+  &[data-variant="text-2"] {
+    --text-color: var(--color-grey) !important;
+  }
+}
+
+.metric-wrapper {
+  padding: clamp(1.5rem, 1.875vw, 1.875rem);
+  border-radius: rem(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--color-black);
+
+  .metric-amount {
+    font-family: var(--font-sans);
+    font-size: 79px;
+    font-weight: var(--font-weight-bold);
+
+    .dollarSign {
+      font-size: 32px;
+      line-height: 32px;
+    }
+
+    .plusSign {
+      font-size: 60px;
+      line-height: 60px;
+    }
+  }
+}
+
+.metric-icon-wrapper {
+  border-radius: rem(4px);
+  background: var(--gradient-linear);
+  box-shadow: 0 4px 16px 0 rgba(98, 95, 244, 0.32);
+}
+
+.metric-title {
+  --text-fz: rem(32px);
+  --text-color: var(--color-white);
+  font-weight: 400 !important;
+}
+
+@media screen and (min-width: 550px) and (max-width: 1200px) {
+  .metric-column {
+    --col-max-width: 50% !important;
+  }
+
+  .metrics-title {
+    font-size: 40px;
+  }
+
+  .metric-wrapper {
+    .metric-amount {
+      font-size: 48px;
+
+      .plusSign,
+      .dollarSign {
+        font-size: inherit !important;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 549px) {
+  .metric-column {
+    --col-max-width: 50% !important;
+
+    &:last-child {
+      .metric-wrapper {
+        gap: 10px;
+      }
+    }
+  }
+
+  .metricTitleWrapper {
+    flex-wrap: nowrap;
+  }
+
+  .metric-title {
+    font-size: 16px;
+  }
+
+  .metrics-title {
+    font-size: 36px;
+  }
+
+  .metric-wrapper {
+    .metric-amount {
+      font-size: 30px;
+
+      .plusSign,
+      .dollarSign {
+        font-size: inherit !important;
+        line-height: inherit !important;
+      }
+    }
+  }
+}

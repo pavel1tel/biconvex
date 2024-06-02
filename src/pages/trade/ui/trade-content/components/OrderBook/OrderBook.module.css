@@ -1,0 +1,135 @@
+.orderBookTitle {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+.orderBookButtonsWrapper {
+  display: flex;
+  gap: 16px;
+}
+.orderBooksButton {
+  border-radius: 4px;
+  background-color: var(--color-black-bg);
+  border: var(--border1);
+  padding: 8px 24px;
+  font-family: "ProximaNova";
+  font-size: 16px;
+  color: var(--color-grey);
+  cursor: pointer;
+  transition: 0.3s;
+  &.active {
+    background-color: var(--color-blue);
+    border-color: var(-color-blue);
+    color: white;
+  }
+}
+
+.tableTh {
+  padding: 0 0 10px 0;
+  cursor: pointer;
+  font-family: "ProximaNova";
+  font-weight: 400;
+  &:first-child {
+    padding-left: 12px;
+  }
+  p {
+    font-size: 12px;
+    line-height: 15px;
+    color: var(--color-grey);
+  }
+  div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.tableTHead {
+  tr {
+    border: none;
+  }
+}
+
+.tableBody {
+  & tr {
+    border: none;
+    position: relative;
+    &.positive td:first-child {
+      color: rgb(14, 203, 123);
+    }
+    &.negative td:first-child {
+      color: rgb(228, 34, 34);
+    }
+    &:last-child td {
+      border-bottom: none;
+    }
+    &:last-child:has(.totalCell) td {
+      padding-bottom: 0;
+    }
+    td {
+      height: 35px;
+      border-bottom: 5px solid var(--color-black);
+      padding: 4px 0 4px;
+      color: white;
+      font-family: "ProximaNova";
+      &:first-child {
+        padding-left: 12px;
+      }
+      &.totalCell {
+        border: none;
+        padding: 20px 0;
+      }
+    }
+  }
+}
+
+.orderBookInfo {
+  font-size: 20px;
+  font-family: "ProximaNova";
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 20px 32px;
+  background-color: rgb(14, 203, 123);
+  color: white;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  cursor: default;
+  transition: 0.3s;
+  order: 1;
+  &.positive {
+    background-color: rgb(14, 203, 123);
+  }
+  &.negative {
+    background-color: rgb(228, 34, 34);
+  }
+}
+
+@media (max-width: 1380px) {
+  .content {
+    padding: 2rem 1.5rem !important;
+  }
+  .orderBooksButton {
+    height: 34px;
+    padding: 0 1.5rem;
+  }
+  .orderBookButtonsWrapper {
+    grid-gap: 12px;
+  }
+  .table td p {
+    font-size: 14px !important;
+  }
+  .table {
+    min-width: 100%;
+  }
+  .orderBookInfo {
+    padding: 0;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .table-container {
+    /* overflow-x: scroll; */
+  }
+}

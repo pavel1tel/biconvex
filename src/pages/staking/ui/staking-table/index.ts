@@ -1,0 +1,1 @@
+export { StakingTable } from "./ui";

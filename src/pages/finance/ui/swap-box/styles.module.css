@@ -1,0 +1,157 @@
+@import url("@/app/styles/mixin.css");
+
+.swap-box-wrapper {
+  position: relative;
+  flex-direction: column;
+  gap: rem(16px);
+  margin-top: 32px;
+  align-items: center;
+}
+.swap-wrapper {
+  position: relative;
+  z-index: 10;
+  gap: 8px;
+  padding: rem(28px) rem(32px);
+  border-radius: rem(8px);
+  background: var(--color-black);
+  width: rem(500px);
+  height: rem(109px);
+  border: rem(1px) solid #ffffff1f;
+  line-height: var(--text-4-lh);
+}
+.swap-have {
+  color: var(--color-grey);
+  line-height: rem(17);
+  font-family: ProximaNova !important;
+  font-size: rem(14);
+}
+.value {
+  font-size: var(--text-5-fz);
+  line-height: rem(17);
+  font-family: ProximaNova;
+}
+.select {
+  width: rem(120px);
+  height: rem(29px);
+}
+
+.input {
+  position: relative;
+  z-index: 10;
+  width: 160px;
+  border-left: none;
+  box-shadow: none;
+  padding: 0;
+  font-size: var(--text-btn-fz) !important;
+  line-height: rem(28.8px) !important;
+}
+
+.option {
+  background: var(--color-black);
+  font-size: rem(20) !important;
+  line-height: rem(24px) !important;
+}
+.dropdown {
+  background: var(--color-black);
+  border: rem(1px) solid #ffffff1f;
+  color: var(--color-white);
+  height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: var(--text-btn-fz) !important;
+  line-height: rem(28.8px) !important;
+}
+.amount {
+  border-left: none;
+  box-shadow: none;
+  padding: 0;
+  width: 140px;
+  font-size: var(--text-2-fz);
+  line-height: rem(24px);
+  font-weight: var(--font-weight-semi-bold);
+}
+.img {
+  position: absolute;
+  z-index: 20;
+  width: 60px;
+  height: 60px;
+  top: 38%;
+  /* left: 50%; */
+  /* transform: translateX(-50%) ; */
+  cursor: pointer;
+  transition: 0.1s;
+}
+.btn {
+  width: rem(500px);
+  height: rem(98px);
+  line-height: var(--text-2-lh);
+  font-size: var(--text-btn-fz);
+
+  box-shadow:
+    0px 0px 128px rgba(98, 95, 244, 0.48),
+    0px 0px 1px 8px rgba(255, 255, 255, 0.08),
+    inset 0px -6px 6px rgba(12, 13, 16, 0.3),
+    inset 0px 6px 6px rgba(255, 255, 255, 0.3);
+
+  background: radial-gradient(50% 50% at 50% 100%, #7673f5 10%, #625ff4 100%);
+  border-radius: 8px;
+  &:hover {
+    background: radial-gradient(50% 50% at 50% 50%, #7673f5 0%, #625ff4 100%);
+    box-shadow:
+      0px 0px 128px rgba(98, 95, 244, 0.48),
+      0px 0px 1px 8px rgba(255, 255, 255, 0.08),
+      inset 0px -6px 6px rgba(12, 13, 16, 0.3),
+      inset 0px 6px 6px rgba(255, 255, 255, 0.3);
+  }
+}
+.exchange {
+  line-height: rem(17.05px);
+  font-size: var(--text-5-fz);
+  color: var(--color-grey);
+  background: inherit;
+  font-family: ProximaNova;
+
+  margin-bottom: 96px;
+}
+
+.root-not {
+  &::before {
+    display: none;
+  }
+}
+
+@media (max-width: 1200px) {
+  .swap-box-wrapper {
+    width: 100%;
+    max-width: 500px;
+    margin: 2rem auto 0;
+  }
+  .swap-wrapper {
+    width: 100%;
+  }
+  .btn {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    height: 88px;
+  }
+  .btn span {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 48em) {
+  .img {
+    /* left: 44%; */
+  }
+}
+
+@media (max-width: 384px) {
+  .swap-wrapper {
+    padding: 1.5rem 1rem !important;
+  }
+
+  .img {
+    /* left: 42%; */
+  }
+}

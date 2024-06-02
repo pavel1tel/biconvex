@@ -1,0 +1,187 @@
+@import url(../../../../app/styles/mixin.css);
+
+.banner-wrapper {
+  flex: 1;
+  padding: clamp(28px, 6vw, 96px) 0;
+  position: relative;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  z-index: 2;
+  a {
+    width: fit-content;
+  }
+}
+
+.banner-title {
+  z-index: 10;
+  font-weight: 700 !important;
+}
+
+.banner-title-colored-part {
+  font-size: inherit !important;
+  font-style: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  background: var(--gradient-linear);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.banner-sub-title {
+  z-index: 10;
+  position: relative;
+  font-family: var(--text-font-family);
+  @mixin text-1;
+}
+.banner-right-side {
+  position: relative;
+  flex-shrink: 0;
+  max-width: 530px;
+  user-select: none;
+
+  .mainBannerImg {
+    width: 100%;
+  }
+
+  .bitcoinOne {
+    position: absolute;
+    bottom: 149px;
+  }
+
+  .bitcoinTwo {
+    position: absolute;
+    bottom: 99px;
+    right: 10px;
+  }
+
+  .bitcoinThree {
+    position: absolute;
+    left: 212px;
+    bottom: 444px;
+  }
+
+  .bitcoinFour {
+    position: absolute;
+    bottom: 382px;
+    right: 6px;
+  }
+}
+
+.banner-light {
+  right: rem(-680);
+  filter: blur(300px);
+  width: rem(600);
+  bottom: rem(-300);
+  height: rem(600);
+  position: absolute;
+  background: var(--gradient-linear);
+  border-radius: 600px;
+}
+
+@media only screen and (max-width: 75rem) {
+  .banner-wrapper {
+    flex-direction: column;
+  }
+  .banner-left-side {
+    align-items: center;
+    text-align: center;
+  }
+  .banner-right-side {
+    max-width: 360px;
+    margin: 0 auto;
+
+    .bitcoinOne {
+      position: absolute;
+      bottom: 97px;
+      left: -4px;
+
+      img {
+        width: 100px;
+      }
+    }
+
+    .bitcoinTwo {
+      position: absolute;
+      bottom: 73px;
+      right: -21px;
+
+      img {
+        width: 100px;
+      }
+    }
+
+    .bitcoinThree {
+      position: absolute;
+      left: 144px;
+      bottom: 305px;
+
+      img {
+        width: 100px;
+      }
+    }
+
+    .bitcoinFour {
+      position: absolute;
+      bottom: 250px;
+      right: 6px;
+
+      img {
+        width: 100px;
+      }
+    }
+  }
+
+  .banner-bottom-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .banner-sub-title {
+      font-family: var(--text-font-family);
+      font-size: 21px;
+      font-weight: var(--font-weight-regular);
+      line-height: 25.58px;
+      text-align: center;
+    }
+  }
+}
+
+@media only screen and (max-width: 48em) {
+  .banner-title {
+    font-size: 3rem !important;
+  }
+
+  .banner-right-side {
+    margin: 3em 0 1em;
+
+    .bitcoinThree {
+      left: 9em;
+      top: -26em;
+    }
+
+    .bitcoinFour {
+      bottom: 14em;
+      right: 0;
+    }
+  }
+
+  .banner-sub-title {
+    padding: 0 1.8em;
+  }
+}
+
+@media only screen and (max-width: 30em) {
+  .banner-title {
+    font-size: 2rem !important;
+  }
+
+  .banner-right-side {
+    max-width: 320px;
+
+    .bitcoinThree {
+      left: 8em;
+      top: -24em;
+    }
+  }
+}
