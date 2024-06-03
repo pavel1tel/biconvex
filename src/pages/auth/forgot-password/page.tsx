@@ -1,14 +1,17 @@
 import { Button, Group, Image, Stack, Text, TextInput, Title, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
-import { useUnit } from "effector-react";
-import { Helmet } from "react-helmet-async";
 
 import { routes } from "@/shared/routing";
 import { Header, Wrapper } from "@/shared/ui";
 
 import { Footer } from "../components/Footer/Footer";
-import { resetPasswordClicked } from "./model";
 import classes from "./styles.module.css";
+import { useEffect, useState } from "react";
+import { resetPassSendCode } from "@/shared/api";
+import { useUnit } from "effector-react";
+import { showErrorNotification } from "@/shared/lib/notification";
+import { sample } from "effector";
+import { Helmet } from "react-helmet-async";
 
 const ResetIcon = () => {
   return (
@@ -24,12 +27,27 @@ const ResetIcon = () => {
 };
 
 export const Page = () => {
-  const handleResetPasswordClick = useUnit(resetPasswordClicked);
-
+  const [email, setEmail] = useState("");
+  const[isError, setIsError] = useState(false);
+  const isLoading = useUnit(resetPassSendCode.pending)
   const onFormSubmit = (e: React.MouseEvent) => {
+    if(email === ""){
+      setIsError(true);
+      showErrorNotification("Email is required");
+      return;
+    }
+    resetPassSendCode(email);
     e.preventDefault();
-    handleResetPasswordClick();
   };
+
+  useEffect(() => {
+    setIsError(false);
+  }, [email])
+
+  sample({
+    clock: resetPassSendCode.failData,
+    fn: () => setIsError(true)
+  })
 
   return (
     <Wrapper>
@@ -68,11 +86,11 @@ export const Page = () => {
                 <Text variant="text-4" c="white" mb={8} lh={"19.49px"}>
                   Email
                 </Text>
-                <TextInput id="email" size="xxl" placeholder="Your email" />
+                <TextInput error={isError} value={email} onChange={(e) => setEmail(e.target.value)} id="email" size="xxl" placeholder="Your email" />
               </label>
             </Stack>
 
-            <Button type="button" size="xxl" variant="radial-gradient" className={classes.btn} rightSection={<ResetIcon />} onClick={onFormSubmit}>
+            <Button loading={isLoading} type="button" size="xxl" variant="radial-gradient" rightSection={<ResetIcon />} onClick={onFormSubmit}>
               Reset Password
             </Button>
             <Text c="white" ta="left" fz={16}>

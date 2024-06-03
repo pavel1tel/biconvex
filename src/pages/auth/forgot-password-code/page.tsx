@@ -1,12 +1,16 @@
 import { Button, Group, Image, Stack, Text, TextInput, Title, rem } from "@mantine/core";
 import { useUnit } from "effector-react";
-import { Helmet } from "react-helmet-async";
 
 import { Header, Wrapper } from "@/shared/ui";
 
 import { Footer } from "../components/Footer/Footer";
-import { resetPasswordCodeClicked } from "./model";
 import classes from "./styles.module.css";
+import { checkCode } from "@/shared/api";
+import { useEffect, useState } from "react";
+import { $response } from "../sign-up/model";
+import { showErrorNotification } from "@/shared/lib/notification";
+import { sample } from "effector";
+import { Helmet } from "react-helmet-async";
 
 const ContinueIcon = () => {
   return (
@@ -22,12 +26,31 @@ const ContinueIcon = () => {
 };
 
 export const Page = () => {
-  const handleresetPasswordCodeClick = useUnit(resetPasswordCodeClicked);
+  const [code, setCode] = useState("");
+  const userId = useUnit($response);
+  const isLoading = useUnit(checkCode.pending);
+  const[isError, setIsError] = useState(false);
 
   const onFormSubmit = (e: React.MouseEvent) => {
+    if(code === ""){
+      setIsError(true);
+      showErrorNotification("Code is required");
+      return;
+    }
     e.preventDefault();
-    handleresetPasswordCodeClick();
+    checkCode({userId, code});
+    localStorage.setItem("code", code);
   };
+
+  useEffect(() => {
+    setIsError(false);
+  }, [code])
+  
+  sample({
+    clock: checkCode.failData,
+    fn: () => setIsError(true)
+  })
+
 
   return (
     <Wrapper>
@@ -56,7 +79,7 @@ export const Page = () => {
               Enter security code
             </Title>
             <Text ta={"center"} fz={20} className={classes.greyText}>
-              We sent it to your email <span className={classes.blueText}>mail@gmail.com</span> <br /> or follow the link from the letter
+              We sent it to your email
             </Text>
           </Stack>
 
@@ -66,11 +89,11 @@ export const Page = () => {
                 <Text variant="text-4" mb={8}>
                   Code
                 </Text>
-                <TextInput id="Code" size="xxl" placeholder="Enter the security code" />
+                <TextInput error={isError} value={code} onChange={(e) => setCode(e.target.value)} id="Code" size="xxl" placeholder="Enter the security code" />
               </label>
             </Stack>
 
-            <Button size="xxl" className={classes.btn} variant="radial-gradient" rightSection={<ContinueIcon />} onClick={onFormSubmit}>
+            <Button loading={isLoading} size="xxl" className={classes.btn} variant="radial-gradient" rightSection={<ContinueIcon />} onClick={onFormSubmit}>
               Continue
             </Button>
           </Stack>

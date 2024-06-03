@@ -1,7 +1,10 @@
-import { createEvent, sample } from "effector";
+import { createEvent, createStore, sample } from "effector";
 
 import { routes } from "@/shared/routing";
 import { chainAnonymous } from "@/shared/session";
+import { checkCode } from "@/shared/api";
+import { ResponseDto } from "@/shared/api/types";
+import { showErrorNotification } from "@/shared/lib/notification";
 
 export const currentRoute = routes.auth.forgotPasswordCode;
 
@@ -9,9 +12,18 @@ export const anonymousRoute = chainAnonymous(currentRoute, {
   otherwise: routes.home.open,
 });
 
-export const resetPasswordCodeClicked = createEvent();
+const $error = createStore<ResponseDto>({message : ""});
+$error.on(checkCode.failData, (_, error) => error).reset(checkCode);
+
 
 sample({
-  clock: resetPasswordCodeClicked,
-  target: routes.auth.enterNewPassword.open,
+  clock: checkCode.doneData,
+  target: routes.auth.enterNewPassword.open
 });
+
+sample({
+  clock: checkCode.failData,
+  source : $error,
+  fn : (error) => error.message,
+  target: showErrorNotification
+})

@@ -6,6 +6,30 @@ export interface ResponseDto {
   message: string;
 }
 
+export interface LoginRequestDto {
+  email: string;
+  password: string;
+}
+
+export interface RegistrationRequestDto {
+  email: string;
+  password: string;
+  username :string;
+  re_password: string;
+}
+
+export interface ConfrimRegRequerstDto {
+  userId: string;
+  code: string;
+}
+
+export interface NewPasswordRequestDto {
+  userId: string;
+  code: string;
+  newPassword: string;
+  rePassword: string;
+}
+
 export interface UserDto {
   id: number;
   login: string;
