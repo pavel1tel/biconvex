@@ -24,6 +24,12 @@ import buttonMenuIcon from "../../../../public/assets/buttonMenu.svg";
 import closeIcon from "../../../../public/assets/closeIcon.svg";
 import logo from "../../../../public/assets/logo.svg";
 import classes from "./styles.module.css";
+import { useUnit } from "effector-react";
+import { $authenticationStatus } from "@/shared/session";
+import { AuthStatus } from "@/shared/lib/types";
+import { createEvent, sample } from "effector";
+import { redirect } from "atomic-router";
+import { $token } from "@/pages/auth/sign-in/model";
 
 const LINKS = [
   {
@@ -126,9 +132,31 @@ const LINKS = [
 ];
 
 export const Header = ({ className = "" }: { className?: string }) => {
+  const logout = createEvent();
+  const eraseCookie = (name : string) => {   
+      document.cookie = name+'=; Max-Age=-99999999;';  
+  }
+  logout.watch(() => console.log("clicked"))
+
+  sample({
+      clock : logout,
+      fn: () => "",
+      target : $token
+  })
+
+  sample({
+      clock : logout,
+      fn: () => eraseCookie("session_id"),
+  })
+
+  redirect({
+      clock : logout,
+      route : routes.home
+  })
   const [isMenuActive, setMenuActive] = useState<boolean>(false);
   const [activeHiddenIndex, setActiveHiddenIndex] = useState<number>();
   const { isAdaptive: md } = useResize(1200);
+  const authStatus = useUnit($authenticationStatus);
   const links = LINKS.map((link) => {
     const menuItems = link.links?.flatMap((item, index) => {
       const result = [
@@ -335,6 +363,7 @@ export const Header = ({ className = "" }: { className?: string }) => {
               ))}
             </ul>
           </div>
+          { authStatus === AuthStatus.Anonymous ?
           <div className="mobMenuButtons">
             <Button
               to={routes.auth.signInByEmail}
@@ -350,6 +379,22 @@ export const Header = ({ className = "" }: { className?: string }) => {
               Sign up
             </Button>
           </div>
+          :
+          <div className="mobMenuButtons">
+            <Button
+              onClick={() => logout()}
+              size="xl"
+              color="white"
+              variant="transparent"
+              classNames={{ root: classes.signInButtonRoot }}
+            >
+              Log out
+            </Button>
+            <Button to={routes.myProfile} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
+              Profile
+            </Button>
+          </div>
+          }
         </div>
       </div>
     </>
@@ -365,7 +410,7 @@ export const Header = ({ className = "" }: { className?: string }) => {
           {links}
         </Group>
       </Group>
-
+      { authStatus === AuthStatus.Anonymous ?
       <Group gap={rem("32px")}>
         <Button
           to={routes.auth.signInByEmail}
@@ -381,6 +426,22 @@ export const Header = ({ className = "" }: { className?: string }) => {
           Sign up
         </Button>
       </Group>
+      :
+      <Group gap={rem("32px")}>
+        <Button
+          size="xl"
+          color="white"
+          variant="transparent"
+          classNames={{ root: classes.signInButtonRoot }}
+          onClick={() => logout()}
+        >
+          Log out
+        </Button>
+        <Button to={routes.myProfile} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
+          Profile
+        </Button>
+      </Group>
+      }
     </header>
   );
 };

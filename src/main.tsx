@@ -18,14 +18,8 @@ const renderTarget = document.getElementById("root") as HTMLElement;
 
 const root = ReactDOM.createRoot(renderTarget);
 
-const scope = fork();
-
-allSettled(appStarted, { scope }).catch(() =>
-  console.warn("Failed to start the app"),
-);
+appStarted();
 
 root.render(
-  <Provider value={scope}>
     <Application/>
-  </Provider>
 );

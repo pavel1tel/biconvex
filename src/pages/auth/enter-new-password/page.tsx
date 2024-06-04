@@ -1,10 +1,16 @@
 import { Button, Group, Image, PasswordInput, Stack, Text, Title, rem } from "@mantine/core";
-import { Helmet } from "react-helmet-async";
 
 import { Header, HidePasswordIcon, ShowPasswordIcon, Wrapper } from "@/shared/ui";
 
 import { Footer } from "../components/Footer/Footer";
 import classes from "./styles.module.css";
+import { useEffect, useState } from "react";
+import { requestNewPassword } from "@/shared/api";
+import { useUnit } from "effector-react";
+import { $response } from "../sign-up/model";
+import { showErrorNotification } from "@/shared/lib/notification";
+import { sample } from "effector";
+import { Helmet } from "react-helmet-async";
 
 const ResetIcon = () => {
   return (
@@ -20,10 +26,36 @@ const ResetIcon = () => {
 };
 
 export const Page = () => {
+  const [newPassword,setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
+  const [isError, setIsError] = useState(false);
+  const isLoading = useUnit(requestNewPassword.pending);
+  const userId = useUnit($response);
   const onContinue = (e: React.MouseEvent) => {
+    if(newPassword === "" || rePassword === ""){
+      setIsError(true);
+      showErrorNotification("Fill all the fields");
+      return;
+    }
+
+    if(newPassword !== rePassword){
+      setIsError(true);
+      showErrorNotification("Passwords do not match");
+      return;
+    }
     e.preventDefault();
-    window.location.href = "/#/auth/sign-in-by-email";
+    let code = localStorage.getItem("code") + "";
+    requestNewPassword({userId, code, newPassword, rePassword})
   };
+
+  useEffect(() => {
+    setIsError(false);
+  }, [newPassword, rePassword])
+
+  sample({
+    clock: requestNewPassword.failData,
+    fn: () => setIsError(true)
+  })
 
   return (
     <Wrapper>
@@ -63,6 +95,9 @@ export const Page = () => {
                   Password
                 </Text>
                 <PasswordInput
+                  error={isError}
+                  value={newPassword}
+                  onChange={(e) => setPassword(e.target.value)}
                   id="pass"
                   classNames={{ innerInput: classes.passwordInput }}
                   size="xxl"
@@ -75,7 +110,10 @@ export const Page = () => {
                   Confirm your password
                 </Text>
                 <PasswordInput
+                  error={isError}
                   id="confirmPass"
+                  value={rePassword}
+                  onChange={(e) => setRePassword(e.target.value)}
                   classNames={{ innerInput: classes.passwordInput }}
                   size="xxl"
                   placeholder="Your new password again"
@@ -85,7 +123,7 @@ export const Page = () => {
             </Stack>
 
             <Stack gap={rem("32px")}>
-              <Button size="xxl" className={classes.btn} variant="radial-gradient" rightSection={<ResetIcon />} onClick={onContinue}>
+              <Button loading={isLoading} size="xxl" className={classes.btn} variant="radial-gradient" rightSection={<ResetIcon />} onClick={onContinue}>
                 Update password
               </Button>
             </Stack>

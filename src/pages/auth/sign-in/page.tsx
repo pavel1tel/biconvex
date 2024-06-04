@@ -1,12 +1,16 @@
 import { Button, Checkbox, Group, Image, PasswordInput, Stack, Text, TextInput, Title, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
-import { Helmet } from "react-helmet-async";
+import { showErrorNotification } from "@/shared/lib/notification";
 
 import { routes } from "@/shared/routing";
 import { Header, HidePasswordIcon, ShowPasswordIcon, Wrapper } from "@/shared/ui";
 
 import { Footer } from "../components/Footer/Footer";
 import classes from "./styles.module.css";
+import { useEffect, useState } from "react";
+import { loginUser } from "@/shared/api";
+import { useUnit } from "effector-react";
+import { Helmet } from "react-helmet-async";
 
 const EnterIcon = () => {
   return (
@@ -22,6 +26,34 @@ const EnterIcon = () => {
 };
 
 export const Page = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+
+  const loading = useUnit(loginUser.pending);
+  const handleSubmit = async () => {
+    if(email === "" || password === ""){
+      showErrorNotification("Please fill all the fields")
+      if(email === ""){
+        setEmailError(true);
+      }
+      if(password === ""){
+        setPasswordError(true);
+      }
+      return;
+    }
+    loginUser({email, password});
+  }
+
+  useEffect(() => {
+    setEmailError(false);
+  }, [email]);
+
+  useEffect(() => {
+    setPasswordError(false);
+  }, [password]);
+
   return (
     <Wrapper>
       <Helmet>
@@ -60,16 +92,20 @@ export const Page = () => {
                   <Text variant="text-4" c="white" mb={8} lh={"19.49px"}>
                     Email
                   </Text>
-                  <TextInput id="email" size="xxl" placeholder="Your email" />
+                  <TextInput error={emailError} id="email" size="xxl" placeholder="Your email"  value={email}
+                      onChange={(e) => setEmail(e.target.value)}/>
                 </label>
                 <label htmlFor="pass">
                   <Text variant="text-4" c="white" mb={8} lh={"19.49px"}>
                     Password
                   </Text>
                   <PasswordInput
+                    error={passwordError}
                     id="pass"
                     classNames={{ innerInput: classes.passwordInput }}
                     size="xxl"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="Your password"
                     visibilityToggleIcon={({ reveal }) => (reveal ? <HidePasswordIcon /> : <ShowPasswordIcon />)}
                   />
@@ -92,7 +128,7 @@ export const Page = () => {
             </Stack>
 
             <Stack gap={"clamp(1.5rem, 2vw, 2rem)"}>
-              <Button size="xxl" className={classes.btn} h={{ 0: 78, md: 92 }} variant="radial-gradient" rightSection={<EnterIcon />}>
+              <Button loading={loading} onClick={handleSubmit} size="xxl" className={classes.btn} h={{ 0: 78, md: 92 }} variant="radial-gradient" rightSection={<EnterIcon />}>
                 SIGN IN
               </Button>
               <Text c="white" ta="left" fz={16}>
