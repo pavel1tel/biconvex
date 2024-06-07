@@ -10,14 +10,29 @@ import { YellowSection } from "@/shared/ui/icon/AnalysisGraphSections/YellowSect
 import classes from "./AnalysisGraph.module.css";
 
 export type AnalysisGraphProps = {
-  percents: number;
+  recommendation: number;
 };
-export const AnalysisGraph = ({ percents }: AnalysisGraphProps) => {
+
+export const AnalysisGraph = ({ recommendation }: AnalysisGraphProps) => {
   const [arrowAngle, setArrowAngle] = useState(0);
+
   useEffect(() => {
-    const angle = (percents > 100 ? 100 : percents < 0 ? 0 : percents) * 1.8;
-    setArrowAngle(angle);
-  }, [percents]);
+    let angle;
+    if (recommendation < -0.5) {
+      angle = 0;
+    } else if (recommendation >= -0.5 && recommendation < -0.1) {
+      angle = 36;
+    } else if (recommendation >= -0.1 && recommendation < 0.1) {
+      angle = 72;
+    } else if (recommendation >= 0.1 && recommendation < 0.5) {
+      angle = 108;
+    } else {
+      angle = 144;
+    }
+
+    setArrowAngle(Math.abs(angle + Math.abs(Math.floor(recommendation * 50))));
+  }, [recommendation]);
+
   return (
     <div className={classes.analysisGraphContainer}>
       <p className={clsx(classes.analysisLabel, classes.levelOne)}>Strong sell</p>
@@ -36,7 +51,7 @@ export const AnalysisGraph = ({ percents }: AnalysisGraphProps) => {
             <div className={classes.analysisGraphInnerGradient}></div>
           </div>
           <div className={classes.analysisGraphArrowRound}></div>
-          <div style={{ rotate: `${arrowAngle}deg` }} className={classes.analysisGraphArrow}></div>
+          <div style={{ transform: `rotate(${arrowAngle}deg)` }} className={classes.analysisGraphArrow}></div>
         </div>
       </div>
     </div>

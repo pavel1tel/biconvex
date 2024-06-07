@@ -56,3 +56,11 @@ persist({
     return value;
   },
 });
+<<<<<<< HEAD
+=======
+
+// function getCookie(key: string) {
+//   var b = document.cookie.match("(^|;)\\s*" + key + "\\s*=\\s*([^;]+)");
+//   return b ? b.pop() : "";
+// }
+>>>>>>> parent of 9d665d2b (Revert "finish market tools pages")
