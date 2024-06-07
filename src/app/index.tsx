@@ -16,11 +16,13 @@ const helmetDefaultParams = {
   htmlAttributes: { lang: "en" },
 };
 
+const getRootElement = () => (typeof window === "undefined" ? undefined : document.body);
+
 export const Application = () => {
   document.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => window.scrollTo(0, 0)));
   return (
     <HelmetProvider>
-      <MantineProvider theme={theme} withCssVariables={true}>
+      <MantineProvider theme={theme} classNamesPrefix="app">
         <ModalsProvider>
           <RouterProvider router={router}>
             <Helmet {...helmetDefaultParams}>
