@@ -2,24 +2,30 @@ import { RouteInstance, RouteParams, RouteParamsAndQuery, chainRoute, redirect }
 import { Event, attach, createEvent, createStore, sample, split } from "effector";
 import { debug, interval } from "patronum";
 
-import { $token } from "@/pages/auth/sign-in/model";
-
 import * as api from "@/shared/api";
 import { UserDto } from "@/shared/api/types";
 import { showErrorNotification } from "@/shared/lib/notification";
 import { AuthStatus, ChainParams } from "@/shared/lib/types";
 import { routes } from "@/shared/routing";
+import { $token } from "@/pages/auth/sign-in/model";
 
-export const $authenticationStatus = $token.map((token) => {
-  console.log(token);
-  if (token === "") {
+export const $authenticationStatus = $token.map(token => {
+  console.log(token)
+  if(token === ""){
     return AuthStatus.Anonymous;
   } else {
     return AuthStatus.Authenticated;
   }
 });
 
-export function chainAuthenticated<Params extends RouteParams>(route: RouteInstance<Params>, {}: ChainParams = {}): RouteInstance<Params> {
+
+
+export function chainAuthenticated<Params extends RouteParams>(
+  route: RouteInstance<Params>,
+  {otherwise}: ChainParams = {},
+): RouteInstance<Params> {
+
+
   const sessionCheckStarted = createEvent<RouteParamsAndQuery<Params>>();
 
   const alreadyAnonymous = sample({
@@ -35,9 +41,9 @@ export function chainAuthenticated<Params extends RouteParams>(route: RouteInsta
   });
 
   redirect({
-    clock: alreadyAnonymous,
-    route: routes.auth.signInByEmail,
-  });
+    clock : alreadyAnonymous,
+    route : routes.auth.signInByEmail,
+  })
 
   return chainRoute({
     route,
@@ -47,6 +53,10 @@ export function chainAuthenticated<Params extends RouteParams>(route: RouteInsta
   });
 }
 
-export function chainAnonymous<Params extends RouteParams>(route: RouteInstance<Params>, {}: ChainParams = {}): RouteInstance<Params> {
+export function chainAnonymous<Params extends RouteParams>(
+  route: RouteInstance<Params>,
+  {otherwise}: ChainParams = {},
+): RouteInstance<Params> {
+
   return route;
 }

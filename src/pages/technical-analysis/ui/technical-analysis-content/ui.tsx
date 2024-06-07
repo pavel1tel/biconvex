@@ -8,12 +8,12 @@ export const TechnicalAnalysisContent = () => {
     <Stack gap={32} py={64}>
       <Header />
       <Group className="analysisGrid" gap={"clamp(12px, 1.875vw, 30px)"}>
-        <Analysis percents={5} currency="BTC" />
-        <Analysis percents={25} currency="BNB" />
-        <Analysis percents={45} currency="ETH" />
-        <Analysis percents={65} currency="ADA" />
-        <Analysis percents={80} currency="XRP" />
-        <Analysis percents={95} currency="DOT" />
+        <Analysis percents={5} currency="btcusd" />
+        <Analysis percents={25} currency="btcusd" />
+        <Analysis percents={45} currency="btcusd" />
+        <Analysis percents={65} currency="btcusd" />
+        <Analysis percents={80} currency="btcusd" />
+        <Analysis percents={95} currency="btcusd" />
       </Group>
     </Stack>
   );

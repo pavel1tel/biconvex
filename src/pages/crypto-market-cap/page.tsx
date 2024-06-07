@@ -4,7 +4,6 @@ import { Box, Divider, Grid, Group, Image, Pagination, Stack, Text, UnstyledButt
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 
-import { FetchFunc } from "@/shared/api/market-screene/request";
 import {
   BitcoinIcon,
   CardanoIcon,
@@ -21,48 +20,14 @@ import {
 import { TableSelectionHeader } from "@/shared/ui/tableSelectionHeader";
 import { TitleWithIcon } from "@/shared/ui/titleWithIcon/ui";
 
+import { SELECTORS } from "./MarketCapCoinsSelectors";
 import classes from "./styles.module.css";
 import { CoinsTable, TopRate } from "./ui";
 import { CoinsTableFixedColumn } from "./ui/coins-table/CoinsTableFixedColumn";
-import { Coin } from "./ui/coins-table/ui";
-
-export type Selector = {
-  label: string;
-  fetchData: any;
-};
-
-const TAG_FILTERS: Record<string, (coin: Coin) => boolean> = {
-  All: () => true,
-  USDT: (coin) => coin.tags.includes("usd-stablecoin"),
-  FIAT: (coin) => coin.tags.includes("fiat-stablecoin"),
-  DeFi: (coin) => coin.tags.includes("defi"),
-  AI: (coin) => coin.tags.includes("ai-big-data"),
-  NFT: (coin) => coin.tags.includes("collectibles-nfts"),
-};
-
-const SELECTORS: Selector[] = [
-  { label: "Top Volume", fetchData: () => fetchMarketData("vol") },
-  { label: "Top Gain", fetchData: () => fetchMarketData("gain") },
-  { label: "Top Loss", fetchData: () => fetchMarketData("loss") },
-  { label: "New in Market", fetchData: () => fetchMarketData("new") },
-];
-
-async function fetchMarketData(type: string): Promise<Record<string, Coin>> {
-  const response = await fetch(`http://20.79.188.227:8081/market?type=${type}`);
-  const data: Record<string, Coin> = await response.json();
-  return data;
-}
 
 export function Page() {
   const [siblings, setSiblings] = useState(getSiblings());
   const { isAdaptive: md } = useResize(1200);
-  const [activeTab, setActiveTab] = useState<Selector>(SELECTORS[0]);
-  const [activeFilter, setActiveFilter] = useState<string>("All");
-  const [data, setData] = useState<Coin[]>([]);
-  const [filteredData, setFilteredData] = useState<Coin[]>([]);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(20);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalItems, setTotalItems] = useState<number>(0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -76,63 +41,10 @@ export function Page() {
     };
   }, []);
 
-  const loadData = async (fetchFunc: () => Promise<Record<string, Coin>>) => {
-    try {
-      const result = await fetchFunc();
-      const resultData = Object.values(result);
-      setData(resultData);
-      filterData(resultData, activeFilter);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setData([]);
-      setFilteredData([]);
-      setTotalItems(0);
-    }
-  };
-
-  const filterData = (data: Coin[], filter: string) => {
-    const filtered = data.filter(TAG_FILTERS[filter]);
-    const paginatedData = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
-    setFilteredData(paginatedData);
-    setTotalItems(filtered.length);
-  };
-
-  useEffect(() => {
-    loadData(activeTab.fetchData);
-  }, [activeTab]);
-
-  useEffect(() => {
-    filterData(data, activeFilter);
-  }, [data, activeFilter, currentPage, rowsPerPage]);
-
-  const handleTabClick = (selector: Selector) => {
-    setCurrentPage(1);
-    setActiveTab(selector);
-    loadData(selector.fetchData);
-  };
-
-  const handleFilterClick = (filter: string) => {
-    setCurrentPage(1);
-    setActiveFilter(filter);
-    filterData(data, filter);
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    filterData(data, activeFilter);
-  };
-
-  const handleRowsPerPageChange = (value: number) => {
-    setRowsPerPage(value);
-    setCurrentPage(1);
-    filterData(data, activeFilter);
-  };
-  console.log(activeTab);
-
   return (
     <Wrapper>
       <Helmet>
-        <title>Crypto Market Cap | BitConvex</title>
+        <title>Crypto Market Cap | BitConvex </title>
       </Helmet>
       <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/crypto-market-cap/1.png`} alt="light-1" className={classes.lightOne} />
       <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/crypto-market-cap/2.png`} alt="light-2" className={classes.lightTwo} />
@@ -170,35 +82,44 @@ export function Page() {
             </Grid>
 
             <Stack gap={rem("32px")} className={classes.ratesTableWrapper}>
-              <TableSelectionHeader activeTab={activeTab} selectors={SELECTORS} handleTabClick={handleTabClick} headerClassName="alignFromStart" />
+              <TableSelectionHeader selectors={SELECTORS} />
 
               <Stack gap={0}>
                 <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
                 <Group justify={"space-between"}>
                   <Group gap={rem(32)} className={classes.categoriesWrapper}>
-                    {Object.keys(TAG_FILTERS).map((filter) => {
-                      return (
-                        <Box key={filter} data-active={filter === activeFilter ? "1" : "0"} className={classes.categoryButtonWrapper}>
-                          <UnstyledButton classNames={{ root: classes.categoryButton }} onClick={() => handleFilterClick(filter)}>
-                            {filter}
-                          </UnstyledButton>
-                        </Box>
-                      );
-                    })}
+                    <Box data-active className={classes.categoryButtonWrapper}>
+                      <UnstyledButton classNames={{ root: classes.categoryButton }}>All</UnstyledButton>
+                    </Box>
+                    <Box className={classes.categoryButtonWrapper}>
+                      <UnstyledButton classNames={{ root: classes.categoryButton }}>USDT</UnstyledButton>
+                    </Box>
+                    <Box className={classes.categoryButtonWrapper}>
+                      <UnstyledButton classNames={{ root: classes.categoryButton }}>AI</UnstyledButton>
+                    </Box>
+                    <Box className={classes.categoryButtonWrapper}>
+                      <UnstyledButton classNames={{ root: classes.categoryButton }}>DeFi</UnstyledButton>
+                    </Box>
+                    <Box className={classes.categoryButtonWrapper}>
+                      <UnstyledButton classNames={{ root: classes.categoryButton }}>NFT</UnstyledButton>
+                    </Box>
+                    <Box className={classes.categoryButtonWrapper}>
+                      <UnstyledButton classNames={{ root: classes.categoryButton }}>FIAT</UnstyledButton>
+                    </Box>
                   </Group>
-                  <ShowRowsCount onRowsChange={handleRowsPerPageChange} />
+                  <ShowRowsCount />
                 </Group>
                 <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
-                {md ? <CoinsTableFixedColumn data={filteredData} /> : <CoinsTable data={filteredData} />}
+                {md ? <CoinsTableFixedColumn /> : <CoinsTable />}
               </Stack>
 
               <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
 
               <Group justify={"space-between"}>
                 <Text variant="text-4" className={classes.greyText}>
-                  {currentPage * rowsPerPage - rowsPerPage + 1}-{Math.min(currentPage * rowsPerPage, totalItems)} of {totalItems} assets
+                  1-20 of 9,383 assets
                 </Text>
-                <Pagination total={Math.ceil(totalItems / rowsPerPage)} value={currentPage} onChange={handlePageChange}>
+                <Pagination total={20} defaultValue={1} {...{ siblings }}>
                   <Group gap={rem("8px")} justify="center">
                     <Pagination.Previous icon={PreviousIcon} />
                     <Pagination.Items />
@@ -209,6 +130,8 @@ export function Page() {
             </Stack>
           </Stack>
         </Container>
+
+        {/*<Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/crypto-market-cap/5.png`} alt="light-5" className={classes.lightFive}/>*/}
       </Stack>
 
       <Footer />

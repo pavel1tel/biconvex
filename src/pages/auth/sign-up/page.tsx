@@ -1,19 +1,18 @@
 import { Button, Checkbox, Group, Image, PasswordInput, Stack, Text, TextInput, Title, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
 import clsx from "clsx";
-import { useUnit } from "effector-react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Helmet } from "react-helmet-async";
-
-import { confirmCode, registerUser } from "@/shared/api";
-import { showErrorNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { Header, HidePasswordIcon, ShowPasswordIcon, Wrapper } from "@/shared/ui";
-
 import { Footer } from "../components/Footer/Footer";
-import { $response } from "./model";
 import classes from "./styles.module.css";
-
+import { confirmCode, registerUser } from "@/shared/api";
+import { useUnit } from "effector-react";
+import { $response } from "./model";
+import { ResponseDto } from "@/shared/api/types";
+import { showErrorNotification } from "@/shared/lib/notification";
+import { Helmet } from "react-helmet-async";
+  
 const StarIcon = () => {
   return (
     <svg width="28" height="27" viewBox="0 0 28 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -40,18 +39,18 @@ const ConfirmIcon = () => {
   );
 };
 
-// const ContinueIcon = () => {
-//   return (
-//     <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-//       <path
-//         fillRule="evenodd"
-//         clipRule="evenodd"
-//         d="M15.6953 6.04466L21.1268 12.7947C21.4631 13.212 21.4575 13.8083 21.1144 14.22L15.4894 20.97C15.2666 21.2367 14.9471 21.375 14.6243 21.375C14.3711 21.375 14.1158 21.2895 13.9054 21.114C13.4273 20.7169 13.3631 20.007 13.7614 19.53L18.7969 13.4877L13.9414 7.45541C13.5521 6.97166 13.6286 6.26291 14.1135 5.87366C14.5973 5.48329 15.3049 5.56091 15.6953 6.04466ZM6.23839 5.87361C6.72214 5.48436 7.42976 5.56086 7.82014 6.04461L13.2516 12.7946C13.5869 13.212 13.5824 13.8082 13.2393 14.22L7.61426 20.97C7.39151 21.2366 7.07201 21.375 6.74914 21.375C6.49601 21.375 6.24064 21.2895 6.03026 21.114C5.55214 20.7169 5.48801 20.007 5.88626 19.53L10.9206 13.4876L6.06626 7.45536C5.67701 6.97161 5.75464 6.26286 6.23839 5.87361Z"
-//         fill="white"
-//       />
-//     </svg>
-//   );
-// };
+const ContinueIcon = () => {
+  return (
+    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M15.6953 6.04466L21.1268 12.7947C21.4631 13.212 21.4575 13.8083 21.1144 14.22L15.4894 20.97C15.2666 21.2367 14.9471 21.375 14.6243 21.375C14.3711 21.375 14.1158 21.2895 13.9054 21.114C13.4273 20.7169 13.3631 20.007 13.7614 19.53L18.7969 13.4877L13.9414 7.45541C13.5521 6.97166 13.6286 6.26291 14.1135 5.87366C14.5973 5.48329 15.3049 5.56091 15.6953 6.04466ZM6.23839 5.87361C6.72214 5.48436 7.42976 5.56086 7.82014 6.04461L13.2516 12.7946C13.5869 13.212 13.5824 13.8082 13.2393 14.22L7.61426 20.97C7.39151 21.2366 7.07201 21.375 6.74914 21.375C6.49601 21.375 6.24064 21.2895 6.03026 21.114C5.55214 20.7169 5.48801 20.007 5.88626 19.53L10.9206 13.4876L6.06626 7.45536C5.67701 6.97161 5.75464 6.26286 6.23839 5.87361Z"
+        fill="white"
+      />
+    </svg>
+  );
+};
 type Steps = "form" | "security-code";
 const Form = ({ onClick }: { onClick: Dispatch<SetStateAction<Steps>> }) => {
   const [email, setEmail] = useState("");
@@ -66,30 +65,30 @@ const Form = ({ onClick }: { onClick: Dispatch<SetStateAction<Steps>> }) => {
 
   const registrationIsLoading = useUnit(registerUser.pending);
 
-  const handleFormSubmit = async () => {
-    if (email === "" || username === "" || password === "" || re_password === "") {
-      showErrorNotification("Please fill all the fields");
-      if (email === "") {
+  const handleFormSubmit = async() => {
+    if(email === "" || username === "" || password==="" || re_password===""){
+      showErrorNotification("Please fill all the fields")
+      if(email === ""){
         setEmailError(true);
       }
-      if (username === "") {
+      if(username === ""){
         setUsernameError(true);
       }
-      if (password === "") {
+      if(password === ""){
         setPasswordError(true);
       }
-      if (re_password === "") {
+      if(re_password === ""){
         setConfirmPasswordError(true);
       }
       return;
     }
-    if (!checkbox) {
-      showErrorNotification("You should agree on Terms of Service and Privacy Policy");
-      return;
+    if(!checkbox) {
+      showErrorNotification("You should agree on Terms of Service and Privacy Policy")
+      return
     }
-    await registerUser({ email, password, username, re_password });
+    await registerUser({email, password, username, re_password});
     onClick("security-code");
-  };
+  }
   useEffect(() => {
     setEmailError(false);
   }, [email]);
@@ -108,11 +107,11 @@ const Form = ({ onClick }: { onClick: Dispatch<SetStateAction<Steps>> }) => {
 
   return (
     <>
-      <Helmet>
+    <Helmet>
         <title> Sign up | BitConvex </title>
       </Helmet>
-      <Stack gap={"clamp(1rem, 2vw, 2rem)"}>
-        <Title ta={"center"} c="white" order={2} fz={{ 0: 40, md: 54 }}>
+      <Stack gap={'clamp(1rem, 2vw, 2rem)'}>
+        <Title ta={'center'} c="white" order={2} fz={{0: 40, md: 54}}>
           Create an account
         </Title>
         <Text ta={"center"} variant="text-2" className={classes.greyText}>
@@ -120,45 +119,28 @@ const Form = ({ onClick }: { onClick: Dispatch<SetStateAction<Steps>> }) => {
         </Text>
       </Stack>
 
-      <Stack gap={"clamp(1.5rem, 2vw, 2rem)"} w="100%" className={classes.wrapper}>
+      <Stack gap={'clamp(1.5rem, 2vw, 2rem)'} w="100%" className={classes.wrapper}>
         <Stack gap={rem(32)} className={classes.zIndex}>
           <Stack gap={rem("16px")} className={classes.form}>
             <label htmlFor="username">
-              <Text fz={{ 0: 14, md: 16 }} color="white" mb={8} lh={"19px"}>
+              <Text fz={{0: 14, md: 16}} color="white"  mb={8} lh={"19px"}>
                 Username
               </Text>
-              <TextInput
-                error={usernameError}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                id="username"
-                size="xxl"
-                placeholder="Your username"
-                autoCorrect="off"
-              />
+              <TextInput error={usernameError} value={username} onChange={(e) => setUsername(e.target.value)}  id="username" size="xxl" placeholder="Your username" autoCorrect="off" />
             </label>
             <label htmlFor="email">
-              <Text fz={{ 0: 14, md: 16 }} color="white" mb={8} lh={"19px"}>
+              <Text fz={{0: 14, md: 16}} color="white"  mb={8} lh={"19px"}>
                 Email
               </Text>
-              <TextInput
-                error={emailError}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                id="email"
-                size="xxl"
-                type="email"
-                placeholder="Your email"
-                autoComplete="off"
-              />
+              <TextInput error={emailError} value={email} onChange={(e) => setEmail(e.target.value)} id="email" size="xxl" type="email" placeholder="Your email" autoComplete="off" />
             </label>
             <label htmlFor="password">
-              <Text fz={{ 0: 14, md: 16 }} color="white" mb={8} lh={"19px"}>
+              <Text fz={{0: 14, md: 16}} color="white"  mb={8} lh={"19px"}>
                 Password
               </Text>
               <PasswordInput
                 error={passwordError}
-                value={password}
+                value={password} 
                 onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 classNames={{
@@ -171,13 +153,13 @@ const Form = ({ onClick }: { onClick: Dispatch<SetStateAction<Steps>> }) => {
               />
             </label>
             <label htmlFor="confirmPassword">
-              <Text fz={{ 0: 14, md: 16 }} color="white" mb={8} lh={"19px"}>
+              <Text fz={{0: 14, md: 16}} color="white"  mb={8} lh={"19px"}>
                 Confirm your password
               </Text>
               <PasswordInput
-                error={re_passwordError}
+                error = {re_passwordError}
                 id="confirmPassword"
-                value={re_password}
+                value={re_password} 
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 classNames={{
                   innerInput: classes.passwordInput,
@@ -191,8 +173,8 @@ const Form = ({ onClick }: { onClick: Dispatch<SetStateAction<Steps>> }) => {
           </Stack>
 
           <Checkbox
-            checked={checkbox}
-            onChange={(event) => setCheckBox(event.currentTarget.checked)}
+          checked={checkbox}
+          onChange={(event) => setCheckBox(event.currentTarget.checked)}
             className={classes.notification}
             label={
               <Text variant="text-4">
@@ -210,20 +192,12 @@ const Form = ({ onClick }: { onClick: Dispatch<SetStateAction<Steps>> }) => {
         </Stack>
 
         <Stack gap={rem("32px")}>
-          <Button loading={registrationIsLoading} onClick={handleFormSubmit} size="xxl" variant="radial-gradient" rightSection={<StarIcon />}>
+          <Button loading={registrationIsLoading} onClick={handleFormSubmit} size="xxl" variant="radial-gradient" rightSection={<StarIcon />} >
             Sign up
           </Button>
-          <Text c="white" ta="left" fz={{ 0: 14, md: 16 }} color="white" variant="text-4">
+          <Text c="white" ta="left" fz={{0: 14, md: 16}} color="white" variant="text-4">
             Already have an account?{" "}
-            <Text
-              variant="text-4"
-              fz={{ 0: 14, md: 16 }}
-              color="white"
-              to={routes.auth.signInByEmail}
-              component={Link}
-              className={classes.blueTextHovered}
-              span
-            >
+            <Text variant="text-4" fz={{0: 14, md: 16}} color="white" to={routes.auth.signInByEmail} component={Link} className={classes.blueTextHovered} span>
               Sign in
             </Text>
           </Text>
@@ -233,27 +207,29 @@ const Form = ({ onClick }: { onClick: Dispatch<SetStateAction<Steps>> }) => {
   );
 };
 
-const SecurityCode = ({}: { onClick: Dispatch<SetStateAction<Steps>> }) => {
+const SecurityCode = ({ onClick }: { onClick: Dispatch<SetStateAction<Steps>> }) => {
   const confirmCodeLoading = useUnit(confirmCode.pending);
   const [code, setCode] = useState("");
   const userId = useUnit($response);
 
   const handleFormSubmit = () => {
     confirmCode({
-      userId: userId,
-      code: code,
-    });
-  };
+      userId : userId,
+       code : code});
+  }
   return (
     <>
-      <Helmet>
-        <title> Security code | BitConvex</title>
+    <Helmet>
+        <title> Security code | BitConvex
+
+
+ </title>
       </Helmet>
       <Stack gap={rem("28px")}>
-        <Title c="white" ta={"center"} order={2} fz={{ 0: 40, md: 54 }}>
+        <Title c="white" ta={"center"} order={2} fz={{0: 40, md: 54}}>
           Enter security code
         </Title>
-        <Text ta={"center"} fz={{ 0: 16, md: 20 }} className={classes.greyText}>
+        <Text ta={"center"} fz={{0: 16, md: 20}} className={classes.greyText}>
           We have sent a code to your email{" "}
           <Text className={classes.blueText} span>
             AllieGrater12345644@gmail.com
@@ -264,26 +240,17 @@ const SecurityCode = ({}: { onClick: Dispatch<SetStateAction<Steps>> }) => {
         </Text>
       </Stack>
 
-      <Stack gap={"clamp(1.5rem, 2vw, 2rem)"} className={classes.form}>
+      <Stack gap={'clamp(1.5rem, 2vw, 2rem)'} className={classes.form}>
         <Stack gap={rem("16px")} className={classes.zIndex}>
           <label htmlFor="code">
-            <Text fz={{ 0: 14, md: 16 }} color="white" mb={8} lh={"19px"}>
+            <Text fz={{0: 14, md: 16}} color="white"  mb={8} lh={"19px"}>
               Security code
             </Text>
             <TextInput value={code} onChange={(e) => setCode(e.target.value)} id="code" size="xxl" placeholder="Your Security code" />
           </label>
         </Stack>
 
-        <Button
-          loading={confirmCodeLoading}
-          size="xxl"
-          className={classes.btnContinue}
-          variant="radial-gradient"
-          rightSection={<ConfirmIcon />}
-          h={{ 0: 78, md: 92 }}
-          fz={{ 0: 18, md: 24 }}
-          onClick={handleFormSubmit}
-        >
+        <Button loading={confirmCodeLoading} size="xxl" className={classes.btnContinue} variant="radial-gradient" rightSection={<ConfirmIcon />} h={{0: 78, md: 92}} fz={{0: 18, md: 24}} onClick={handleFormSubmit}>
           confirm
         </Button>
       </Stack>
@@ -333,7 +300,7 @@ export const Page = () => {
           </>
         )}
 
-        <Stack align={"center"} gap={"clamp(1.5rem, 3vw, 3rem)"} className={classes.formWrapper}>
+        <Stack align={"center"} gap={'clamp(1.5rem, 3vw, 3rem)'} className={classes.formWrapper}>
           {step === "form" && <Form onClick={setStep} />}
           {step === "security-code" && <SecurityCode onClick={setStep} />}
         </Stack>
