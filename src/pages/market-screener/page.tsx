@@ -161,7 +161,7 @@ export function Page() {
   const loadData = async (fetchFunc: FetchFunc, range: Range = [0, rowsPerPage]) => {
     try {
       const result = await fetchFunc(range);
-      console.log("Fetched data:", result);
+      console.log("Fetched data:", result); // Logging fetched data
       setData(result || []);
       setTotalItems(result.length || 0);
     } catch (error) {
@@ -190,7 +190,7 @@ export function Page() {
 
   const handleRowsPerPageChange = (value: number) => {
     setRowsPerPage(value);
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset to first page when changing rows per page
     loadData(activeTab.fetchData, [0, value]);
   };
 
