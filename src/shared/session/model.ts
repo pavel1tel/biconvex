@@ -1,12 +1,8 @@
 import { RouteInstance, RouteParams, RouteParamsAndQuery, chainRoute, redirect } from "atomic-router";
-import { Event, attach, createEvent, createStore, sample, split } from "effector";
-import { debug, interval } from "patronum";
+import { createEvent, sample } from "effector";
 
 import { $token } from "@/pages/auth/sign-in/model";
 
-import * as api from "@/shared/api";
-import { UserDto } from "@/shared/api/types";
-import { showErrorNotification } from "@/shared/lib/notification";
 import { AuthStatus, ChainParams } from "@/shared/lib/types";
 import { routes } from "@/shared/routing";
 

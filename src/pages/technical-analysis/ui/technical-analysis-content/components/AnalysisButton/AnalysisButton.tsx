@@ -12,27 +12,11 @@ const analysResults = [
 ];
 
 type AnalysisResult = (typeof analysResults)[number];
-
-export const AnalysisButton = ({ recommendation }: { recommendation: number }) => {
+export const AnalysisButton = ({ percents }: { percents: number }) => {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
-  console.log(recommendation);
-
   useEffect(() => {
-    let result;
-    if (recommendation < -0.5) {
-      result = analysResults[0];
-    } else if (recommendation >= -0.5 && recommendation < -0.1) {
-      result = analysResults[1];
-    } else if (recommendation >= -0.1 && recommendation < 0.1) {
-      result = analysResults[2];
-    } else if (recommendation >= 0.1 && recommendation < 0.5) {
-      result = analysResults[3];
-    } else {
-      result = analysResults[4];
-    }
-
-    setAnalysisResult(result);
-  }, [recommendation]);
-
+    const calculateLevel = Math.ceil(percents / 20) || 1;
+    setAnalysisResult(analysResults.find((res) => res.level === calculateLevel) ?? null);
+  }, [percents]);
   return <button className={clsx(classes.analysisButton, classes[analysisResult?.class ?? ""])}>{analysisResult?.text}</button>;
 };

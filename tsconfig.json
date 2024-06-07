@@ -15,7 +15,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
 
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "allowImportingTsExtensions": false,

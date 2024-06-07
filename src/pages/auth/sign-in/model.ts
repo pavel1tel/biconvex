@@ -1,4 +1,3 @@
-// import { CosmosIcon } from "@/shared/ui";
 import { redirect } from "atomic-router";
 import { createStore, sample } from "effector";
 import { persist } from "effector-storage/local";
@@ -6,7 +5,6 @@ import { persist } from "effector-storage/local";
 import { loginUser } from "@/shared/api";
 import { ResponseDto } from "@/shared/api/types";
 import { showErrorNotification } from "@/shared/lib/notification";
-// import { AuthStatus } from "@/shared/lib/types";
 import { routes } from "@/shared/routing";
 import { chainAnonymous } from "@/shared/session";
 

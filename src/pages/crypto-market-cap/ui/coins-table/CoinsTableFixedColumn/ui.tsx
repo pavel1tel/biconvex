@@ -4,33 +4,21 @@ import clsx from "clsx";
 import { useCallback, useMemo, useState } from "react";
 import { P, match } from "ts-pattern";
 
+import { randomChartData } from "@/shared/lib/random-chart-data";
 import { SortingDirection, SortingLabel } from "@/shared/types/CoinsTable";
 import { MarketSortIcon, RateChart, RateIcon, RateType } from "@/shared/ui";
 
-import { HEADERS_MOB } from "../cryptoMarketTableData";
-import { Coin } from "../ui";
+import { COINS, HEADERS_MOB } from "../cryptoMarketTableData";
 import classes from "./styles.module.css";
 
-const formatNumber = (num: number) => {
-  if (num === 0) return "0.00";
-  if (num < 0.01 && num > 0) {
-    return num.toFixed(5);
-  }
-  return num.toFixed(2);
-};
-
-interface CoinsTableFixedColumnProps {
-  data: Coin[];
-}
-
-export const CoinsTableFixedColumn: React.FC<CoinsTableFixedColumnProps> = ({ data }) => {
+export const CoinsTableFixedColumn = () => {
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("#");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
   const { isAdaptive: md } = useResize(1200);
 
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {
-      if (sortingLabel !== label) {
+      if (sortingLabel != label) {
         setSortingLabel(label);
         setSortingDirection("ASC");
       } else {
@@ -41,8 +29,8 @@ export const CoinsTableFixedColumn: React.FC<CoinsTableFixedColumnProps> = ({ da
   );
 
   const tableCoins = useMemo(() => {
-    return data.map((coin) => {
-      const type: RateType = match(coin.price_change_percent)
+    return COINS.map((coin) => {
+      const type: RateType = match(coin.change)
         .with(
           P.when((value) => value > 0),
           () => "positive" as RateType,
@@ -53,54 +41,56 @@ export const CoinsTableFixedColumn: React.FC<CoinsTableFixedColumnProps> = ({ da
         )
         .otherwise(() => "zero" as RateType);
 
+      // const adaptiveFullCoinName = trimLongName(coin.name, md);
+
       return (
-        <Table.Tr key={coin.symbol}>
+        <Table.Tr key={coin.name}>
           <Table.Td className={clsx(classes.tbodyTdWithIcon, classes.fixedColumn)}>
             <Group gap={rem(8)}>
-              <img src={`https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.id}.png`} alt={coin.name} width={32} height={32} />
+              {coin.icon}
               <Title c="white" order={4} fz={20} className={classes.coinFullName}>
                 {coin.name}
               </Title>
-              <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.symbol}</Pill>
+              <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill>
             </Group>
           </Table.Td>
           <Table.Td>
             <Text c="white" variant="text-4" span>
-              ${formatNumber(coin.price)}
+              ${coin.price}
             </Text>
           </Table.Td>
           <Table.Td w={250}>
             <Group gap={rem(4)}>
               <RateIcon type={type} size={22} />
               <Text c="white" variant="text-4" span>
-                {coin.price_change_percent.toFixed(2)}%
+                {coin.change}%
               </Text>
             </Group>
           </Table.Td>
           <Table.Td w={250}>
             <Text c="white" variant="text-4" span>
-              ${formatNumber(coin.high_price)}
+              ${coin.dayHighPrice}
             </Text>
           </Table.Td>
           <Table.Td w={250}>
             <Text c="white" variant="text-4" span>
-              ${formatNumber(coin.low_price)}
+              ${coin.dayLowPrice}
             </Text>
           </Table.Td>
           <Table.Td>
             <Text c="white" variant="text-4" span>
-              ${formatNumber(coin.market_cap)}
+              ${coin.marketCap}
             </Text>
           </Table.Td>
           <Table.Td className={classes.coinChartCell}>
             <Group justify={"flex-end"} className={classes.coinChartWrapper}>
-              <RateChart type={type} data={coin.history.map((value, index) => ({ name: `P-${index}`, value: value }))} />
+              <RateChart type={type} data={randomChartData()} />
             </Group>
           </Table.Td>
         </Table.Tr>
       );
     });
-  }, [data]);
+  }, [md]);
 
   return (
     <div className={classes.tableContainer}>
