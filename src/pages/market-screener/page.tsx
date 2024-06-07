@@ -18,7 +18,6 @@ import { TableSelectionHeader } from "@/shared/ui/tableSelectionHeader";
 import { TitleWithIcon } from "@/shared/ui/titleWithIcon";
 
 import { Selector } from "../crypto-market-cap/page";
-import { SELECTORS } from "./MarketScreenerCoinsSelectors";
 import classes from "./styles.module.css";
 import { CoinsTableFixedColumn } from "./ui/coins-table/CoinsTableFixedColumn";
 import { CoinsTable } from "./ui/coins-table/ui";
@@ -30,10 +29,117 @@ const SELECTORS1 = [
   { label: "Trend-Following", fetchData: fetchTrendFollowingData },
 ];
 
+export const SELECTORS = [
+  {
+    label: "General",
+    isSelected: true,
+    fetchData: fetchOverviewData,
+    sort: { sortBy: "crypto_total_rank", sortOrder: "asc" },
+  },
+  {
+    label: "Top gainers",
+    isSelected: false,
+    fetchData: (range: Range) =>
+      fetchData(
+        [
+          "base_currency_logoid",
+          "currency_logoid",
+          "name",
+          "close",
+          "change",
+          "change_abs",
+          "high",
+          "low",
+          "volume",
+          "24h_vol|5",
+          "24h_vol_change|5",
+          "Recommend.All",
+          "exchange",
+          "description",
+          "type",
+          "subtype",
+          "update_mode",
+          "pricescale",
+          "minmov",
+          "fractional",
+          "minmove2",
+        ],
+        { sortBy: "24h_close_change|5", sortOrder: "desc" },
+        [],
+        range,
+      ),
+  },
+  {
+    label: "All-time high",
+    isSelected: false,
+    fetchData: (range: Range) =>
+      fetchData(
+        ["base_currency_logoid", "currency_logoid", "name", "Perf.All", "description", "type", "subtype", "update_mode", "exchange"],
+        { sortBy: "Perf.All", sortOrder: "desc" },
+        [],
+        range,
+      ),
+  },
+  {
+    label: "All-time low",
+    isSelected: false,
+    fetchData: (range: Range) =>
+      fetchData(
+        ["base_currency_logoid", "currency_logoid", "name", "Perf.All", "description", "type", "subtype", "update_mode", "exchange"],
+        { sortBy: "Perf.All", sortOrder: "asc" },
+        [],
+        range,
+      ),
+  },
+  {
+    label: "New monthly high",
+    isSelected: false,
+    fetchData: (range: Range) =>
+      fetchData(
+        [
+          "base_currency_logoid",
+          "currency_logoid",
+          "name",
+          "close",
+          "change",
+          "change_abs",
+          "high",
+          "low",
+          "volume",
+          "24h_vol|5",
+          "24h_vol_change|5",
+          "Recommend.All",
+          "exchange",
+          "description",
+          "type",
+          "subtype",
+          "update_mode",
+          "pricescale",
+          "minmov",
+          "fractional",
+          "minmove2",
+        ],
+        { sortBy: "crypto_total_rank", sortOrder: "asc" },
+        [{ left: "High.1M", operation: "eless", right: "high" }],
+        range,
+      ),
+  },
+  {
+    label: "Most volatile",
+    fetchData: (range: Range) =>
+      fetchData(
+        ["base_currency_logoid", "currency_logoid", "name", "Volatility.D", "description", "type", "subtype", "update_mode", "exchange"],
+        { sortBy: "Volatility.D", sortOrder: "desc" },
+        [],
+        range,
+      ),
+  },
+];
+
 export function Page() {
   const [siblings, setSiblings] = useState(getSiblings());
   const { isAdaptive: md } = useResize(1200);
-  const [activeTab, setActiveTab] = useState(SELECTORS1[0]);
+  const [activeTab, setActiveTab] = useState(SELECTORS[0]);
   const [data, setData] = useState<any[]>([]);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,11 +156,12 @@ export function Page() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  console.log(activeTab);
 
   const loadData = async (fetchFunc: FetchFunc, range: Range = [0, rowsPerPage]) => {
     try {
       const result = await fetchFunc(range);
-      console.log("Fetched data:", result); // Logging fetched data
+      console.log("Fetched data:", result);
       setData(result || []);
       setTotalItems(result.length || 0);
     } catch (error) {
@@ -83,7 +190,7 @@ export function Page() {
 
   const handleRowsPerPageChange = (value: number) => {
     setRowsPerPage(value);
-    setCurrentPage(1); // Reset to first page when changing rows per page
+    setCurrentPage(1);
     loadData(activeTab.fetchData, [0, value]);
   };
 
