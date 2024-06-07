@@ -1,4 +1,3 @@
-import { useResize } from "@/hooks/useResize";
 import { Group, Pill, Table, Text, Title, rem } from "@mantine/core";
 import clsx from "clsx";
 import { useCallback, useMemo, useState } from "react";
@@ -26,7 +25,7 @@ interface CoinsTableFixedColumnProps {
 export const CoinsTableFixedColumn: React.FC<CoinsTableFixedColumnProps> = ({ data }) => {
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("#");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
-  const { isAdaptive: md } = useResize(1200);
+  // const { isAdaptive: md } = useResize(1200);
 
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {

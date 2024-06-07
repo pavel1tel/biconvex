@@ -1,13 +1,10 @@
 import { BackgroundImage, Box, Flex, Group, SimpleGrid, Stack, Text, Title, rem } from "@mantine/core";
-import { useStore, useUnit } from "effector-react";
 import { useEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 
-import { $token } from "@/pages/auth/sign-in/model";
 import { CloseEyeIcon, EyeIcon } from "@/pages/staking/ui";
 
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { randomChartData } from "@/shared/lib/random-chart-data";
 import { RateChart } from "@/shared/ui";
 
 import classes from "./styles.module.css";
@@ -16,9 +13,8 @@ export const HeaderMyProfile = () => {
   const [value, setValue] = useState("$5,750,20");
   const [isHide, setIsHide] = useState(false);
   const [hiddenValue, setHiddenValue] = useState("");
-  const [pnlData, setPnlData] = useState([]);
-  const [percentage, setPercentage] = useState(0);
-  const session_id = useUnit($token);
+  const [pnlData, __] = useState([]);
+  const [percentage, _] = useState(0);
 
   useEffect(() => {
     console.log(1);

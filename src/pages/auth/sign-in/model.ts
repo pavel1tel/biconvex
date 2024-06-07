@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 // import { CosmosIcon } from "@/shared/ui";
->>>>>>> parent of 9d665d2b (Revert "finish market tools pages")
 import { redirect } from "atomic-router";
 import { createStore, sample } from "effector";
 import { persist } from "effector-storage/local";
@@ -9,10 +6,7 @@ import { persist } from "effector-storage/local";
 import { loginUser } from "@/shared/api";
 import { ResponseDto } from "@/shared/api/types";
 import { showErrorNotification } from "@/shared/lib/notification";
-<<<<<<< HEAD
-=======
 // import { AuthStatus } from "@/shared/lib/types";
->>>>>>> parent of 9d665d2b (Revert "finish market tools pages")
 import { routes } from "@/shared/routing";
 import { chainAnonymous } from "@/shared/session";
 

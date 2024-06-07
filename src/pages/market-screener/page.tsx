@@ -137,7 +137,7 @@ export const SELECTORS = [
 ];
 
 export function Page() {
-  const [siblings, setSiblings] = useState(getSiblings());
+  const [_, setSiblings] = useState(getSiblings());
   const { isAdaptive: md } = useResize(1200);
   const [activeTab, setActiveTab] = useState(SELECTORS[0]);
   const [data, setData] = useState<any[]>([]);

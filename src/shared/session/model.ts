@@ -2,20 +2,10 @@ import { RouteInstance, RouteParams, RouteParamsAndQuery, chainRoute, redirect }
 import { createEvent, sample } from "effector";
 
 import { $token } from "@/pages/auth/sign-in/model";
-<<<<<<< HEAD
 
 import { AuthStatus, ChainParams } from "@/shared/lib/types";
 import { routes } from "@/shared/routing";
 
-=======
-
-import * as api from "@/shared/api";
-import { UserDto } from "@/shared/api/types";
-import { showErrorNotification } from "@/shared/lib/notification";
-import { AuthStatus, ChainParams } from "@/shared/lib/types";
-import { routes } from "@/shared/routing";
-
->>>>>>> parent of 9d665d2b (Revert "finish market tools pages")
 export const $authenticationStatus = $token.map((token) => {
   console.log(token);
   if (token === "") {

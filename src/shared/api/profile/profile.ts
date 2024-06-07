@@ -2,13 +2,6 @@ import { createEffect } from "effector";
 
 import { requestFx } from "../request";
 
-function getCookie(key: string) {
-  var b = document.cookie.match("(^|;)\\s*" + key + "\\s*=\\s*([^;]+)");
-  console.log(document.cookie);
-
-  return b ? b.pop() : "";
-}
-
 export const getStakingHistoryFx = createEffect<void, any, void>(async () => {
   console.log(1);
 

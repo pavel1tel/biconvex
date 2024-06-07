@@ -43,10 +43,10 @@ const HEADERS = [
 
 const extractData = (dataItem: any): CoinData => {
   const symbol = dataItem.d[0]?.split("crypto/")[1] || "";
-  const toFixedSafe = (num: any, digits: number): string => {
-    const n = parseFloat(num);
-    return isNaN(n) ? "-" : n.toFixed(digits);
-  };
+  // const toFixedSafe = (num: any, digits: number): string => {
+  //   const n = parseFloat(num);
+  //   return isNaN(n) ? "-" : n.toFixed(digits);
+  // };
 
   return {
     name: dataItem.d[2] || "",

@@ -4,7 +4,6 @@ import { Box, Divider, Grid, Group, Image, Pagination, Stack, Text, UnstyledButt
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 
-import { FetchFunc } from "@/shared/api/market-screene/request";
 import {
   BitcoinIcon,
   CardanoIcon,
@@ -54,7 +53,7 @@ async function fetchMarketData(type: string): Promise<Record<string, Coin>> {
 }
 
 export function Page() {
-  const [siblings, setSiblings] = useState(getSiblings());
+  const [_, setSiblings] = useState(getSiblings());
   const { isAdaptive: md } = useResize(1200);
   const [activeTab, setActiveTab] = useState<Selector>(SELECTORS[0]);
   const [activeFilter, setActiveFilter] = useState<string>("All");
