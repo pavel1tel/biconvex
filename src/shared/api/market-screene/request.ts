@@ -36,7 +36,11 @@ const fetchData = async (columns: Column[], sort: Sort, filter: Filter[] = [], r
     range,
   };
 
-  const response = await axios.post(API_URL, data);
+  const response = await axios.post(API_URL, data, {
+    headers: {
+      "Content-Type": null,
+    },
+  });
   return response.data.data;
 };
 
