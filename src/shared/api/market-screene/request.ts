@@ -1,3 +1,4 @@
+/* tslint:disable:no-unused-variable */
 import axios from "axios";
 
 const API_URL = "https://scanner.tradingview.com/coin/scan";
