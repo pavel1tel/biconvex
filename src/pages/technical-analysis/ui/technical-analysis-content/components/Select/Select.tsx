@@ -7,12 +7,14 @@ import { ArrowDown } from "@/shared/ui";
 import classes from "./Select.module.css";
 
 type SelectProps = {
-  activeValue: number;
-  setActiveValue: Dispatch<SetStateAction<number>>;
+  activeValue: number | string;
+  setActiveValue: Dispatch<SetStateAction<number | string>>;
 };
 const options = [
-  { title: "1.5h", value: 90 },
   { title: "2h", value: 120 },
+  { title: "4h", value: 240 },
+  { title: "1 week", value: "1W" },
+  { title: "1 month", value: "1M" },
 ];
 export const Select = ({ activeValue, setActiveValue }: SelectProps) => {
   const combobox = useCombobox({

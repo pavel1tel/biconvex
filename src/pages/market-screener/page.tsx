@@ -17,7 +17,6 @@ import { Container, Footer, Header, NextIcon, PreviousIcon, ShowRowsCount, Wrapp
 import { TableSelectionHeader } from "@/shared/ui/tableSelectionHeader";
 import { TitleWithIcon } from "@/shared/ui/titleWithIcon";
 
-import { Selector } from "../crypto-market-cap/page";
 import classes from "./styles.module.css";
 import { CoinsTableFixedColumn } from "./ui/coins-table/CoinsTableFixedColumn";
 import { CoinsTable } from "./ui/coins-table/ui";
@@ -140,7 +139,8 @@ export function Page() {
   const [_, setSiblings] = useState(getSiblings());
   const { isAdaptive: md } = useResize(1200);
   const [activeTab, setActiveTab] = useState(SELECTORS[0]);
-  const [data, setData] = useState<any[]>([]);
+  const [allData, setAllData] = useState<any[]>([]);
+  const [displayData, setDisplayData] = useState<any[]>([]);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -156,42 +156,46 @@ export function Page() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  console.log(activeTab);
 
-  const loadData = async (fetchFunc: FetchFunc, range: Range = [0, rowsPerPage]) => {
+  const loadData = async (fetchFunc: FetchFunc) => {
     try {
-      const result = await fetchFunc(range);
-      console.log("Fetched data:", result); // Logging fetched data
-      setData(result || []);
+      const result = await fetchFunc([0, 150]);
+      setAllData(result || []);
       setTotalItems(result.length || 0);
+      updateDisplayData(result, 1, rowsPerPage);
     } catch (error) {
       console.error("Error fetching data:", error);
-      setData([]);
+      setAllData([]);
+      setDisplayData([]);
       setTotalItems(0);
     }
   };
 
   useEffect(() => {
-    loadData(activeTab.fetchData, [0, rowsPerPage]);
-  }, [activeTab, rowsPerPage]);
+    loadData(activeTab.fetchData);
+  }, [activeTab]);
 
-  const handleTabClick = (selector: Selector) => {
+  const updateDisplayData = (data: any[], page: number, rows: number) => {
+    const start = (page - 1) * rows;
+    const end = start + rows;
+    setDisplayData(data.slice(start, end));
+  };
+
+  const handleTabClick = (selector: (typeof SELECTORS)[0]) => {
     setActiveTab(selector);
     setCurrentPage(1);
-    loadData(selector.fetchData, [0, rowsPerPage]);
+    loadData(selector.fetchData);
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    loadData(activeTab.fetchData, [start, end]);
+    updateDisplayData(allData, page, rowsPerPage);
   };
 
   const handleRowsPerPageChange = (value: number) => {
     setRowsPerPage(value);
     setCurrentPage(1); // Reset to first page when changing rows per page
-    loadData(activeTab.fetchData, [0, value]);
+    updateDisplayData(allData, 1, value);
   };
 
   return (
@@ -251,8 +255,14 @@ export function Page() {
 
                 <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
 
-                {data && data.length > 0 ? (
-                  <div className={classes.tableContainer}>{!md ? <CoinsTable data={data} /> : <CoinsTableFixedColumn data={data} />}</div>
+                {displayData && displayData.length > 0 ? (
+                  <div className={classes.tableContainer}>
+                    {!md ? (
+                      <CoinsTable data={displayData} rowsPerPage={rowsPerPage} currentPage={currentPage} />
+                    ) : (
+                      <CoinsTableFixedColumn data={displayData} />
+                    )}
+                  </div>
                 ) : (
                   <Text>No data available.</Text>
                 )}

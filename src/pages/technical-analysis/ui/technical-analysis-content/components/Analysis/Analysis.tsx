@@ -22,7 +22,7 @@ const period: Period[] = [
   { title: "1h", value: 60 },
 ];
 
-const fetchAnalysisData = async (currency: string, period: number): Promise<number | null> => {
+const fetchAnalysisData = async (currency: string, period: number | string): Promise<number | null> => {
   try {
     const response = await axios.get(`https://scanner.tradingview.com/symbol?symbol=CRYPTOCAP:${currency}&fields=Recommend.All|${period}`);
     return response.data[`Recommend.All|${period}`];
@@ -33,7 +33,7 @@ const fetchAnalysisData = async (currency: string, period: number): Promise<numb
 };
 
 export const Analysis = ({ currency }: AnalysisProps) => {
-  const [activePeriod, setActivePeriod] = useState<number>(1);
+  const [activePeriod, setActivePeriod] = useState<number | string>(1);
   const [recommendation, setRecommendation] = useState<number | null>(null);
 
   useEffect(() => {

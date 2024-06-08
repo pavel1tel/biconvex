@@ -25,9 +25,8 @@ export const TableSelectionHeader = ({
             key={selector.label}
             size="xl"
             variant="outline"
-            className={clsx(classes.ratesButtonRoot, {
-              [classes.ratesButtonRootActive]: selector.label === activeTab.label,
-            })}
+            className={clsx({ [classes.ratesButtonRootActive]: selector.label === activeTab.label })}
+            classNames={{ root: classes.ratesButtonRoot, label: classes.ratesButtonLabel }}
             onClick={() => handleTabClick(selector)}
           >
             {selector.label}
