@@ -6,6 +6,58 @@ export interface ResponseDto {
   message: string;
 }
 
+interface Coin {
+  symbol: string;
+  name: string;
+  image: string;
+}
+
+interface InvestCoins {
+  [key: string]: Coin;
+}
+
+interface PlanDetails {
+  DAYS_10: number;
+  DAYS_30: number;
+  DAYS_60: number;
+  DAYS_90: number;
+  DAYS_180: number;
+  DAYS_365: number;
+}
+
+interface Plans {
+  [key: string]: PlanDetails;
+}
+
+export interface Course {
+  [key: string]: number;
+}
+
+export interface InvestResponse {
+  invest_coins?: InvestCoins;
+  plans_percents?: Plans;
+  total_balance? : string
+  courses? : [
+    Course
+  ]
+}
+
+export interface InvestmentHistory {
+  image: string;
+  symbol: string;
+  name: string;
+  expires: string;
+  plan: string;
+  profit: string;
+  invested: string;
+}
+
+export interface StakingHistoryResponse {
+  history?: {
+      [key: string]: InvestmentHistory;
+  };
+}
+
 export interface LoginRequestDto {
   email: string;
   password: string;
@@ -16,6 +68,12 @@ export interface RegistrationRequestDto {
   password: string;
   username :string;
   re_password: string;
+}
+
+export interface StakeRequestDto {
+  invest_amount: string;
+  invest_plan: string;
+  invest_coin :string;
 }
 
 export interface ConfrimRegRequerstDto {

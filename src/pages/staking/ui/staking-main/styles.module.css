@@ -104,7 +104,7 @@
 }
 
 .value {
-  font-size: var(--text-2-fz);
+  font-size: var(--text-4-fz);
   font-weight: 600;
   line-height: var(--text-2-lh);
 }

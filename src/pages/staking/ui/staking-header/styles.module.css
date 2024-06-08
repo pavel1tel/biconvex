@@ -22,11 +22,11 @@
 }
 .title {
   max-width: rem(763px);
-  font-size: rem(54px);
+  font-size: rem(50px);
   font-weight: 600;
   line-height: rem(64px);
   @media (max-width: 1690px) {
-    font-size: rem(54px);
+    font-size: rem(50px);
   }
 }
 .value {
