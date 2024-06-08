@@ -159,7 +159,7 @@ export function Page() {
 
   const loadData = async (fetchFunc: FetchFunc) => {
     try {
-      const result = await fetchFunc([0, 150]);
+      const result = await fetchFunc([0, 250]);
       setAllData(result || []);
       setTotalItems(result.length || 0);
       updateDisplayData(result, 1, rowsPerPage);

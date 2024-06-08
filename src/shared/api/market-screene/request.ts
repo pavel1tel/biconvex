@@ -33,7 +33,6 @@ const fetchData = async (columns: Column[], sort: Sort, filter: Filter[] = [], r
     price_conversion: {
       to_symbol: false,
     },
-    range,
   };
 
   const response = await axios.post(API_URL, data, {
@@ -71,7 +70,6 @@ const fetchOverviewData: FetchFunc = (range) =>
     ],
     { sortBy: "crypto_total_rank", sortOrder: "asc" },
     [],
-    range,
   );
 
 const fetchPerformanceData: FetchFunc = (range) =>
@@ -98,7 +96,6 @@ const fetchPerformanceData: FetchFunc = (range) =>
     ],
     { sortBy: "crypto_total_rank", sortOrder: "asc" },
     [],
-    range,
   );
 
 const fetchOscillatorsData: FetchFunc = (range) =>
@@ -137,7 +134,6 @@ const fetchOscillatorsData: FetchFunc = (range) =>
     ],
     { sortBy: "crypto_total_rank", sortOrder: "asc" },
     [],
-    range,
   );
 
 const fetchTrendFollowingData: FetchFunc = (range) =>
@@ -165,7 +161,6 @@ const fetchTrendFollowingData: FetchFunc = (range) =>
     ],
     { sortBy: "crypto_total_rank", sortOrder: "asc" },
     [],
-    range,
   );
 
 export {
