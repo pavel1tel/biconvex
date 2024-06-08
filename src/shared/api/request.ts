@@ -10,7 +10,8 @@ interface Request {
 
 //axios.defaults.withCredentials = true;
 
-const BACKEND_HOST = import.meta.env.VITE_BACKEND_HOST;
+const BACKEND_HOST = "https://20.79.188.227/";
+// const BACKEND_HOST = "http://localhost:8088/";
 
 export const api = axios.create({
   baseURL: `${BACKEND_HOST}`,
