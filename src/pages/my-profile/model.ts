@@ -1,7 +1,7 @@
 import { routes } from "@/shared/routing";
-import { chainAnonymous, chainAuthenticated } from "@/shared/session";
+import { chainAuthenticated } from "@/shared/session";
 
 export const currentRoute = routes.myProfile;
 export const anonymousRoute = chainAuthenticated(currentRoute, {
-    otherwise: routes.myProfile.open,
+  otherwise: routes.myProfile.open,
 });

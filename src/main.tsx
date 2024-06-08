@@ -1,6 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { allSettled, fork } from "effector";
-import { Provider } from "effector-react";
+
 
 import { appStarted } from "@/shared/init";
 

@@ -8,7 +8,11 @@ import classes from "./styles.module.css";
 
 const SHOW_ROWS_OPTIONS = [20, 50, 100];
 
-export const ShowRowsCount = () => {
+interface ShowRowsCountProps {
+  onRowsChange: (value: number) => void;
+}
+
+export const ShowRowsCount: React.FC<ShowRowsCountProps> = ({ onRowsChange }) => {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
@@ -29,7 +33,9 @@ export const ShowRowsCount = () => {
       withinPortal={false}
       transitionProps={{ duration: 200, transition: "pop" }}
       onOptionSubmit={(val) => {
-        setValue(Number(val));
+        const selectedValue = Number(val);
+        setValue(selectedValue);
+        onRowsChange(selectedValue);
         combobox.closeDropdown();
       }}
     >

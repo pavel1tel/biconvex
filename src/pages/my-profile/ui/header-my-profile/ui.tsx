@@ -1,10 +1,10 @@
 import { BackgroundImage, Box, Flex, Group, SimpleGrid, Stack, Text, Title, rem } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 
 import { CloseEyeIcon, EyeIcon } from "@/pages/staking/ui";
 
-import { randomChartData } from "@/shared/lib/random-chart-data";
+import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { RateChart } from "@/shared/ui";
 
 import classes from "./styles.module.css";
@@ -13,6 +13,23 @@ export const HeaderMyProfile = () => {
   const [value, setValue] = useState("$5,750,20");
   const [isHide, setIsHide] = useState(false);
   const [hiddenValue, setHiddenValue] = useState("");
+  const [pnlData, __] = useState([]);
+  const [percentage, _] = useState(0);
+
+  useEffect(() => {
+    console.log(1);
+
+    const fetchData = async () => {
+      const data = await getStakingHistoryFx();
+      // convert data to json
+      console.log(data);
+
+      const json = await data.json();
+      return json;
+    };
+    fetchData();
+  }, []);
+
   const hideValue = () => {
     setHiddenValue("*".repeat(value.length));
     setIsHide(true);
@@ -21,6 +38,7 @@ export const HeaderMyProfile = () => {
     setValue(value);
     setIsHide(false);
   };
+
   return (
     <Box>
       <Flex className={classes.wrapper}>
@@ -204,11 +222,11 @@ export const HeaderMyProfile = () => {
             <Stack className={classes.rateHeader}>
               <Group align="flex-end" justify="space-between">
                 <Text className={classes.textGraph} c="white">
-                  Today's Pnl.
+                  Today's PnL.
                 </Text>
                 <Group gap={rem("4px")}>
-                  <Title order={5} className={classes.positiveValue}>
-                    +$2.22
+                  <Title order={5} className={percentage >= 0 ? classes.positiveValue : classes.negativeValue}>
+                    {percentage.toFixed(2)}%
                   </Title>
                   <Title order={6} className={classes.text}>
                     /24h
@@ -217,7 +235,14 @@ export const HeaderMyProfile = () => {
               </Group>
             </Stack>
             <Stack className={classes.rateContent}>
-              <RateChart left={0} bottom={0} top={10} right={0} type={"positive"} data={randomChartData()} />
+              <RateChart
+                left={0}
+                bottom={0}
+                top={10}
+                right={0}
+                type={percentage >= 0 ? "positive" : "negative"}
+                data={pnlData.map((value, index) => ({ name: `${index}`, value }))}
+              />
             </Stack>
           </Stack>
         </Box>

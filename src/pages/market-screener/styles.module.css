@@ -145,7 +145,7 @@
   }
 
   &:hover,
-  &[data-active] {
+  &[data-active="1"] {
     &::after {
       opacity: 1;
       background: var(--gradient-radial);
