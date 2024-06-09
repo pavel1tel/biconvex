@@ -20,7 +20,7 @@ $error.on(loginUser.failData, (_, error) => error).reset(loginUser);
 
 export const $token = createStore<string>("");
 $token.on(loginUser.doneData, (_, token) => {
-  setCookie("session_id", token.message, 999)
+  // setCookie("session_id", token.message, 999)
   return token.message;
 }).reset(loginUser);
 
@@ -54,5 +54,5 @@ function setCookie(name: string,value: string,days: number) {
       date.setTime(date.getTime() + (days*24*60*60*1000));
       expires = "; expires=" + date.toUTCString();
   }
-  document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+  document.cookie = name + "=" + (value || "")  + expires + "; path=/; Secure; SameSite=None; Domain=20.79.188.227";
 }
