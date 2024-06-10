@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Area, AreaChart, ResponsiveContainer } from "recharts";
+import { Area, AreaChart, ResponsiveContainer, YAxis } from "recharts";
 import { match } from "ts-pattern";
 
 import { getRandomInt } from "@/shared/lib/random-int";
@@ -97,6 +97,7 @@ export const RateChart = ({ type, data, top, right, left, bottom }: RateChartPro
           connectNulls
           filter={`url(#drop-shadow-down-${chartId})`}
         />
+        <YAxis width={0} type="number" domain={['auto', 'auto']} />
       </AreaChart>
     </ResponsiveContainer>
   );

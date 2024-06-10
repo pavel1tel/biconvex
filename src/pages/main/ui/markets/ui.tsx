@@ -96,7 +96,7 @@ export const Markets = () => {
               {icon}
               <Group gap={rem(4)} align={"center"}>
                 <Title c="white" order={4}>
-                  {coin.name}
+                  {coin.name == "BNB BEP-2" ? "BNB" : coin.name}
                 </Title>
                 <Pill size="md"
                       classNames={{ root: classes.marketShortNameWrapper, label: classes.marketShortNameLabel }}>
@@ -186,15 +186,6 @@ export const Markets = () => {
                         <Text c="inherit" variant="text-3" span>
                           Token
                         </Text>
-                        <div
-                          className={clsx(
-                            classes.sortArrowWrapper,
-                            sortState.sortCol === "Token" && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                            sortState.sortCol === "Token" && sortState.sortFunc === 3 && classes.rotate,
-                          )}
-                        >
-                          <MarketSortIcon />
-                        </div>
                       </Group>
                     </Table.Th>
                     <Table.Th onClick={() => sortHandler("Last Price (USDT)")} miw={rem(155)}>
@@ -202,15 +193,6 @@ export const Markets = () => {
                         <Text c="inherit" variant="text-3">
                           Last Price (USDT)
                         </Text>
-                        <div
-                          className={clsx(
-                            classes.sortArrowWrapper,
-                            sortState.sortCol === "Last Price (USDT)" && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                            sortState.sortCol === "Last Price (USDT)" && sortState.sortFunc === 3 && classes.rotate,
-                          )}
-                        >
-                          <MarketSortIcon />
-                        </div>
                       </Group>
                     </Table.Th>
                     <Table.Th onClick={() => sortHandler("24h%")} miw={rem(130)}>
@@ -218,15 +200,6 @@ export const Markets = () => {
                         <Text c="inherit" variant="text-3">
                           24h%
                         </Text>
-                        <div
-                          className={clsx(
-                            classes.sortArrowWrapper,
-                            sortState.sortCol === "24h%" && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                            sortState.sortCol === "24h%" && sortState.sortFunc === 3 && classes.rotate,
-                          )}
-                        >
-                          <MarketSortIcon />
-                        </div>
                       </Group>
                     </Table.Th>
                     <Table.Th onClick={() => sortHandler("24h Vol")} miw={rem(80)}>
@@ -234,15 +207,6 @@ export const Markets = () => {
                         <Text c="inherit" variant="text-3">
                           24h Vol
                         </Text>
-                        <div
-                          className={clsx(
-                            classes.sortArrowWrapper,
-                            sortState.sortCol === "24h Vol" && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                            sortState.sortCol === "24h Vol" && sortState.sortFunc === 3 && classes.rotate,
-                          )}
-                        >
-                          <MarketSortIcon />
-                        </div>
                       </Group>
                     </Table.Th>
                     {!md && (
@@ -251,15 +215,6 @@ export const Markets = () => {
                           <Text c="inherit" variant="text-3">
                             Markets
                           </Text>
-                          <div
-                            className={clsx(
-                              classes.sortArrowWrapper,
-                              sortState.sortCol === "Markets" && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                              sortState.sortCol === "Markets" && sortState.sortFunc === 3 && classes.rotate,
-                            )}
-                          >
-                            <MarketSortIcon />
-                          </div>
                         </Group>
                       </Table.Th>
                     )}

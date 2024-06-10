@@ -77,7 +77,7 @@ const Rate = ({ name, price,price_change_percent,symbol,volume24h, history }: Sw
 
           <Stack align={"flex-start"} gap={rem("4px")}>
             <Title order={5} c="white">
-              {name}
+              {name == "BNB BEP-2" ? "BNB" : name}
             </Title>
             <Pill className={classes.rateShortName} classNames={{ root: classes[type] }}>
               <Text variant="text-5" span>
