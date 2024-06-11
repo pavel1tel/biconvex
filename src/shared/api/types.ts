@@ -42,6 +42,33 @@ export interface InvestResponse {
   ]
 }
 
+export interface ProfileReponse {
+  pnl? : number[];
+  total_balance? : string;
+  username? : string;
+  email? : string;
+  id? : number;
+  premium? : boolean;
+  kyc_accepted? : boolean;
+  twoFactorEnabled? : boolean;
+  btc_price? : number;
+  btc_balance? : number;
+  eth_price? : number;
+  eth_balance? : number;
+  usdt_price? : number;
+  usdt_balance? : number;
+  coins? : Crypto[];
+  avatar? : string;
+}
+
+export interface Crypto {
+  symbol: string;
+  image: string;
+  balance: number;
+  price: number;
+  name: string;
+}
+
 export interface InvestmentHistory {
   image: string;
   symbol: string;

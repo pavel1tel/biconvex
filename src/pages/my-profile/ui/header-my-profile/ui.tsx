@@ -7,29 +7,27 @@ import { CloseEyeIcon, EyeIcon } from "@/pages/staking/ui";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { RateChart } from "@/shared/ui";
 
+import { ProfileReponse } from "@/shared/api/types";
+import { useUnit } from "effector-react";
+import { $profileReponse } from "../../model";
 import classes from "./styles.module.css";
 
 export const HeaderMyProfile = () => {
-  const [value, setValue] = useState("$5,750,20");
+  const [value, setValue] = useState("$0");
   const [isHide, setIsHide] = useState(false);
   const [hiddenValue, setHiddenValue] = useState("");
-  const [pnlData, __] = useState([]);
-  const [percentage, _] = useState(0);
-
-  useEffect(() => {
-    console.log(1);
-
-    const fetchData = async () => {
-      const data = await getStakingHistoryFx();
-      // convert data to json
-      console.log(data);
-
-      const json = await data.json();
-      return json;
-    };
-    fetchData();
-  }, []);
-
+  const [pnlData, setPnlData] = useState<number[]>([]);
+  const [percentage, setPercentage] = useState(0);
+  const [btcPercent, setBtcPercent] = useState(0);
+  const [btcValue, setBtcValue] = useState(0);
+  const [ethPercent, setEthPercent] = useState(0);
+  const [ethValue, setEthValue] = useState(0);
+  const [usdtPercent, setUsdtPercent] = useState(0);
+  const [usdtValue, setUsdtValue] = useState(0);
+  const [otherPercent, setOtherPercent] = useState(0);
+  const [otherValue, setOtherValue] = useState(0);
+  const profileReponse = useUnit<ProfileReponse>($profileReponse);
+  const profileReponsepending = useUnit<boolean>(getStakingHistoryFx.pending);
   const hideValue = () => {
     setHiddenValue("*".repeat(value.length));
     setIsHide(true);
@@ -38,6 +36,44 @@ export const HeaderMyProfile = () => {
     setValue(value);
     setIsHide(false);
   };
+
+  useEffect(() => {
+    if (!profileReponsepending) {
+      setPnlData(profileReponse.pnl!);
+      if (profileReponse.pnl!.length >= 2) {
+        let t = profileReponse.pnl![0] == 0 ? 1 : profileReponse.pnl![0];
+        setPercentage(((profileReponse.pnl![profileReponse.pnl!.length - 1] / t) - 1) * 100)
+      } else {
+        setPercentage(0);
+      }
+      setValue("$" + profileReponse.total_balance!);
+      if (parseFloat(profileReponse.total_balance!) == 0) {
+        setBtcPercent(0);
+        setBtcValue(0)
+        setEthPercent(0);
+        setEthValue(0)
+        setUsdtPercent(0);
+        setUsdtValue(0)
+        setOtherPercent(0)
+        setOtherValue(0)
+        return;
+      }
+      let btcPercent: number = ((profileReponse.btc_balance! * profileReponse.btc_price!) / parseFloat(profileReponse.total_balance!)) * 100;
+      let btcValue = parseFloat((profileReponse.btc_balance! * profileReponse.btc_price!).toFixed(2))
+      setBtcPercent(Math.floor(btcPercent));
+      setBtcValue(btcValue)
+      let ethPercent: number = ((profileReponse.eth_balance! * profileReponse.eth_price!) / parseFloat(profileReponse.total_balance!)) * 100;
+      let ethValue = parseFloat((profileReponse.eth_balance! * profileReponse.eth_price!).toFixed(2))
+      setEthPercent(Math.floor(ethPercent));
+      setEthValue(ethValue)
+      let usdtPercent: number = ((profileReponse.usdt_balance! * profileReponse.usdt_price!) / parseFloat(profileReponse.total_balance!)) * 100;
+      let usdtValue: number = parseFloat((profileReponse.usdt_balance! * profileReponse.usdt_price!).toFixed(2));
+      setUsdtPercent(Math.floor(usdtPercent));
+      setUsdtValue(usdtValue)
+      setOtherPercent(100 - Math.floor(usdtPercent) - Math.floor(ethPercent) - Math.floor(btcPercent))
+      setOtherValue(parseFloat((parseFloat(profileReponse.total_balance!) - btcValue - ethValue - usdtValue).toFixed(2)))
+    }
+  }, [profileReponse, profileReponsepending])
 
   return (
     <Box>
@@ -67,8 +103,8 @@ export const HeaderMyProfile = () => {
           <Flex gap={rem("8px")}>
             <Box>
               <CircularProgressbar
-                value={50}
-                text={`50 %`}
+                value={btcPercent}
+                text={btcPercent + ` %`}
                 circleRatio={0.7}
                 styles={{
                   root: {
@@ -99,14 +135,14 @@ export const HeaderMyProfile = () => {
             </Box>
             <Stack gap={rem("4px")}>
               <Text className={classes.titleGraph}>Bitcoin</Text>
-              <Text className={classes.amountGraph}>$4848</Text>
+              <Text className={classes.amountGraph}>${btcValue}</Text>
             </Stack>
           </Flex>
           <Flex gap={rem("8px")}>
             <Box w={50}>
               <CircularProgressbar
-                value={20}
-                text={`20 %`}
+                value={ethPercent}
+                text={ethPercent + ` %`}
                 circleRatio={0.7} /* Make the circle only 0.7 of the full diameter */
                 styles={{
                   root: {
@@ -137,14 +173,14 @@ export const HeaderMyProfile = () => {
             </Box>
             <Stack gap={rem("4px")}>
               <Text className={classes.titleGraph}>Ethereum</Text>
-              <Text className={classes.amountGraph}>$1939</Text>
+              <Text className={classes.amountGraph}>${ethValue}</Text>
             </Stack>
           </Flex>
           <Flex gap={rem("8px")}>
             <Box w={50}>
               <CircularProgressbar
-                value={10}
-                text={`10 %`}
+                value={usdtPercent}
+                text={usdtPercent + ` %`}
                 circleRatio={0.7} /* Make the circle only 0.7 of the full diameter */
                 styles={{
                   root: {
@@ -175,14 +211,14 @@ export const HeaderMyProfile = () => {
             </Box>
             <Stack gap={rem("4px")}>
               <Text className={classes.titleGraph}>Tether</Text>
-              <Text className={classes.amountGraph}>$969</Text>
+              <Text className={classes.amountGraph}>${usdtValue}</Text>
             </Stack>
           </Flex>
           <Flex gap={rem("8px")}>
             <Box w={50}>
               <CircularProgressbar
-                value={2}
-                text={`2 %`}
+                value={otherPercent}
+                text={otherPercent + ` %`}
                 circleRatio={0.7} /* Make the circle only 0.7 of the full diameter */
                 styles={{
                   root: {
@@ -213,7 +249,7 @@ export const HeaderMyProfile = () => {
             </Box>
             <Stack gap={rem("4px")}>
               <Text className={classes.titleGraph}>Others</Text>
-              <Text className={classes.amountGraph}>$163</Text>
+              <Text className={classes.amountGraph}>${otherValue}</Text>
             </Stack>
           </Flex>
         </SimpleGrid>

@@ -1,15 +1,20 @@
 import downloadIcon from "@/../public/assets/downloadIcon.svg";
 import withdrawIcon from "@/../public/assets/exportIcon.svg";
 import { useResize } from "@/hooks/useResize";
-import { Box, Checkbox, Divider, Flex, Group, Pagination, Stack, Table, Text, TextInput, rem } from "@mantine/core";
+import { Box, Checkbox, Divider, Flex, Group, Image, Pagination, Stack, Table, Text, TextInput, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
 import clsx from "clsx";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { routes } from "@/shared/routing";
-import { BNBIcon, BitcoinIcon, EthereumIcon, MarketSortIcon, NextIcon, PreviousIcon, SearchIcon, XRPIcon } from "@/shared/ui";
+import { MarketSortIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
 
+import { getStakingHistoryFx } from "@/shared/api/profile/profile";
+import { Crypto, ProfileReponse } from "@/shared/api/types";
+import { useUnit } from "effector-react";
+import { $profileReponse } from "../../model";
 import classes from "./styles.module.css";
+import { getSortingFunc } from "./utils";
 
 type SortingLabel = "Coin" | "Plane" | "Expires" | "Realtime profit" | "Invested";
 type SortingDirection = "ASC" | "DESC";
@@ -24,7 +29,7 @@ const HEADERS = [
     className: classes.coinTh,
   },
   {
-    label: "Equivalent ",
+    label: "Equivalent",
     sortable: true,
   },
   {
@@ -36,54 +41,82 @@ const HEADERS = [
     sortable: false,
   },
 ];
-const COINS = [
-  {
-    icon: <BitcoinIcon />,
-    short_name: "BTC",
-    name: "Bitcoin",
-    Balance: "0",
-    Equivalent: "0 USD",
-  },
-  {
-    icon: <EthereumIcon />,
-    short_name: "ETH",
-    name: "Ethereum",
-    Balance: "0",
-    Equivalent: "0 USD",
-  },
-  {
-    icon: <XRPIcon />,
-    short_name: "XRP",
-    name: "XRP",
-    Balance: "0",
-    Equivalent: "0 USD",
-  },
-  {
-    icon: <BNBIcon />,
-    short_name: "BNB",
-    name: "BNB",
-    Balance: "0",
-    Equivalent: "0 USD",
-  },
-];
+const defaultC = [{}];
 export const TableProfile = () => {
   const { isAdaptive: laptop } = useResize(1200);
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("Coin");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
+  const [hideZeros, setHideZeros] = useState<boolean>(true)
+  const [hideZerosTotalPage, setHideZerosTotalPage] = useState<number>(1)
+  const profileReponse = useUnit<ProfileReponse>($profileReponse);
+  const profileReponsepending = useUnit<boolean>(getStakingHistoryFx.pending);
+  const [COINS, setCOINS] = useState<any[]>(defaultC);
+  const [page, setPage] = useState(1);
+  const [sortFunc, setSortFunc] = useState<any>(() => (a: Crypto, b: Crypto) => true);
+  const [searchFunc, setSearchFunc] = useState<any>(() => (a: Crypto) => true);
+  const [search, setSearch] = useState("");
+
+  let calculatePage = (sortFn: ((a: Crypto, b: Crypto) => number) | undefined, searchFn: ((a : Crypto) => boolean )) => {
+    if (!profileReponsepending) {
+      let temp: any[] = []
+      const startIndex = (page - 1) * 5;
+      const endIndex = startIndex + 5;
+      profileReponse.coins!.filter(searchFn).filter((coin) => {
+        if (hideZeros) {
+          return coin.balance > 0;
+        }
+        return true;
+      }).sort(sortFn).slice(startIndex, endIndex).forEach((coin) => {
+        temp.push({
+          icon: <Image src={coin.image} h={29} w={29} />,
+          short_name: coin.symbol,
+          name: coin.name,
+          Balance: coin.balance,
+          Equivalent: "$" + (coin.price * coin.balance).toFixed(2),
+        })
+      })
+      setHideZerosTotalPage(profileReponse.coins!.filter(searchFn).filter((coin) => {
+        if (hideZeros) {
+          return coin.balance > 0;
+        }
+        return true;
+      }).length)
+      setCOINS(temp);
+    }
+  }
+
+  useEffect(() => {
+    calculatePage(sortFunc, searchFunc)
+  }, [profileReponsepending, profileReponse, page, hideZeros, sortFunc, searchFunc])
+
+  useEffect(() => {
+    setPage(1);
+    if (search !== "") {
+      setSearchFunc(() => (a: Crypto) => a.name.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()));
+    } else {
+      setSearchFunc(() => (a : Crypto) => true);
+    }
+  }, [search])
+
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {
+      let direction;
       if (sortingLabel != label) {
         setSortingLabel(label);
+        direction = "ASC";
         setSortingDirection("ASC");
       } else {
+        direction = sortingDirection === "ASC" ? "DESC" : "ASC";
         setSortingDirection(sortingDirection === "ASC" ? "DESC" : "ASC");
       }
+      setSortFunc(getSortingFunc(label, direction));
     },
-    [sortingDirection, sortingLabel],
+    [sortingDirection, sortingLabel, profileReponsepending],
   );
   const handleRedirection = () => {
     window.scrollTo(0, 0);
   };
+
 
   const headers = useMemo(() => {
     return HEADERS.map((header) => {
@@ -144,7 +177,7 @@ export const TableProfile = () => {
         </Table.Tr>
       );
     });
-  }, [laptop]);
+  }, [laptop, COINS]);
   return (
     <Box my={{ 0: 32, md: 64 }}>
       <Text className={classes.title}>My Coins</Text>
@@ -152,6 +185,8 @@ export const TableProfile = () => {
         <Stack className={classes.box} gap={0}>
           <Flex className={classes.boxHeader} gap={rem(32)} align={"center"} mb={rem("32px")}>
             <TextInput
+              value={search}
+              onChange={e => setSearch(e.target.value)}
               size="lg"
               classNames={{
                 input: classes.searchInput,
@@ -161,6 +196,11 @@ export const TableProfile = () => {
               placeholder="Search Crypto"
             />
             <Checkbox
+              checked={hideZeros}
+              onChange={(e) => {
+                setPage(1);
+                setHideZeros(e.currentTarget.checked)
+              }}
               ff={"ProximaNova"}
               classNames={{
                 label: classes.label,
@@ -183,9 +223,9 @@ export const TableProfile = () => {
 
           <Group justify={"space-between"} mt={rem("32px")}>
             <Text variant="text-4" className={classes.greyText}>
-              1-20 of 9,383 assets
+              1-{COINS.length} of {hideZeros ? hideZerosTotalPage : profileReponse.coins?.length}
             </Text>
-            <Pagination total={20} defaultValue={1}>
+            <Pagination value={page} onChange={setPage} total={hideZerosTotalPage?  Math.ceil(hideZerosTotalPage / 5)  : 1} defaultValue={1}>
               <Group gap={rem("0px")} justify="center">
                 <Pagination.Previous icon={PreviousIcon} />
                 <Pagination.Items />

@@ -4,10 +4,10 @@ import { useState } from "react";
 
 import { CloseEyeIcon, EyeIcon } from "@/pages/staking/ui";
 
-import classes from "./styles.module.css";
+import { InvestResponse } from "@/shared/api/types";
 import { useUnit } from "effector-react";
 import { $investReponse } from "../../model";
-import { InvestResponse } from "@/shared/api/types";
+import classes from "./styles.module.css";
 
 export const StakingHeader = () => {
   const stakingResponse = useUnit<InvestResponse>($investReponse);
@@ -49,7 +49,7 @@ export const StakingHeader = () => {
             <Text className={classes.total}>Total Earnings</Text>
             <Flex align={"center"} gap={rem("16px")} className={classes.inner}>
               <Text fw={600} className={clsx(classes.title, classes.value)}>
-                {isHide ? hiddenValue : "$" + stakingResponse.total_balance}
+                {isHide ? hiddenValue : "$" + stakingResponse.total_balance ? stakingResponse.total_balance : "0"}
               </Text>
               <Box className={classes.hide}>
                 {isHide ? (

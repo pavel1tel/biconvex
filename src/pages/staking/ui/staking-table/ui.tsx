@@ -32,32 +32,34 @@ export const StakingTable = ({
   const [siblings, setSiblings] = useState(getSiblings());
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [totalPage, setTotalPage] = useState<number>(1)
+  const [searchFunc, setSearchFunc] = useState<any>(() => (a: Crypto) => true);
   const defaultSortingFunc = () => (a: [string, InvestmentHistory], b: [string, InvestmentHistory]) => {
     return parseInt(b[0]) - parseInt(a[0]);
   }
   const [sortFunc, setSortFunc] = useState<any>(defaultSortingFunc);
 
 
-  let calculatePage = (sortFn: ((a: [string, InvestmentHistory], b: [string, InvestmentHistory]) => number) | undefined) => {
+  let calculatePage = (sortFn: ((a: [string, InvestmentHistory], b: [string, InvestmentHistory]) => number) | undefined, searchFn: any) => {
     if (!historyResponsePending) {
       const startIndex = (page - 1) * 5;
       const endIndex = startIndex + 5;
-      Promise.resolve(() => {
-        return Object.entries(historyResponse.history!).sort(sortFn).slice(startIndex, endIndex).map(([key, val]) => {
-          return {
-            id: key,
-            icon: <Image src={val.image} h={29} w={29} />,
-            name: val.name,
-            Plane: val.plan,
-            Expires: val.expires,
-            Realtime_profit: val.profit + " " + val.symbol,
-            Invested: val.invested,
-            cancel: <CloseButton className={classes.closeButton} />
-          }
-        });
-      }).then((val: any) => {
-        setInvestHistory(val)
-      })
+      let temp = Object.entries(historyResponse.history ? historyResponse.history : []).filter(searchFn).sort(sortFn).slice(startIndex, endIndex).map(([key, val]) => {
+        return {
+          id: key,
+          icon: <Image src={val.image} h={29} w={29} />,
+          name: val.name,
+          Plane: val.plan,
+          Expires: val.expires,
+          Realtime_profit: val.profit + " " + val.symbol,
+          Invested: val.invested,
+          cancel: <CloseButton className={classes.closeButton} />
+        }
+      });
+      console.log(temp.length)
+      let pages = Object.entries(historyResponse.history ? historyResponse.history : []).filter(searchFn).length
+      setTotalPage(Math.ceil(pages / 5));
+      setInvestHistory(temp);
     }
   }
 
@@ -65,41 +67,19 @@ export const StakingTable = ({
     createUnstakeRequest(id);
   }, []);
 
-  let searchPage = (searchFn: any) => {
-    if (!historyResponsePending) {
-      const startIndex = (page - 1) * 5;
-      const endIndex = startIndex + 5;
-      Promise.resolve(() => {
-        return Object.entries(historyResponse.history!).filter(searchFn).slice(startIndex, endIndex).map(([key, val]) => {
-          return {
-            id: key,
-            icon: <Image src={val.image} h={29} w={29} />,
-            name: val.name,
-            Plane: val.plan,
-            Expires: val.expires,
-            Realtime_profit: val.profit + " " + val.symbol,
-            Invested: val.invested,
-          }
-        });
-      }).then((val: any) => {
-        setInvestHistory(val)
-      })
-    }
-  }
-
   useEffect(() => {
-    calculatePage(sortFunc);
-  }, [historyResponse, historyResponsePending, page, sortFunc]
+    calculatePage(sortFunc, searchFunc);
+  }, [historyResponse, historyResponsePending, page, sortFunc, searchFunc]
   )
 
   useEffect(() => {
+    setPage(1);
     if (search !== "") {
-      searchPage((a: [string, InvestmentHistory]) => {
-        console.log(a[1].name.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()));
+      setSearchFunc(() => (a: [string, InvestmentHistory]) => {
         return a[1].name.toLocaleLowerCase().startsWith(search.toLocaleLowerCase());
       })
     } else {
-      calculatePage(defaultSortingFunc());
+      setSearchFunc(() => (a: [string, InvestmentHistory]) => true);
     }
   }, [search])
 
@@ -245,7 +225,7 @@ export const StakingTable = ({
               historyResponse.history && Object.entries(historyResponse.history!).length > 5 ? "1-5 of " + Object.entries(historyResponse.history!).length + " assets" : "1-5 assets"
             }
           </Text>
-          <Pagination value={page} onChange={setPage} total={historyResponse.history ? Math.ceil(Object.entries(historyResponse.history!).length / 5) : 1} defaultValue={1} {...{ siblings }}>
+          <Pagination value={page} onChange={setPage} total={totalPage ? totalPage : 1} defaultValue={1} {...{ siblings }}>
             <Group gap={0} justify="center">
               <Pagination.Previous icon={PreviousIcon} />
               <Pagination.Items />
