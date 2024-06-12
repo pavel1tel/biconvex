@@ -1,24 +1,42 @@
-import { Box, Button, Combobox, Flex, Input, InputBase, Stack, Text, rem, useCombobox } from "@mantine/core";
+import { Box, Button, Combobox, Flex, Input, InputBase, rem, Stack, Text, useCombobox } from "@mantine/core";
 import { motion } from "framer-motion";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import { ChangeIcon, SelectArrowIcon, SwapIcon } from "@/pages/finance/ui";
-
-import { BitcoinIcon, EthereumIcon, USDCoinIcon } from "@/shared/ui";
-
 import classes from "./styles.module.css";
+import { useSwrFastSwapCoins } from "@/hooks/useSwrFastSwap";
+import useSWRMutation from "swr/mutation";
+import { BASE_API_URL } from "@/swr";
 
-const coins = [
-  { text: "BTC", icon: <BitcoinIcon width={"24px"} /> },
-  { text: "USTD", icon: <USDCoinIcon width={"24px"} /> },
-  { text: "ETH", icon: <EthereumIcon width={"24px"} /> },
-  { text: "Nano", icon: <EthereumIcon width={"24px"} /> },
-  { text: "USTD", icon: <USDCoinIcon width={"24px"} /> },
-  { text: "ETH", icon: <EthereumIcon width={"24px"} /> },
-  { text: "Nano", icon: <EthereumIcon width={"24px"} /> },
-];
+async function getCurrencyBalance(url: string, { arg }: { arg: string }) {
+  return await fetch(url, {
+    method: "POST",
+    body: `action=GET_CURRENCY_BALANCE&crypto=${arg}`,
+  }).then(r => r.json());
+}
+
+
+async function exchange(url: string, { arg }: { arg: string[] }) {
+  return await fetch(url, {
+    method: "POST",
+    body: `amount=${arg[2]}&exchange=${arg[0]}&for=${arg[1]}&action=EXCHANGE`,
+  }).then(r => r.json());
+}
+
+async function refreshAmount(url: string, { arg }: { arg: string[] }) {
+  return await fetch(url, {
+    method: "POST",
+    body: `amount=${arg[2]}&exchange=${arg[0]}&for=${arg[1]}&action=CALC_EXCHANGE`,
+  }).then(r => r.json());
+}
 
 export const SwapBox = () => {
+  const [currentCurrencyFromBalance, setCurrentCurrencyFromBalance] = useState<number>();
+  const [currentCurrencyToBalance, setCurrentCurrencyToBalance] = useState<number>();
+  const { coins, rates } = useSwrFastSwapCoins();
+  const { trigger: getCurrencyBalanceTrigger } = useSWRMutation(`${BASE_API_URL}/profile`, getCurrencyBalance);
+  const { trigger: exchangeTrigger } = useSWRMutation(`${BASE_API_URL}/exchange`, exchange);
+  const { trigger: refreshAmountTrigger } = useSWRMutation(`${BASE_API_URL}/exchange`, refreshAmount);
+
   const combobox1 = useCombobox({
     onDropdownClose: () => combobox1.resetSelectedOption(),
   });
@@ -29,22 +47,72 @@ export const SwapBox = () => {
 
   const [value1, setValue1] = useState("BTC");
   const [value2, setValue2] = useState("ETH");
+
+  useEffect(() => {
+    (async () => {
+      setCurrentCurrencyFromBalance(await getCurrencyBalanceTrigger(value1));
+      await refreshAmountHandler()
+    })();
+  }, [value1]);
+
+  useEffect(() => {
+    (async () => {
+      setCurrentCurrencyToBalance(await getCurrencyBalanceTrigger(value2));
+      await refreshAmountHandler()
+    })();
+  }, [value2]);
+
+  const refreshAmountHandler = async () => {
+    const from = document.getElementById("from") as HTMLInputElement|null;
+    if (!from){
+      return
+    }
+    const fromValue = parseFloat(from.value);
+    if (!fromValue){
+      return
+    }
+    const toValue = await refreshAmountTrigger([value1,value2,String(fromValue)]);
+    const to = document.getElementById("to") as HTMLInputElement|null;
+    if (!to){
+      return
+    }
+    if (toValue>0){
+      to.value = Number(toValue).toFixed(4)
+    }
+  };
+
   const changeValue = () => {
     setValue1(value2);
     setValue2(value1);
     setIsActive(!isActive);
   };
-  const FindIcon = coins.find((item) => item.text === value1);
-  const FindIcon2 = coins.find((item) => item.text === value2);
-
-  const options = coins.map((item) => (
-    <Combobox.Option value={item.text} key={item.text}>
+  const options = Object.entries(coins || {}).map(([key, { symbol, name, image }]) =>
+    <Combobox.Option value={key} key={symbol}>
       <Flex align={"center"} miw={"100px"} h={29} gap={rem("8px")}>
-        {item.icon}
-        <Text fw={600}>{item.text}</Text>
+        <img src={image} alt={symbol} width={24} />
+        <Text fw={600}>{name}</Text>
       </Flex>
-    </Combobox.Option>
-  ));
+    </Combobox.Option>,
+  );
+
+  const currentRate = Object.values(rates?.find((rate) => Object.keys(rate)[0] === value1) || {})[0];
+  const currentCoinFrom = coins && coins[value1];
+  const currentCoinTo = coins && coins[value2];
+
+  const exchangeCurrencyHandler = async () => {
+    const from = document.getElementById("from") as HTMLInputElement|null;
+    if (!from){
+      return
+    }
+    const fromValue = parseFloat(from.value);
+    if (!fromValue){
+      return
+    }
+    await exchangeTrigger([value1,value2,String(fromValue)]);
+    setCurrentCurrencyFromBalance(await getCurrencyBalanceTrigger(value1));
+    setCurrentCurrencyToBalance(await getCurrencyBalanceTrigger(value2));
+  };
+
 
   return (
     <Stack gap={rem("32px")} align="center">
@@ -54,7 +122,7 @@ export const SwapBox = () => {
             <Flex justify={"space-between"}>
               <Text className={classes.swapHave}>From</Text>
               <Text c={"white"} className={classes.value}>
-                Balance: 0.12000 BTC
+                Balance: {currentCurrencyFromBalance?.toFixed(4)} {currentCoinFrom?.symbol}
               </Text>
             </Flex>
           </Box>
@@ -64,7 +132,7 @@ export const SwapBox = () => {
                 option: classes.option,
               }}
               store={combobox1}
-              onOptionSubmit={(val) => {
+              onOptionSubmit={async (val) => {
                 setValue1(val);
                 combobox1.closeDropdown();
               }}
@@ -80,7 +148,7 @@ export const SwapBox = () => {
                   onClick={() => combobox1.toggleDropdown()}
                 >
                   <Flex h={29} w={"118px"} align={"center"} gap={"10px"}>
-                    {FindIcon?.icon}
+                    <img src={currentCoinFrom?.image} alt={currentCoinFrom?.symbol} width={24} />
                     <Text fw={600} className={classes.option}>
                       {value1}
                     </Text>
@@ -93,7 +161,7 @@ export const SwapBox = () => {
                 <Combobox.Options classNames={{ options: classes.option }}>{options}</Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>
-            <Input type={"number"} classNames={{ input: classes.amount }} placeholder={"Enter amount"} />
+            <Input type={"number"} classNames={{ input: classes.amount }} placeholder={"Enter amount"} onChange={refreshAmountHandler} id={'from'}/>
           </Flex>
         </Stack>
 
@@ -112,7 +180,7 @@ export const SwapBox = () => {
             <Flex justify={"space-between"}>
               <Text className={classes.swapHave}>To</Text>
               <Text c={"white"} className={classes.value}>
-                Balance: 12.000 USDT
+                Balance: {currentCurrencyToBalance?.toFixed(4)} {currentCoinTo?.symbol}
               </Text>
             </Flex>
           </Box>
@@ -138,7 +206,7 @@ export const SwapBox = () => {
                   onClick={() => combobox2.toggleDropdown()}
                 >
                   <Flex h={29} w={"118px"} align={"center"} gap={"10px"}>
-                    {FindIcon2?.icon}
+                    <img src={currentCoinTo?.image} alt={currentCoinFrom?.symbol} width={24} />
                     <Text fw={600} className={classes.option}>
                       {value2}
                     </Text>
@@ -151,15 +219,16 @@ export const SwapBox = () => {
                 <Combobox.Options classNames={{ options: classes.option }}>{options}</Combobox.Options>
               </Combobox.Dropdown>
             </Combobox>
-            <Input type={"number"} classNames={{ input: classes.amount }} placeholder={"Enter amount"} />
+            <Input type={"number"} classNames={{ input: classes.amount }} placeholder={"Enter amount"} id={'to'}/>
           </Flex>
         </Stack>
       </Flex>
 
-      <Button size="xxl" variant="radial-gradient" className={classes.btn} rightSection={<SwapIcon />}>
+      <Button size="xxl" variant="radial-gradient" className={classes.btn} rightSection={<SwapIcon />}
+              onClick={exchangeCurrencyHandler}>
         SWAP
       </Button>
-      <Text className={classes.exchange}>Exchange rate: 1 BTC ~ 37403.98</Text>
+      <Text className={classes.exchange}>Exchange rate: 1 {currentCoinFrom?.symbol} ~ {currentRate}</Text>
     </Stack>
   );
 };

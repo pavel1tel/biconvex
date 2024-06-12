@@ -136,7 +136,6 @@ export const Header = ({ className = "" }: { className?: string }) => {
   const eraseCookie = (name : string) => {   
       document.cookie = name+'=; Max-Age=-99999999;';  
   }
-  logout.watch(() => console.log("clicked"))
 
   sample({
       clock : logout,

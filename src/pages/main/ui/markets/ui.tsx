@@ -1,12 +1,10 @@
 import { useResize } from "@/hooks/useResize";
 import { Group, Image, Pill, Stack, Table, Text, Title, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
-import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { P, match } from "ts-pattern";
 
-import { randomChartData } from "@/shared/lib/random-chart-data";
 import { routes } from "@/shared/routing";
 import {
   ArrowRightCircleIcon,
@@ -14,7 +12,6 @@ import {
   BitcoinIcon,
   Container,
   EthereumIcon,
-  MarketSortIcon,
   PolygonIcon,
   RateChart,
   RateIcon,
@@ -24,74 +21,58 @@ import {
 } from "@/shared/ui";
 
 import classes from "./styles.module.css";
+import { useSwrHomepage } from "@/hooks/useSwrHomepage";
 
-const MARKETS = [
-  {
-    icon: <BitcoinIcon width="40px" height="40px" />,
-    name: "Bitcoin",
-    dayVol: "92.6M",
-    markets: [],
-    shortName: "BTC",
-    lastPrice: 43975.72,
-    dayPercent: +2.5,
-  },
-  {
-    icon: <EthereumIcon width="40px" height="40px" />,
-    name: "Etereum",
-    dayVol: "76.2B",
-    markets: [],
-    shortName: "ETH",
-    lastPrice: 4307.18,
-    dayPercent: -18.05,
-  },
-  {
-    icon: <XRPIcon width="40px" height="40px" />,
-    name: "XRP",
-    dayVol: "12.4B",
-    markets: [],
-    shortName: "XRP",
-    lastPrice: 1.25,
-    dayPercent: 0,
-  },
-  {
-    icon: <BNBIcon width="40px" height="40px" />,
-    name: "BNB",
-    dayVol: "18.7B",
-    markets: [],
-    shortName: "BNB",
-    lastPrice: 607.94,
-    dayPercent: +16.66,
-  },
-  {
-    icon: <SolanaIcon width="40px" height="40px" />,
-    name: "Solana",
-    dayVol: "5.3B",
-    markets: [],
-    shortName: "SOL",
-    lastPrice: 209.36,
-    dayPercent: +1.35,
-  },
-  {
-    icon: <PolygonIcon width="40px" height="40px" />,
-    name: "Polygon",
-    dayVol: "1.2B",
-    markets: [],
-    shortName: "MATIC",
-    lastPrice: 1.98,
-    dayPercent: -0.0005,
-  },
-];
+export const getCoinIcon = (symbol: string) => {
+  let icon = <></>;
+  switch (symbol) {
+    case "BTC":
+      icon = <BitcoinIcon width="40px" height="40px" />;
+      break;
+    case "ETH":
+      icon = <EthereumIcon width="40px" height="40px" />;
+      break;
+    case "BNB":
+      icon = <BNBIcon width="40px" height="40px" />;
+      break;
+    case "XRP":
+      icon = <XRPIcon width="40px" height="40px" />;
+      break;
+    case "SOL":
+      icon = <SolanaIcon width="40px" height="40px" />;
+      break;
+    case "MATIC":
+      icon = <PolygonIcon width="40px" height="40px" />;
+      break;
+  }
+  return icon;
+};
+
+export const getCoinVol24 = (volume24h: number, price: number) => {
+  const volume24 = volume24h * price;
+  let volume = String(volume24);
+  if (volume24 >= 1000000 && volume24 < 1000000000) {
+    volume = `${Math.round(volume24 / 1000000)}M`;
+  } else if (volume24 >= 1000000000) {
+    volume = `${Math.round(volume24 / 1000000000)}B`;
+  }
+  return volume;
+};
 
 export const Markets = () => {
   const { isAdaptive: md } = useResize(1200);
   const [sortState, setSortState] = useState<{ sortCol: string; sortFunc: 1 | 2 | 3 }>({ sortCol: "", sortFunc: 1 });
   const sortHandler = (cell: string) => {
     if (cell !== sortState.sortCol) setSortState({ sortCol: cell, sortFunc: 2 });
-    if (cell === sortState.sortCol) setSortState({ ...sortState, sortFunc: sortState.sortFunc === 3 ? 1 : ((sortState.sortFunc + 1) as 2 | 3) });
+    if (cell === sortState.sortCol) setSortState({
+      ...sortState,
+      sortFunc: sortState.sortFunc === 3 ? 1 : ((sortState.sortFunc + 1) as 2 | 3),
+    });
   };
+  const { coins } = useSwrHomepage();
   const markets = useMemo(() => {
-    return MARKETS.map((market) => {
-      const type: RateType = match(market.dayPercent)
+    return coins?.map((coin) => {
+      const type: RateType = match(coin.price_change_percent)
         .with(
           P.when((value) => value > 0),
           () => "positive" as RateType,
@@ -101,48 +82,56 @@ export const Markets = () => {
           () => "negative" as RateType,
         )
         .otherwise(() => "zero" as RateType);
+
+      const icon = getCoinIcon(coin.symbol);
+
+      const volume = getCoinVol24(coin.volume24h, coin.price);
+
       return (
-        <Table.Tr className={classes.marketsTable} key={market.name}>
+        <Table.Tr className={classes.marketsTable} key={coin.name}>
           <Table.Td>
             <Group>
-              {market.icon}
+              {icon}
               <Group gap={rem(4)} align={"center"}>
                 <Title c="white" order={4}>
-                  {market.name}
+                  {coin.name == "BNB BEP-2" ? "BNB" : coin.name}
                 </Title>
-                <Pill size="md" classNames={{ root: classes.marketShortNameWrapper, label: classes.marketShortNameLabel }}>
-                  {market.shortName}
+                <Pill size="md"
+                      classNames={{ root: classes.marketShortNameWrapper, label: classes.marketShortNameLabel }}>
+                  {coin.symbol}
                 </Pill>
               </Group>
             </Group>
           </Table.Td>
           <Table.Td>
             <Text c="white" variant="text-2">
-              ${market.lastPrice}
+              ${coin.price}
             </Text>
           </Table.Td>
           <Table.Td>
             <Group gap={rem(11)}>
               <RateIcon type={type} />
               <Text c="white" variant="text-2">
-                {market.dayPercent}%
+                {coin.price_change_percent}
               </Text>
             </Group>
           </Table.Td>
           <Table.Td>
             <Text c="white" variant="text-2">
-              {market.dayVol}
+              {volume}
             </Text>
           </Table.Td>
           <Table.Td>
             <Group justify={"flex-end"} className={classes.marketChartWrapper}>
-              <RateChart type={type} data={randomChartData()} />
+              <RateChart type={type} data={coin.history.map((value, index) => {
+                return { name: `P${index}`, value: Number(value) };
+              })} />
             </Group>
           </Table.Td>
         </Table.Tr>
       );
     });
-  }, []);
+  }, [coins]);
 
   const handleRedirection = () => {
     window.scrollTo(0, 0);
@@ -195,15 +184,6 @@ export const Markets = () => {
                         <Text c="inherit" variant="text-3" span>
                           Token
                         </Text>
-                        <div
-                          className={clsx(
-                            classes.sortArrowWrapper,
-                            sortState.sortCol === "Token" && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                            sortState.sortCol === "Token" && sortState.sortFunc === 3 && classes.rotate,
-                          )}
-                        >
-                          <MarketSortIcon />
-                        </div>
                       </Group>
                     </Table.Th>
                     <Table.Th onClick={() => sortHandler("Last Price (USDT)")} miw={rem(155)}>
@@ -211,15 +191,6 @@ export const Markets = () => {
                         <Text c="inherit" variant="text-3">
                           Last Price (USDT)
                         </Text>
-                        <div
-                          className={clsx(
-                            classes.sortArrowWrapper,
-                            sortState.sortCol === "Last Price (USDT)" && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                            sortState.sortCol === "Last Price (USDT)" && sortState.sortFunc === 3 && classes.rotate,
-                          )}
-                        >
-                          <MarketSortIcon />
-                        </div>
                       </Group>
                     </Table.Th>
                     <Table.Th onClick={() => sortHandler("24h%")} miw={rem(130)}>
@@ -227,15 +198,6 @@ export const Markets = () => {
                         <Text c="inherit" variant="text-3">
                           24h%
                         </Text>
-                        <div
-                          className={clsx(
-                            classes.sortArrowWrapper,
-                            sortState.sortCol === "24h%" && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                            sortState.sortCol === "24h%" && sortState.sortFunc === 3 && classes.rotate,
-                          )}
-                        >
-                          <MarketSortIcon />
-                        </div>
                       </Group>
                     </Table.Th>
                     <Table.Th onClick={() => sortHandler("24h Vol")} miw={rem(80)}>
@@ -243,15 +205,6 @@ export const Markets = () => {
                         <Text c="inherit" variant="text-3">
                           24h Vol
                         </Text>
-                        <div
-                          className={clsx(
-                            classes.sortArrowWrapper,
-                            sortState.sortCol === "24h Vol" && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                            sortState.sortCol === "24h Vol" && sortState.sortFunc === 3 && classes.rotate,
-                          )}
-                        >
-                          <MarketSortIcon />
-                        </div>
                       </Group>
                     </Table.Th>
                     {!md && (
@@ -260,15 +213,6 @@ export const Markets = () => {
                           <Text c="inherit" variant="text-3">
                             Markets
                           </Text>
-                          <div
-                            className={clsx(
-                              classes.sortArrowWrapper,
-                              sortState.sortCol === "Markets" && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                              sortState.sortCol === "Markets" && sortState.sortFunc === 3 && classes.rotate,
-                            )}
-                          >
-                            <MarketSortIcon />
-                          </div>
                         </Group>
                       </Table.Th>
                     )}
@@ -278,7 +222,8 @@ export const Markets = () => {
               </Table>
             </Group>
 
-            <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/main/7.png`} alt="main-light-7" className={classes.lightSeven} />
+            <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/main/7.png`} alt="main-light-7"
+                   className={classes.lightSeven} />
           </Stack>
         </Container>
       </Stack>

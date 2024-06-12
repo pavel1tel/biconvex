@@ -1,7 +1,7 @@
-import { Box, Button, Center, Flex, Image, Stack, Text, Title, rem } from "@mantine/core";
+import { Box, Button, Center, FileInput, Flex, Image, Stack, Text, Title, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
 import { routes } from "@/shared/routing";
 import {
@@ -16,6 +16,13 @@ import {
   WorkerPanelIcon,
 } from "@/shared/ui/sidebar/Icons";
 
+import { $token } from "@/pages/auth/sign-in/model";
+import { $profileReponse } from "@/pages/my-profile/model";
+import { getStakingHistoryFx, uploadAvatar } from "@/shared/api/profile/profile";
+import { ProfileReponse } from "@/shared/api/types";
+import { redirect } from "atomic-router";
+import { createEvent, sample } from "effector";
+import { useUnit } from "effector-react";
 import { DownloadAvatar } from "../icon/DownloadAvatar";
 import classes from "./styles.module.css";
 
@@ -70,33 +77,87 @@ export const Sidebar = ({
   gap?: number | string;
   verticalPadding?: number | string;
 }) => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [id, setId] = useState(0);
+  const profileReponse = useUnit<ProfileReponse>($profileReponse);
+  const profileReponsepending = useUnit<boolean>(getStakingHistoryFx.pending);
+  const logout = createEvent();
+  const inputFile = useRef<any>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const eraseCookie = (name: string) => {
+    document.cookie = name + '=; Max-Age=-99999999;';
+  }
+
+  sample({
+    clock: logout,
+    fn: () => "",
+    target: $token
+  })
+
+  sample({
+    clock: logout,
+    fn: () => eraseCookie("session_id"),
+  })
+
+  redirect({
+    clock: logout,
+    route: routes.home
+  })
+  useEffect(() => {
+    if (!profileReponsepending) {
+      setEmail(profileReponse.email!);
+      setUsername(profileReponse.username!);
+      setId(profileReponse.id!);
+    }
+  }, [profileReponse, profileReponsepending])
+
+  useEffect(() => {
+    if (file != null) {
+      uploadAvatar(file);
+    }
+  }, [file])
+
+  const avatar = useMemo(() => {
+    console.log(profileReponse.avatar)
+    return (
+      <>
+        {profileReponse.avatar?.startsWith("data:image") ? <Image className={classes.avatar} src={profileReponse.avatar} /> : <EmptyIcon />}
+      </>
+    )
+  }, [profileReponsepending])
+
   return (
     <Box className={classes.wrapper} style={{ paddingTop: verticalPadding, paddingBottom: verticalPadding }}>
       <Flex gap={gap} align={"flex-start"}>
         <Flex direction={"column"} gap={rem("32px")} className={classes.box}>
           <Flex align={"center"} gap={rem("16px")}>
             <Center className={classes.avatar}>
-              <EmptyIcon />
+              {avatar}
               <Button className={clsx(classes.pill, classes.downloadAvatarAction)} variant="linear-gradient">
-                <DownloadAvatar />
+                <DownloadAvatar onClick={() => { inputFile.current ? inputFile.current.click() : "" }} />
               </Button>
             </Center>
             <Stack gap={rem(8)}>
               <Flex gap={rem(8)} c={"white"}>
                 <Title className={classes.name} order={4}>
-                  Allie Grater
+                  {username}
                 </Title>
-                <Flex className={classes.pill}>
-                  <Image className={classes.img} draggable={false} src={`${import.meta.env.BASE_URL}assets/Diamond.png`} alt="diamod" />
-                  <Text className={classes.vip}>VIP</Text>
-                </Flex>
+                {profileReponse.premium ?
+                  <Flex className={classes.pill}>
+                    <Image className={classes.img} draggable={false} src={`${import.meta.env.BASE_URL}assets/Diamond.png`} alt="diamod" />
+                    <Text className={classes.vip}>VIP</Text>
+                  </Flex>
+                  :
+                  <div></div>
+                }
               </Flex>
               <Stack gap={rem("4px")} className={classes.text}>
                 <Text ff={"ProximaNova"} className={classes.text}>
-                  ID: 2343424
+                  ID: {id}
                 </Text>
                 <Text ff={"ProximaNova"} className={classes.text}>
-                  Mail: user@gmail.com
+                  Mail: {email}
                 </Text>
               </Stack>
             </Stack>
@@ -114,13 +175,14 @@ export const Sidebar = ({
                 </Link>
               ))}
             </Stack>
-            <Button className={classes.btn} maw={rem("352px")} h={rem("54px")} variant="radial-gradient">
+            <Button onClick={() => logout()} className={classes.btn} maw={rem("352px")} h={rem("54px")} variant="radial-gradient">
               Log out
             </Button>
           </Stack>
         </Flex>
         <Box className={classes.contentWrapper}>{children}</Box>
       </Flex>
+      <FileInput value={file} onChange={setFile} accept="image/png,image/jpeg" ref={inputFile} display={"none"} />
     </Box>
   );
 };

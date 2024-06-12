@@ -7,8 +7,13 @@ import { Container, Footer, Header, Wrapper } from "@/shared/ui";
 
 import { COINS, HEADERS } from "./StakeData";
 import classes from "./styles.module.css";
+import { useState } from "react";
 
 export function Page() {
+  const [amount, setAmount] = useState<string>("");
+  const [percent, setPercent] = useState<number>(0);
+  const [value1, setValue1] = useState("BTC");
+
   return (
     <Wrapper>
       <Helmet>
@@ -23,9 +28,9 @@ export function Page() {
       <Header />
       <Container>
         <StakingHeader />
-        <StakingCalculate />
-        <StakingMain />
-        <StakingTable usedForTradingBot={false} tableHeaders={HEADERS} tableData={COINS} />
+        <StakingCalculate amount={amount} percent={percent} value1={value1} />
+        <StakingMain amount={amount} setAmount={setAmount} setPercent={setPercent} value1={value1} setValue1={setValue1}/>
+        <StakingTable usedForTradingBot={false} tableHeaders={HEADERS}  value1={value1}/>
       </Container>
       <Footer />
     </Wrapper>

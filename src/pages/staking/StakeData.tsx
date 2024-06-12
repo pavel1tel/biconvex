@@ -10,7 +10,7 @@ export const HEADERS = [
     sortable: true,
   },
   {
-    label: "Expires ",
+    label: "Expires",
     sortable: true,
   },
   {
@@ -20,6 +20,10 @@ export const HEADERS = [
   {
     label: "Invested",
     sortable: true,
+  },
+  {
+    label: "Cancel/Unstake",
+    sortable: false,
   },
 ];
 

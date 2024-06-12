@@ -16,6 +16,13 @@
   border: none;
 }
 
+.closeButton {
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(180deg, rgba(98, 95, 244, 0.16) 0%, rgba(98, 95, 248, 0.16) 100%);
+  border-radius: 4px;
+}
+
 .table-td {
   height: 1px;
 
