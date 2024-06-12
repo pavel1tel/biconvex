@@ -244,7 +244,7 @@ export const StakingMain = (
                   selectPlan(item.perDay);
                   setPlan(index)
                 }}
-                key={item.perDay}
+                key={item.days}
                 className={clsx(index === plan && classes.selectedBoxBg)}
               >
                 <Flex gap={rem("20px")} className={clsx(classes.selectBox, index === plan && classes.selectedBox)}>

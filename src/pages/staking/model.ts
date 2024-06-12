@@ -1,3 +1,4 @@
+import { uploadAvatar } from "@/shared/api/profile/profile";
 import { createStakeRequest, createUnstakeRequest, getStakingHistory, requestBalance, requestStaking } from "@/shared/api/staking/request";
 import { ResponseDto } from "@/shared/api/types";
 import { showErrorNotification, showSuccessNotification } from "@/shared/lib/notification";
@@ -92,4 +93,21 @@ sample({
 sample({
   clock: createUnstakeRequest.doneData,
   target: getStakingHistory
+})
+
+sample({
+  clock: uploadAvatar.doneData,
+  target: getStakingHistory
+})
+
+sample({
+  clock: uploadAvatar.failData,
+  fn: () => "Failed to upload new avatar",
+  target: showErrorNotification
+})
+
+sample({
+  clock: uploadAvatar.doneData,
+  fn: () => "New avatar uploaded",
+  target: showSuccessNotification
 })

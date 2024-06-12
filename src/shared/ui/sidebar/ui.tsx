@@ -1,7 +1,7 @@
-import { Box, Button, Center, Flex, Image, Stack, Text, Title, rem } from "@mantine/core";
+import { Box, Button, Center, FileInput, Flex, Image, Stack, Text, Title, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
 import clsx from "clsx";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
 import { routes } from "@/shared/routing";
 import {
@@ -18,7 +18,7 @@ import {
 
 import { $token } from "@/pages/auth/sign-in/model";
 import { $profileReponse } from "@/pages/my-profile/model";
-import { getStakingHistoryFx } from "@/shared/api/profile/profile";
+import { getStakingHistoryFx, uploadAvatar } from "@/shared/api/profile/profile";
 import { ProfileReponse } from "@/shared/api/types";
 import { redirect } from "atomic-router";
 import { createEvent, sample } from "effector";
@@ -83,6 +83,8 @@ export const Sidebar = ({
   const profileReponse = useUnit<ProfileReponse>($profileReponse);
   const profileReponsepending = useUnit<boolean>(getStakingHistoryFx.pending);
   const logout = createEvent();
+  const inputFile = useRef<any>(null);
+  const [file, setFile] = useState<File | null>(null);
   const eraseCookie = (name: string) => {
     document.cookie = name + '=; Max-Age=-99999999;';
   }
@@ -110,15 +112,30 @@ export const Sidebar = ({
     }
   }, [profileReponse, profileReponsepending])
 
+  useEffect(() => {
+    if (file != null) {
+      uploadAvatar(file);
+    }
+  }, [file])
+
+  const avatar = useMemo(() => {
+    console.log(profileReponse.avatar)
+    return (
+      <>
+        {profileReponse.avatar?.startsWith("data:image") ? <Image className={classes.avatar} src={profileReponse.avatar} /> : <EmptyIcon />}
+      </>
+    )
+  }, [profileReponsepending])
+
   return (
     <Box className={classes.wrapper} style={{ paddingTop: verticalPadding, paddingBottom: verticalPadding }}>
       <Flex gap={gap} align={"flex-start"}>
         <Flex direction={"column"} gap={rem("32px")} className={classes.box}>
           <Flex align={"center"} gap={rem("16px")}>
             <Center className={classes.avatar}>
-              {profileReponse.avatar?.startsWith("data:image") ? <Image src={profileReponse.avatar} /> : <EmptyIcon />}
+              {avatar}
               <Button className={clsx(classes.pill, classes.downloadAvatarAction)} variant="linear-gradient">
-                <DownloadAvatar />
+                <DownloadAvatar onClick={() => { inputFile.current ? inputFile.current.click() : "" }} />
               </Button>
             </Center>
             <Stack gap={rem(8)}>
@@ -165,6 +182,7 @@ export const Sidebar = ({
         </Flex>
         <Box className={classes.contentWrapper}>{children}</Box>
       </Flex>
+      <FileInput value={file} onChange={setFile} accept="image/png,image/jpeg" ref={inputFile} display={"none"} />
     </Box>
   );
 };
