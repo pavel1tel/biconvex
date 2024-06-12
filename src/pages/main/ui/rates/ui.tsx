@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { match, P } from "ts-pattern";
 import { Container, RateChart, RateType } from "@/shared/ui";
 import classes from "./styles.module.css";
-import { useSwrHomepage } from "@/hooks/useSwrHomepage";
+import { SwrHomepage, useSwrHomepage } from "@/hooks/useSwrHomepage";
 import { getCoinIcon, getCoinVol24 } from "@/pages/main/ui";
 
-const Rate = ({ name, price,price_change_percent,symbol,volume24h, history }: SwrCoin) => {
+const Rate = ({ name, price,price_change_percent,symbol,volume24h, history }: SwrHomepage) => {
   const type: RateType = match(price_change_percent)
     .with(
       P.when((value) => value > 0),

@@ -63,13 +63,19 @@ export const SwapBox = () => {
   }, [value2]);
 
   const refreshAmountHandler = async () => {
-    const from = document.getElementById("from");
-    const fromValue = parseFloat(from?.value);
+    const from = document.getElementById("from") as HTMLInputElement|null;
+    if (!from){
+      return
+    }
+    const fromValue = parseFloat(from.value);
     if (!fromValue){
       return
     }
     const toValue = await refreshAmountTrigger([value1,value2,String(fromValue)]);
-    const to = document.getElementById("to");
+    const to = document.getElementById("to") as HTMLInputElement|null;
+    if (!to){
+      return
+    }
     if (toValue>0){
       to.value = Number(toValue).toFixed(4)
     }
@@ -94,8 +100,11 @@ export const SwapBox = () => {
   const currentCoinTo = coins && coins[value2];
 
   const exchangeCurrencyHandler = async () => {
-    const from = document.getElementById("from");
-    const fromValue = parseFloat(from?.value);
+    const from = document.getElementById("from") as HTMLInputElement|null;
+    if (!from){
+      return
+    }
+    const fromValue = parseFloat(from.value);
     if (!fromValue){
       return
     }
