@@ -43,8 +43,9 @@ const HEADERS_MOB = [
 
 const extractData = (dataItem: any): CoinData => {
   const symbol = dataItem.d[0]?.split("crypto/")[1] || "";
+
   return {
-    name: dataItem.d[2] || "",
+    name: dataItem.d[13] || "",
     price: parseFloat(dataItem.d[3]) || 0,
     change: parseFloat(dataItem.d[4]) || 0,
     changePrice: parseFloat(dataItem.d[5]) || 0,
@@ -59,9 +60,10 @@ const extractData = (dataItem: any): CoinData => {
 };
 
 export const CoinsTableFixedColumn = ({ data }: CoinsTableFixedColumnProps) => {
-  const [sortingLabel, setSortingLabel] = useState<SortingLabel>("#");
+  const [sortingLabel, setSortingLabel] = useState<SortingLabel>("Coin Name");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
   const { isAdaptive: md } = useResize(1200);
+  console.log(data);
 
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {
@@ -106,12 +108,27 @@ export const CoinsTableFixedColumn = ({ data }: CoinsTableFixedColumnProps) => {
   const sortedData = useMemo(() => {
     if (!tableData.length) return [];
     const sorted = [...tableData];
-    const key = sortingLabel.toLowerCase() as keyof CoinData;
+    let key: keyof CoinData = sortingLabel.replace(" ", "").toLowerCase() as keyof CoinData;
+
+    if (sortingLabel === "Coin Name") {
+      key = "name";
+    }
+
     sorted.sort((a, b) => {
-      if (a[key] < b[key]) return sortingDirection === "ASC" ? -1 : 1;
-      if (a[key] > b[key]) return sortingDirection === "ASC" ? 1 : -1;
+      const aValue = a[key];
+      const bValue = b[key];
+
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return sortingDirection === "ASC" ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+      }
+
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        return sortingDirection === "ASC" ? aValue - bValue : bValue - aValue;
+      }
+
       return 0;
     });
+
     return sorted;
   }, [tableData, sortingDirection, sortingLabel]);
 
@@ -143,12 +160,12 @@ export const CoinsTableFixedColumn = ({ data }: CoinsTableFixedColumnProps) => {
             return (
               <Table.Tr key={coin.name}>
                 <Table.Td className={clsx(classes.tbodyTdWithIcon, classes.fixedColumn)}>
-                  <Group gap={rem(8)}>
-                    <img src={coin.icon} alt={`${coin.name} icon`} />
+                  <Group gap={rem(8)} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                    <img src={coin.icon} alt={`${coin.name} icon`} className={classes.tokenIcon} />
                     <Title c="white" order={4} fz={20} className={classes.coinFullName}>
-                      {adaptiveFullCoinName}
+                      {coin.name}
                     </Title>
-                    <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill>
+                    {/* <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill> */}
                   </Group>
                 </Table.Td>
                 <Table.Td>
@@ -195,7 +212,9 @@ export const CoinsTableFixedColumn = ({ data }: CoinsTableFixedColumnProps) => {
                   </Text>
                 </Table.Td>
                 <Table.Td>
-                  <UnstyledButton className={classes.buyButton}>BUY</UnstyledButton>
+                  <Text c="white" variant="text-4" span>
+                    {coin.vol.toFixed(2)}
+                  </Text>
                 </Table.Td>
               </Table.Tr>
             );

@@ -51,7 +51,7 @@ export const AnalysisGraph = ({ recommendation }: AnalysisGraphProps) => {
             <div className={classes.analysisGraphInnerGradient}></div>
           </div>
           <div className={classes.analysisGraphArrowRound}></div>
-          <div style={{ transform: `rotate(${arrowAngle}deg)` }} className={classes.analysisGraphArrow}></div>
+          <div style={{ transform: `rotate(${arrowAngle}deg)`, transition: "all 1s ease" }} className={classes.analysisGraphArrow}></div>
         </div>
       </div>
     </div>

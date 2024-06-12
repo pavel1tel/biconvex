@@ -23,13 +23,13 @@ export const requestFx = createEffect<Request, any>((request) => {
     url: request.path,
     data: request.body,
     headers: {
-      Accept: 'application/json',
-      ...request.headers
+      Accept: "application/json",
+      ...request.headers,
     },
     withCredentials: true,
   })
     .then((response) => {
-      if(response.data != 1){
+      if (response.data != 1) {
         throw new Error(response.data);
       }
       return response.data;
@@ -37,9 +37,9 @@ export const requestFx = createEffect<Request, any>((request) => {
     .catch((error) => {
       console.error(error, error.message);
       if (error.response) {
-        return Promise.reject({message: error.response.data});
+        return Promise.reject({ message: error.response.data });
       } else {
-        return Promise.reject({message: error.message});
+        return Promise.reject({ message: error.message });
       }
     });
 });
@@ -50,20 +50,20 @@ export const requestRegistration = createEffect<Request, any>((request) => {
     url: request.path,
     data: request.body,
     headers: {
-      Accept: 'application/json',
-      ...request.headers
+      Accept: "application/json",
+      ...request.headers,
     },
     withCredentials: true,
   })
     .then((response) => {
-      return {message : response.data};
+      return { message: response.data };
     })
     .catch((error) => {
       console.error(error, error.message);
       if (error.response) {
-        return Promise.reject({message: error.response.data});
+        return Promise.reject({ message: error.response.data });
       } else {
-        return Promise.reject({message: error.message});
+        return Promise.reject({ message: error.message });
       }
     });
 });

@@ -6,21 +6,27 @@ import { Selector } from "@/pages/crypto-market-cap/page";
 import { SearchIcon } from "..";
 import classes from "./styles.module.css";
 
+interface TableSelectionHeaderProps {
+  selectors: Array<Selector>;
+  headerClassName?: string;
+  handleTabClick: (selector: Selector) => void;
+  activeTab: Selector;
+  searchQuery: string;
+  onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
 export const TableSelectionHeader = ({
   selectors,
   headerClassName = "",
   handleTabClick,
   activeTab,
-}: {
-  selectors: Array<Selector> | any;
-  headerClassName?: string;
-  handleTabClick: (selector: Selector) => void;
-  activeTab: Selector;
-}) => {
+  searchQuery,
+  onSearchChange,
+}: TableSelectionHeaderProps) => {
   return (
     <Group justify={"space-between"} className={clsx(classes.tableHeader, headerClassName && classes[headerClassName])}>
       <Group className={classes.coinButtons}>
-        {selectors.map((selector: any) => (
+        {selectors.map((selector: Selector) => (
           <Button
             key={selector.label}
             size="xl"
@@ -41,6 +47,8 @@ export const TableSelectionHeader = ({
         }}
         leftSection={<SearchIcon />}
         placeholder="Search Crypto"
+        value={searchQuery}
+        onChange={onSearchChange}
       />
     </Group>
   );

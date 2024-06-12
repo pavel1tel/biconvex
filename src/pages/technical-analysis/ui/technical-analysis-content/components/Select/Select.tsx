@@ -11,7 +11,7 @@ type SelectProps = {
   setActiveValue: Dispatch<SetStateAction<number | string>>;
 };
 const options = [
-  { title: "2h", value: 120 },
+  // { title: "2h", value: 120 },
   { title: "4h", value: 240 },
   { title: "1 week", value: "1W" },
   { title: "1 month", value: "1M" },

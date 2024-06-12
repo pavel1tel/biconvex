@@ -62,6 +62,7 @@ export function Page() {
   const [rowsPerPage, setRowsPerPage] = useState<number>(20);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalItems, setTotalItems] = useState<number>(0);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     const handleResize = () => {
@@ -80,7 +81,7 @@ export function Page() {
       const result = await fetchFunc();
       const resultData = Object.values(result);
       setData(resultData);
-      filterData(resultData, activeFilter);
+      filterData(resultData, activeFilter, searchQuery);
     } catch (error) {
       console.error("Error fetching data:", error);
       setData([]);
@@ -89,8 +90,8 @@ export function Page() {
     }
   };
 
-  const filterData = (data: Coin[], filter: string) => {
-    const filtered = data.filter(TAG_FILTERS[filter]);
+  const filterData = (data: Coin[], filter: string, query: string) => {
+    const filtered = data.filter((coin) => TAG_FILTERS[filter](coin) && coin.name.toLowerCase().includes(query.toLowerCase()));
     const paginatedData = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
     setFilteredData(paginatedData);
     setTotalItems(filtered.length);
@@ -101,8 +102,8 @@ export function Page() {
   }, [activeTab]);
 
   useEffect(() => {
-    filterData(data, activeFilter);
-  }, [data, activeFilter, currentPage, rowsPerPage]);
+    filterData(data, activeFilter, searchQuery);
+  }, [data, activeFilter, currentPage, rowsPerPage, searchQuery]);
 
   const handleTabClick = (selector: Selector) => {
     setCurrentPage(1);
@@ -113,18 +114,18 @@ export function Page() {
   const handleFilterClick = (filter: string) => {
     setCurrentPage(1);
     setActiveFilter(filter);
-    filterData(data, filter);
+    filterData(data, filter, searchQuery);
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    filterData(data, activeFilter);
+    filterData(data, activeFilter, searchQuery);
   };
 
   const handleRowsPerPageChange = (value: number) => {
     setRowsPerPage(value);
     setCurrentPage(1);
-    filterData(data, activeFilter);
+    filterData(data, activeFilter, searchQuery);
   };
   console.log(activeTab);
 
@@ -169,7 +170,13 @@ export function Page() {
             </Grid>
 
             <Stack gap={rem("32px")} className={classes.ratesTableWrapper}>
-              <TableSelectionHeader activeTab={activeTab} selectors={SELECTORS} handleTabClick={handleTabClick} headerClassName="alignFromStart" />
+              <TableSelectionHeader
+                activeTab={activeTab}
+                selectors={SELECTORS}
+                handleTabClick={handleTabClick}
+                searchQuery={searchQuery}
+                onSearchChange={(e) => setSearchQuery(e.target.value)}
+              />
 
               <Stack gap={0}>
                 <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
@@ -177,10 +184,13 @@ export function Page() {
                   <Group gap={rem(32)} className={classes.categoriesWrapper}>
                     {Object.keys(TAG_FILTERS).map((filter) => {
                       return (
-                        <Box key={filter} data-active={filter === activeFilter ? "1" : "0"} className={classes.categoryButtonWrapper}>
-                          <UnstyledButton classNames={{ root: classes.categoryButton }} onClick={() => handleFilterClick(filter)}>
-                            {filter}
-                          </UnstyledButton>
+                        <Box
+                          key={filter}
+                          data-active={filter === activeFilter ? "1" : "0"}
+                          className={classes.categoryButtonWrapper}
+                          onClick={() => handleFilterClick(filter)}
+                        >
+                          <UnstyledButton classNames={{ root: classes.categoryButton }}>{filter}</UnstyledButton>
                         </Box>
                       );
                     })}

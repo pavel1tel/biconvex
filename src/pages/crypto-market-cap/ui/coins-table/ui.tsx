@@ -19,6 +19,18 @@ const formatNumber = (num: number) => {
   return num.toFixed(2);
 };
 
+const formatBigNumber = (num: number) => {
+  if (num >= 1e9) {
+    return (num / 1e9).toFixed(3) + "B";
+  } else if (num >= 1e6) {
+    return (num / 1e6).toFixed(3) + "M";
+  } else if (num >= 1e3) {
+    return (num / 1e3).toFixed(3) + "K";
+  } else {
+    return num.toFixed(3);
+  }
+};
+
 export interface Coin {
   symbol: string;
   name: string;
@@ -43,7 +55,9 @@ interface CoinsTableProps {
 }
 
 export const CoinsTable: React.FC<CoinsTableProps> = ({ data }) => {
-  const [sortingLabel, setSortingLabel] = useState<SortingLabel>("#");
+  const [sortingLabel, setSortingLabel] = useState<string>("#");
+  console.log(data);
+
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
   const { isAdaptive: md } = useResize(1200);
 
@@ -59,17 +73,44 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data }) => {
     [sortingDirection, sortingLabel],
   );
 
+  const sortedData = useMemo(() => {
+    let sorted = [...data];
+    switch (sortingLabel) {
+      case "name":
+        sorted.sort((a, b) => (a.name > b.name ? 1 : -1));
+        break;
+      case "market_cap":
+        sorted.sort((a, b) => a.market_cap - b.market_cap);
+        break;
+      case "price":
+        sorted.sort((a, b) => a.price - b.price);
+        break;
+      case "price_change_percent":
+        sorted.sort((a, b) => a.price_change_percent - b.price_change_percent);
+        break;
+      case "high_price":
+        sorted.sort((a, b) => a.high_price - b.high_price);
+        break;
+      case "low_price":
+        sorted.sort((a, b) => a.low_price - b.low_price);
+        break;
+      default:
+        break;
+    }
+    if (sortingDirection === "DESC") {
+      sorted.reverse();
+    }
+    return sorted;
+  }, [data, sortingDirection, sortingLabel]);
+
   const headers = useMemo(() => {
     return HEADERS.map((header) => (
-      <Table.Th key={header.label} className={clsx({ [classes.tableHeadThSortable]: header.sortable }, header.className)}>
-        <Group
-          gap={rem("2px")}
-          justify={header.sortable ? "flex-start" : "center"}
-          className={clsx(classes.tableHeadSortLabel, {
-            [classes.tableHeadSortLabelSortingDesc]: sortingLabel === header.label && sortingDirection === "DESC",
-          })}
-          onClick={header.sortable ? () => onTableHeadSortLabelClick(header.label as SortingLabel) : undefined}
-        >
+      <Table.Th
+        key={header.label}
+        className={clsx({ [classes.tableHeadThSortable]: header.sortable }, header.className)}
+        onClick={header.sortable ? () => onTableHeadSortLabelClick(header.label as SortingLabel) : undefined}
+      >
+        <Group gap={rem("2px")} justify={header.sortable ? "flex-start" : "center"} className={classes.tableHeadSortLabel}>
           <Text c="inherit" variant="text-5" span>
             {header.label}
           </Text>
@@ -77,10 +118,10 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data }) => {
         </Group>
       </Table.Th>
     ));
-  }, [onTableHeadSortLabelClick, sortingDirection]);
+  }, [onTableHeadSortLabelClick]);
 
   const tableCoins = useMemo(() => {
-    return data.map((coin, index) => {
+    return sortedData.map((coin, index) => {
       const type: RateType = match(coin.price_change_percent)
         .with(
           P.when((value) => value > 0),
@@ -137,7 +178,7 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data }) => {
           </Table.Td>
           <Table.Td>
             <Text c="white" variant="text-4" span>
-              ${formatNumber(coin.market_cap)}
+              ${formatBigNumber(coin.market_cap)}
             </Text>
           </Table.Td>
           <Table.Td>
@@ -148,7 +189,7 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data }) => {
         </Table.Tr>
       );
     });
-  }, [md, data]);
+  }, [md, data, sortingDirection, sortingLabel]);
 
   return (
     <Table classNames={{ tr: classes.tableTr, td: classes.tableTd }} verticalSpacing={rem("16px")} withRowBorders={true}>

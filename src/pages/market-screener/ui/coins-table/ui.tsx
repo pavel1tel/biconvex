@@ -30,7 +30,7 @@ type CoinsTableProps = {
 };
 
 const HEADERS = [
-  { label: "#", className: classes.tableHeadCell, sortable: true },
+  { label: "#", className: classes.tableHeadCell, sortable: false },
   { label: "Coin Name", className: classes.tableHeadCell, sortable: true },
   { label: "Price", className: classes.tableHeadCell, sortable: true },
   { label: "CHG%", className: classes.tableHeadCell, sortable: true },
@@ -40,18 +40,17 @@ const HEADERS = [
   { label: "VOL", className: classes.tableHeadCell, sortable: true },
   { label: "VOL 24 USD", className: classes.tableHeadCell, sortable: true },
   { label: "VOL 24 CHG%", className: classes.tableHeadCell, sortable: true },
-  { label: "TR", className: classes.tableHeadCell, sortable: true },
+  { label: "TR", className: classes.tableHeadCell, sortable: false },
 ];
 
-const extractData = (dataItem: any): CoinData => {
+const extractData = (dataItem: any): CoinData | null => {
   const symbol = dataItem.d[0]?.split("crypto/")[1] || "";
-  // const toFixedSafe = (num: any, digits: number): string => {
-  //   const n = parseFloat(num);
-  //   return isNaN(n) ? "-" : n.toFixed(digits);
-  // };
+  const icon = `https://s3-symbol-logo.tradingview.com/crypto/${symbol}.svg`;
+
+  if (!symbol.length) return null;
 
   return {
-    name: dataItem.d[2] || "",
+    name: dataItem.d[13] || "",
     price: parseFloat(dataItem.d[3]) || 0,
     change: parseFloat(dataItem.d[4]) || 0,
     changePrice: parseFloat(dataItem.d[5]) || 0,
@@ -60,7 +59,7 @@ const extractData = (dataItem: any): CoinData => {
     vol: parseFloat(dataItem.d[9]) || 0,
     volDayUsd: parseFloat(dataItem.d[11]) || 0,
     volDayChgPercent: parseFloat(dataItem.d[12]) || 0,
-    icon: `https://s3-symbol-logo.tradingview.com/crypto/${symbol}.svg`,
+    icon,
   };
 };
 
@@ -102,16 +101,21 @@ export const CoinsTable = ({ data, currentPage, rowsPerPage }: CoinsTableProps) 
   }, [onTableHeadSortLabelClick, sortingDirection]);
 
   const tableData = useMemo(() => {
-    return data.map(extractData);
+    return data.map(extractData).filter((coin): coin is CoinData => coin !== null);
   }, [data]);
 
   const sortedData = useMemo(() => {
     if (!tableData.length) return [];
     const sorted = [...tableData];
-    const key = sortingLabel.toLowerCase() as keyof CoinData;
+    const key = sortingLabel === "Coin Name" ? "name" : (sortingLabel.toLowerCase() as keyof CoinData);
     sorted.sort((a, b) => {
-      if (a[key] < b[key]) return sortingDirection === "ASC" ? -1 : 1;
-      if (a[key] > b[key]) return sortingDirection === "ASC" ? 1 : -1;
+      if (sortingLabel === "Coin Name") {
+        if (a.name < b.name) return sortingDirection === "ASC" ? -1 : 1;
+        if (a.name > b.name) return sortingDirection === "ASC" ? 1 : -1;
+      } else {
+        if (a[key] < b[key]) return sortingDirection === "ASC" ? -1 : 1;
+        if (a[key] > b[key]) return sortingDirection === "ASC" ? 1 : -1;
+      }
       return 0;
     });
     return sorted;
@@ -148,7 +152,7 @@ export const CoinsTable = ({ data, currentPage, rowsPerPage }: CoinsTableProps) 
               </Table.Td>
               <Table.Td className={classes.tbodyTdWithIcon}>
                 <Group gap={rem(8)}>
-                  <img src={coin.icon} alt={`${coin.name} icon`} />
+                  <img src={coin.icon} alt={`${coin.name} icon`} className={classes.tokenIcon} />
                   <Title c="white" fz={20} order={4}>
                     {adaptiveFullCoinName}
                   </Title>

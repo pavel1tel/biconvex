@@ -73,7 +73,29 @@ export const SELECTORS = [
     isSelected: false,
     fetchData: (range: Range) =>
       fetchData(
-        ["base_currency_logoid", "currency_logoid", "name", "Perf.All", "description", "type", "subtype", "update_mode", "exchange"],
+        [
+          "base_currency_logoid",
+          "currency_logoid",
+          "name",
+          "close",
+          "change",
+          "change_abs",
+          "high",
+          "low",
+          "volume",
+          "24h_vol|5",
+          "24h_vol_change|5",
+          "Recommend.All",
+          "exchange",
+          "description",
+          "type",
+          "subtype",
+          "update_mode",
+          "pricescale",
+          "minmov",
+          "fractional",
+          "minmove2",
+        ],
         { sortBy: "Perf.All", sortOrder: "desc" },
         [],
         range,
@@ -84,7 +106,29 @@ export const SELECTORS = [
     isSelected: false,
     fetchData: (range: Range) =>
       fetchData(
-        ["base_currency_logoid", "currency_logoid", "name", "Perf.All", "description", "type", "subtype", "update_mode", "exchange"],
+        [
+          "base_currency_logoid",
+          "currency_logoid",
+          "name",
+          "close",
+          "change",
+          "change_abs",
+          "high",
+          "low",
+          "volume",
+          "24h_vol|5",
+          "24h_vol_change|5",
+          "Recommend.All",
+          "exchange",
+          "description",
+          "type",
+          "subtype",
+          "update_mode",
+          "pricescale",
+          "minmov",
+          "fractional",
+          "minmove2",
+        ],
         { sortBy: "Perf.All", sortOrder: "asc" },
         [],
         range,
@@ -127,7 +171,29 @@ export const SELECTORS = [
     label: "Most volatile",
     fetchData: (range: Range) =>
       fetchData(
-        ["base_currency_logoid", "currency_logoid", "name", "Volatility.D", "description", "type", "subtype", "update_mode", "exchange"],
+        [
+          "base_currency_logoid",
+          "currency_logoid",
+          "name",
+          "close",
+          "change",
+          "change_abs",
+          "high",
+          "low",
+          "volume",
+          "24h_vol|5",
+          "24h_vol_change|5",
+          "Recommend.All",
+          "exchange",
+          "description",
+          "type",
+          "subtype",
+          "update_mode",
+          "pricescale",
+          "minmov",
+          "fractional",
+          "minmove2",
+        ],
         { sortBy: "Volatility.D", sortOrder: "desc" },
         [],
         range,
@@ -144,6 +210,7 @@ export function Page() {
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
   useEffect(() => {
     const handleResize = () => {
@@ -159,7 +226,7 @@ export function Page() {
 
   const loadData = async (fetchFunc: FetchFunc) => {
     try {
-      const result = await fetchFunc([0, 250]);
+      const result = await fetchFunc([0, 50]);
       setAllData(result || []);
       setTotalItems(result.length || 0);
       updateDisplayData(result, 1, rowsPerPage);
@@ -175,10 +242,15 @@ export function Page() {
     loadData(activeTab.fetchData);
   }, [activeTab]);
 
+  useEffect(() => {
+    updateDisplayData(allData, 1, rowsPerPage);
+  }, [searchQuery, allData, rowsPerPage]); // Update display data when search query changes
+
   const updateDisplayData = (data: any[], page: number, rows: number) => {
+    const filteredData = data.filter((item) => item.d[13]?.toLowerCase().includes(searchQuery.toLowerCase()));
     const start = (page - 1) * rows;
     const end = start + rows;
-    setDisplayData(data.slice(start, end));
+    setDisplayData(filteredData.slice(start, end));
   };
 
   const handleTabClick = (selector: (typeof SELECTORS)[0]) => {
@@ -196,6 +268,10 @@ export function Page() {
     setRowsPerPage(value);
     setCurrentPage(1); // Reset to first page when changing rows per page
     updateDisplayData(allData, 1, value);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
   };
 
   return (
@@ -232,8 +308,14 @@ export function Page() {
               </Text>
             </Stack>
             <Stack gap={"clamp(12px, 1vw, 1rem)"} className={classes.ratesTableWrapper}>
-              <TableSelectionHeader activeTab={activeTab} selectors={SELECTORS} handleTabClick={handleTabClick} headerClassName="alignFromStart" />
-
+              <TableSelectionHeader
+                selectors={SELECTORS}
+                handleTabClick={handleTabClick}
+                activeTab={activeTab}
+                searchQuery={searchQuery}
+                onSearchChange={handleSearchChange}
+              />{" "}
+              {/* Pass search query and change handler */}
               <Stack gap={0}>
                 <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
 
@@ -267,9 +349,7 @@ export function Page() {
                   <Text>No data available.</Text>
                 )}
               </Stack>
-
               <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
-
               <Group justify={"space-between"}>
                 <Text variant="text-4" className={classes.greyText}>
                   {currentPage * rowsPerPage - rowsPerPage + 1}-{Math.min(currentPage * rowsPerPage, totalItems)} of {totalItems} assets

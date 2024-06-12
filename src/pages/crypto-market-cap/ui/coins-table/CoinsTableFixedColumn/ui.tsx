@@ -18,14 +18,25 @@ const formatNumber = (num: number) => {
   return num.toFixed(2);
 };
 
+const formatBigNumber = (num: number) => {
+  if (num >= 1e9) {
+    return (num / 1e9).toFixed(3) + "B";
+  } else if (num >= 1e6) {
+    return (num / 1e6).toFixed(3) + "M";
+  } else if (num >= 1e3) {
+    return (num / 1e3).toFixed(3) + "K";
+  } else {
+    return num.toFixed(3);
+  }
+};
+
 interface CoinsTableFixedColumnProps {
   data: Coin[];
 }
 
 export const CoinsTableFixedColumn: React.FC<CoinsTableFixedColumnProps> = ({ data }) => {
-  const [sortingLabel, setSortingLabel] = useState<SortingLabel>("#");
+  const [sortingLabel, setSortingLabel] = useState<string>("#");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
-  // const { isAdaptive: md } = useResize(1200);
 
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {
@@ -38,9 +49,50 @@ export const CoinsTableFixedColumn: React.FC<CoinsTableFixedColumnProps> = ({ da
     },
     [sortingDirection, sortingLabel],
   );
+  console.log(sortingLabel);
+
+  const sortedData = useMemo(() => {
+    const sorted = [...data].sort((a, b) => {
+      let valueA, valueB;
+      switch (sortingLabel) {
+        case "Coin Name":
+          valueA = a.name.toLowerCase();
+          valueB = b.name.toLowerCase();
+          break;
+        case "Coin Price":
+          valueA = a.price;
+          valueB = b.price;
+          break;
+        case "Change":
+          valueA = a.price_change_percent;
+          valueB = b.price_change_percent;
+          break;
+        case "High":
+          valueA = a.high_price;
+          valueB = b.high_price;
+          break;
+        case "Low":
+          valueA = a.low_price;
+          valueB = b.low_price;
+          break;
+        case "Market Cap":
+          valueA = a.market_cap;
+          valueB = b.market_cap;
+          break;
+        default:
+          return 0;
+      }
+
+      if (valueA < valueB) return sortingDirection === "ASC" ? -1 : 1;
+      if (valueA > valueB) return sortingDirection === "ASC" ? 1 : -1;
+      return 0;
+    });
+
+    return sorted;
+  }, [data, sortingDirection, sortingLabel]);
 
   const tableCoins = useMemo(() => {
-    return data.map((coin) => {
+    return sortedData.map((coin) => {
       const type: RateType = match(coin.price_change_percent)
         .with(
           P.when((value) => value > 0),
@@ -88,7 +140,7 @@ export const CoinsTableFixedColumn: React.FC<CoinsTableFixedColumnProps> = ({ da
           </Table.Td>
           <Table.Td>
             <Text c="white" variant="text-4" span>
-              ${formatNumber(coin.market_cap)}
+              ${formatBigNumber(coin.market_cap)}
             </Text>
           </Table.Td>
           <Table.Td className={classes.coinChartCell}>
@@ -99,7 +151,7 @@ export const CoinsTableFixedColumn: React.FC<CoinsTableFixedColumnProps> = ({ da
         </Table.Tr>
       );
     });
-  }, [data]);
+  }, [sortedData]);
 
   return (
     <div className={classes.tableContainer}>
@@ -110,29 +162,27 @@ export const CoinsTableFixedColumn: React.FC<CoinsTableFixedColumnProps> = ({ da
       >
         <Table.Thead className={classes.tableHead}>
           <Table.Tr>
-            {HEADERS_MOB.map((header, index) => {
-              return (
-                <Table.Th
-                  key={header.label}
-                  className={clsx({ [classes.tableHeadThSortable]: header.sortable }, header.className, index === 0 ? classes.fixedColumn : "")}
+            {HEADERS_MOB.map((header, index) => (
+              <Table.Th
+                key={header.label}
+                className={clsx({ [classes.tableHeadThSortable]: header.sortable }, header.className, index === 0 ? classes.fixedColumn : "")}
+              >
+                <Group
+                  gap={rem("2px")}
+                  justify={header.sortable ? "flex-start" : "center"}
+                  className={clsx(classes.tableHeadSortLabel, {
+                    [classes.tableHeadSortLabelSortingDesc]: sortingLabel === header.label && sortingDirection === "DESC",
+                  })}
+                  onClick={header.sortable ? () => onTableHeadSortLabelClick(header.label as SortingLabel) : undefined}
+                  wrap="nowrap"
                 >
-                  <Group
-                    gap={rem("2px")}
-                    justify={header.sortable ? "flex-start" : "center"}
-                    className={clsx(classes.tableHeadSortLabel, {
-                      [classes.tableHeadSortLabelSortingDesc]: sortingLabel === header.label && sortingDirection === "DESC",
-                    })}
-                    onClick={header.sortable ? () => onTableHeadSortLabelClick(header.label as SortingLabel) : undefined}
-                    wrap="nowrap"
-                  >
-                    <Text c="inherit" variant="text-5" span style={{ flexShrink: 0 }}>
-                      {header.label}
-                    </Text>
-                    {header.sortable ? <MarketSortIcon /> : null}
-                  </Group>
-                </Table.Th>
-              );
-            })}
+                  <Text c="inherit" variant="text-5" span style={{ flexShrink: 0 }}>
+                    {header.label}
+                  </Text>
+                  {header.sortable ? <MarketSortIcon /> : null}
+                </Group>
+              </Table.Th>
+            ))}
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody className={classes.tableBody}>{tableCoins}</Table.Tbody>
