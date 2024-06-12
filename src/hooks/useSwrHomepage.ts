@@ -1,7 +1,7 @@
 import { BASE_API_URL, fetcher } from "@/swr";
 import useSWRImmutable from "swr/immutable";
 
-export interface SwrCoin {
+export interface SwrHomepage {
   symbol: string
   price_change: number
   price: number
@@ -14,8 +14,8 @@ export interface SwrCoin {
 
 
 
-export const useSwrCoins = () => {
-  const { data } = useSWRImmutable<SwrCoin[]>(`${BASE_API_URL}/home/coins?c=BTC&c=ETH&c=XRP&c=BNB&c=SOL&c=MATIC`, fetcher);
+export const useSwrHomepage = () => {
+  const { data } = useSWRImmutable<SwrHomepage[]>(`${BASE_API_URL}:8081/home/coins?c=BTC&c=ETH&c=XRP&c=BNB&c=SOL&c=MATIC`, fetcher);
 
   return {
     coins: data,

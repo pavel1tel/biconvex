@@ -1,57 +1,10 @@
-import { Flex, Grid, Group, Image, Pill, Stack, Text, Title, rem } from "@mantine/core";
+import { Flex, Grid, Group, Image, Pill, rem, Stack, Text, Title } from "@mantine/core";
 import { motion } from "framer-motion";
-import { P, match } from "ts-pattern";
-
-import { randomChartData } from "@/shared/lib/random-chart-data";
-import { BNBIcon, BitcoinIcon, Container, EthereumIcon, RateChart, RateType, SolanaIcon } from "@/shared/ui";
-
+import { match, P } from "ts-pattern";
+import { Container, RateChart, RateType } from "@/shared/ui";
 import classes from "./styles.module.css";
-import { SwrCoin, useSwrCoins } from "@/hooks/useSwrCoins";
+import { useSwrHomepage } from "@/hooks/useSwrHomepage";
 import { getCoinIcon, getCoinVol24 } from "@/pages/main/ui";
-
-interface RateProps {
-  name: string;
-  icon: React.ReactNode;
-  price: string;
-  volume: string;
-  percent: number;
-  shortName: string;
-}
-
-const RATES = [
-  {
-    name: "Bitcoin",
-    icon: <BitcoinIcon />,
-    price: "38,447",
-    percent: -2.22,
-    shortName: "BTC",
-    volume: "914.685B",
-  },
-  {
-    name: "Ethereum",
-    icon: <EthereumIcon />,
-    price: "2096",
-    percent: -4.2,
-    shortName: "ETH",
-    volume: "790.501B",
-  },
-  {
-    name: "Solana",
-    icon: <SolanaIcon />,
-    price: "56",
-    percent: +3.54,
-    shortName: "SOL",
-    volume: "554.23M",
-  },
-  {
-    name: "BNB",
-    icon: <BNBIcon />,
-    price: "251",
-    percent: +0,
-    shortName: "BNB",
-    volume: "90.2M",
-  },
-] as RateProps[];
 
 const Rate = ({ name, price,price_change_percent,symbol,volume24h, history }: SwrCoin) => {
   const type: RateType = match(price_change_percent)
@@ -114,7 +67,7 @@ const Rate = ({ name, price,price_change_percent,symbol,volume24h, history }: Sw
 };
 
 export const Rates = () => {
-  const { coins } = useSwrCoins();
+  const { coins } = useSwrHomepage();
   return (
     <Stack className={classes.wrapper}>
       <Container>

@@ -1,7 +1,6 @@
 import { useResize } from "@/hooks/useResize";
 import { Group, Image, Pill, Stack, Table, Text, Title, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
-import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { P, match } from "ts-pattern";
@@ -13,7 +12,6 @@ import {
   BitcoinIcon,
   Container,
   EthereumIcon,
-  MarketSortIcon,
   PolygonIcon,
   RateChart,
   RateIcon,
@@ -23,7 +21,7 @@ import {
 } from "@/shared/ui";
 
 import classes from "./styles.module.css";
-import { useSwrCoins } from "@/hooks/useSwrCoins";
+import { useSwrHomepage } from "@/hooks/useSwrHomepage";
 
 export const getCoinIcon = (symbol: string) => {
   let icon = <></>;
@@ -71,7 +69,7 @@ export const Markets = () => {
       sortFunc: sortState.sortFunc === 3 ? 1 : ((sortState.sortFunc + 1) as 2 | 3),
     });
   };
-  const { coins } = useSwrCoins();
+  const { coins } = useSwrHomepage();
   const markets = useMemo(() => {
     return coins?.map((coin) => {
       const type: RateType = match(coin.price_change_percent)
