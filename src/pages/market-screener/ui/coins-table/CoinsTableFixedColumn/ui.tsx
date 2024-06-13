@@ -28,6 +28,14 @@ type CoinsTableFixedColumnProps = {
   data: CoinData[];
 };
 
+const formatNumber = (num: number) => {
+  if (num === 0) return "0.00";
+  if (num < 0.01 && num > 0) {
+    return num.toFixed(5);
+  }
+  return num.toFixed(2);
+};
+
 const HEADERS_MOB = [
   { label: "Coin Name", className: classes.tableHeadCell, sortable: true },
   { label: "Price", className: classes.tableHeadCell, sortable: true },
@@ -170,50 +178,50 @@ export const CoinsTableFixedColumn = ({ data }: CoinsTableFixedColumnProps) => {
                 </Table.Td>
                 <Table.Td>
                   <Text c="white" variant="text-4" span>
-                    ${coin.price.toFixed(2)}
+                    ${formatNumber(coin.price)}
                   </Text>
                 </Table.Td>
                 <Table.Td w={250}>
                   <Group gap={rem(4)}>
                     <RateIcon type={type} />
                     <Text c="white" variant="text-4" span>
-                      {coin.change.toFixed(2)}%
+                      {formatNumber(coin.change)}%
                     </Text>
                   </Group>
                 </Table.Td>
                 <Table.Td>
                   <Text c="white" variant="text-4" span>
-                    ${coin.changePrice.toFixed(2)}
+                    ${formatNumber(coin.changePrice)}
                   </Text>
                 </Table.Td>
                 <Table.Td>
                   <Text c="white" variant="text-4" span>
-                    ${coin.high.toFixed(2)}
+                    ${formatNumber(coin.high)}
                   </Text>
                 </Table.Td>
                 <Table.Td>
                   <Text c="white" variant="text-4" span>
-                    ${coin.low.toFixed(2)}
+                    ${formatNumber(coin.low)}
                   </Text>
                 </Table.Td>
                 <Table.Td>
                   <Text c="white" variant="text-4" span>
-                    ${coin.vol.toFixed(2)}
+                    ${formatNumber(coin.vol)}
                   </Text>
                 </Table.Td>
                 <Table.Td>
                   <Text c="white" variant="text-4" span>
-                    ${coin.volDayUsd.toFixed(2)}
+                    ${formatNumber(coin.volDayUsd)}
                   </Text>
                 </Table.Td>
                 <Table.Td>
                   <Text c="white" variant="text-4" span>
-                    ${coin.volDayChgPercent.toFixed(2)}
+                    ${formatNumber(coin.volDayChgPercent)}
                   </Text>
                 </Table.Td>
                 <Table.Td>
                   <Text c="white" variant="text-4" span>
-                    {coin.vol.toFixed(2)}
+                    {formatNumber(coin.vol)}
                   </Text>
                 </Table.Td>
               </Table.Tr>

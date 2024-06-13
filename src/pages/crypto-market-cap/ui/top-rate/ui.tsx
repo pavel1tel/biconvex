@@ -13,9 +13,17 @@ interface TopRateProps {
   price: number;
   subTitle: string;
   percent: number;
+  data?: any;
 }
 
-export const TopRate = ({ icon, name, price, subTitle, percent }: TopRateProps) => {
+export const TopRate = ({ icon, name, price, subTitle, percent, data }: TopRateProps) => {
+  const transformedData = data?.history.map((value: any, index: number) => ({
+    name: `P-${index}`,
+    value: parseFloat(value),
+  }));
+
+  console.log(transformedData);
+
   const type: RateType = match(percent)
     .with(
       P.when((value) => value === 0),
@@ -64,7 +72,7 @@ export const TopRate = ({ icon, name, price, subTitle, percent }: TopRateProps) 
       </Group>
 
       <Group className={classes.topRateChartWrapper}>
-        <RateChart type={type} data={useMemo(() => randomChartData(), [])} />
+        <RateChart type={type} data={transformedData} />
       </Group>
     </Stack>
   );

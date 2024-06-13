@@ -52,6 +52,12 @@ async function fetchMarketData(type: string): Promise<Record<string, Coin>> {
   return data;
 }
 
+async function fetchTopRateData(): Promise<any> {
+  const response = await fetch(`http://20.79.188.227:8081/home/coins?c=BTC&c=DOT&c=ADA&c=MATIC`);
+  const data = await response.json();
+  return data;
+}
+
 export function Page() {
   const [_, setSiblings] = useState(getSiblings());
   const { isAdaptive: md } = useResize(1200);
@@ -63,6 +69,8 @@ export function Page() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [topRateData, setTopRateData] = useState<any[]>([]);
+  console.log(topRateData);
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,6 +82,19 @@ export function Page() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchTopRateData();
+        setTopRateData(data);
+      } catch (error) {
+        console.error("Error fetching top rate data:", error);
+        setTopRateData([]);
+      }
+    };
+    fetchData();
   }, []);
 
   const loadData = async (fetchFunc: () => Promise<Record<string, Coin>>) => {
@@ -127,7 +148,7 @@ export function Page() {
     setCurrentPage(1);
     filterData(data, activeFilter, searchQuery);
   };
-  console.log(activeTab);
+  console.log(topRateData);
 
   return (
     <Wrapper>
@@ -156,16 +177,44 @@ export function Page() {
 
             <Grid className={classes.gridCols} gutter={{ 0: 8, md: 32 }}>
               <Grid.Col className={classes.gridColsItem} span={{ 0: 6, md: 3 }}>
-                <TopRate icon={<BitcoinIcon />} name="Bitcoin" subTitle="TOP VOL" price={44.034} percent={+5.00432} />
+                <TopRate
+                  icon={<BitcoinIcon />}
+                  name={topRateData[0]?.name}
+                  subTitle="TOP VOL"
+                  price={topRateData[0]?.price}
+                  percent={topRateData[0]?.price_change_percent * 100}
+                  data={topRateData[0]}
+                />
               </Grid.Col>
               <Grid.Col className={classes.gridColsItem} span={{ 0: 6, md: 3 }}>
-                <TopRate icon={<CardanoIcon />} name="Cardano" subTitle="TOP NEW" price={243.2} percent={+79.22} />
+                <TopRate
+                  icon={<CardanoIcon />}
+                  name={topRateData[1]?.name}
+                  subTitle="TOP NEW"
+                  price={topRateData[1]?.price}
+                  percent={topRateData[1]?.price_change_percent * 100}
+                  data={topRateData[1]}
+                />
               </Grid.Col>
               <Grid.Col className={classes.gridColsItem} span={{ 0: 6, md: 3 }}>
-                <TopRate icon={<PolygonIcon />} name="Polygon" subTitle="TOP GAINER" price={553.3} percent={+12.3} />
+                <TopRate
+                  icon={<PolygonIcon />}
+                  name={topRateData[2]?.name}
+                  subTitle="TOP GAINER"
+                  price={topRateData[2]?.price}
+                  percent={topRateData[2]?.price_change_percent * 100}
+                  data={topRateData[2]}
+                />
               </Grid.Col>
               <Grid.Col className={classes.gridColsItem} span={{ 0: 6, md: 3 }}>
-                <TopRate icon={<PolkadotIcon />} name="Polkadot" subTitle="LOW 24h" price={24.2} percent={-24.7} />
+                <TopRate
+                  icon={<PolkadotIcon />}
+                  name={topRateData[3]?.name}
+                  subTitle="LOW 24h"
+                  price={topRateData[3]?.price}
+                  percent={topRateData[3]?.price_change_percent * 100}
+                  data={topRateData[3]}
+                />
               </Grid.Col>
             </Grid>
 
