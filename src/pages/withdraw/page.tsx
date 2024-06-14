@@ -42,6 +42,7 @@ export function Page() {
                 setSelectedDeposit(selected);
                 goToWithdraw();
               }}
+              setCurrentCoin={() => {}}
             />
             <WithdrawBox />
           </Flex>
