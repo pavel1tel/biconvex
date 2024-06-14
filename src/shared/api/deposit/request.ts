@@ -11,3 +11,17 @@ export const getDepostFx = createEffect<void, any, void>(async () => {
       },
     });
   });
+
+  export const checkDep = createEffect<void, any, void>(async () => {
+    const data = new URLSearchParams();
+    data.append('action', 'REFRESH_MY_ADDRESSES');
+
+    return requestRegistration({
+      path: "/api/deposits",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: data
+    });
+  });

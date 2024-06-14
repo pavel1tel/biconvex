@@ -1,3 +1,4 @@
+import { checkDep } from "@/shared/api/deposit/request";
 import { activatePromo, getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { ResponseDto } from "@/shared/api/types";
 import { showErrorNotification, showSuccessNotification } from "@/shared/lib/notification";
@@ -21,6 +22,14 @@ chainRoute({
   route: currentRoute,
   beforeOpen: {
     effect: getStakingHistoryFx,
+    mapParams: (params) => params,
+  },
+});
+
+chainRoute({
+  route: currentRoute,
+  beforeOpen: {
+    effect: checkDep,
     mapParams: (params) => params,
   },
 });

@@ -9,6 +9,7 @@ import copyIcon from "../../../../../public/assets/copyIcon.svg";
 import classes from "./styles.module.css";
 import { DepositCoin } from "@/shared/api/types";
 import { QRCode } from 'react-qrcode-logo';
+import { showSuccessNotification } from "@/shared/lib/notification";
 
 export const DepositsAddress = ({
   currentCoin,
@@ -89,6 +90,7 @@ export const DepositsAddress = ({
         {!lg ? (
           <Button onClick={() => {
             navigator.clipboard.writeText((currentCoin?.address ? currentCoin?.address : {})[selectedItem]);
+            showSuccessNotification("Copied!")
           }} variant="radial-gradient" className={classes.btn}>
             <Text className={classes.btnText}>Copy</Text>
           </Button>

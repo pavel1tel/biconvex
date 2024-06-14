@@ -1,4 +1,4 @@
-import { getDepostFx } from "@/shared/api/deposit/request";
+import { checkDep, getDepostFx } from "@/shared/api/deposit/request";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { ResponseDto } from "@/shared/api/types";
 import { routes } from "@/shared/routing";
@@ -27,6 +27,14 @@ chainRoute({
   route: currentRoute,
   beforeOpen: {
     effect: getDepostFx,
+    mapParams: (params) => params,
+  },
+});
+
+chainRoute({
+  route: currentRoute,
+  beforeOpen: {
+    effect: checkDep,
     mapParams: (params) => params,
   },
 });
