@@ -12,6 +12,7 @@ interface TableSelectionHeaderProps {
   handleTabClick: (selector: Selector) => void;
   activeTab: Selector;
   searchQuery: string;
+  isGeneralTab?: string;
   onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -22,6 +23,7 @@ export const TableSelectionHeader = ({
   activeTab,
   searchQuery,
   onSearchChange,
+  isGeneralTab,
 }: TableSelectionHeaderProps) => {
   return (
     <Group justify={"space-between"} className={clsx(classes.tableHeader, headerClassName && classes[headerClassName])}>
@@ -31,7 +33,7 @@ export const TableSelectionHeader = ({
             key={selector.label}
             size="xl"
             variant="outline"
-            className={clsx({ [classes.ratesButtonRootActive]: selector.label === activeTab.label })}
+            className={clsx({ [classes.ratesButtonRootActive]: selector.label === activeTab.label || selector.label === isGeneralTab })}
             classNames={{ root: classes.ratesButtonRoot, label: classes.ratesButtonLabel }}
             onClick={() => handleTabClick(selector)}
           >

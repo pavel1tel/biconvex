@@ -201,6 +201,11 @@ export const SELECTORS = [
   },
 ];
 
+const determineActiveTab = (activeTab: { label: string }) => {
+  const generalTabs = ["Overview", "Performance", "Oscillators", "Trend-Following"];
+  return generalTabs.includes(activeTab.label) ? "General" : "";
+};
+
 export function Page() {
   const [_, setSiblings] = useState(getSiblings());
   const { isAdaptive: md } = useResize(1200);
@@ -210,7 +215,8 @@ export function Page() {
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [searchQuery, setSearchQuery] = useState("");
+  console.log(determineActiveTab(activeTab));
 
   useEffect(() => {
     const handleResize = () => {
@@ -244,7 +250,7 @@ export function Page() {
 
   useEffect(() => {
     updateDisplayData(allData, 1, rowsPerPage);
-  }, [searchQuery, allData, rowsPerPage]); // Update display data when search query changes
+  }, [searchQuery, allData, rowsPerPage]);
 
   const updateDisplayData = (data: any[], page: number, rows: number) => {
     const filteredData = data.filter((item) => item.d[13]?.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -312,6 +318,7 @@ export function Page() {
                 selectors={SELECTORS}
                 handleTabClick={handleTabClick}
                 activeTab={activeTab}
+                isGeneralTab={determineActiveTab(activeTab)}
                 searchQuery={searchQuery}
                 onSearchChange={handleSearchChange}
               />{" "}
