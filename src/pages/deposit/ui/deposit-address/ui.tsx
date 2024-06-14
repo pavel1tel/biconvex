@@ -1,17 +1,28 @@
 import { Box, Button, Center, Combobox, Divider, Flex, Group, Image, List, Stack, Text, rem, useCombobox } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ArrowIcon } from "@/pages/deposit/ui";
 
 import copyIcon from "../../../../../public/assets/copyIcon.svg";
 import classes from "./styles.module.css";
+import { DepositCoin } from "@/shared/api/types";
+import { QRCode } from 'react-qrcode-logo';
 
-export const DepositsAddress = () => {
+export const DepositsAddress = ({
+  currentCoin,
+}: {
+  currentCoin: DepositCoin | undefined;
+}) => {
   const lg = useMediaQuery("(max-width: 1200px)");
-  const [selectedItem, setSelectedItem] = useState<string | null>("BTC");
+  const [selectedItem, setSelectedItem] = useState<string>(Object.keys(currentCoin?.address ? currentCoin?.address : [])[0]);
   const combobox = useCombobox();
+
+  useEffect(() => {
+    currentCoin?.address ? setSelectedItem(Object.keys(currentCoin?.address)[0]) : "";
+  }, [currentCoin])
+
   return (
     <Stack gap={rem(32)} className={classes.wrapper} id="depositQR">
       <Flex className={classes.header} justify={"space-between"}>
@@ -31,7 +42,7 @@ export const DepositsAddress = () => {
             </Group>
           </Combobox.Target>
           <Combobox.Dropdown className={classes.dropdown}>
-            {["BTC", "ETH", "SOL"].map((item) => (
+            {Object.keys(currentCoin?.address ? currentCoin?.address : []).map((item) => (
               <Combobox.Option className={clsx(classes.option, { [classes.active]: item === selectedItem })} value={item} key={item}>
                 {item}
               </Combobox.Option>
@@ -41,7 +52,7 @@ export const DepositsAddress = () => {
       </Flex>
       <Divider opacity={"0.12"} color={"white"} />
       <Center>
-        <Text className={classes.title3}>BTC Address</Text>
+        <Text className={classes.title3}>{currentCoin?.symbol} Address</Text>
       </Center>
 
       <Center className={classes.qrcodeContainer}>
@@ -49,20 +60,32 @@ export const DepositsAddress = () => {
           <Box className={classes.line}></Box>
           <Box className={classes.shadow}></Box>
         </Box>
-        <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/Qrcode.png`} alt="Qrcode" className={classes.qrcode} />
+        <QRCode
+          value={(currentCoin?.address ? currentCoin?.address : {})[selectedItem]}
+          logoImage={currentCoin?.image}
+          logoPaddingStyle="circle"
+          eyeRadius={10}
+          size={300}
+          bgColor="#0C0D10"
+          fgColor="#FFF"
+          removeQrCodeBehindLogo={true}
+          logoPadding={3}
+        />
+        {/* <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/Qrcode.png`} alt="Qrcode" className={classes.qrcode} /> */}
+
       </Center>
       <Divider opacity={"0.12"} color={"white"} />
       <Box>
         <List className={classes.list}>
           <List.Item className={classes.listItem}>Coins will be deposited after 3 network confirmations</List.Item>
           <List.Item className={classes.listItem}>
-            Send only BTC to this deposit address. Sending coin or token other than <br /> BTC to this address may result in the loss of your deposit.
+            Send only {currentCoin?.symbol} to this deposit address. Sending coin or token other than <br /> {currentCoin?.symbol} to this address may result in the loss of your deposit.
           </List.Item>
-          <List.Item className={classes.listItem}>Minimum deposit amount: 0.002665876856216731</List.Item>
+          <List.Item className={classes.listItem}>Minimum deposit amount: {currentCoin?.min_deposit_amount}</List.Item>
         </List>
       </Box>
       <Flex align={"center"} justify={"space-between"} className={classes.copy}>
-        <Text className={classes.listItem}>bc1qhq3n0aauaavz555ty080v9frqj2ykv05f37wqn</Text>
+        <Text className={classes.listItem}>{(currentCoin?.address ? currentCoin?.address : {})[selectedItem]}</Text>
         {!lg ? (
           <Button variant="radial-gradient" className={classes.btn}>
             <Text className={classes.btnText}>Copy</Text>

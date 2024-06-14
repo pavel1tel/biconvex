@@ -7,10 +7,13 @@ import { DepositsAddress, DepositsBox } from "@/pages/deposit/ui";
 
 import { Container, Footer, Header, Sidebar, Wrapper } from "@/shared/ui";
 
+import { DepositCoin } from "@/shared/api/types";
 import classes from "./styles.module.css";
 
 export function Page() {
-  const [selectedDeposit, setSelectedDeposit] = useState(1);
+  const [selectedDeposit, setSelectedDeposit] = useState(0);
+  const [currentCoin, setCurrentCoin] = useState<DepositCoin>();
+
 
   const goToQR = () => {
     const depositQRSection = document.getElementById("depositQR");
@@ -41,8 +44,9 @@ export function Page() {
                 setSelectedDeposit(selected);
                 goToQR();
               }}
+              setCurrentCoin={setCurrentCoin}
             />
-            <DepositsAddress key={selectedDeposit} />
+            <DepositsAddress currentCoin={currentCoin} key={selectedDeposit} />
           </Flex>
         </Sidebar>
       </Container>

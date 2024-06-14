@@ -119,7 +119,6 @@ export const Sidebar = ({
   }, [file])
 
   const avatar = useMemo(() => {
-    console.log(profileReponse.avatar)
     return (
       <>
         {profileReponse.avatar?.startsWith("data:image") ? <Image className={classes.avatar} src={profileReponse.avatar} /> : <EmptyIcon />}

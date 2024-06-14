@@ -6,6 +6,22 @@ export interface ResponseDto {
   message: string;
 }
 
+export interface DepositCoin {
+  symbol: string;
+  image: string;
+  address: {
+      [key: string]: string;
+  };
+  balance: string;
+  name: string;
+  min_deposit_amount: string;
+}
+
+export interface DepositCoinsResponse {
+  deposit_coins?: DepositCoin[];
+}
+
+
 interface Coin {
   symbol: string;
   name: string;
