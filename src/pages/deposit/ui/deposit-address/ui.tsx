@@ -87,7 +87,9 @@ export const DepositsAddress = ({
       <Flex align={"center"} justify={"space-between"} className={classes.copy}>
         <Text className={classes.listItem}>{(currentCoin?.address ? currentCoin?.address : {})[selectedItem]}</Text>
         {!lg ? (
-          <Button variant="radial-gradient" className={classes.btn}>
+          <Button onClick={() => {
+            navigator.clipboard.writeText((currentCoin?.address ? currentCoin?.address : {})[selectedItem]);
+          }} variant="radial-gradient" className={classes.btn}>
             <Text className={classes.btnText}>Copy</Text>
           </Button>
         ) : (
