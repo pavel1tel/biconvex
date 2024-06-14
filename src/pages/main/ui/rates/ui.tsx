@@ -1,12 +1,12 @@
+import { SwrHomepage, useSwrHomepage } from "@/hooks/useSwrHomepage";
+import { getCoinIcon, getCoinVol24 } from "@/pages/main/ui";
+import { Container, RateChart, RateType } from "@/shared/ui";
 import { Flex, Grid, Group, Image, Pill, rem, Stack, Text, Title } from "@mantine/core";
 import { motion } from "framer-motion";
 import { match, P } from "ts-pattern";
-import { Container, RateChart, RateType } from "@/shared/ui";
 import classes from "./styles.module.css";
-import { SwrHomepage, useSwrHomepage } from "@/hooks/useSwrHomepage";
-import { getCoinIcon, getCoinVol24 } from "@/pages/main/ui";
 
-const Rate = ({ name, price,price_change_percent,symbol,volume24h, history }: SwrHomepage) => {
+const Rate = ({ name, price, price_change_percent, symbol, volume24h, history }: SwrHomepage) => {
   const type: RateType = match(price_change_percent)
     .with(
       P.when((value) => value > 0),
@@ -20,7 +20,7 @@ const Rate = ({ name, price,price_change_percent,symbol,volume24h, history }: Sw
 
   const icon = getCoinIcon(symbol);
 
-  const volume = getCoinVol24(volume24h,price)
+  const volume = getCoinVol24(volume24h, price)
 
   return (
     <Stack gap={rem("16px")} className={classes.rateWrapper} justify={"space-between"}>
@@ -40,14 +40,14 @@ const Rate = ({ name, price,price_change_percent,symbol,volume24h, history }: Sw
           </Stack>
         </Group>
         <Group align="flex-end" justify="space-between">
-          <Title order={3} fz={{ 0: 24, md: 32 }} fw={700} c="white">
+          <Title order={3} fz={{ 0: 24, md: 24 }} fw={700} c="white">
             ${price}
           </Title>
           <Group gap={rem("4px")}>
             {/* <RateIcon type={type}/> */}
-            <Title order={4} className={classes[`${type}Text`]} fz={{ 0: 18, md: 20 }}>
+            <Title order={4} className={classes[`${type}Text`]} fz={{ 0: 18, md: 18 }}>
               {type !== "negative" ? "+" : ""}
-              {/*{percent.toString()}%*/}
+              {price_change_percent.toString()}%
             </Title>
           </Group>
         </Group>
@@ -72,7 +72,7 @@ export const Rates = () => {
     <Stack className={classes.wrapper}>
       <Container>
         <Grid gutter={{ 0: 16, md: 30 }} align={"stretch"}>
-          {coins?.filter(({symbol})=>['BTC', 'ETH', 'SOL', 'BNB'].includes(symbol)).map((coin, i) => {
+          {coins?.filter(({ symbol }) => ['BTC', 'ETH', 'SOL', 'BNB'].includes(symbol)).map((coin, i) => {
             return (
               <Grid.Col key={coin.name} span={{ md: 3, lg: 3, xl: 3 }} className={classes.col}>
                 <motion.div
