@@ -95,7 +95,10 @@ export const DepositsAddress = ({
             <Text className={classes.btnText}>Copy</Text>
           </Button>
         ) : (
-          <button>
+          <button onClick={() => {
+            navigator.clipboard.writeText((currentCoin?.address ? currentCoin?.address : {})[selectedItem]);
+            showSuccessNotification("Copied!")
+          }}>
             <img src={copyIcon} alt="" />
           </button>
         )}
