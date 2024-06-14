@@ -11,12 +11,11 @@ interface TopRateProps {
   icon: React.ReactNode;
   name: string;
   price: number;
-  subTitle: string;
   percent: number;
   data?: any;
 }
 
-export const TopRate = ({ icon, name, price, subTitle, percent, data }: TopRateProps) => {
+export const TopRate = ({ icon, name, price, percent, data }: TopRateProps) => {
   const transformedData = data?.history.map((value: any, index: number) => ({
     name: `P-${index}`,
     value: parseFloat(value),
@@ -49,17 +48,13 @@ export const TopRate = ({ icon, name, price, subTitle, percent, data }: TopRateP
             <Title c="white" fz={20} order={4}>
               {name}
             </Title>
-            <Pill classNames={{ root: classes.topRateSubTitle, label: classes.topRateSubTitleLabel }} fz={12}>
-              {subTitle}
-              {/*<Text variant='text-5' span></Text>*/}
-            </Pill>
           </Stack>
         </Group>
 
         <Divider orientation="vertical" classNames={{ root: classes.dividerRoot }} />
 
         <Stack gap={rem("4px")} className={classes.topRateFooter}>
-          <Title c="white" order={4} fz={20}>
+          <Title c="white" order={4} fz={18}>
             ${price}
           </Title>
           <Group gap={rem("4px")} justify="flex-end">

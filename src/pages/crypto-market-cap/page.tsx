@@ -112,8 +112,14 @@ export function Page() {
   };
 
   const filterData = (data: Coin[], filter: string, query: string) => {
+    let tempCur = currentPage
+    if (query != "") {
+      tempCur = 1;
+      setCurrentPage(1);
+    }
     const filtered = data.filter((coin) => TAG_FILTERS[filter](coin) && coin.name.toLowerCase().includes(query.toLowerCase()));
-    const paginatedData = filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+    const paginatedData = filtered.slice((tempCur - 1) * rowsPerPage, tempCur * rowsPerPage);
+    console.log(paginatedData.length)
     setFilteredData(paginatedData);
     setTotalItems(filtered.length);
   };
@@ -180,9 +186,8 @@ export function Page() {
                 <TopRate
                   icon={<BitcoinIcon />}
                   name={topRateData[0]?.name}
-                  subTitle="TOP VOL"
                   price={topRateData[0]?.price}
-                  percent={topRateData[0]?.price_change_percent * 100}
+                  percent={topRateData[0]?.price_change_percent}
                   data={topRateData[0]}
                 />
               </Grid.Col>
@@ -190,9 +195,8 @@ export function Page() {
                 <TopRate
                   icon={<CardanoIcon />}
                   name={topRateData[1]?.name}
-                  subTitle="TOP NEW"
                   price={topRateData[1]?.price}
-                  percent={topRateData[1]?.price_change_percent * 100}
+                  percent={topRateData[1]?.price_change_percent}
                   data={topRateData[1]}
                 />
               </Grid.Col>
@@ -200,9 +204,8 @@ export function Page() {
                 <TopRate
                   icon={<PolygonIcon />}
                   name={topRateData[2]?.name}
-                  subTitle="TOP GAINER"
                   price={topRateData[2]?.price}
-                  percent={topRateData[2]?.price_change_percent * 100}
+                  percent={topRateData[2]?.price_change_percent}
                   data={topRateData[2]}
                 />
               </Grid.Col>
@@ -210,9 +213,8 @@ export function Page() {
                 <TopRate
                   icon={<PolkadotIcon />}
                   name={topRateData[3]?.name}
-                  subTitle="LOW 24h"
                   price={topRateData[3]?.price}
-                  percent={topRateData[3]?.price_change_percent * 100}
+                  percent={topRateData[3]?.price_change_percent}
                   data={topRateData[3]}
                 />
               </Grid.Col>

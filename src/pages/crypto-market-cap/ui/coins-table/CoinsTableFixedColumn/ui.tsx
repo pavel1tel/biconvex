@@ -67,11 +67,11 @@ export const CoinsTableFixedColumn: React.FC<CoinsTableFixedColumnProps> = ({ da
           valueA = a.price_change_percent;
           valueB = b.price_change_percent;
           break;
-        case "High":
+        case "24h High Price":
           valueA = a.high_price;
           valueB = b.high_price;
           break;
-        case "Low":
+        case "24h Low Price":
           valueA = a.low_price;
           valueB = b.low_price;
           break;

@@ -76,22 +76,22 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data }) => {
   const sortedData = useMemo(() => {
     let sorted = [...data];
     switch (sortingLabel) {
-      case "name":
+      case "Coin Name":
         sorted.sort((a, b) => (a.name > b.name ? 1 : -1));
         break;
-      case "market_cap":
+      case "Market Cap":
         sorted.sort((a, b) => a.market_cap - b.market_cap);
         break;
-      case "price":
+      case "Coin Price":
         sorted.sort((a, b) => a.price - b.price);
         break;
-      case "price_change_percent":
+      case "Change":
         sorted.sort((a, b) => a.price_change_percent - b.price_change_percent);
         break;
-      case "high_price":
+      case "24h High Price":
         sorted.sort((a, b) => a.high_price - b.high_price);
         break;
-      case "low_price":
+      case "24h Low Price":
         sorted.sort((a, b) => a.low_price - b.low_price);
         break;
       default:
@@ -107,7 +107,9 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data }) => {
     return HEADERS.map((header) => (
       <Table.Th
         key={header.label}
-        className={clsx({ [classes.tableHeadThSortable]: header.sortable }, header.className)}
+        className={clsx(classes.tableHeadSortLabel, {
+          [classes.tableHeadSortLabelSortingDesc]: sortingLabel === header.label && sortingDirection === "DESC",
+        })}
         onClick={header.sortable ? () => onTableHeadSortLabelClick(header.label as SortingLabel) : undefined}
       >
         <Group gap={rem("2px")} justify={header.sortable ? "flex-start" : "center"} className={classes.tableHeadSortLabel}>
