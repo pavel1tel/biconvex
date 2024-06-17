@@ -61,6 +61,14 @@
   pointer-events: none;
 }
 
+.lightTradeType {
+  position: absolute;
+  top: 34%;
+  left: 0;
+  z-index: -1;
+  width: auto;
+}
+
 .shape {
   bottom: 6%;
   width: auto;

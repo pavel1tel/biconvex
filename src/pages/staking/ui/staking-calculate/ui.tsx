@@ -1,35 +1,26 @@
 import { Container, Divider, Flex, Group, SimpleGrid, Stack, Text, rem } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import clsx from "clsx";
+import { useUnit } from "effector-react";
+import bigDecimal from "js-big-decimal";
+import { useEffect, useState } from "react";
 
 import { requestStaking } from "@/shared/api/staking/request";
 import { Course, InvestResponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
-import bigDecimal from 'js-big-decimal';
-import { useEffect, useState } from "react";
+
 import { $investReponse } from "../../model";
 import classes from "./styles.module.css";
 
-export const StakingCalculate = (
-  {
-    amount,
-    percent,
-    value1,
-  }: {
-    amount: string;
-    percent: number;
-    value1: string;
-  }
-) => {
+export const StakingCalculate = ({ amount, percent, value1 }: { amount: string; percent: number; value1: string }) => {
   const matches = useMediaQuery("(min-width: 1366px)");
-  const [data, setData] = useState<any>([{}])
+  const [data, setData] = useState<any>([{}]);
   const investReponse = useUnit<InvestResponse>($investReponse);
   const investReponsePending = useUnit<boolean>(requestStaking.pending);
 
   const getValueByKey = (courses: Course[], key: string) => {
-    const course = courses.find(course => course.hasOwnProperty(key));
+    const course = courses.find((course) => course.hasOwnProperty(key));
     return course ? course[key] : undefined;
-  }
+  };
 
   useEffect(() => {
     if (!investReponsePending) {
@@ -38,18 +29,33 @@ export const StakingCalculate = (
         {
           key: 1,
           title: "Expected profit",
-          dash: new bigDecimal(parseFloat(amount ? amount : '0')).multiply(new bigDecimal(percent)).multiply(new bigDecimal(0.01)).getValue(),
-          cash: new bigDecimal(parseFloat(amount ? amount : '0')).multiply(new bigDecimal(percent)).multiply(new bigDecimal(0.01)).multiply(new bigDecimal(course)).round(2).getValue(),
+          dash: new bigDecimal(parseFloat(amount ? amount : "0")).multiply(new bigDecimal(percent)).multiply(new bigDecimal(0.01)).getValue(),
+          cash: new bigDecimal(parseFloat(amount ? amount : "0"))
+            .multiply(new bigDecimal(percent))
+            .multiply(new bigDecimal(0.01))
+            .multiply(new bigDecimal(course))
+            .round(2)
+            .getValue(),
         },
         {
           key: 2,
           title: "Total",
-          dash: new bigDecimal(parseFloat(amount ? amount : '0')).multiply(new bigDecimal(percent)).multiply(new bigDecimal(0.01)).add(new bigDecimal(amount)).getValue(),
-          cash: new bigDecimal(parseFloat(amount ? amount : '0')).multiply(new bigDecimal(percent)).multiply(new bigDecimal(0.01)).add(new bigDecimal(amount)).multiply(new bigDecimal(course)).round(2).getValue(),
+          dash: new bigDecimal(parseFloat(amount ? amount : "0"))
+            .multiply(new bigDecimal(percent))
+            .multiply(new bigDecimal(0.01))
+            .add(new bigDecimal(amount))
+            .getValue(),
+          cash: new bigDecimal(parseFloat(amount ? amount : "0"))
+            .multiply(new bigDecimal(percent))
+            .multiply(new bigDecimal(0.01))
+            .add(new bigDecimal(amount))
+            .multiply(new bigDecimal(course))
+            .round(2)
+            .getValue(),
         },
-      ])
+      ]);
     }
-  }, [amount, percent, value1])
+  }, [amount, percent, value1]);
   return (
     <Stack className={classes.wrapper}>
       <Flex gap={rem("32px")} justify={"space-between"} align={"center"} className={clsx(classes.box)}>

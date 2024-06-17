@@ -8,9 +8,9 @@ import { Helmet } from "react-helmet-async";
 import { confirmCode, registerUser } from "@/shared/api";
 import { showErrorNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
-import { Header, HidePasswordIcon, ShowPasswordIcon, Wrapper } from "@/shared/ui";
+import { Footer, Header, HidePasswordIcon, ShowPasswordIcon, Wrapper } from "@/shared/ui";
 
-import { Footer } from "../components/Footer/Footer";
+// import { Footer } from "../components/Footer/Footer";
 import { $response } from "./model";
 import classes from "./styles.module.css";
 

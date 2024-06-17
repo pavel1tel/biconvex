@@ -1,13 +1,13 @@
 import { getSiblings } from "@/helpers/getResponsivePaginationSiblings";
 import { Button, Center, CloseButton, Divider, Flex, Group, Image, Pagination, Stack, Table, Text, TextInput, Title, rem } from "@mantine/core";
 import clsx from "clsx";
+import { useUnit } from "effector-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-
-import { MarketSortIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
 
 import { createUnstakeRequest, getStakingHistory } from "@/shared/api/staking/request";
 import { InvestmentHistory, StakingHistoryResponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
+import { MarketSortIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
+
 import { $historyResponse } from "../../model";
 import classes from "./styles.module.css";
 import { getSortingFunc } from "./utils";
@@ -18,50 +18,64 @@ type SortingDirection = "ASC" | "DESC";
 export const StakingTable = ({
   usedForTradingBot,
   tableHeaders,
-  value1
+  value1,
+  tableData,
 }: {
   usedForTradingBot: boolean;
   tableHeaders: Array<any>;
-  value1: string
+  value1: string;
+  tableData: {
+    icon: JSX.Element;
+    name: string;
+    qty: string;
+    bot: string;
+    tradeType: string;
+    activationTime: string;
+    pl: number;
+    earned: number;
+  }[];
 }) => {
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("Coin");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
-  const historyResponse = useUnit<StakingHistoryResponse>($historyResponse)
+  const historyResponse = useUnit<StakingHistoryResponse>($historyResponse);
   const historyResponsePending = useUnit<boolean>(getStakingHistory.pending);
   const [investHistory, setInvestHistory] = useState<Array<any>>([]);
   const [siblings, setSiblings] = useState(getSiblings());
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  const [totalPage, setTotalPage] = useState<number>(1)
+  const [totalPage, setTotalPage] = useState<number>(1);
   const [searchFunc, setSearchFunc] = useState<any>(() => (a: Crypto) => true);
   const defaultSortingFunc = () => (a: [string, InvestmentHistory], b: [string, InvestmentHistory]) => {
     return parseInt(b[0]) - parseInt(a[0]);
-  }
+  };
   const [sortFunc, setSortFunc] = useState<any>(defaultSortingFunc);
-
 
   let calculatePage = (sortFn: ((a: [string, InvestmentHistory], b: [string, InvestmentHistory]) => number) | undefined, searchFn: any) => {
     if (!historyResponsePending) {
       const startIndex = (page - 1) * 5;
       const endIndex = startIndex + 5;
-      let temp = Object.entries(historyResponse.history ? historyResponse.history : []).filter(searchFn).sort(sortFn).slice(startIndex, endIndex).map(([key, val]) => {
-        return {
-          id: key,
-          icon: <Image src={val.image} h={29} w={29} />,
-          name: val.name,
-          Plane: val.plan,
-          Expires: val.expires,
-          Realtime_profit: val.profit + " " + val.symbol,
-          Invested: val.invested,
-          cancel: <CloseButton className={classes.closeButton} />
-        }
-      });
-      console.log(temp.length)
-      let pages = Object.entries(historyResponse.history ? historyResponse.history : []).filter(searchFn).length
+      let temp = Object.entries(historyResponse.history ? historyResponse.history : [])
+        .filter(searchFn)
+        .sort(sortFn)
+        .slice(startIndex, endIndex)
+        .map(([key, val]) => {
+          return {
+            id: key,
+            icon: <Image src={val.image} h={29} w={29} />,
+            name: val.name,
+            Plane: val.plan,
+            Expires: val.expires,
+            Realtime_profit: val.profit + " " + val.symbol,
+            Invested: val.invested,
+            cancel: <CloseButton className={classes.closeButton} />,
+          };
+        });
+      console.log(temp.length);
+      let pages = Object.entries(historyResponse.history ? historyResponse.history : []).filter(searchFn).length;
       setTotalPage(Math.ceil(pages / 5));
       setInvestHistory(temp);
     }
-  }
+  };
 
   const unstake = useCallback((id: string) => {
     createUnstakeRequest(id);
@@ -69,19 +83,18 @@ export const StakingTable = ({
 
   useEffect(() => {
     calculatePage(sortFunc, searchFunc);
-  }, [historyResponse, historyResponsePending, page, sortFunc, searchFunc]
-  )
+  }, [historyResponse, historyResponsePending, page, sortFunc, searchFunc]);
 
   useEffect(() => {
     setPage(1);
     if (search !== "") {
       setSearchFunc(() => (a: [string, InvestmentHistory]) => {
         return a[1].name.toLocaleLowerCase().startsWith(search.toLocaleLowerCase());
-      })
+      });
     } else {
       setSearchFunc(() => (a: [string, InvestmentHistory]) => true);
     }
-  }, [search])
+  }, [search]);
 
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {
@@ -124,7 +137,9 @@ export const StakingTable = ({
             onClick={header.sortable ? () => onTableHeadSortLabelClick(header.label as SortingLabel) : undefined}
             wrap="nowrap"
           >
-            <Text c="inherit" variant="text-4" span>{header.label}</Text>
+            <Text c="inherit" variant="text-4" span>
+              {header.label}
+            </Text>
             {header.sortable ? <MarketSortIcon /> : null}
           </Group>
         </Table.Th>
@@ -132,7 +147,8 @@ export const StakingTable = ({
     });
   }, [onTableHeadSortLabelClick, sortingDirection]);
   const tableCoins = useMemo(() => {
-    return investHistory.map((coin) => {
+    return tableData.map((coin: any) => {
+      // fix type
       return (
         <Table.Tr key={coin.id}>
           <Table.Td w={"225"} px={15} className={classes.tbodyTdWithIcon}>
@@ -164,7 +180,7 @@ export const StakingTable = ({
             </Text>
           </Table.Td>
           <Table.Td w={"225"}>
-            <Center maw={255} >
+            <Center maw={255}>
               <CloseButton onClick={() => unstake(coin.id)} className={classes.closeButton} />
             </Center>
           </Table.Td>
@@ -220,10 +236,9 @@ export const StakingTable = ({
 
         <Group justify={"space-between"} mt={rem("32px")}>
           <Text variant="text-4" className={classes.greyText}>
-
-            {
-              historyResponse.history && Object.entries(historyResponse.history!).length > 5 ? "1-5 of " + Object.entries(historyResponse.history!).length + " assets" : "1-5 assets"
-            }
+            {historyResponse.history && Object.entries(historyResponse.history!).length > 5
+              ? "1-5 of " + Object.entries(historyResponse.history!).length + " assets"
+              : "1-5 assets"}
           </Text>
           <Pagination value={page} onChange={setPage} total={totalPage ? totalPage : 1} defaultValue={1} {...{ siblings }}>
             <Group gap={0} justify="center">

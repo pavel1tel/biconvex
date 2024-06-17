@@ -1,4 +1,5 @@
 import { Image } from "@mantine/core";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 
 import { StakingCalculate, StakingHeader, StakingMain, StakingTable } from "@/pages/staking/ui";
@@ -7,7 +8,6 @@ import { Container, Footer, Header, Wrapper } from "@/shared/ui";
 
 import { COINS, HEADERS } from "./StakeData";
 import classes from "./styles.module.css";
-import { useState } from "react";
 
 export function Page() {
   const [amount, setAmount] = useState<string>("");
@@ -29,8 +29,8 @@ export function Page() {
       <Container>
         <StakingHeader />
         <StakingCalculate amount={amount} percent={percent} value1={value1} />
-        <StakingMain amount={amount} setAmount={setAmount} setPercent={setPercent} value1={value1} setValue1={setValue1}/>
-        <StakingTable usedForTradingBot={false} tableHeaders={HEADERS}  value1={value1}/>
+        <StakingMain amount={amount} setAmount={setAmount} setPercent={setPercent} value1={value1} setValue1={setValue1} />
+        {/* <StakingTable usedForTradingBot={false} tableHeaders={HEADERS} value1={value1} /> */}
       </Container>
       <Footer />
     </Wrapper>

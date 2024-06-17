@@ -5,15 +5,25 @@ import { useState } from "react";
 import { MarketSortIcon } from "@/shared/ui";
 
 import tradeHistoryClasses from "../../TradeHistory.module.css";
+import TradeDetailsModal from "./ModalOrdersTabMobile/ModalOrdersTabMobile";
 import { dataMobile, headerMobile } from "./OrdersTab.constants";
 import classes from "./OrdersTab.module.css";
 
 export const OrdersTabMobile = () => {
   const [sortState, setSortState] = useState<{ sortCol: string; sortFunc: 1 | 2 | 3 }>({ sortCol: "", sortFunc: 1 });
+  const [modalOpened, setModalOpened] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
+
   const sortHandler = (cell: string) => {
     if (cell !== sortState.sortCol) setSortState({ sortCol: cell, sortFunc: 2 });
     if (cell === sortState.sortCol) setSortState({ ...sortState, sortFunc: sortState.sortFunc === 3 ? 1 : ((sortState.sortFunc + 1) as 2 | 3) });
   };
+
+  const handleOpenClick = (rowData: any) => {
+    setSelectedData(rowData);
+    setModalOpened(true);
+  };
+
   return (
     <div className={tradeHistoryClasses.containerScrolled}>
       <Table className={classes.table} withRowBorders={false}>
@@ -46,7 +56,7 @@ export const OrdersTabMobile = () => {
                 </Table.Td>
               ))}
               <Table.Td>
-                <Button variant="radial-gradient" className={classes.openOrderBtn}>
+                <Button variant="radial-gradient" className={classes.openOrderBtn} onClick={() => handleOpenClick(row)}>
                   Open
                 </Button>
               </Table.Td>
@@ -54,6 +64,7 @@ export const OrdersTabMobile = () => {
           ))}
         </Table.Tbody>
       </Table>
+      {selectedData && <TradeDetailsModal opened={modalOpened} onClose={() => setModalOpened(false)} data={selectedData} />}
     </div>
   );
 };

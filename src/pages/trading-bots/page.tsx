@@ -44,6 +44,12 @@ export function Page() {
       />
       <Image
         draggable={false}
+        src={`${import.meta.env.BASE_URL}assets/light/trading-bots/light_cube.png`} // new
+        alt="light-3 trade type"
+        className={classes.lightTradeType}
+      />
+      <Image
+        draggable={false}
         src={`${import.meta.env.BASE_URL}assets/light/trading-bots/light_3.png`}
         alt="light-3"
         className={classes.columnLightThree}

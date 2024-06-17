@@ -9,10 +9,12 @@ import classes from "./HistoryTab.module.css";
 
 export const HistoryTabDesktop = () => {
   const [sortState, setSortState] = useState<{ sortCol: string; sortFunc: 1 | 2 | 3 }>({ sortCol: "", sortFunc: 1 });
+
   const sortHandler = (cell: string) => {
     if (cell !== sortState.sortCol) setSortState({ sortCol: cell, sortFunc: 2 });
     if (cell === sortState.sortCol) setSortState({ ...sortState, sortFunc: sortState.sortFunc === 3 ? 1 : ((sortState.sortFunc + 1) as 2 | 3) });
   };
+
   return (
     <Table className={classes.table} withRowBorders={false}>
       <Table.Thead>
@@ -38,11 +40,17 @@ export const HistoryTabDesktop = () => {
       <Table.Tbody>
         {data.map((row, i) => (
           <Table.Tr key={i}>
-            {row.map((cell) => (
-              <Table.Td key={cell.key} className={clsx({ [classes.green]: cell.value === "Buy", [classes.red]: cell.value === "Sell" })}>
-                {cell.value}
-              </Table.Td>
-            ))}
+            {row.map((cell) => {
+              const isDirection = cell.key === "Direction";
+              const isPL = cell.key === "P&L";
+              const directionClass = isDirection ? (cell.value === "Long" ? classes.green : cell.value === "Short" ? classes.red : "") : "";
+              const plClass = isPL ? (parseFloat(cell.value) > 0 ? classes.green : parseFloat(cell.value) < 0 ? classes.red : "") : "";
+              return (
+                <Table.Td key={cell.key} className={clsx({ [directionClass]: isDirection, [plClass]: isPL })}>
+                  {cell.value}
+                </Table.Td>
+              );
+            })}
           </Table.Tr>
         ))}
       </Table.Tbody>

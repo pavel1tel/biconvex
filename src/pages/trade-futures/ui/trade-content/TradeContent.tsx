@@ -6,7 +6,7 @@ import { ButtonTabs } from "@/shared/ui/ButtonTabs/ui";
 import { TradeActions } from "@/shared/ui/TradeActions/ui";
 
 import { OrderBook } from "../../../../shared/ui/OrderBook/OrderBook";
-import {  OrderBookMobileTradeTab } from "../../../../shared/ui/OrderBook/OrderBookMobile";
+import { OrderBookMobileTradeTab } from "../../../../shared/ui/OrderBook/OrderBookMobile";
 import classes from "./TradeContent.module.css";
 import { MarketStats } from "./components/MarketStats/MarketStats";
 import { MarketTrades } from "./components/MarketTrades/MarketTrades";
@@ -14,7 +14,7 @@ import { Payment } from "./components/Payment/Payment";
 import { TradeChart } from "./components/TradeChart/TradeChart";
 import { TradeHistory } from "./components/TradeHistory/TradeHistory";
 
-export const TradeContent = ({addScroll}:{addScroll?:boolean}) => {
+export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
   const { isAdaptive: md } = useResize(1200);
   const categories = ["Chart", "Trade"];
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>(categories[0]);
@@ -37,7 +37,6 @@ export const TradeContent = ({addScroll}:{addScroll?:boolean}) => {
                 <Payment />
                 {/* <OrderBookMobile activeTab="Trade" activeCategory="All" addScroll={true}/> */}
                 <OrderBookMobileTradeTab activeTab="Trade" activeCategory="All" addScroll={true} />
-
               </div>
               <TradeHistory />
             </>
@@ -48,7 +47,7 @@ export const TradeContent = ({addScroll}:{addScroll?:boolean}) => {
         <>
           <Group gap={20} wrap="nowrap" align="stretch">
             <Stack gap={20} w={345}>
-              <OrderBook addScroll={addScroll} orderBookHeight="auto"/>
+              <OrderBook addScroll={addScroll} orderBookHeight="auto" />
               <MarketTrades />
             </Stack>
             <Stack style={{ flex: 1 }} gap={20}>

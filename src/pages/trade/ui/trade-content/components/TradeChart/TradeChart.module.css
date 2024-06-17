@@ -27,7 +27,7 @@
   }
   .button-flex {
     grid-gap: 1rem;
-    margin-bottom: 0 !important;
+    /* margin-bottom: 0 !important; */
   }
   .periodButton {
     height: 2rem !important;

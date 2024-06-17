@@ -1,16 +1,16 @@
 import { Button, Checkbox, Group, Image, PasswordInput, Stack, Text, TextInput, Title, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
-import { showErrorNotification } from "@/shared/lib/notification";
-
-import { routes } from "@/shared/routing";
-import { Header, HidePasswordIcon, ShowPasswordIcon, Wrapper } from "@/shared/ui";
-
-import { Footer } from "../components/Footer/Footer";
-import classes from "./styles.module.css";
-import { useEffect, useState } from "react";
-import { loginUser } from "@/shared/api";
 import { useUnit } from "effector-react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+
+import { loginUser } from "@/shared/api";
+import { showErrorNotification } from "@/shared/lib/notification";
+import { routes } from "@/shared/routing";
+import { Footer, Header, HidePasswordIcon, ShowPasswordIcon, Wrapper } from "@/shared/ui";
+
+// import { Footer } from "../components/Footer/Footer";
+import classes from "./styles.module.css";
 
 const EnterIcon = () => {
   return (
@@ -33,18 +33,18 @@ export const Page = () => {
 
   const loading = useUnit(loginUser.pending);
   const handleSubmit = async () => {
-    if(email === "" || password === ""){
-      showErrorNotification("Please fill all the fields")
-      if(email === ""){
+    if (email === "" || password === "") {
+      showErrorNotification("Please fill all the fields");
+      if (email === "") {
         setEmailError(true);
       }
-      if(password === ""){
+      if (password === "") {
         setPasswordError(true);
       }
       return;
     }
-    loginUser({email, password});
-  }
+    loginUser({ email, password });
+  };
 
   useEffect(() => {
     setEmailError(false);
@@ -92,8 +92,14 @@ export const Page = () => {
                   <Text variant="text-4" c="white" mb={8} lh={"19.49px"}>
                     Email
                   </Text>
-                  <TextInput error={emailError} id="email" size="xxl" placeholder="Your email"  value={email}
-                      onChange={(e) => setEmail(e.target.value)}/>
+                  <TextInput
+                    error={emailError}
+                    id="email"
+                    size="xxl"
+                    placeholder="Your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </label>
                 <label htmlFor="pass">
                   <Text variant="text-4" c="white" mb={8} lh={"19.49px"}>
@@ -128,7 +134,15 @@ export const Page = () => {
             </Stack>
 
             <Stack gap={"clamp(1.5rem, 2vw, 2rem)"}>
-              <Button loading={loading} onClick={handleSubmit} size="xxl" className={classes.btn} h={{ 0: 78, md: 92 }} variant="radial-gradient" rightSection={<EnterIcon />}>
+              <Button
+                loading={loading}
+                onClick={handleSubmit}
+                size="xxl"
+                className={classes.btn}
+                h={{ 0: 78, md: 92 }}
+                variant="radial-gradient"
+                rightSection={<EnterIcon />}
+              >
                 SIGN IN
               </Button>
               <Text c="white" ta="left" fz={16}>

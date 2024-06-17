@@ -39,6 +39,10 @@
         font-family: "ProximaNova";
         cursor: pointer;
       }
+      .settingsIcon {
+        width: 20px;
+        height: 20px;
+      }
     }
   }
 }

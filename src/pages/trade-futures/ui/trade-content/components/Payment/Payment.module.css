@@ -1,6 +1,7 @@
 .payment {
   width: rem(345px);
-height: fit-content;
+  /* height: fit-content; */
+  height: auto;
 }
 
 .iconWrapper {
