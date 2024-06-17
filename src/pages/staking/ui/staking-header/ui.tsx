@@ -49,7 +49,7 @@ export const StakingHeader = () => {
             <Text className={classes.total}>Total Earnings</Text>
             <Flex align={"center"} gap={rem("16px")} className={classes.inner}>
               <Text fw={600} className={clsx(classes.title, classes.value)}>
-                {isHide ? hiddenValue : "$" + stakingResponse.total_balance ? stakingResponse.total_balance : "0"}
+                {isHide ? hiddenValue : "$" + (stakingResponse.total_balance ? stakingResponse.total_balance : "0")}
               </Text>
               <Box className={classes.hide}>
                 {isHide ? (
