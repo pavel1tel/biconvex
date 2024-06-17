@@ -4,13 +4,14 @@ import clsx from "clsx";
 import { useUnit } from "effector-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
+import { $historyResponse } from "@/pages/staking/model";
+import { getSortingFunc } from "@/pages/staking/ui/staking-table/utils";
+
 import { createUnstakeRequest, getStakingHistory } from "@/shared/api/staking/request";
 import { InvestmentHistory, StakingHistoryResponse } from "@/shared/api/types";
 import { MarketSortIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
 
-import { $historyResponse } from "../../model";
 import classes from "./styles.module.css";
-import { getSortingFunc } from "./utils";
 
 type SortingLabel = "Coin" | "Plane" | "Expires" | "Realtime profit" | "Invested";
 type SortingDirection = "ASC" | "DESC";
@@ -19,10 +20,21 @@ export const StakingTable = ({
   usedForTradingBot,
   tableHeaders,
   value1,
+  tableData,
 }: {
   usedForTradingBot: boolean;
   tableHeaders: Array<any>;
   value1: string;
+  tableData: {
+    icon: JSX.Element;
+    name: string;
+    qty: string;
+    bot: string;
+    tradeType: string;
+    activationTime: string;
+    pl: number;
+    earned: number;
+  }[];
 }) => {
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("Coin");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
@@ -136,7 +148,8 @@ export const StakingTable = ({
     });
   }, [onTableHeadSortLabelClick, sortingDirection]);
   const tableCoins = useMemo(() => {
-    return investHistory.map((coin) => {
+    return tableData.map((coin: any) => {
+      // fix type
       return (
         <Table.Tr key={coin.id}>
           <Table.Td w={"225"} px={15} className={classes.tbodyTdWithIcon}>

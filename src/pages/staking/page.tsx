@@ -30,7 +30,7 @@ export function Page() {
         <StakingHeader />
         <StakingCalculate amount={amount} percent={percent} value1={value1} />
         <StakingMain amount={amount} setAmount={setAmount} setPercent={setPercent} value1={value1} setValue1={setValue1} />
-        {/* <StakingTable usedForTradingBot={false} tableHeaders={HEADERS} value1={value1} /> */}
+        <StakingTable usedForTradingBot={false} tableHeaders={HEADERS} value1={value1} />
       </Container>
       <Footer />
     </Wrapper>
