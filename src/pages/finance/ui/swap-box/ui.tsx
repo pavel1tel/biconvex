@@ -1,7 +1,7 @@
 import { useSwrFastSwapCoins } from "@/hooks/useSwrFastSwap";
 import { ChangeIcon, SelectArrowIcon, SwapIcon } from "@/pages/finance/ui";
 import { showErrorNotification, showSuccessNotification } from "@/shared/lib/notification";
-import { BASE_API_URL } from "@/swr";
+import { BASE_API_FAST_SWAP_URL } from "@/swr";
 import { Box, Button, Combobox, Flex, Input, InputBase, rem, Stack, Text, useCombobox } from "@mantine/core";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -47,9 +47,9 @@ export const SwapBox = () => {
   const [currentCurrencyFromBalance, setCurrentCurrencyFromBalance] = useState<number>();
   const [currentCurrencyToBalance, setCurrentCurrencyToBalance] = useState<number>();
   const { coins, rates } = useSwrFastSwapCoins();
-  const { trigger: getCurrencyBalanceTrigger } = useSWRMutation(`${BASE_API_URL}/profile`, getCurrencyBalance);
-  const { trigger: exchangeTrigger } = useSWRMutation(`${BASE_API_URL}/exchange`, exchange);
-  const { trigger: refreshAmountTrigger } = useSWRMutation(`${BASE_API_URL}/exchange`, refreshAmount);
+  const { trigger: getCurrencyBalanceTrigger } = useSWRMutation(`${BASE_API_FAST_SWAP_URL}/profile`, getCurrencyBalance);
+  const { trigger: exchangeTrigger } = useSWRMutation(`${BASE_API_FAST_SWAP_URL}/exchange`, exchange);
+  const { trigger: refreshAmountTrigger } = useSWRMutation(`${BASE_API_FAST_SWAP_URL}/exchange`, refreshAmount);
 
   const combobox1 = useCombobox({
     onDropdownClose: () => combobox1.resetSelectedOption(),

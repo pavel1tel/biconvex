@@ -1,4 +1,4 @@
-import { BASE_API_URL, fetcher } from "@/swr";
+import { BASE_API_FAST_SWAP_URL, fetcher } from "@/swr";
 import useSWRImmutable from "swr/immutable";
 
 export interface FastSwapCoins {
@@ -12,7 +12,7 @@ export interface FastSwapCoins {
 
 
 export const useSwrFastSwapCoins = () => {
-  const { data } = useSWRImmutable<FastSwapCoins>(`${BASE_API_URL}/api/swap`, fetcher);
+  const { data } = useSWRImmutable<FastSwapCoins>(`${BASE_API_FAST_SWAP_URL}/api/swap`, fetcher);
 
   return {
     rates: data?.rates,
