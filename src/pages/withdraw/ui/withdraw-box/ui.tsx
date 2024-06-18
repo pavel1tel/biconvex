@@ -33,6 +33,12 @@ export const WithdrawBox = ({
   }
 
   useEffect(() => {
+    if(!feesReponsePending) {
+    console.log(feesReponse.coins_balances!["BTC"])
+    }
+  }, [feesReponse])
+
+  useEffect(() => {
     currentCoin?.address ? setSelectedItem(Object.keys(currentCoin?.address)[0]) : "";
   }, [currentCoin])
   
@@ -90,7 +96,7 @@ export const WithdrawBox = ({
             label={"Amount " + currentCoin?.name}
             type="number"
             min={0}
-            placeholder="Maximum amount withdrawable: 0 Bitcoin"
+            placeholder={"Maximum amount "+((feesReponse.coins_balances ? feesReponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") ? (feesReponse.coins_balances ? feesReponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") : "0.00") + " " + currentCoin?.name}
           />
           <Flex className={classes.bottomFlex} align={"center"} justify={"space-between"}>
             <Stack gap={rem(4)}>

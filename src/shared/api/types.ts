@@ -33,6 +33,9 @@ export interface FeesRequest {
   withdraw_coins? : {
     [key: string]: WithdrawCoin;
   }
+  coins_balances? : {
+    [key: string]: number;
+  }
 }
 interface Coin {
   symbol: string;
