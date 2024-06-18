@@ -196,7 +196,7 @@
 }
 .pill {
   text-align: center;
-  width: rem(50px);
+  /* width: rem(50px); */
   height: rem(24px);
   justify-content: space-between;
   align-items: center;

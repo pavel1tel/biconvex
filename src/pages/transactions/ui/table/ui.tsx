@@ -1,14 +1,18 @@
 import { getSiblings } from "@/helpers/getResponsivePaginationSiblings";
-import { Box, Combobox, Divider, Flex, Group, Image, Pagination, Stack, Table, Text, TextInput, rem, useCombobox } from "@mantine/core";
+import { Box, CloseButton, Combobox, Divider, Flex, Group, Image, Pagination, Stack, Table, Text, TextInput, rem, useCombobox } from "@mantine/core";
 import clsx from "clsx";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { DepositIcon, PromoIcon } from "@/pages/transactions/ui";
+import { DepositIcon, InvestIcon, PromoIcon } from "@/pages/transactions/ui";
 
 import { ArrowDown, BitcoinIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
-import { WithdrawIcon } from "@/shared/ui/sidebar/Icons";
+import { TransferIcon, WithdrawIcon } from "@/shared/ui/sidebar/Icons";
 
 import classes from "./styles.module.css";
+import { Transaction, TransactionsResponse } from "@/shared/api/types";
+import { useUnit } from "effector-react";
+import { getTransactions } from "@/shared/api/transactions/requests";
+import { $transactionsReponse } from "../../model";
 
 type SortingLabel = "Ticker" | "Date" | "Type" | "Amount" | "Status";
 type SortingDirection = "ASC" | "DESC";
@@ -35,65 +39,49 @@ const HEADERS = [
     sortable: true,
   },
 ];
-const COINS = [
-  {
-    icon: <BitcoinIcon />,
-    short_name: "BTC",
-    name: "Bitcoin",
-    Data: "20.20.2020",
-    Type: "Deposit",
-    Amount: "1 BTC",
-    Status: "Pending",
-  },
-  {
-    icon: <BitcoinIcon />,
-    short_name: "BTC",
-    name: "Bitcoin",
-    Data: "20.20.2020",
-    Type: "Deposit",
-    Amount: "1 BTC",
-    Status: "Completed",
-  },
-  {
-    icon: <BitcoinIcon />,
-    short_name: "BTC",
-    name: "Bitcoin",
-    Data: "20.20.2020",
-    Type: "Deposit",
-    Amount: "1 BTC",
-    Status: "Failed",
-  },
-  {
-    icon: <BitcoinIcon />,
-    short_name: "BTC",
-    name: "Bitcoin",
-    Data: "20.20.2020",
-    Type: "Withdraw",
-    Amount: "1 BTC",
-    Status: "Pending",
-  },
-  {
-    icon: <BitcoinIcon />,
-    short_name: "BTC",
-    name: "Bitcoin",
-    Data: "20.20.2020",
-    Type: "Withdraw",
-    Amount: "1 BTC",
-    Status: "Completed",
-  },
-  {
-    icon: <BitcoinIcon />,
-    short_name: "BTC",
-    name: "Bitcoin",
-    Data: "20.20.2020",
-    Type: "Promo",
-    Amount: "1 BTC",
-    Status: "Failed",
-  },
-];
+
 export const TransactionTable = () => {
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("Amount");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
+  const [COINS, setCOINS] = useState<Transaction[]>()
+  const isTransactionsPending = useUnit<boolean>(getTransactions.pending);
+  const transactionsResponse = useUnit<TransactionsResponse>($transactionsReponse);
+  const [page, setPage] = useState(1);
+  const [searchFunc, setSearchFunc] = useState<any>(() => (a: Transaction) => true);
+  const [search, setSearch] = useState("");
+  const [totalPage, setTotalPage] = useState<number>(1)
+  const [value, setValue] = useState<string>("");
+
+  let calculatePage = (searchFn: ((a: Transaction) => boolean), filterFunc: (a: Transaction) => boolean) => {
+    if (!isTransactionsPending) {
+      let temp: any[] = []
+      const startIndex = (page - 1) * 6;
+      const endIndex = startIndex + 6;
+      transactionsResponse.transactions!.filter(searchFn).filter(filterFunc).slice(startIndex, endIndex).forEach((trans) => {
+        temp.push(trans)
+      })
+      setTotalPage(transactionsResponse.transactions!.filter(searchFn).filter(filterFunc).length)
+      setCOINS(temp);
+    }
+  }
+  
+  useEffect(() => {
+    let filterFunc = (a : Transaction) => true;
+    if(value){
+      filterFunc = (a : Transaction) => statusById[a.status] == value
+    }
+    calculatePage(searchFunc, filterFunc)
+  }, [isTransactionsPending, transactionsResponse, page, totalPage, searchFunc, value]);
+
+  useEffect(() => {
+    setPage(1);
+    if (search !== "") {
+      setSearchFunc(() => (a: Transaction) => a.name.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()));
+    } else {
+      setSearchFunc(() => (a : Transaction) => true);
+    }
+  }, [search])
+
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {
       if (sortingLabel != label) {
@@ -131,64 +119,71 @@ export const TransactionTable = () => {
     Deposit: <DepositIcon />,
     Withdraw: <WithdrawIcon />,
     Promo: <PromoIcon />,
+    Bonus: <PromoIcon />,
+    Transfer: <TransferIcon />,
+    Invest :  <InvestIcon />,
   };
+
   const classNamesByStatus: Record<string, string> = {
-    Pending: classes.pending,
-    Completed: classes.completed,
-    Failed: classes.failed,
+    0: classes.pending,
+    1: classes.completed,
+    2: classes.failed,
   };
+
+  const statusById: Record<number, string> = {
+    0: "Pending",
+    1: "Completed",
+    2: "Failed",
+  };
+
   const tableCoins = useMemo(() => {
-    return COINS.map((coin) => {
+    return (COINS ? COINS : []).map((coin : Transaction) => {
       return (
-        <Table.Tr key={coin.name}>
+        <Table.Tr key={coin.id}>
           <Table.Td w={224} className={classes.tbodyTdWithIcon}>
             <Flex gap={rem(8)}>
-              {coin.icon}
+              <Image src={coin.image} w="25" h="24"/>
               <Text c="white" className={classes.text}>
                 {coin.name}
               </Text>
               <Text ff={"ProximaNova"} className={classes.pill}>
-                {coin.short_name}
+                {coin.symbol}
               </Text>
             </Flex>
           </Table.Td>
           <Table.Td w={"135"}>
             <Text c="white" variant="text-3" span style={{paddingLeft:"7px"}}>
-              {coin.Data}
+              {coin.time.slice(0, 10).replaceAll("/", ".")}
             </Text>
           </Table.Td>
           <Table.Td w={"135"}>
             <Text c="white" variant="text-3" span>
               <Flex align={"center"} gap={rem(4)}>
-                {iconsByType[coin.Type]}
-                {coin.Type}
+                {iconsByType[coin.type]}
+                {coin.type}
               </Flex>
             </Text>
           </Table.Td>
           <Table.Td w={"135"}>
             <Text c="white" variant="text-3" span>
-              {coin.Amount}
+              {coin.amount}
             </Text>
           </Table.Td>
           <Table.Td w={"135"}>
-            <Text c="white" variant="text-3" span className={clsx(classes.status, classNamesByStatus[coin.Status])}>
-              {coin.Status}
+            <Text c="white" variant="text-3" span className={clsx(classes.status, classNamesByStatus[coin.status])}>
+              {statusById[coin.status]}
             </Text>
-            {/* <Image
-              src={`${import.meta.env.BASE_URL}assets/statusIcons/Icon-${coin.Status.toLowerCase()}-status.svg`}
-              className={classes.statusIcon}
-            /> */}
           </Table.Td>
         </Table.Tr>
       );
     });
-  }, []);
+  }, [COINS]);
   const SHOW_ROWS_OPTIONS = ["Pending", "Completed", "Failed"];
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
-  const [value, setValue] = useState<string>("");
+
   const options = SHOW_ROWS_OPTIONS.map((item) => (
     <Combobox.Option
       value={item.toString()}
@@ -221,6 +216,8 @@ export const TransactionTable = () => {
         <Group className={classes.boxHeader} justify="space-between" align={"center"}>
           <TextInput
             h={51}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             classNames={{
               input: classes.searchInput,
               wrapper: classes.searchInputWrapper,
@@ -242,7 +239,17 @@ export const TransactionTable = () => {
                 <Text variant="text-3" className={classes.greyText}>
                   {value || "Type"}
                 </Text>
-                <ArrowDown />
+                {value ? 
+                (<CloseButton
+                  size="sm"
+                  style={{background : "none"}}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => setValue("")}
+                  aria-label="Clear value"
+                />) :
+                (<ArrowDown />)
+              }
+                
               </Group>
             </Combobox.Target>
             <Combobox.Dropdown className={classes.dropdown}>
@@ -275,8 +282,8 @@ export const TransactionTable = () => {
         <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
 
         <Group justify={"space-between"}>
-          <Text className={classes.greyText}>1-6 of 300 transactions</Text>
-          <Pagination total={20} defaultValue={1} {...{ siblings }}>
+          <Text className={classes.greyText}> {(page - 1) * 6 + 1}-{(page - 1) * 6 + (COINS ? COINS?.length : 0)} of {totalPage}</Text>
+          <Pagination  value={page} onChange={setPage} total={totalPage?  Math.ceil(totalPage / 6)  : 1} defaultValue={1} {...{ siblings }}>
             <Group gap={rem("8px")} justify="center">
               <Pagination.Previous icon={PreviousIcon} />
               <Pagination.Items />

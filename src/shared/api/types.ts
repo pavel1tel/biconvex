@@ -6,6 +6,24 @@ export interface ResponseDto {
   message: string;
 }
 
+export interface Transaction {
+  symbol: string;
+  image: string;
+  amount: string;
+  address: string | null;
+  name: string;
+  id: number;
+  time: string;
+  type: string;
+  hash: string;
+  status: number;
+}
+
+export interface TransactionsResponse {
+  transactions? : Transaction[]
+}
+
+
 export interface DepositCoin {
   symbol: string;
   image: string;
