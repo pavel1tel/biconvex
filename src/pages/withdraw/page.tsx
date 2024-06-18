@@ -9,9 +9,11 @@ import { Container, Footer, Header, Sidebar, Wrapper } from "@/shared/ui";
 
 import classes from "./styles.module.css";
 import { Helmet } from "react-helmet-async";
+import { DepositCoin } from "@/shared/api/types";
 
 export function Page() {
   const [selectedDeposit, setSelectedDeposit] = useState(1);
+  const [currentCoin, setCurrentCoin] = useState<DepositCoin>();
 
   const goToWithdraw = () => {
     const withdrawSection = document.getElementById("withdrawBitcoin");
@@ -42,9 +44,9 @@ export function Page() {
                 setSelectedDeposit(selected);
                 goToWithdraw();
               }}
-              setCurrentCoin={() => {}}
+              setCurrentCoin={setCurrentCoin}
             />
-            <WithdrawBox />
+            <WithdrawBox currentCoin={currentCoin} />
           </Flex>
         </Sidebar>
       </Container>

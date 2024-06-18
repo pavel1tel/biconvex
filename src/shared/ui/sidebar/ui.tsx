@@ -62,11 +62,6 @@ const LINKS = [
     to: routes.settings,
     label: "Settings",
   },
-  {
-    icon: <WorkerPanelIcon />,
-    to: routes.home,
-    label: "Worker Panel",
-  },
 ];
 export const Sidebar = ({
   children,
@@ -173,6 +168,18 @@ export const Sidebar = ({
                   </Flex>
                 </Link>
               ))}
+              { profileReponse.panel != null && profileReponse.panel == "Worker" ?
+              <Link to="https://20.79.188.227/panel" activeClassName={classes.activeLink} className={clsx(classes.link)}>
+                  <Flex gap={rem("8px")}>
+                    <Box><WorkerPanelIcon /></Box>
+                    <Text ff={"ProximaNova"} className={classes.textBtn}>
+                    Worker Panel
+                    </Text>
+                  </Flex>
+                </Link>
+                :
+                <div></div>
+              }
             </Stack>
             <Button onClick={() => logout()} className={classes.btn} maw={rem("352px")} h={rem("54px")} variant="radial-gradient">
               Log out

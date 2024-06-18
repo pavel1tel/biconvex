@@ -1,33 +1,48 @@
 import { Box, Button, Combobox, Divider, Flex, Group, List, Stack, Text, TextInput, rem, useCombobox } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ArrowIcon } from "@/pages/deposit/ui";
 
 import classes from "./styles.module.css";
+import { useUnit } from "effector-react";
+import { DepositCoin, FeesRequest } from "@/shared/api/types";
+import { getFees, requestWithdraw } from "@/shared/api/withdraw/requests";
+import { $feesResponse } from "../../model";
 
-type FormProperties = {
-  bitcoinAddress: string;
-  amount: string;
-};
 
-export const WithdrawBox = () => {
-  const [selectedItem, setSelectedItem] = useState<string | null>("BTC");
+export const WithdrawBox = ({
+  currentCoin,
+} : {
+  currentCoin : DepositCoin | undefined;
+}) => {
+  const [selectedItem, setSelectedItem] = useState<string>(Object.keys(currentCoin?.address ? currentCoin?.address : [])[0]);
   const combobox = useCombobox();
-  const { onSubmit, getInputProps } = useForm<FormProperties>({
-    initialValues: {
-      bitcoinAddress: "",
-      amount: "",
-    },
-  });
+  const [amount, setAmount] = useState("");
+  const [address, setAddress] = useState("");
+  const feesReponse = useUnit<FeesRequest>($feesResponse);
+  const feesReponsePending = useUnit(getFees.pending);
+
+  const submitHandler = () => {
+    requestWithdraw({
+     amount : amount,
+     crypto : currentCoin!.symbol,
+     address : address
+    })
+  }
+
+  useEffect(() => {
+    currentCoin?.address ? setSelectedItem(Object.keys(currentCoin?.address)[0]) : "";
+  }, [currentCoin])
+  
   return (
     <Stack gap={rem(32)} className={classes.wrapper} id="withdrawBitcoin">
       <Flex justify={"space-between"}>
         <Text className={classes.title}>
           Withdraw
           <Text component={"span"} className={classes.span}>
-            Bitcoin
+            {currentCoin?.name}
           </Text>
         </Text>
         <Combobox
@@ -45,7 +60,7 @@ export const WithdrawBox = () => {
             </Group>
           </Combobox.Target>
           <Combobox.Dropdown className={classes.dropdown}>
-            {["BTC", "ETH", "SOL"].map((item) => (
+            {Object.keys(currentCoin?.address ? currentCoin?.address : []).map((item) => (
               <Combobox.Option className={clsx(classes.option, { [classes.active]: item === selectedItem })} value={item} key={item}>
                 {item}
               </Combobox.Option>
@@ -54,42 +69,42 @@ export const WithdrawBox = () => {
         </Combobox>
       </Flex>
       <Divider opacity={"0.12"} color={"white"} />
-      <form onSubmit={onSubmit((values) => console.log("values", values))}>
         <Stack gap={rem(32)}>
           <TextInput
+             value={address}
+             onChange={e => setAddress(e.target.value)}
             classNames={{
               input: classes.textInput,
               label: clsx(classes.label, classes.labelMargin),
             }}
-            label="Destination Bitcoin address"
+            label={"Destination " + currentCoin?.name + " address"}
             placeholder="Please double check this address"
-            {...getInputProps("bitcoinAddress")}
           />
           <TextInput
+          value={amount}
+          onChange={e => setAmount(e.target.value)}
             classNames={{
               input: classes.textInput,
               label: clsx(classes.label, classes.labelMargin),
             }}
-            label="Amount Bitcoin"
+            label={"Amount " + currentCoin?.name}
             type="number"
             min={0}
             placeholder="Maximum amount withdrawable: 0 Bitcoin"
-            {...getInputProps("amount")}
           />
           <Flex className={classes.bottomFlex} align={"center"} justify={"space-between"}>
             <Stack gap={rem(4)}>
-              <Text className={classes.label}>Bitcoin Network Fee</Text>
+              <Text className={classes.label}>{currentCoin?.name} Network Fee</Text>
               <Text className={classes.text}>Transactions on the Bitcoin network are priorirized by fees</Text>
             </Stack>
             <Stack>
-              <Text className={classes.title2}>0.000045 BTC</Text>
+              <Text className={classes.title2}>{feesReponse.withdraw_coins ? feesReponse.withdraw_coins![currentCoin ? currentCoin.symbol : "BTC"].gas_fee : ""}</Text>
             </Stack>
           </Flex>
-          <Button type="submit" variant="radial-gradient" className={classes.btn}>
+          <Button onClick={submitHandler} type="submit" variant="radial-gradient" className={classes.btn}>  
             <Text className={classes.inputValue}>Withdraw now</Text>
           </Button>
-        </Stack>
-      </form>
+        </Stack>  
 
       <Divider opacity={"0.12"} color={"white"} />
       <Box>

@@ -21,11 +21,29 @@ export interface DepositCoinsResponse {
   deposit_coins?: DepositCoin[];
 }
 
+export interface WithdrawCoin {
+  symbol: string;
+  name: string;
+  image: string;
+  address_types: string;
+  gas_fee: number;
+}
 
+export interface FeesRequest {
+  withdraw_coins? : {
+    [key: string]: WithdrawCoin;
+  }
+}
 interface Coin {
   symbol: string;
   name: string;
   image: string;
+}
+
+export interface WithdrawRequest {
+  amount: string;
+  crypto: string;
+  address: string;
 }
 
 interface InvestCoins {
@@ -75,6 +93,7 @@ export interface ProfileReponse {
   usdt_balance? : number;
   coins? : Crypto[];
   avatar? : string;
+  panel? : string;
 }
 
 export interface Crypto {
