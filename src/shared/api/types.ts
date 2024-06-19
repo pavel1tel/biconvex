@@ -55,6 +55,12 @@ export interface FeesRequest {
     [key: string]: number;
   }
 }
+
+export interface TransferResponse {
+  coins_balances? : {
+    [key: string]: number;
+  }
+}
 interface Coin {
   symbol: string;
   name: string;
@@ -65,6 +71,12 @@ export interface WithdrawRequest {
   amount: string;
   crypto: string;
   address: string;
+}
+
+export interface TransferRequest {
+  amount: string;
+  crypto: string;
+  to: string;
 }
 
 interface InvestCoins {

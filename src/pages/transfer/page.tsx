@@ -8,10 +8,12 @@ import { TransferBox } from "@/pages/transfer/ui";
 
 import { Container, Footer, Header, Sidebar, Wrapper } from "@/shared/ui";
 
+import { DepositCoin } from "@/shared/api/types";
 import classes from "./styles.module.css";
 
 export function Page() {
   const [selectedDeposit, setSelectedDeposit] = useState(1);
+  const [currentCoin, setCurrentCoin] = useState<DepositCoin>();
 
   const goToTransfer = () => {
     const transferBox = document.getElementById("transferBox");
@@ -42,9 +44,9 @@ export function Page() {
                 setSelectedDeposit(selected);
                 goToTransfer();
               }}
-              setCurrentCoin={() => {}}
+              setCurrentCoin={setCurrentCoin}
             />
-            <TransferBox />
+            <TransferBox currentCoin={currentCoin} />
           </Flex>
         </Sidebar>
       </Container>

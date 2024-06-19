@@ -96,7 +96,7 @@ export const WithdrawBox = ({
             label={"Amount " + currentCoin?.name}
             type="number"
             min={0}
-            placeholder={"Maximum amount "+((feesReponse.coins_balances ? feesReponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") ? (feesReponse.coins_balances ? feesReponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") : "0.00") + " " + currentCoin?.name}
+            placeholder={"Maximum amount "+ parseFloat(parseFloat(((feesReponse.coins_balances ? feesReponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") ? (feesReponse.coins_balances ? feesReponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") : "0.00").toString()).toFixed(4)) + " " + currentCoin?.name}
           />
           <Flex className={classes.bottomFlex} align={"center"} justify={"space-between"}>
             <Stack gap={rem(4)}>
