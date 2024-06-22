@@ -156,7 +156,7 @@ export const TableProfile = () => {
           </Table.Td>
           <Table.Td w={220}>
             <Text c="white" variant="text-3" span>
-              {coin.Balance}
+              {parseFloat(parseFloat(coin.Balance).toFixed(4))}
             </Text>
           </Table.Td>
           <Table.Td w={230}>

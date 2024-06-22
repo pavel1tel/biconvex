@@ -46,10 +46,7 @@ export const WithdrawBox = ({
     <Stack gap={rem(32)} className={classes.wrapper} id="withdrawBitcoin">
       <Flex justify={"space-between"}>
         <Text className={classes.title}>
-          Withdraw
-          <Text component={"span"} className={classes.span}>
-            {currentCoin?.name}
-          </Text>
+          Withdraw funds
         </Text>
         <Combobox
           width={140}

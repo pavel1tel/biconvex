@@ -12,6 +12,7 @@ type FormType = {
   username: string;
   name: string;
   phone: string;
+  surname: string;
 };
 
 export const AccountInfoForm = () => {
@@ -33,6 +34,7 @@ export const AccountInfoForm = () => {
       username: "",
       name: "",
       phone: "",
+      surname : ""
     },
     validate: {
       username: (value) => (value.length > 6 && value.length < 32 ? null : "Username should be between 6 and 32 characters"),
@@ -69,8 +71,12 @@ export const AccountInfoForm = () => {
           <TextInput
             className={`${classes.input} ${form.getInputProps("phone").value ? classes.blueBorder : ""}`}
             label="Your phone number"
-            placeholder="+12345678900"
+            placeholder="+12345678900"  
             {...form.getInputProps("phone")}
+          />
+          <Text
+            className={classes.input}
+            style={{opacity : 0}}
           />
         </Flex>
         <Button type="submit" className={classes.submitButton} size="xl" variant="radial-gradient">
