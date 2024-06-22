@@ -6,6 +6,9 @@ import { ArrowIcon, CopyIcon, SecureIcon } from "@/pages/my-profile/ui";
 
 import { routes } from "@/shared/routing";
 
+import { $profileReponse } from "@/pages/my-profile/model";
+import { ProfileReponse } from "@/shared/api/types";
+import { useUnit } from "effector-react";
 import { TwoFAModal } from "../TwoFAModal";
 import { AccountInfoForm } from "./components/AccountInfoForm";
 import { PasswordForm } from "./components/PasswordForm";
@@ -14,6 +17,7 @@ import classes from "./style.module.css";
 
 export const SettingsBox = () => {
   const [opened, { open, close }] = useDisclosure(false);
+  const profileReponse = useUnit<ProfileReponse>($profileReponse);
 
   const handleRedirection = () => window.scrollTo(0, 0);
 
@@ -31,7 +35,10 @@ export const SettingsBox = () => {
                   <CopyIcon />
                   <Text className={classes.subTitle}>Verification</Text>
                 </Flex>
-                <Text className={classes.textRed}>UNVERIFIED</Text>
+                {profileReponse.kyc_accepted ?
+                  <Text className={classes.textGreen}>VERIFIED</Text> :
+                  <Text className={classes.textRed}>UNVERIFIED</Text>
+                }
               </Stack>
               <Link to={routes.kyc} className={classes.actionArrow} onClick={handleRedirection}>
                 <ArrowIcon />
@@ -45,7 +52,10 @@ export const SettingsBox = () => {
                   <SecureIcon />
                   <Text className={classes.subTitle}>Security level</Text>
                 </Flex>
-                <Text className={classes.textOrange}>MEDIUM</Text>
+                {profileReponse.twoFactorEnabled ?
+                  <Text className={classes.textGreen}>HARD</Text> :
+                  <Text className={classes.textOrange}>MEDIUM</Text>
+                }
               </Stack>
               <button className={classes.actionArrow} onClick={open}>
                 <ArrowIcon />

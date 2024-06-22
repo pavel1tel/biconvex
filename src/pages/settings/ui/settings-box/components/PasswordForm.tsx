@@ -1,6 +1,8 @@
-import { Button, Flex, Stack, Text, TextInput } from "@mantine/core";
+import { Button, Flex, PasswordInput, Stack, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
+import { updatePassword } from "@/shared/api/settings/requests";
+import { useDisclosure } from "@mantine/hooks";
 import classes from "./style.module.css";
 
 type FormType = {
@@ -9,33 +11,45 @@ type FormType = {
 };
 
 export const PasswordForm = () => {
+  const [visible, { toggle }] = useDisclosure(false);
+  const [visible2, second] = useDisclosure(false);
+
   const form = useForm<FormType>({
     initialValues: {
       oldPass: "",
       newPass: "",
     },
     validate: {
-      oldPass: (value) => (/^(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{6,}$/.test(value) ? null : "Invalid password"),
-      newPass: (value) => (/^(?=.*[A-Z])(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{6,}$/.test(value) ? null : "Invalid password"),
+      oldPass: (value) => (value.length > 0 ? null : "Invalid password"),
+      newPass: (value) => (value.length > 0 ? null : "Invalid password"),
     },
   });
   return (
-    <form onSubmit={form.onSubmit((values) => console.log(values))}>
+    <form onSubmit={form.onSubmit((values) => {
+      updatePassword({
+        old_password: values.oldPass,
+        new_password: values.newPass,
+      })
+    })
+    }>
       <Stack className={classes.container}>
         <Text className={classes.title} variant="text-3">
           Password
         </Text>
         <Flex gap={16} wrap="wrap">
-          <TextInput
-            className={`${classes.input} ${form.getInputProps("oldPass").value ? classes.greenBorder : ""}`}
+          <PasswordInput
+            className={`${classes.password} ${form.getInputProps("oldPass").value ? classes.blueBorder : ""}`}
             label="Old password"
-            placeholder="Enter your old password"
+            visible={visible}
+            onVisibilityChange={toggle}
             {...form.getInputProps("oldPass")}
           />
-          <TextInput
-            className={`${classes.input} ${form.getInputProps("newPass").value ? classes.greenBorder : ""}`}
+          <PasswordInput
+            className={`${classes.password} ${form.getInputProps("newPass").value ? classes.blueBorder : ""}`}
             label="New password"
-            placeholder="Enter your new password"
+            defaultValue="secret"
+            visible={visible2}
+            onVisibilityChange={second.toggle}
             {...form.getInputProps("newPass")}
           />
         </Flex>

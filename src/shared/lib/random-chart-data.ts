@@ -5,7 +5,7 @@ function getRandomInt(min: number, max: number) {
 }
 
 export function randomChartData(): { name: string; value: number }[] {
-  const result = [];
+  const result : any  = [];
 
   const count = getRandomInt(10, 50);
 

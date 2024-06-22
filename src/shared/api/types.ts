@@ -20,7 +20,7 @@ export interface Transaction {
 }
 
 export interface TransactionsResponse {
-  transactions? : Transaction[]
+  transactions?: Transaction[]
 }
 
 
@@ -28,7 +28,7 @@ export interface DepositCoin {
   symbol: string;
   image: string;
   address: {
-      [key: string]: string;
+    [key: string]: string;
   };
   balance: string;
   name: string;
@@ -48,16 +48,16 @@ export interface WithdrawCoin {
 }
 
 export interface FeesRequest {
-  withdraw_coins? : {
+  withdraw_coins?: {
     [key: string]: WithdrawCoin;
   }
-  coins_balances? : {
+  coins_balances?: {
     [key: string]: number;
   }
 }
 
 export interface TransferResponse {
-  coins_balances? : {
+  coins_balances?: {
     [key: string]: number;
   }
 }
@@ -71,6 +71,38 @@ export interface WithdrawRequest {
   amount: string;
   crypto: string;
   address: string;
+}
+
+export interface UpdateAccountRequest {
+  username: string;
+  phone: string;
+  fullname: string;
+}
+
+export interface UpdatePasswordRequest {
+  old_password: string;
+  new_password: string;
+}
+
+export interface UpdatePersonalInfoRequest {
+  date_birth: string;
+  present_address: string;
+  permanent_address: string;
+  user_city: string;
+  user_postal_code: string;
+  user_country: string;
+}
+
+export interface SettingsReponse {
+  name?: string;
+  phone_number?: string;
+  username?: string;
+  birthDate?: string;
+  city?: string;
+  permanentAddress?: string;
+  postalCode?: string;
+  presentAddress?: string;
+  country?: string;
 }
 
 export interface TransferRequest {
@@ -103,30 +135,30 @@ export interface Course {
 export interface InvestResponse {
   invest_coins?: InvestCoins;
   plans_percents?: Plans;
-  total_balance? : string
-  courses? : [
+  total_balance?: string
+  courses?: [
     Course
   ]
 }
 
 export interface ProfileReponse {
-  pnl? : number[];
-  total_balance? : string;
-  username? : string;
-  email? : string;
-  id? : number;
-  premium? : boolean;
-  kyc_accepted? : boolean;
-  twoFactorEnabled? : boolean;
-  btc_price? : number;
-  btc_balance? : number;
-  eth_price? : number;
-  eth_balance? : number;
-  usdt_price? : number;
-  usdt_balance? : number;
-  coins? : Crypto[];
-  avatar? : string;
-  panel? : string;
+  pnl?: number[];
+  total_balance?: string;
+  username?: string;
+  email?: string;
+  id?: number;
+  premium?: boolean;
+  kyc_accepted?: boolean;
+  twoFactorEnabled?: boolean;
+  btc_price?: number;
+  btc_balance?: number;
+  eth_price?: number;
+  eth_balance?: number;
+  usdt_price?: number;
+  usdt_balance?: number;
+  coins?: Crypto[];
+  avatar?: string;
+  panel?: string;
 }
 
 export interface Crypto {
@@ -149,7 +181,7 @@ export interface InvestmentHistory {
 
 export interface StakingHistoryResponse {
   history?: {
-      [key: string]: InvestmentHistory;
+    [key: string]: InvestmentHistory;
   };
 }
 
@@ -161,14 +193,14 @@ export interface LoginRequestDto {
 export interface RegistrationRequestDto {
   email: string;
   password: string;
-  username :string;
+  username: string;
   re_password: string;
 }
 
 export interface StakeRequestDto {
   invest_amount: string;
   invest_plan: string;
-  invest_coin :string;
+  invest_coin: string;
 }
 
 export interface ConfrimRegRequerstDto {
