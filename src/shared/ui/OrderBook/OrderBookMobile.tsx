@@ -3,148 +3,98 @@ import clsx from "clsx";
 
 // import { NegativeTrendIcon } from "../icon/NegativeTrendIcon";
 // import { PositiveTrendIcon } from "../icon/PositiveTrendIcon";
+import { $orderBookResponse } from "@/pages/trade/model";
+import { getOrderBook } from "@/shared/api/trading/requests";
+import { useUnit } from "effector-react";
+import { useEffect, useState } from "react";
+import useWebSocket from "react-use-websocket";
+import { Container } from "../TradePageContainer/Container";
+import { NegativeTrendIcon } from "../icon/NegativeTrendIcon";
+import { PositiveTrendIcon } from "../icon/PositiveTrendIcon";
 import { SortIcon } from "../icon/SortIcon";
 import classes from "./OrderBook.module.css";
-import { Container } from "../TradePageContainer/Container";
 // import { NegativeTrendIcon } from "../icon/NegativeTrendIcon";
 // import { PositiveTrendIcon } from "../icon/PositiveTrendIcon";
 
-const header = ["Price USD", "Qty BTC", "Qty BTC","Price USD",];
-const rows = [
-  {
-    id: 1,
-    fill: 60,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 2,
-    fill: 10,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 3,
-    fill: 0,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 4,
-    fill: 50,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 5,
-    fill: 50,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 6,
-    fill: 80,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 7,
-    fill: 20,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 8,
-    fill: 0,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 9,
-    fill: 20,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 10,
-    fill: 95,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 11,
-    fill: 45,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-];
-const fullRows = [
-  ...rows,
-  {
-    id: 12,
-    fill: 77,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 13,
-    fill: 88,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 14,
-    fill: 55,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 15,
-    fill: 33,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 16,
-    fill: 22,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 17,
-    fill: 46,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 18,
-    fill: 37,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 19,
-    fill: 54,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 20,
-    fill: 66,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 21,
-    fill: 99,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 22,
-    fill: 10,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 23,
-    fill: 16,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-  {
-    id: 24,
-    fill: 45,
-    cells: ["$ 38,555.19", "0.299993"],
-  },
-];
+const header = ["Price USD", "Qty BTC", "Qty BTC", "Price USD",];
 
-export const OrderBookMobile = ({ activeCategory,addScroll,direction="row" }: { activeTab: string; activeCategory: string,addScroll?: boolean,direction?:StyleProp<'row' |'column' | undefined> }) => {
+export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row" }: { activeTab: string; activeCategory: string, addScroll?: boolean, direction?: StyleProp<'row' | 'column' | undefined> }) => {
+  const orderBookReponse = useUnit<any>($orderBookResponse);
+  const orderBookResponsePending = useUnit(getOrderBook.pending);
+  const [asks, setAsks] = useState<any[]>([])
+  const [bids, setBids] = useState<any[]>([])
+  const [reverseBids, setreverseBids] = useState<any[]>([])
 
+  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+  const [price, setPrice] = useState<any>({
+    price: 0,
+    up: false,
+  })
+
+  useEffect(() => {
+    if (!orderBookResponsePending) {
+      {
+        let tempAsks: any[] = [];
+        orderBookReponse.asks.forEach((ask) => {
+          tempAsks.push({
+            id: ask[0],
+            fill: parseFloat(ask[1]) * 100 >= 100 ? 0 : 100 - parseFloat(ask[1]) * 100,
+            cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5)]
+          })
+        })
+        setAsks(tempAsks.slice(0, 11))
+      }
+      {
+        let tempAsks: any[] = [];
+        let tempReverseBids: any[] = []
+        orderBookReponse.bids.forEach((ask) => {
+          tempAsks.push({
+            id: ask[0],
+            fill: parseFloat(ask[1]) * 100,
+            cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5)]
+          })
+        })
+        orderBookReponse.bids.forEach((ask) => {
+          tempReverseBids.push({
+            id: ask[0],
+            fill: parseFloat(ask[1]) * 100,
+            cells: [parseFloat(ask[1]).toFixed(5), "$" + parseFloat(ask[0]).toFixed(2)]
+          })
+        })
+        setBids(tempAsks.slice(0, 11))
+        setreverseBids(tempReverseBids.slice(0, 11));
+      }
+    }
+  }, [orderBookReponse, orderBookReponse]);
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+      getOrderBook();
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      let temp = JSON.parse(lastMessage.data)
+      setPrice((prev) => {
+        return {
+          price: parseFloat(temp["k"]["c"]),
+          up: parseFloat(temp["k"]["c"]) > prev["price"]
+        }
+      })
+    }
+  }, [lastMessage])
 
   return (
     <div className={classes.tableContainer}>
 
       <div className={classes.tableTHead}>
-        <Flex style={activeCategory !== "All" ? {gap:"48px"}:{justifyContent:"space-between"}}>
-          {(activeCategory !== "All" ? ["Qty BTC","Price USD"] : header).map((head,i) => (
+        <Flex style={activeCategory !== "All" ? { gap: "48px" } : { justifyContent: "space-between" }}>
+          {(activeCategory !== "All" ? ["Qty BTC", "Price USD"] : header).map((head, i) => (
             <div key={i} className={classes.tableTh}>
               <div>
                 <p>{head}</p>
@@ -156,92 +106,147 @@ export const OrderBookMobile = ({ activeCategory,addScroll,direction="row" }: { 
       </div>
 
 
-    <Flex
+      <Flex
 
 
-      gap="xs"
-      justify="flex-start"
-      align="center"
-      direction={direction}
-    >
+        gap="xs"
+        justify="flex-start"
+        align="center"
+        direction={direction}
+      >
 
-  
-    <div style={addScroll ? { height: "195px", overflow: "auto",flexGrow:1 } : {flexGrow:1}}>
-      <div className={classes.table}>
-        <div className={classes.tableBody}>
-          {(activeCategory === "All" ? rows : fullRows.slice(0,11)).map((row) => (
-            <div
-              key={row.id}
-              className={clsx(
-                classes.tableRow,
-                activeCategory === "All" || activeCategory === "Bids" ? classes.positive : classes.negative,
-                classes.tabelRowNegative
-              )}
-              style={activeCategory === "All" ? {
-                background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${
-                  activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
-                } ${100 - row.fill}%)`,
-              } : {
-                background: `linear-gradient(90deg,  ${activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"} ${100 - row.fill}%, rgba(12,13,16,1) ${100 - row.fill}%)`,
-              }}
-            >
-              {row.cells.map((td) => (
-                <div key={td} className={classes.tableCell}>
-                  <p>{td}</p>
+
+        <div style={addScroll ? { height: "195px", overflow: "auto", flexGrow: 1 } : { flexGrow: 1 }}>
+          <div className={classes.table}>
+            <div className={classes.tableBody}>
+              {(activeCategory === "All" ? reverseBids : (activeCategory === "Bids" ? bids : asks)).map((row) => (
+                <div
+                  key={row.id}
+                  className={clsx(
+                    classes.tableRow,
+                    activeCategory === "All" || activeCategory === "Bids" ? classes.positive : classes.negative,
+                    classes.tabelRowNegative
+                  )}
+                  style={activeCategory === "All" ? {
+                    background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
+                      } ${100 - row.fill}%)`,
+                  } : {
+                    background: `linear-gradient(90deg,  ${activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"} ${activeCategory === "Asks" ? 100 - row.fill : row.fill}%, rgba(12,13,16,1) ${activeCategory === "Asks" ? 100 - row.fill : row.fill}%)`,
+                  }}
+                >
+                  {row.cells.map((td) => (
+                    <div key={td} className={classes.tableCell}>
+                      <p>{td}</p>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </div>
-    
 
-    {activeCategory === "All"?
 
-    <div style={addScroll ? { height: "195px", overflow: "auto",flexGrow:1 } : {flexGrow:1}}>
-      <div className={classes.table}>
-        <div className={classes.tableBody}>
-          {activeCategory === "All" &&
-            rows.map((row) => (
-              <div
-                key={row.id}
-                className={clsx(classes.tableRow, classes.negativeText,classes.tabelRowNegative)}
-                style={{
-                  background: `linear-gradient(90deg, rgba(244, 74, 74, 0.8) ${100 - row.fill}%, rgba(12,13,16,1)${
-                    100 - row.fill
-                  }%)`,
-                }}
-              >
-                {row.cells.map((td) => (
-                  <div key={td}                 className={clsx(classes.tableCell, classes.negativeText)}
-                  >
-                    <p>{td}</p>
-                  </div>
-                ))}
+        {activeCategory === "All" ?
+
+          <div style={addScroll ? { height: "195px", overflow: "auto", flexGrow: 1 } : { flexGrow: 1 }}>
+            <div className={classes.table}>
+              <div className={classes.tableBody}>
+                {activeCategory === "All" &&
+                  asks.map((row) => (
+                    <div
+                      key={row.id}
+                      className={clsx(classes.tableRow, classes.negativeText, classes.tabelRowNegative)}
+                      style={{
+                        background: `linear-gradient(90deg, rgba(244, 74, 74, 0.8) ${100 - row.fill}%, rgba(12,13,16,1)${100 - row.fill}%)`,
+                      }}
+                    >
+                      {row.cells.map((td) => (
+                        <div key={td} className={clsx(classes.tableCell, classes.negativeText)}
+                        >
+                          <p>{td}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
               </div>
-            ))}
-        </div>
-      </div>
+            </div>
+          </div>
+          : null}
+      </Flex>
     </div>
-        :null}
-    </Flex>
-  </div>
   );
 };
 
 
 
-export const OrderBookMobileTradeTab = ({ activeCategory,addScroll }: { activeTab: string; activeCategory: string,addScroll?: boolean}
+export const OrderBookMobileTradeTab = ({ activeCategory, addScroll }: { activeTab: string; activeCategory: string, addScroll?: boolean }
 ) => {
+  const orderBookReponse = useUnit<any>($orderBookResponse);
+  const orderBookResponsePending = useUnit(getOrderBook.pending);
+  const [asks, setAsks] = useState<any[]>([])
+  const [bids, setBids] = useState<any[]>([])
 
+  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+  const [price, setPrice] = useState<any>({
+    price: 0,
+    up: false,
+  })
+
+  useEffect(() => {
+    if (!orderBookResponsePending) {
+      {
+        let tempAsks: any[] = [];
+        orderBookReponse.asks.forEach((ask) => {
+          tempAsks.push({
+            id: ask[0],
+            fill: parseFloat(ask[1]) * 100 >= 100 ? 0 : 100 - parseFloat(ask[1]) * 100,
+            cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5)]
+          })
+        })
+        setAsks(tempAsks.slice(0, 11).reverse())
+      }
+      {
+        let tempAsks: any[] = [];
+        orderBookReponse.bids.forEach((ask) => {
+          tempAsks.push({
+            id: ask[0],
+            fill: parseFloat(ask[1]) * 100,
+            cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5)]
+          })
+        })
+        setBids(tempAsks.slice(0, 11))
+      }
+    }
+  }, [orderBookReponse, orderBookReponse]);
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+      getOrderBook();
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      let temp = JSON.parse(lastMessage.data)
+      setPrice((prev) => {
+        return {
+          price: parseFloat(temp["k"]["c"]),
+          up: parseFloat(temp["k"]["c"]) > prev["price"]
+        }
+      })
+    }
+  }, [lastMessage])
 
   return (
     <Container className={classes.tableContainer}>
 
       <div className={classes.tableTHead}>
-        <Flex style={ {gap:"120px"}}>
-          {["Price USD", "Qty BTC"].map((head,i) => (
+        <Flex style={{ gap: "120px" }}>
+          {["Qty BTC", "Price USD"].map((head, i) => (
             <div key={i} className={classes.tableTh}>
               <div>
                 <p>{head}</p>
@@ -253,93 +258,91 @@ export const OrderBookMobileTradeTab = ({ activeCategory,addScroll }: { activeTa
       </div>
 
 
-    <Flex
+      <Flex
 
 
-      gap="xs"
-      justify="flex-start"
-      align="center"
-      direction="column-reverse"
-    >
+        gap="xs"
+        justify="flex-start"
+        align="center"
+        direction="column-reverse"
+      >
 
-  
-    <div style={addScroll ? { height: "195px", overflow: "auto",flexGrow:1,width:"100%" } : {flexGrow:1}}>
-      <div className={classes.table}>
-        <div className={classes.tableBody}>
-          {(activeCategory === "All" ? rows : fullRows.slice(0,11)).map((row) => (
-            <div
-              key={row.id}
-              className={clsx(
-                classes.tableRow,
-                activeCategory === "All" || activeCategory === "Bids" ? classes.positive : classes.negative,
-                classes.tabelRowNegative
-              )}
-              style={activeCategory === "All" ? {
-                background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${
-                  activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
-                } ${100 - row.fill}%)`,
-              } : {
-                background: `linear-gradient(90deg,  ${activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"} ${100 - row.fill}%, rgba(12,13,16,1) ${100 - row.fill}%)`,
-              }}
-            >
-              {row.cells.map((td) => (
-                <div key={td} className={classes.tableCell}>
-                  <p>{td}</p>
+
+        <div style={addScroll ? { height: "195px", overflow: "auto", flexGrow: 1, width: "100%" } : { flexGrow: 1 }}>
+          <div className={classes.table}>
+            <div className={classes.tableBody}>
+              {(activeCategory === "All" ? bids : (activeCategory === "Bids" ? bids : asks)).map((row) => (
+                <div
+                  key={row.id}
+                  className={clsx(
+                    classes.tableRow,
+                    activeCategory === "All" || activeCategory === "Bids" ? classes.positive : classes.negative,
+                    classes.tabelRowNegative
+                  )}
+                  style={activeCategory === "All" ? {
+                    background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
+                      } ${100 - row.fill}%)`,
+                  } : {
+                    background: `linear-gradient(90deg,  ${activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"} ${100 - row.fill}%, rgba(12,13,16,1) ${100 - row.fill}%)`,
+                  }}
+                >
+                  {row.cells.map((td) => (
+                    <div key={td} className={classes.tableCell}>
+                      <p>{td}</p>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </div>
-    
 
- 
-    
 
-    <div className={classes.tableTHead} style={{alignSelf:"flex-start"}}>
-        <Flex style={ {gap:"120px"}}>
-          {["Price USD", "Qty BTC"].map((head,i) => (
-            <div key={i} className={classes.tableTh}>
-              <div>
-                <p>{head}</p>
-                <SortIcon />
-              </div>
-            </div>
-          ))}
-        </Flex>
-      </div>
 
-      <div className={classes.number}>
-      38,555.19
-    </div>
-    <div style={addScroll ? { height: "195px", overflow: "auto",flexGrow:1,width:"100%" } : {flexGrow:1}}>
-      <div className={classes.table}>
-        <div className={classes.tableBody}>
-          {activeCategory === "All" &&
-            rows.map((row) => (
-              <div
-                key={row.id}
-                className={clsx(classes.tableRow, classes.negativeText,classes.tabelRowNegative)}
-                style={{
-                  background: `linear-gradient(90deg, rgba(244, 74, 74, 0.8) ${100 - row.fill}%, rgba(12,13,16,1)${
-                    100 - row.fill
-                  }%)`,
-                }}
-              >
-                {row.cells.map((td) => (
-                  <div key={td}                 className={clsx(classes.tableCell, classes.negativeText)}
-                  >
-                    <p>{td}</p>
-                  </div>
-                ))}
+
+
+        <div className={classes.tableTHead} style={{ alignSelf: "flex-start" }}>
+          <Flex style={{ gap: "120px" }}>
+            {["Qty BTC", "Price USD"].map((head, i) => (
+              <div key={i} className={classes.tableTh}>
+                <div>
+                  <p>{head}</p>
+                  <SortIcon />
+                </div>
               </div>
             ))}
+          </Flex>
         </div>
-      </div>
-    </div>
 
-    </Flex>
-  </Container>
+        <div className={price.up ? classes.Upnumber : classes.Downnumber}>
+          $ {price.price} {!price.up ? <NegativeTrendIcon fill="rgba(244, 74, 74, 0.8)" /> : <PositiveTrendIcon fill="#5adea7cc" />}
+        </div>
+        <div style={addScroll ? { height: "195px", overflow: "auto", flexGrow: 1, width: "100%" } : { flexGrow: 1 }}>
+          <div className={classes.table}>
+            <div className={classes.tableBody}>
+              {activeCategory === "All" &&
+                asks.map((row) => (
+                  <div
+                    key={row.id}
+                    className={clsx(classes.tableRow, classes.negativeText, classes.tabelRowNegative)}
+                    style={{
+                      background: `linear-gradient(90deg, rgba(244, 74, 74, 0.8) ${100 - row.fill}%, rgba(12,13,16,1)${100 - row.fill
+                        }%)`,
+                    }}
+                  >
+                    {row.cells.map((td) => (
+                      <div key={td} className={clsx(classes.tableCell, classes.negativeText)}
+                      >
+                        <p>{td}</p>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+
+      </Flex>
+    </Container>
   );
 };

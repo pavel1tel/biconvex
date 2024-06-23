@@ -19,7 +19,9 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
   const orderBookResponsePending = useUnit(getOrderBook.pending);
   const [asks, setAsks] = useState<any[]>([])
   const [bids, setBids] = useState<any[]>([])
-  const [fullAsks, setFullAsks] = useState<any[]>([])
+  const [fullAsks, setFullAsks] = useState<any[]>([]);
+  const [fullBids, setFullBids] = useState<any[]>([])
+
   const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
   const [price, setPrice] = useState<any>({
@@ -51,7 +53,7 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
           })
         })
         setBids(tempAsks.slice(0, 11).reverse())
-        setFullAsks(tempAsks)
+        setFullBids(tempAsks)
       }
     }
   }, [orderBookReponse, orderBookReponse]);
@@ -69,7 +71,6 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
     if (lastMessage !== null) {
       let temp = JSON.parse(lastMessage.data)
       setPrice((prev) => {
-        console.log(parseFloat(temp["k"]["c"]) > prev["price"])
         return {
           price: parseFloat(temp["k"]["c"]),
           up: parseFloat(temp["k"]["c"]) > prev["price"]
@@ -99,7 +100,7 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
       <div style={addScroll && activeCategory === 'All' ? { height: "210px", overflow: "auto" } : {}}>
         <div className={classes.table}>
           <div className={classes.tableBody}>
-            {(activeCategory === "All" ? bids : isFullRows ? fullAsks : bids).map((row) => (
+            {(activeCategory === "All" ? bids : isFullRows ? (activeCategory ==="Bids" ? fullBids : fullAsks) : (activeCategory ==="Bids" ? bids : asks)).map((row) => (
               <div
                 key={row.id}
                 className={clsx(
@@ -132,7 +133,7 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
                   [classes.positive]: price.up,
                 })}
               >
-                $ {price.price} {!price.up ? <NegativeTrendIcon /> : <PositiveTrendIcon />}
+                $ {price.price} {!price.up ? <NegativeTrendIcon fill="#fff"/> : <PositiveTrendIcon fill="#fff"/>}
               </p>
             </div>
           </div>
@@ -149,8 +150,7 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
                     key={row.id}
                     className={clsx(classes.tableRow, classes.negative)}
                     style={{
-                      background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, rgba(244, 74, 74, 0.8) ${100 - row.fill
-                        }%)`,
+                      background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, rgba(244, 74, 74, 0.8) ${100 - row.fill}%)`,
                     }}
                   >
                     {row.cells.map((td) => (
