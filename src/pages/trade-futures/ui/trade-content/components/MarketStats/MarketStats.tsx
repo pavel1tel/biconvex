@@ -15,7 +15,7 @@ import classes from "./MarketStats.module.css";
 import "./Progress.css";
 
 export const MarketStats = () => {
-  const [activePeriodValue, setActivePeriodValue] = useState(0);
+  const [activePeriodValue, setActivePeriodValue] = useState("1d");
 
   return (
     <div style={{ flex: 1 }}>

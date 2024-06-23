@@ -17,7 +17,7 @@ export const tabs = [
   { id: "history", title: "My Trading History", content: <HistoryTab /> },
 ];
 export const TradeHistory = () => {
-  const [activePeriodValue, setActivePeriodValue] = useState(0);
+  const [activePeriodValue, setActivePeriodValue] = useState("1d");
 
   const [siblings, setSiblings] = useState(getSiblings());
 

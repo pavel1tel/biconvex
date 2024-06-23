@@ -267,7 +267,7 @@ const series = [
   },
 ];
 export const TradeChart = () => {
-  const [activePeriod, setActivePeriod] = useState(1);
+  const [activePeriod, setActivePeriod] = useState("1m");
   const [minZoomIndex, setMinZoomIndex] = useState(0);
   const [maxZoomIndex, setMaxZoomIndex] = useState(series[0].data.length - 1);
   const ref = useRef<any>(null);
@@ -333,15 +333,15 @@ export const TradeChart = () => {
         {period.map((item) => (
           <button
             key={item.value}
-            className={clsx(classes.periodButton, { [classes.active]: item.value === activePeriod })}
-            onClick={() => setActivePeriod(item.value)}
+            className={clsx(classes.periodButton, { [classes.active]: item.title === activePeriod })}
+            onClick={() => setActivePeriod(item.title)}
           >
             {item.title}
           </button>
         ))}
         <Select bordered activeValue={activePeriod} setActiveValue={setActivePeriod} />
       </Group>
-      <LightWeightChart />
+      <LightWeightChart period={activePeriod}/>
     </Container>
   );
 };
