@@ -7,25 +7,25 @@ import { ArrowDown } from "@/shared/ui";
 import classes from "./Select.module.css";
 
 type SelectProps = {
-  activeValue: number;
-  setActiveValue: Dispatch<SetStateAction<number>>;
+  activeValue: string;
+  setActiveValue: Dispatch<SetStateAction<string>>;
   backgroundTransparent?: boolean;
   bordered?: boolean;
   defaultFirst?: boolean;
 };
 const options = [
-  { title: "24h", value: 1440 },
-  { title: "48h", value: 2880 },
-  { title: "72h", value: 4320 },
-  { title: "96h", value: 5760 },
+  { title: "1d", value: 1440 },
+  { title: "3d", value: 4320 },
+  { title: "1w", value: 10080 },
+  { title: "1M", value: 43829 },
 ];
 export const Select = ({ activeValue, setActiveValue, backgroundTransparent, bordered, defaultFirst }: SelectProps) => {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
-  const label = (() => options.find((opt) => opt.value === activeValue)?.title)();
+  const label = (() => options.find((opt) => opt.title === activeValue)?.title)();
   useEffect(() => {
-    if (defaultFirst) setActiveValue(options[0].value);
+    if (defaultFirst) setActiveValue(options[0].title);
   }, [defaultFirst]);
   return (
     <Combobox
@@ -43,7 +43,7 @@ export const Select = ({ activeValue, setActiveValue, backgroundTransparent, bor
           className={clsx(
             classes.showFilterWrapper,
             bordered && classes.bordered,
-            options.find((opt) => opt.value === activeValue) && classes.active,
+            options.find((opt) => opt.title === activeValue) && classes.active,
           )}
           onClick={() => combobox.toggleDropdown()}
         >
@@ -59,9 +59,9 @@ export const Select = ({ activeValue, setActiveValue, backgroundTransparent, bor
             <Combobox.Option
               value={item.toString()}
               key={item.value}
-              className={clsx({ [classes.dropdownOptionSelected]: activeValue === item.value })}
+              className={clsx({ [classes.dropdownOptionSelected]: activeValue === item.title })}
               classNames={{ option: classes.dropdownOption }}
-              onClick={() => setActiveValue(item.value)}
+              onClick={() => setActiveValue(item.title)}
             >
               {item.title}
             </Combobox.Option>

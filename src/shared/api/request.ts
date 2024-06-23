@@ -18,6 +18,10 @@ export const api = axios.create({
   withCredentials: true,
 });
 
+export const binanceApi = axios.create({
+  baseURL: `https://api.binance.com/`,
+});
+
 export const requestFx = createEffect<Request, any>((request) => {
   return api({
     method: request.method,
@@ -55,6 +59,30 @@ export const requestRegistration = createEffect<Request, any>((request) => {
       ...request.headers,
     },
     withCredentials: true,
+  })
+    .then((response) => {
+      return { message: response.data };
+    })
+    .catch((error) => {
+      console.error(error, error.message);
+      if (error.response) {
+        return Promise.reject({ message: error.response.data });
+      } else {
+        return Promise.reject({ message: error.message });
+      }
+    });
+});
+
+
+export const requestBinance = createEffect<Request, any>((request) => {
+  return binanceApi({
+    method: request.method,
+    url: request.path,
+    data: request.body,
+    headers: {
+      Accept: "application/json",
+      ...request.headers,
+    },
   })
     .then((response) => {
       return { message: response.data };

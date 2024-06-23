@@ -16,12 +16,12 @@ const period = [
   { title: "15m", value: 15 },
   { title: "30m", value: 30 },
   { title: "1h", value: 60 },
-  { title: "3h", value: 180 },
+  { title: "4h", value: 240 },
   { title: "12h", value: 720 },
 ];
 
 export const TradeChart = () => {
-  const [activePeriod, setActivePeriod] = useState(1);
+  const [activePeriod, setActivePeriod] = useState("1m");
 
   return (
     <Container padding={48} className={classes.chartContainer}>
@@ -30,8 +30,8 @@ export const TradeChart = () => {
         {period.map((item) => (
           <button
             key={item.value}
-            className={clsx(classes.periodButton, { [classes.active]: item.value === activePeriod })}
-            onClick={() => setActivePeriod(item.value)}
+            className={clsx(classes.periodButton, { [classes.active]: item.title === activePeriod })}
+            onClick={() => setActivePeriod(item.title)}
           >
             {item.title}
           </button>
@@ -39,7 +39,7 @@ export const TradeChart = () => {
         <Select bordered activeValue={activePeriod} setActiveValue={setActivePeriod} />
       </Group>
 
-      <LightWeightChart />
+      <LightWeightChart period={activePeriod} />
     </Container>
   );
 };

@@ -1,47 +1,74 @@
-import { CrosshairMode, IChartApi, ISeriesApi, createChart } from "lightweight-charts";
+import { CrosshairMode, IChartApi, ISeriesApi, UTCTimestamp, createChart } from "lightweight-charts";
 import { useEffect, useRef, useState } from "react";
 import useWebSocket from 'react-use-websocket';
 
+import { $candlesReponse } from "@/pages/trade/model";
+import { getCandles } from "@/shared/api/trading/requests";
+import { useUnit } from "effector-react";
 import classes from "./TradeChart.module.css";
 
-const LightWeightChart = () => {
+const LightWeightChart = ({
+  period,
+}: {
+  period: string;
+}) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
   const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
-  const [seriesData, setSeriesData] = useState<any[]>([])
+  const seriesData = useRef<any>(null)
   const [prevDate, setPrevDate] = useState(0)
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+  const candelsReponse = useUnit<[any[]]>($candlesReponse);
+  const candelsReponsePending = useUnit(getCandles.pending);
 
   useEffect(() => {
-    if (lastMessage !== null) {
+    if (!candelsReponsePending && lastMessage !== null && seriesRef.current) {
       let temp = JSON.parse(lastMessage.data)
-      let date = new Date(temp["k"]["t"])
-      console.log(date);
-      if (prevDate != temp["k"]["t"]) {
-        setSeriesData((prev) => prev.concat({
-          time: temp["k"]["t"],
+      if (prevDate != temp["k"]["t"] / 1000) {
+        seriesRef.current.update({
+          time: (temp["k"]["t"] / 1000) as UTCTimestamp,
           open: parseFloat(temp["k"]["o"]),
           high: parseFloat(temp["k"]["h"]),
           low: parseFloat(temp["k"]["l"]),
           close: parseFloat(temp["k"]["c"]),
-        }));
-      } else {
-        setSeriesData((prev) => {
-          let index = prev.findIndex((val) => val.time == prevDate);
-          prev.pop()
-          return prev.concat({
-            time: temp["k"]["t"],
-            open: parseFloat(temp["k"]["o"]),
-            high: parseFloat(temp["k"]["h"]),
-            low: parseFloat(temp["k"]["l"]),
-            close: parseFloat(temp["k"]["c"]),
-          })
         });
+      } else {
+        seriesRef.current.update({
+          time: (temp["k"]["t"] / 1000) as UTCTimestamp,
+          open: parseFloat(temp["k"]["o"]),
+          high: parseFloat(temp["k"]["h"]),
+          low: parseFloat(temp["k"]["l"]),
+          close: parseFloat(temp["k"]["c"]),
+        }
+        );
       }
-      setPrevDate(temp["k"]["t"])
+      setPrevDate(temp["k"]["t"] / 1000)
     }
   }, [lastMessage]);
+
+  useEffect(() => {
+    if (!candelsReponsePending && seriesRef.current) {
+      let temp: any[] = []
+      candelsReponse.forEach((candle) => {
+        temp.push({
+          time: (candle[0] / 1000) as UTCTimestamp,
+          open: parseFloat(candle[1]),
+          high: parseFloat(candle[2]),
+          low: parseFloat(candle[3]),
+          close: parseFloat(candle[4]),
+        })
+      })
+      seriesRef.current.setData(temp)
+      setPrevDate(temp[temp.length - 1].time)
+    }
+  }, [candelsReponsePending, candelsReponse])
+
+  useEffect(() => {
+    getCandles(period);
+    setSocketUrl("wss://stream.binance.com:9443/ws/btcusdt@kline_" + period)
+    setPrevDate(0);
+  }, [period])
 
   useEffect(() => {
     if (chartContainerRef.current) {
@@ -82,8 +109,6 @@ const LightWeightChart = () => {
         wickDownColor: "#E42222",
       });
 
-      seriesRef.current.setData(seriesData);
-
       const resizeObserver = new ResizeObserver((entries) => {
         for (let entry of entries) {
           const { width, height } = entry.contentRect;
@@ -98,7 +123,7 @@ const LightWeightChart = () => {
         chartRef.current?.remove();
       };
     }
-  }, [seriesData]);
+  }, []);
 
   return <div ref={chartContainerRef} className={classes.chart} />;
 };
