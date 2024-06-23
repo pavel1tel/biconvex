@@ -12,3 +12,14 @@ export const getCandles = createEffect<string, any, ResponseDto>(async (interval
         },
     });
 });
+
+export const getOrderBook = createEffect<void, any, ResponseDto>(async () => {
+
+    return requestBinance({
+        path: "/api/v3/depth?symbol=BTCUSDT&limit=22",
+        method: "GET",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    });
+});

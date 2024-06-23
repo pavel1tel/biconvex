@@ -1,140 +1,83 @@
 
 import clsx from "clsx";
 
-import classes from "./OrderBook.module.css";
+import { $orderBookResponse } from "@/pages/trade/model";
+import { getOrderBook } from "@/shared/api/trading/requests";
+import { Table } from "@mantine/core";
+import { useUnit } from "effector-react";
+import { useEffect, useState } from "react";
+import useWebSocket from "react-use-websocket";
 import { NegativeTrendIcon } from "../icon/NegativeTrendIcon";
 import { PositiveTrendIcon } from "../icon/PositiveTrendIcon";
 import { SortIcon } from "../icon/SortIcon";
-import { Table } from "@mantine/core";
+import classes from "./OrderBook.module.css";
 
 const header = ["Price USD", "Qty BTC", "Total USD"];
-const rows = [
-  {
-    id: 1,
-    fill: 60,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 2,
-    fill: 10,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 3,
-    fill: 0,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 4,
-    fill: 50,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 5,
-    fill: 50,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 6,
-    fill: 80,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 7,
-    fill: 20,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 8,
-    fill: 0,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 9,
-    fill: 20,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 10,
-    fill: 95,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 11,
-    fill: 45,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-];
-const fullRows = [
-  ...rows,
-  {
-    id: 12,
-    fill: 77,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 13,
-    fill: 88,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 14,
-    fill: 55,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 15,
-    fill: 33,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 16,
-    fill: 22,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 17,
-    fill: 46,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 18,
-    fill: 37,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 19,
-    fill: 54,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 20,
-    fill: 66,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 21,
-    fill: 99,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  {
-    id: 22,
-    fill: 10,
-    cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  },
-  // {
-  //   id: 23,
-  //   fill: 16,
-  //   cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  // },
-  // {
-  //   id: 24,
-  //   fill: 45,
-  //   cells: ["$ 38,555.19", "0.299993", "$ 15,156.56"],
-  // },
-];
 
-export const OrderBookDesktop = ({ isFullRows,activeCategory, addScroll }: { isFullRows?:boolean,activeCategory: string; addScroll?: boolean }) => {
+export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { isFullRows?: boolean, activeCategory: string; addScroll?: boolean }) => {
+  const orderBookReponse = useUnit<any>($orderBookResponse);
+  const orderBookResponsePending = useUnit(getOrderBook.pending);
+  const [asks, setAsks] = useState<any[]>([])
+  const [bids, setBids] = useState<any[]>([])
+  const [fullAsks, setFullAsks] = useState<any[]>([])
+  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+  const [price, setPrice] = useState<any>({
+    price: 0,
+    up: false,
+  })
+
+  useEffect(() => {
+    if (!orderBookResponsePending) {
+      {
+        let tempAsks: any[] = [];
+        orderBookReponse.asks.forEach((ask) => {
+          tempAsks.push({
+            id: ask[0],
+            fill: parseFloat(ask[1]) * 100,
+            cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5), "$" + (parseFloat(ask[0]) * parseFloat(ask[1])).toFixed(2)]
+          })
+        })
+        setAsks(tempAsks.slice(0, 11))
+        setFullAsks(tempAsks)
+      }
+      {
+        let tempAsks: any[] = [];
+        orderBookReponse.bids.forEach((ask) => {
+          tempAsks.push({
+            id: ask[0],
+            fill: parseFloat(ask[1]) * 100,
+            cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5), "$" + (parseFloat(ask[0]) * parseFloat(ask[1])).toFixed(2)]
+          })
+        })
+        setBids(tempAsks.slice(0, 11).reverse())
+        setFullAsks(tempAsks)
+      }
+    }
+  }, [orderBookReponse, orderBookReponse]);
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+      getOrderBook();
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      let temp = JSON.parse(lastMessage.data)
+      setPrice((prev) => {
+        console.log(parseFloat(temp["k"]["c"]) > prev["price"])
+        return {
+          price: parseFloat(temp["k"]["c"]),
+          up: parseFloat(temp["k"]["c"]) > prev["price"]
+        }
+      })
+    }
+  }, [lastMessage])
+
   return (
     <div className={classes.tableContainer}>
       <Table className={classes.table}>
@@ -152,11 +95,11 @@ export const OrderBookDesktop = ({ isFullRows,activeCategory, addScroll }: { isF
         </Table.Thead>
       </Table>
 
- 
+
       <div style={addScroll && activeCategory === 'All' ? { height: "210px", overflow: "auto" } : {}}>
         <div className={classes.table}>
           <div className={classes.tableBody}>
-            {(activeCategory === "All" ? rows :isFullRows? fullRows:rows).map((row) => (
+            {(activeCategory === "All" ? bids : isFullRows ? fullAsks : bids).map((row) => (
               <div
                 key={row.id}
                 className={clsx(
@@ -164,9 +107,8 @@ export const OrderBookDesktop = ({ isFullRows,activeCategory, addScroll }: { isF
                   activeCategory === "All" || activeCategory === "Bids" ? classes.positive : classes.negative
                 )}
                 style={{
-                  background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${
-                    activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
-                  } ${100 - row.fill}%)`,
+                  background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
+                    } ${100 - row.fill}%)`,
                 }}
               >
                 {row.cells.map((td) => (
@@ -183,47 +125,46 @@ export const OrderBookDesktop = ({ isFullRows,activeCategory, addScroll }: { isF
       <div className={classes.table}>
         <div className={classes.tableBody}>
           <div className={classes.tableRow}>
-            <div className={clsx(classes.tableCell, classes.totalCell)} style={{width:'100%'}}>
+            <div className={clsx(classes.tableCell, classes.totalCell)} style={{ width: '100%' }}>
               <p
                 className={clsx(classes.orderBookInfo, {
-                  [classes.negative]: activeCategory === "Bids",
-                  [classes.positive]: activeCategory === "All" || activeCategory === "Asks",
+                  [classes.negative]: !price.up,
+                  [classes.positive]: price.up,
                 })}
               >
-                $ 38,555.19 {activeCategory === "Bids" ? <NegativeTrendIcon /> : <PositiveTrendIcon />}
+                $ {price.price} {!price.up ? <NegativeTrendIcon /> : <PositiveTrendIcon />}
               </p>
             </div>
           </div>
         </div>
       </div>
-      {activeCategory === 'All'?
-      
-      <div style={addScroll ? { height: "210px", overflow: "auto" } : {}}>
-        <div className={classes.table}>
-          <div className={classes.tableBody}>
-            {activeCategory === "All" &&
-              rows.map((row) => (
-                <div
-                  key={row.id}
-                  className={clsx(classes.tableRow, classes.negative)}
-                  style={{
-                    background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, rgba(244, 74, 74, 0.8) ${
-                      100 - row.fill
-                    }%)`,
-                  }}
-                >
-                  {row.cells.map((td) => (
-                    <div key={td}                   className={clsx(classes.tableCell, classes.negativeText)}
-                    >
-                      <p>{td}</p>
-                    </div>
-                  ))}
-                </div>
-              ))}
+      {activeCategory === 'All' ?
+
+        <div style={addScroll ? { height: "210px", overflow: "auto" } : {}}>
+          <div className={classes.table}>
+            <div className={classes.tableBody}>
+              {activeCategory === "All" &&
+                asks.map((row) => (
+                  <div
+                    key={row.id}
+                    className={clsx(classes.tableRow, classes.negative)}
+                    style={{
+                      background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, rgba(244, 74, 74, 0.8) ${100 - row.fill
+                        }%)`,
+                    }}
+                  >
+                    {row.cells.map((td) => (
+                      <div key={td} className={clsx(classes.tableCell, classes.negativeText)}
+                      >
+                        <p>{td}</p>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
-      </div>
-:null}
+        : null}
     </div>
   );
 };
