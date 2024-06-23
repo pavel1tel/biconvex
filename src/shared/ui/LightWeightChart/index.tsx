@@ -15,41 +15,37 @@ const LightWeightChart = ({
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
+  const volumeSeries = useRef<ISeriesApi<"Histogram"> | null>(null);
+
   const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
   const seriesData = useRef<any>(null)
-  const [prevDate, setPrevDate] = useState(0)
+  const [redraw, setRedraw] = useState(false);
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
   const candelsReponse = useUnit<[any[]]>($candlesReponse);
   const candelsReponsePending = useUnit(getCandles.pending);
 
   useEffect(() => {
-    if (!candelsReponsePending && lastMessage !== null && seriesRef.current) {
+    if (!candelsReponsePending && lastMessage !== null && seriesRef.current && volumeSeries.current) {
       let temp = JSON.parse(lastMessage.data)
-      if (prevDate != temp["k"]["t"] / 1000) {
-        seriesRef.current.update({
-          time: (temp["k"]["t"] / 1000) as UTCTimestamp,
-          open: parseFloat(temp["k"]["o"]),
-          high: parseFloat(temp["k"]["h"]),
-          low: parseFloat(temp["k"]["l"]),
-          close: parseFloat(temp["k"]["c"]),
-        });
-      } else {
-        seriesRef.current.update({
-          time: (temp["k"]["t"] / 1000) as UTCTimestamp,
-          open: parseFloat(temp["k"]["o"]),
-          high: parseFloat(temp["k"]["h"]),
-          low: parseFloat(temp["k"]["l"]),
-          close: parseFloat(temp["k"]["c"]),
-        }
-        );
-      }
-      setPrevDate(temp["k"]["t"] / 1000)
+      seriesRef.current.update({
+        time: (temp["k"]["t"] / 1000) as UTCTimestamp,
+        open: parseFloat(temp["k"]["o"]),
+        high: parseFloat(temp["k"]["h"]),
+        low: parseFloat(temp["k"]["l"]),
+        close: parseFloat(temp["k"]["c"]),
+      });
+      volumeSeries.current.update({
+        time: (temp["k"]["t"] / 1000) as UTCTimestamp,
+        value: parseFloat(temp["k"]["v"]),
+        color: parseFloat(temp["k"]["o"]) > parseFloat(temp["k"]["c"]) ? '#E4222280' : "#0ECB7B80"
+      });
     }
   }, [lastMessage]);
 
   useEffect(() => {
-    if (!candelsReponsePending && seriesRef.current) {
+    if (!candelsReponsePending && seriesRef.current && volumeSeries.current) {
       let temp: any[] = []
+      let tempVol: any[] = []
       candelsReponse.forEach((candle) => {
         temp.push({
           time: (candle[0] / 1000) as UTCTimestamp,
@@ -58,16 +54,22 @@ const LightWeightChart = ({
           low: parseFloat(candle[3]),
           close: parseFloat(candle[4]),
         })
+
+        tempVol.push({
+          time: (candle[0] / 1000) as UTCTimestamp,
+          value: parseFloat(candle[5]),
+          color: parseFloat(candle[1]) > parseFloat(candle[4]) ? '#E4222290' : "#0ECB7B90"
+        })
       })
       seriesRef.current.setData(temp)
-      setPrevDate(temp[temp.length - 1].time)
+      volumeSeries.current.setData(tempVol)
     }
   }, [candelsReponsePending, candelsReponse])
 
   useEffect(() => {
     getCandles(period);
     setSocketUrl("wss://stream.binance.com:9443/ws/btcusdt@kline_" + period)
-    setPrevDate(0);
+    setRedraw((prev) => !prev)
   }, [period])
 
   useEffect(() => {
@@ -117,13 +119,26 @@ const LightWeightChart = ({
       });
 
       resizeObserver.observe(chartContainerRef.current);
+      volumeSeries.current = chartRef.current?.addHistogramSeries({
+        priceFormat: {
+          type: 'volume',
+        },
+        priceScaleId: ''
+      });
+
+      volumeSeries.current.priceScale().applyOptions({
+        scaleMargins: {
+          top: 0.85,
+          bottom: 0,
+        },
+      });
 
       return () => {
         resizeObserver.disconnect();
         chartRef.current?.remove();
       };
     }
-  }, []);
+  }, [redraw]);
 
   return <div ref={chartContainerRef} className={classes.chart} />;
 };
