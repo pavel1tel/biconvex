@@ -51,14 +51,14 @@ export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row" }
         orderBookReponse.bids.forEach((ask) => {
           tempAsks.push({
             id: ask[0],
-            fill: parseFloat(ask[1]) * 100,
+            fill: parseFloat(ask[1]) * 100 >= 100 ? 100 : parseFloat(ask[1]) * 100,
             cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5)]
           })
         })
         orderBookReponse.bids.forEach((ask) => {
           tempReverseBids.push({
             id: ask[0],
-            fill: parseFloat(ask[1]) * 100,
+            fill: parseFloat(ask[1]) * 100 >= 100 ? 100 : parseFloat(ask[1]) * 100,
             cells: [parseFloat(ask[1]).toFixed(5), "$" + parseFloat(ask[0]).toFixed(2)]
           })
         })
@@ -211,7 +211,7 @@ export const OrderBookMobileTradeTab = ({ activeCategory, addScroll }: { activeT
         orderBookReponse.bids.forEach((ask) => {
           tempAsks.push({
             id: ask[0],
-            fill: parseFloat(ask[1]) * 100,
+            fill: parseFloat(ask[1]) * 100 >= 100 ? 100 : parseFloat(ask[1]) * 100,
             cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5)]
           })
         })
