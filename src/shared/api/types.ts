@@ -6,6 +6,11 @@ export interface ResponseDto {
   message: string;
 }
 
+export interface CandlesRequest {
+  interval: string;
+  pair: string
+}
+
 export interface Transaction {
   symbol: string;
   image: string;

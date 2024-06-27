@@ -1,8 +1,7 @@
-import { Divider, Group, Pill, Stack, Text, Title, rem } from "@mantine/core";
-import React, { useMemo } from "react";
+import { Divider, Group, Stack, Text, Title, rem } from "@mantine/core";
+import React from "react";
 import { P, match } from "ts-pattern";
 
-import { randomChartData } from "@/shared/lib/random-chart-data";
 import { RateChart, RateType } from "@/shared/ui";
 
 import classes from "./styles.module.css";
@@ -20,8 +19,6 @@ export const TopRate = ({ icon, name, price, percent, data }: TopRateProps) => {
     name: `P-${index}`,
     value: parseFloat(value),
   }));
-
-  console.log(transformedData);
 
   const type: RateType = match(percent)
     .with(

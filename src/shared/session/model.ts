@@ -7,7 +7,6 @@ import { AuthStatus, ChainParams } from "@/shared/lib/types";
 import { routes } from "@/shared/routing";
 
 export const $authenticationStatus = $token.map((token) => {
-  console.log(token);
   if (token === "") {
     return AuthStatus.Anonymous;
   } else {
@@ -15,7 +14,7 @@ export const $authenticationStatus = $token.map((token) => {
   }
 });
 
-export function chainAuthenticated<Params extends RouteParams>(route: RouteInstance<Params>, {}: ChainParams = {}): RouteInstance<Params> {
+export function chainAuthenticated<Params extends RouteParams>(route: RouteInstance<Params>, { }: ChainParams = {}): RouteInstance<Params> {
   const sessionCheckStarted = createEvent<RouteParamsAndQuery<Params>>();
 
   const alreadyAnonymous = sample({
@@ -43,6 +42,6 @@ export function chainAuthenticated<Params extends RouteParams>(route: RouteInsta
   });
 }
 
-export function chainAnonymous<Params extends RouteParams>(route: RouteInstance<Params>, {}: ChainParams = {}): RouteInstance<Params> {
+export function chainAnonymous<Params extends RouteParams>(route: RouteInstance<Params>, { }: ChainParams = {}): RouteInstance<Params> {
   return route;
 }

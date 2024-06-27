@@ -13,13 +13,16 @@ const tabs = [
   { id: "buy", title: "Buy", content: <BuyTab /> },
   { id: "sell", title: "Sell", content: <SellTab /> },
 ];
-export const Payment = () => {
+export const Payment = ({
+  currentPairName,
+  setCurrentPair
+}) => {
   const { isAdaptive: md } = useResize(1200);
 
   return (
     <Stack className={containerClasses.payment}>
       <Container style={{ padding: "2rem clamp(1.5rem, 2vw, 2rem) 2rem clamp(1.5rem, 2vw, 2rem)" }}>
-        {md && <TradeChartTitle className="withBottomIndent" />}
+        {md && <TradeChartTitle currentPairName={currentPairName} setCurrentPair={setCurrentPair} className="withBottomIndent" />}
 
         <Tabs overflowContainer={false} tabs={tabs} />
       </Container>

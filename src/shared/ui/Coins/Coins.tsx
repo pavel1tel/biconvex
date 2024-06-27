@@ -3,14 +3,22 @@ import { Button, CloseButton, Popover, Stack, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import clsx from "clsx";
 
-import { CoinsTabs } from "@/shared/config/Coins.config";
+import { getCoinTabs } from "@/shared/config/Coins.config";
 import { ArrowDown, SearchIcon } from "@/shared/ui";
 import { Tabs } from "@/shared/ui/tabs";
 
+import { Crypto } from "@/shared/api/types";
+import { Dispatch, SetStateAction } from "react";
 import { Container } from "../TradePageContainer/Container";
 import classes from "./Coins.module.css";
 
-export const Coins = () => {
+export const Coins = ({
+  coins,
+  setCurrentPair
+}: {
+  coins: Crypto[] | undefined,
+  setCurrentPair: Dispatch<SetStateAction<string>>
+}) => {
   const { isAdaptive: md } = useResize(1200);
   const [opened, { close, toggle }] = useDisclosure(false);
 
@@ -38,7 +46,7 @@ export const Coins = () => {
                 />
                 {md && <CloseButton className={classes.closeSearchWndowIcon} onClick={close} />}
               </div>
-              <Tabs tabs={CoinsTabs} showTrack={false} indicatorRadius={8} tabControllFontSize={16} />
+              <Tabs tabs={getCoinTabs(coins ? coins : [], setCurrentPair)} showTrack={false} indicatorRadius={8} tabControllFontSize={16} />
             </Stack>
           </Container>
         </div>

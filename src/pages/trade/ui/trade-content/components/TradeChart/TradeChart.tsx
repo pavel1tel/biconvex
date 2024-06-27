@@ -20,12 +20,17 @@ const period = [
   { title: "12h", value: 720 },
 ];
 
-export const TradeChart = () => {
+export const TradeChart = ({
+  currentPairName,
+  setCurrentPair,
+  currentPair
+}) => {
+
   const [activePeriod, setActivePeriod] = useState("1m");
 
   return (
     <Container padding={48} className={classes.chartContainer}>
-      <TradeChartTitle />
+      <TradeChartTitle currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
       <Group className={classes.buttonFlex} mt={20} mb={32}>
         {period.map((item) => (
           <button
@@ -39,7 +44,7 @@ export const TradeChart = () => {
         <Select bordered activeValue={activePeriod} setActiveValue={setActivePeriod} />
       </Group>
 
-      <LightWeightChart period={activePeriod} />
+      <LightWeightChart currentPair={currentPair} period={activePeriod} />
     </Container>
   );
 };

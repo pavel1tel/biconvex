@@ -1,6 +1,6 @@
 import { trimLongName } from "@/helpers/trimLongName";
 import { useResize } from "@/hooks/useResize";
-import { Group, Pill, Table, Text, Title, UnstyledButton, rem } from "@mantine/core";
+import { Group, Table, Text, Title, rem } from "@mantine/core";
 import clsx from "clsx";
 import { useCallback, useMemo, useState } from "react";
 import { P, match } from "ts-pattern";
@@ -71,7 +71,6 @@ export const CoinsTableFixedColumn = ({ data }: CoinsTableFixedColumnProps) => {
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("Coin Name");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
   const { isAdaptive: md } = useResize(1200);
-  console.log(data);
 
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {

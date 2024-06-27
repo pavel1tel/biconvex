@@ -10,11 +10,11 @@ import { OrderBookMobile } from "./OrderBookMobile";
 
 const categories = ["All", "Asks", "Bids"] as const;
 
-export const OrderBook = ({addScroll,orderBookHeight,isFullRows}:{addScroll?:boolean,orderBookHeight?:string,isFullRows?:boolean}) => {
+export const OrderBook = ({ addScroll, orderBookHeight, isFullRows, currentPair }: { addScroll?: boolean, orderBookHeight?: string, isFullRows?: boolean; currentPair: string }) => {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>(categories[0]);
   const { isAdaptive: md } = useResize(1200);
   return (
-    <Container className={classes.content}  style={{height:orderBookHeight}}>
+    <Container className={classes.content} style={{ height: orderBookHeight }}>
       <Stack gap={"clamp(1rem, 2vw, 2rem)"}>
         <p className={classes.orderBookTitle}>Order Book</p>
         <div className={classes.orderBookButtonsWrapper}>
@@ -29,7 +29,7 @@ export const OrderBook = ({addScroll,orderBookHeight,isFullRows}:{addScroll?:boo
           ))}
         </div>
 
-        {md ? <OrderBookMobile {...{ activeCategory }} activeTab="Chart" /> : <OrderBookDesktop {...{ activeCategory }} addScroll={addScroll} isFullRows={isFullRows}/>}
+        {md ? <OrderBookMobile currentPair={currentPair} {...{ activeCategory }} activeTab="Chart" /> : <OrderBookDesktop currentPair={currentPair} {...{ activeCategory }} addScroll={addScroll} isFullRows={isFullRows} />}
       </Stack>
     </Container>
   );

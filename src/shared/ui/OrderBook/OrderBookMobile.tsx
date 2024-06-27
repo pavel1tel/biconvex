@@ -18,7 +18,7 @@ import classes from "./OrderBook.module.css";
 
 const header = ["Price USD", "Qty BTC", "Qty BTC", "Price USD",];
 
-export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row" }: { activeTab: string; activeCategory: string, addScroll?: boolean, direction?: StyleProp<'row' | 'column' | undefined> }) => {
+export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row", currentPair }: { activeTab: string; activeCategory: string, addScroll?: boolean, direction?: StyleProp<'row' | 'column' | undefined>; currentPair: string }) => {
   const orderBookReponse = useUnit<any>($orderBookResponse);
   const orderBookResponsePending = useUnit(getOrderBook.pending);
   const [asks, setAsks] = useState<any[]>([])
@@ -35,30 +35,32 @@ export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row" }
   useEffect(() => {
     if (!orderBookResponsePending) {
       {
+        let max = Math.max.apply(Math, orderBookReponse.asks.map(function (o) { return parseFloat(o[1]); }))
         let tempAsks: any[] = [];
         orderBookReponse.asks.forEach((ask) => {
           tempAsks.push({
             id: ask[0],
-            fill: parseFloat(ask[1]) * 100 >= 100 ? 0 : 100 - parseFloat(ask[1]) * 100,
+            fill: 100 - parseFloat(ask[1]) / (max / 2) * 100,
             cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5)]
           })
         })
         setAsks(tempAsks.slice(0, 11))
       }
       {
+        let max = Math.max.apply(Math, orderBookReponse.bids.map(function (o) { return parseFloat(o[1]); }))
         let tempAsks: any[] = [];
         let tempReverseBids: any[] = []
         orderBookReponse.bids.forEach((ask) => {
           tempAsks.push({
             id: ask[0],
-            fill: parseFloat(ask[1]) * 100 >= 100 ? 100 : parseFloat(ask[1]) * 100,
+            fill: parseFloat(ask[1]) / (max / 2) * 100,
             cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5)]
           })
         })
         orderBookReponse.bids.forEach((ask) => {
           tempReverseBids.push({
             id: ask[0],
-            fill: parseFloat(ask[1]) * 100 >= 100 ? 100 : parseFloat(ask[1]) * 100,
+            fill: parseFloat(ask[1]) / (max / 2) * 100,
             cells: [parseFloat(ask[1]).toFixed(5), "$" + parseFloat(ask[0]).toFixed(2)]
           })
         })
@@ -70,12 +72,16 @@ export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row" }
 
   useEffect(() => {
     let interval = setInterval(() => {
-      getOrderBook();
+      getOrderBook(currentPair.split("/").join(""));
     }, 1000);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [currentPair]);
+
+  useEffect(() => {
+    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
+  }, [currentPair])
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -179,7 +185,7 @@ export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row" }
 
 
 
-export const OrderBookMobileTradeTab = ({ activeCategory, addScroll }: { activeTab: string; activeCategory: string, addScroll?: boolean }
+export const OrderBookMobileTradeTab = ({ activeCategory, addScroll, currentPair }: { activeTab: string; activeCategory: string, addScroll?: boolean, currentPair: string; }
 ) => {
   const orderBookReponse = useUnit<any>($orderBookResponse);
   const orderBookResponsePending = useUnit(getOrderBook.pending);
@@ -196,22 +202,24 @@ export const OrderBookMobileTradeTab = ({ activeCategory, addScroll }: { activeT
   useEffect(() => {
     if (!orderBookResponsePending) {
       {
+        let max = Math.max.apply(Math, orderBookReponse.asks.map(function (o) { return parseFloat(o[1]); }))
         let tempAsks: any[] = [];
         orderBookReponse.asks.forEach((ask) => {
           tempAsks.push({
             id: ask[0],
-            fill: parseFloat(ask[1]) * 100 >= 100 ? 0 : 100 - parseFloat(ask[1]) * 100,
+            fill: 100 - parseFloat(ask[1]) / (max / 2) * 100,
             cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5)]
           })
         })
         setAsks(tempAsks.slice(0, 11).reverse())
       }
       {
+        let max = Math.max.apply(Math, orderBookReponse.bids.map(function (o) { return parseFloat(o[1]); }))
         let tempAsks: any[] = [];
         orderBookReponse.bids.forEach((ask) => {
           tempAsks.push({
             id: ask[0],
-            fill: parseFloat(ask[1]) * 100 >= 100 ? 100 : parseFloat(ask[1]) * 100,
+            fill: parseFloat(ask[1]) / (max / 2) * 100,
             cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5)]
           })
         })
@@ -222,12 +230,12 @@ export const OrderBookMobileTradeTab = ({ activeCategory, addScroll }: { activeT
 
   useEffect(() => {
     let interval = setInterval(() => {
-      getOrderBook();
+      getOrderBook(currentPair.split("/").join(""));
     }, 1000);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [currentPair]);
 
   useEffect(() => {
     if (lastMessage !== null) {

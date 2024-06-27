@@ -14,7 +14,6 @@ export const getSortingFunc = (label: string, direction: string) => {
             }
             break;
         case "Plane":
-            console.log('here')
             if (direction === "DESC") {
                 return (() => (a: [string, InvestmentHistory], b: [string, InvestmentHistory]) => {
                     return parseInt(b[1].plan.split(" ")[0]) - parseInt(a[1].plan.split(" ")[0]);

@@ -266,7 +266,11 @@ const series = [
     ],
   },
 ];
-export const TradeChart = () => {
+export const TradeChart = ({
+  currentPair,
+  setCurrentPair,
+  currentPairName
+}) => {
   const [activePeriod, setActivePeriod] = useState("1m");
   const [minZoomIndex, setMinZoomIndex] = useState(0);
   const [maxZoomIndex, setMaxZoomIndex] = useState(series[0].data.length - 1);
@@ -315,7 +319,7 @@ export const TradeChart = () => {
   return (
     <Container padding={48} className={classes.chartContainer}>
       <Group justify="space-between">
-        <TradeChartTitle />
+        <TradeChartTitle setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
         <Stack gap={4}>
           <Text className={classes.subtitle}>Funding Rate / Countdown</Text>
           <Group gap={2} ml={14}>
@@ -341,7 +345,7 @@ export const TradeChart = () => {
         ))}
         <Select bordered activeValue={activePeriod} setActiveValue={setActivePeriod} />
       </Group>
-      <LightWeightChart period={activePeriod}/>
+      <LightWeightChart currentPair={currentPair} period={activePeriod} />
     </Container>
   );
 };

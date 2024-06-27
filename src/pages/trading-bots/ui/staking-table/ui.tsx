@@ -71,7 +71,6 @@ export const StakingTable = ({
             cancel: <CloseButton className={classes.closeButton} />,
           };
         });
-      console.log(temp.length);
       let pages = Object.entries(historyResponse.history ? historyResponse.history : []).filter(searchFn).length;
       setTotalPage(Math.ceil(pages / 5));
       setInvestHistory(temp);

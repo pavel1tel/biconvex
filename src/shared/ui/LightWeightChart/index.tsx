@@ -9,8 +9,10 @@ import classes from "./TradeChart.module.css";
 
 const LightWeightChart = ({
   period,
+  currentPair,
 }: {
   period: string;
+  currentPair: string;
 }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
@@ -67,10 +69,10 @@ const LightWeightChart = ({
   }, [candelsReponsePending, candelsReponse])
 
   useEffect(() => {
-    getCandles(period);
-    setSocketUrl("wss://stream.binance.com:9443/ws/btcusdt@kline_" + period)
+    getCandles({ interval: period, pair: currentPair.split("/").join("") });
+    setSocketUrl("wss://stream.binance.com:9443/ws/" + currentPair.split("/").join("").toLocaleLowerCase() + "@kline_" + period)
     setRedraw((prev) => !prev)
-  }, [period])
+  }, [period, currentPair])
 
   useEffect(() => {
     if (chartContainerRef.current) {

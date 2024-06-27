@@ -14,7 +14,7 @@ import classes from "./OrderBook.module.css";
 
 const header = ["Price USD", "Qty BTC", "Total USD"];
 
-export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { isFullRows?: boolean, activeCategory: string; addScroll?: boolean }) => {
+export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll, currentPair }: { isFullRows?: boolean, activeCategory: string; addScroll?: boolean; currentPair: string; }) => {
   const orderBookReponse = useUnit<any>($orderBookResponse);
   const orderBookResponsePending = useUnit(getOrderBook.pending);
   const [asks, setAsks] = useState<any[]>([])
@@ -32,11 +32,12 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
   useEffect(() => {
     if (!orderBookResponsePending) {
       {
+        let max = Math.max.apply(Math, orderBookReponse.asks.map(function (o) { return parseFloat(o[1]); }))
         let tempAsks: any[] = [];
         orderBookReponse.asks.forEach((ask) => {
           tempAsks.push({
             id: ask[0],
-            fill: parseFloat(ask[1]) * 100,
+            fill: parseFloat(ask[1]) / (max / 2) * 100,
             cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5), "$" + (parseFloat(ask[0]) * parseFloat(ask[1])).toFixed(2)]
           })
         })
@@ -44,11 +45,12 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
         setFullAsks(tempAsks)
       }
       {
+        let max = Math.max.apply(Math, orderBookReponse.bids.map(function (o) { return parseFloat(o[1]); }))
         let tempAsks: any[] = [];
         orderBookReponse.bids.forEach((ask) => {
           tempAsks.push({
             id: ask[0],
-            fill: parseFloat(ask[1]) * 100,
+            fill: parseFloat(ask[1]) / (max / 2) * 100,
             cells: ["$" + parseFloat(ask[0]).toFixed(2), parseFloat(ask[1]).toFixed(5), "$" + (parseFloat(ask[0]) * parseFloat(ask[1])).toFixed(2)]
           })
         })
@@ -60,12 +62,12 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
 
   useEffect(() => {
     let interval = setInterval(() => {
-      getOrderBook();
+      getOrderBook(currentPair.split("/").join(""));
     }, 1000);
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [currentPair]);
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -78,6 +80,10 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
       })
     }
   }, [lastMessage])
+
+  useEffect(() => {
+    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
+  }, [currentPair])
 
   return (
     <div className={classes.tableContainer}>
@@ -100,7 +106,7 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
       <div style={addScroll && activeCategory === 'All' ? { height: "210px", overflow: "auto" } : {}}>
         <div className={classes.table}>
           <div className={classes.tableBody}>
-            {(activeCategory === "All" ? bids : isFullRows ? (activeCategory ==="Bids" ? fullBids : fullAsks) : (activeCategory ==="Bids" ? bids : asks)).map((row) => (
+            {(activeCategory === "All" ? bids : isFullRows ? (activeCategory === "Bids" ? fullBids : fullAsks) : (activeCategory === "Bids" ? bids : asks)).map((row) => (
               <div
                 key={row.id}
                 className={clsx(
@@ -133,7 +139,7 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll }: { is
                   [classes.positive]: price.up,
                 })}
               >
-                $ {price.price} {!price.up ? <NegativeTrendIcon fill="#fff"/> : <PositiveTrendIcon fill="#fff"/>}
+                $ {price.price} {!price.up ? <NegativeTrendIcon fill="#fff" /> : <PositiveTrendIcon fill="#fff" />}
               </p>
             </div>
           </div>

@@ -1,17 +1,17 @@
 import { useResize } from "@/hooks/useResize";
-import { Box, Button, Flex, Stack, Text, TextInput, rem, Image } from "@mantine/core";
+import { Box, Button, Flex, Image, Stack, Text, TextInput, rem } from "@mantine/core";
 import clsx from "clsx";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-import { BitcoinIcon, SearchIcon } from "@/shared/ui";
+import { SearchIcon } from "@/shared/ui";
 
 import { getDepostFx } from "@/shared/api/deposit/request";
+import { DepositCoin, DepositCoinsResponse } from "@/shared/api/types";
 import { useUnit } from "effector-react";
 import { $depositResponse } from "../../model";
 import classes from "./styles.module.css";
-import { DepositCoin, DepositCoinsResponse } from "@/shared/api/types";
 
-export const DepositsBox = ({ height, coin, setCoin, setCurrentCoin }: { height?: number; coin?: number; setCoin?: Dispatch<SetStateAction<number>>; setCurrentCoin : any }) => {
+export const DepositsBox = ({ height, coin, setCoin, setCurrentCoin }: { height?: number; coin?: number; setCoin?: Dispatch<SetStateAction<number>>; setCurrentCoin: any }) => {
   const [selectedDeposit, setSelectedDeposit] = useState(1);
   const { isAdaptive: md } = useResize(1200);
   const [showOthersHidden, setShowOthersHidden] = useState<boolean>(true);
@@ -24,8 +24,7 @@ export const DepositsBox = ({ height, coin, setCoin, setCurrentCoin }: { height?
   };
 
   useEffect(() => {
-    if(!depositResposePending){
-      console.log(coin)
+    if (!depositResposePending) {
       setCurrentCoin(depositReponse.deposit_coins![coin!])
       setArr(depositReponse.deposit_coins!);
     }

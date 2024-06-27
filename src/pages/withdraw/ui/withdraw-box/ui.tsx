@@ -1,21 +1,20 @@
 import { Box, Button, Combobox, Divider, Flex, Group, List, Stack, Text, TextInput, rem, useCombobox } from "@mantine/core";
-import { useForm } from "@mantine/form";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 
 import { ArrowIcon } from "@/pages/deposit/ui";
 
-import classes from "./styles.module.css";
-import { useUnit } from "effector-react";
 import { DepositCoin, FeesRequest } from "@/shared/api/types";
 import { getFees, requestWithdraw } from "@/shared/api/withdraw/requests";
+import { useUnit } from "effector-react";
 import { $feesResponse } from "../../model";
+import classes from "./styles.module.css";
 
 
 export const WithdrawBox = ({
   currentCoin,
-} : {
-  currentCoin : DepositCoin | undefined;
+}: {
+  currentCoin: DepositCoin | undefined;
 }) => {
   const [selectedItem, setSelectedItem] = useState<string>(Object.keys(currentCoin?.address ? currentCoin?.address : [])[0]);
   const combobox = useCombobox();
@@ -26,22 +25,16 @@ export const WithdrawBox = ({
 
   const submitHandler = () => {
     requestWithdraw({
-     amount : amount,
-     crypto : currentCoin!.symbol,
-     address : address
+      amount: amount,
+      crypto: currentCoin!.symbol,
+      address: address
     })
   }
 
   useEffect(() => {
-    if(!feesReponsePending) {
-    console.log(feesReponse.coins_balances!["BTC"])
-    }
-  }, [feesReponse])
-
-  useEffect(() => {
     currentCoin?.address ? setSelectedItem(Object.keys(currentCoin?.address)[0]) : "";
   }, [currentCoin])
-  
+
   return (
     <Stack gap={rem(32)} className={classes.wrapper} id="withdrawBitcoin">
       <Flex justify={"space-between"}>
@@ -72,42 +65,42 @@ export const WithdrawBox = ({
         </Combobox>
       </Flex>
       <Divider opacity={"0.12"} color={"white"} />
-        <Stack gap={rem(32)}>
-          <TextInput
-             value={address}
-             onChange={e => setAddress(e.target.value)}
-            classNames={{
-              input: classes.textInput,
-              label: clsx(classes.label, classes.labelMargin),
-            }}
-            label={"Destination " + currentCoin?.name + " address"}
-            placeholder="Please double check this address"
-          />
-          <TextInput
+      <Stack gap={rem(32)}>
+        <TextInput
+          value={address}
+          onChange={e => setAddress(e.target.value)}
+          classNames={{
+            input: classes.textInput,
+            label: clsx(classes.label, classes.labelMargin),
+          }}
+          label={"Destination " + currentCoin?.name + " address"}
+          placeholder="Please double check this address"
+        />
+        <TextInput
           value={amount}
           onChange={e => setAmount(e.target.value)}
-            classNames={{
-              input: classes.textInput,
-              label: clsx(classes.label, classes.labelMargin),
-            }}
-            label={"Amount " + currentCoin?.name}
-            type="number"
-            min={0}
-            placeholder={"Maximum amount "+ parseFloat(parseFloat(((feesReponse.coins_balances ? feesReponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") ? (feesReponse.coins_balances ? feesReponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") : "0.00").toString()).toFixed(4)) + " " + currentCoin?.name}
-          />
-          <Flex className={classes.bottomFlex} align={"center"} justify={"space-between"}>
-            <Stack gap={rem(4)}>
-              <Text className={classes.label}>{currentCoin?.name} Network Fee</Text>
-              <Text className={classes.text}>Transactions on the Bitcoin network are priorirized by fees</Text>
-            </Stack>
-            <Stack>
-              <Text className={classes.title2}>{feesReponse.withdraw_coins ? feesReponse.withdraw_coins![currentCoin ? currentCoin.symbol : "BTC"].gas_fee : ""}</Text>
-            </Stack>
-          </Flex>
-          <Button onClick={submitHandler} type="submit" variant="radial-gradient" className={classes.btn}>  
-            <Text className={classes.inputValue}>Withdraw now</Text>
-          </Button>
-        </Stack>  
+          classNames={{
+            input: classes.textInput,
+            label: clsx(classes.label, classes.labelMargin),
+          }}
+          label={"Amount " + currentCoin?.name}
+          type="number"
+          min={0}
+          placeholder={"Maximum amount " + parseFloat(parseFloat(((feesReponse.coins_balances ? feesReponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") ? (feesReponse.coins_balances ? feesReponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") : "0.00").toString()).toFixed(4)) + " " + currentCoin?.name}
+        />
+        <Flex className={classes.bottomFlex} align={"center"} justify={"space-between"}>
+          <Stack gap={rem(4)}>
+            <Text className={classes.label}>{currentCoin?.name} Network Fee</Text>
+            <Text className={classes.text}>Transactions on the Bitcoin network are priorirized by fees</Text>
+          </Stack>
+          <Stack>
+            <Text className={classes.title2}>{feesReponse.withdraw_coins ? feesReponse.withdraw_coins![currentCoin ? currentCoin.symbol : "BTC"].gas_fee : ""}</Text>
+          </Stack>
+        </Flex>
+        <Button onClick={submitHandler} type="submit" variant="radial-gradient" className={classes.btn}>
+          <Text className={classes.inputValue}>Withdraw now</Text>
+        </Button>
+      </Stack>
 
       <Divider opacity={"0.12"} color={"white"} />
       <Box>

@@ -1,4 +1,5 @@
-import { getCandles, getOrderBook } from "@/shared/api/trading/requests";
+import { getStakingHistoryFx } from "@/shared/api/profile/profile";
+import { getCandles, getOrderBook, getRates } from "@/shared/api/trading/requests";
 import { routes } from "@/shared/routing";
 import { chainAnonymous } from "@/shared/session";
 import { chainRoute } from "atomic-router";
@@ -16,10 +17,21 @@ $candlesReponse.on(getCandles.doneData, (_, data) => data.message);
 export const $orderBookResponse = createStore<any>({});
 $orderBookResponse.on(getOrderBook.doneData, (_, data) => data.message);
 
+export const $ratesResponse = createStore<any>({});
+$ratesResponse.on(getRates.doneData, (_, data) => data.message);
+
 chainRoute({
   route: currentRoute,
   beforeOpen: {
     effect: getCandles,
+    mapParams: (params) => ({ interval: "1m", pair: "BTCUSDT" }),
+  },
+});
+
+chainRoute({
+  route: currentRoute,
+  beforeOpen: {
+    effect: getStakingHistoryFx,
     mapParams: (params) => "1m",
   },
 });
@@ -28,6 +40,14 @@ chainRoute({
   route: currentRoute,
   beforeOpen: {
     effect: getOrderBook,
+    mapParams: (params) => "1m",
+  },
+});
+
+chainRoute({
+  route: currentRoute,
+  beforeOpen: {
+    effect: getRates,
     mapParams: (params) => "1m",
   },
 });

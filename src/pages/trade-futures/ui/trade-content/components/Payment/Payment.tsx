@@ -14,7 +14,10 @@ import classes from "./Payment.module.css";
 import { AdjustLeverage } from "./components/AdjustLeverage/AdjustLeverage";
 import { MarketSwitch } from "./components/MarketSwitch/MarketSwitch";
 
-export const Payment = () => {
+export const Payment = ({
+  currentPairName,
+  setCurrentPair
+}) => {
   const [activeSwitch, setActiveSwitch] = useState<1 | 2>(1);
   const [tpSiChecked, setTpSiChecked] = useState<boolean>(true);
   const [activeCategory, setActiveCategory] = useState<"Cross" | "Isolated">("Cross");
@@ -23,7 +26,7 @@ export const Payment = () => {
   return (
     <Stack className={classes.payment}>
       <Container>
-        {md && <TradeChartTitle className="withBottomIndent" />}
+        {md && <TradeChartTitle currentPairName={currentPairName} setCurrentPair={setCurrentPair} className="withBottomIndent" />}
         <Stack gap={32}>
           <Stack gap={16}>
             <Group>
