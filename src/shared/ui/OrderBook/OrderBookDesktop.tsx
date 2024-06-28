@@ -83,6 +83,7 @@ export const OrderBookDesktop = ({ isFullRows, activeCategory, addScroll, curren
 
   useEffect(() => {
     setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
+    setPrice({ price: "...", up: false })
   }, [currentPair])
 
   return (

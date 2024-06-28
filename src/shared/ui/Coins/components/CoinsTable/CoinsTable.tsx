@@ -10,18 +10,19 @@ import classes from "./CoinsTable.module.css";
 
 export const CoinsTable = ({
   coins,
-  sufix,
+  isFiat,
+  isMain,
   setCurrentPair
 }: {
   coins: Crypto[]
-  sufix: string[],
+  isFiat: boolean
+  isMain: boolean
   setCurrentPair: Dispatch<SetStateAction<string>>
 }) => {
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const rates = useUnit<any>($ratesResponse);
   const handleRowClick = (index: string) => {
     setSelectedRow(index);
-    setCurrentPair(index);
   };
   return (
     <div className={classes.tableContainer}>
@@ -35,23 +36,70 @@ export const CoinsTable = ({
         </Table.Thead>
         <Table.Tbody>
           {coins.map((row, rowIndex) => (
-            sufix.map((suf) => (
-              <Table.Tr
-                key={row.symbol + "/" + suf}
-                onClick={() => handleRowClick(row.symbol + "/" + suf)}
-                className={clsx(classes.tableRow, classes.noSelect, { [classes.rowHover]: true, [classes.rowSelected]: selectedRow === row.symbol + "/" + suf })}
+            isFiat ? (
+              row.fiat_pairs.map(pair => (
+                <Table.Tr
+                  key={pair}
+                  onClick={() => {
+                    handleRowClick(pair)
+                    setCurrentPair(pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length));
+                  }}
+                  className={clsx(classes.tableRow, classes.noSelect, { [classes.rowHover]: true, [classes.rowSelected]: selectedRow === pair })}
+                >
+                  <Table.Td>
+                    <div className={classes.tableFavoriteCellWrapper}>
+                      <Favorite />
+                      <p>{pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length)}</p>
+                    </div>
+                  </Table.Td><Table.Td>
+                    {rates ? (row.price * rates["usd"][pair.substring(row.symbol.length).toLocaleLowerCase()]).toFixed(2) : row.price}
+                  </Table.Td>
+                </Table.Tr>
+              ))
+            ) :
+              (<Table.Tr
+                key={row.symbol + "USDT"}
+                onClick={() => {
+                  handleRowClick(row.symbol + "USDT")
+                  setCurrentPair(row.symbol + "/USDT");
+                }}
+                className={clsx(classes.tableRow, classes.noSelect, { [classes.rowHover]: true, [classes.rowSelected]: selectedRow === row.symbol + "USDT" })}
               >
                 <Table.Td>
                   <div className={classes.tableFavoriteCellWrapper}>
                     <Favorite />
-                    <p>{row.symbol}/{suf}</p>
+                    <p>{row.symbol + "/USDT"}</p>
                   </div>
                 </Table.Td><Table.Td>
-                  {rates && suf != "USDT" && suf != "USD" ? (row.price * rates["usd"][suf.toLocaleLowerCase()]).toFixed(2) : row.price}
+                  {row.price}
                 </Table.Td>
-              </Table.Tr>
-            ))
+              </Table.Tr>)
           ))}
+          {coins.map((row, rowIndex) => (
+            isMain ? (
+              row.fiat_pairs.map(pair => (
+                <Table.Tr
+                  key={pair}
+                  onClick={() => {
+                    handleRowClick(pair)
+                    setCurrentPair(pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length));
+                  }}
+                  className={clsx(classes.tableRow, classes.noSelect, { [classes.rowHover]: true, [classes.rowSelected]: selectedRow === pair })}
+                >
+                  <Table.Td>
+                    <div className={classes.tableFavoriteCellWrapper}>
+                      <Favorite />
+                      <p>{pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length)}</p>
+                    </div>
+                  </Table.Td><Table.Td>
+                    {rates ? (row.price * rates["usd"][pair.substring(row.symbol.length).toLocaleLowerCase()]).toFixed(2) : row.price}
+                  </Table.Td>
+                </Table.Tr>
+              ))
+            ) : (null)
+          ))}
+
+
         </Table.Tbody>
       </Table>
     </div>

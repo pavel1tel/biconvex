@@ -1,5 +1,5 @@
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { getCandles, getOrderBook, getRates } from "@/shared/api/trading/requests";
+import { getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates } from "@/shared/api/trading/requests";
 import { routes } from "@/shared/routing";
 import { chainAnonymous } from "@/shared/session";
 import { chainRoute } from "atomic-router";
@@ -19,6 +19,12 @@ $orderBookResponse.on(getOrderBook.doneData, (_, data) => data.message);
 
 export const $ratesResponse = createStore<any>({});
 $ratesResponse.on(getRates.doneData, (_, data) => data.message);
+
+export const $coinInfoResponse = createStore<any>({});
+$coinInfoResponse.on(getCoinInfo.doneData, (_, data) => data.message);
+
+export const $coinPrice = createStore<any>({});
+$coinPrice.on(getCoinPrice.doneData, (_, data) => data.message);
 
 chainRoute({
   route: currentRoute,

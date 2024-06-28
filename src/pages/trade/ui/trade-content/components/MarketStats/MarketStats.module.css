@@ -52,6 +52,12 @@
   color: var(--color-green);
 }
 
+.negativeTrandText {
+  font-size: 14px;
+  font-family: "ProximaNova";
+  color: rgba(244, 74, 74, 0.8);
+}
+
 .adaptive {
   display: flex;
   flex-wrap: wrap;

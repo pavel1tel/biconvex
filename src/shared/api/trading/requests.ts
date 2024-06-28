@@ -31,3 +31,26 @@ export const getRates = createEffect<void, any, ResponseDto>(async () => {
         return { message: response.data }
     })
 });
+
+
+export const getCoinInfo = createEffect<string, any, ResponseDto>(async (symbol) => {
+
+    return requestBinance({
+        path: "/api/v3/ticker?symbols=[\"" + symbol + "\"]&windowSize=1d",
+        method: "GET",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    });
+});
+
+export const getCoinPrice = createEffect<string, any, ResponseDto>(async (symbol) => {
+
+    return requestBinance({
+        path: "/api/v3/ticker/price?symbol=" + symbol,
+        method: "GET",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    });
+});

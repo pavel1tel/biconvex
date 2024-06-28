@@ -81,6 +81,7 @@ export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row", 
 
   useEffect(() => {
     setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
+    setPrice({ price: "...", up: false })
   }, [currentPair])
 
   useEffect(() => {
@@ -236,6 +237,11 @@ export const OrderBookMobileTradeTab = ({ activeCategory, addScroll, currentPair
       clearInterval(interval);
     };
   }, [currentPair]);
+
+  useEffect(() => {
+    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
+    setPrice({ price: "...", up: false })
+  }, [currentPair])
 
   useEffect(() => {
     if (lastMessage !== null) {

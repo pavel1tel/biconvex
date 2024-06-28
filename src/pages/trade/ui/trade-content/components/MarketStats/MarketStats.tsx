@@ -1,7 +1,6 @@
-import { Group, Progress, Stack, Text } from "@mantine/core";
-import { useState } from "react";
+import { Group, Image, Progress, Stack, Text } from "@mantine/core";
+import { useEffect, useState } from "react";
 
-import { BitcoinIcon } from "@/shared/ui";
 import { Container } from "@/shared/ui/TradePageContainer/Container";
 import { ClockIcon } from "@/shared/ui/icon/ClockIcon";
 import { FavoriteStarFilledIcon } from "@/shared/ui/icon/FavoriteStarFilledIcon";
@@ -10,13 +9,46 @@ import { MarketCapCurveIcon } from "@/shared/ui/icon/MarketCapCurveIcon";
 import { PositiveTrandIcon } from "@/shared/ui/icon/PositiveTrandIcon";
 import { SwapIcon } from "@/shared/ui/icon/SwapIcon";
 
+import { $profileReponse } from "@/pages/my-profile/model";
+import { $coinInfoResponse, $coinPrice } from "@/pages/trade/model";
+import { getStakingHistoryFx } from "@/shared/api/profile/profile";
+import { Crypto, CryptoTicker, ProfileReponse } from "@/shared/api/types";
+import { NegativeTrendIcon } from "@/shared/ui/icon/NegativeTrendIcon";
+import { useUnit } from "effector-react";
 import { Select } from "../Select/Select";
 import classes from "./MarketStats.module.css";
 import "./Progress.css";
 
-export const MarketStats = () => {
+export const MarketStats = ({
+  currentPair
+}) => {
   const [activePeriodValue, setActivePeriodValue] = useState("1d");
+  const profileResponse = useUnit<ProfileReponse>($profileReponse);
+  const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
+  const [currentCoin, setCurrentCoin] = useState<Crypto>();
+  const coinInfoResponse = useUnit<CryptoTicker[]>($coinInfoResponse);
+  const coinPriceReponse = useUnit<any>($coinPrice);
 
+  const formatNumberWithCommas = (number) => {
+    if (isNaN(number)) {
+      return null; // or throw an error if you prefer
+    }
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  const scaleValue = (value: number, originalMin: number, originalMax: number, newMin: number = 1, newMax: number = 100): number => {
+    const originalRange: number = originalMax - originalMin;
+    const newRange: number = newMax - newMin;
+    const scaledValue: number = newMin + ((value - originalMin) * newRange) / originalRange;
+
+    return scaledValue;
+  }
+
+  useEffect(() => {
+    if (!profileResponsePending) {
+      setCurrentCoin(profileResponse.coins!.filter((coin) => coin.symbol === currentPair.split("/")[0])[0])
+    }
+  })
   return (
     <div style={{ flex: 1 }}>
       <Container className={classes.container} padding={48}>
@@ -27,10 +59,10 @@ export const MarketStats = () => {
                 <Group align="center">
                   <Group gap={8} align="center">
                     <div className={classes.coinIconWrapper}>
-                      <BitcoinIcon />
+                      <Image src={currentCoin?.image}></Image>
                     </div>
-                    <Text className={classes.coinName}>Bitcoin</Text>
-                    <Text className={classes.coinBadge}>btc</Text>
+                    <Text className={classes.coinName}>{currentCoin?.name}</Text>
+                    <Text className={classes.coinBadge}>{currentCoin?.symbol}</Text>
                   </Group>
                   <FavoriteStarFilledIcon />
                 </Group>
@@ -42,14 +74,14 @@ export const MarketStats = () => {
               </Group>
               <Group justify="space-between">
                 <Group gap={12}>
-                  <Text className={classes.priceText}>$43,975.72</Text>
+                  <Text className={classes.priceText}>${parseFloat(coinPriceReponse?.price)}</Text>
                   <Group gap={3}>
-                    <Text className={classes.trandText}>+2%</Text>
-                    <PositiveTrandIcon />
+                    <Text className={parseFloat(coinInfoResponse[0]?.priceChangePercent) > 0 ? classes.trandText : classes.negativeTrandText}>{coinInfoResponse[0]?.priceChangePercent}</Text>
+                    {parseFloat(coinInfoResponse[0]?.priceChangePercent) > 0 ? <PositiveTrandIcon /> : <NegativeTrendIcon fill="rgba(244, 74, 74, 0.8)" />}
                   </Group>
                 </Group>
                 <Group gap={8}>
-                  <Text className={classes.grayText}>Bitcoin Price(USD)</Text>
+                  <Text className={classes.grayText}>{currentCoin?.name} Price(USD)</Text>
                   <InfoIcon />
                 </Group>
               </Group>
@@ -61,10 +93,10 @@ export const MarketStats = () => {
                   </Group>
                   <Select defaultFirst activeValue={activePeriodValue} setActiveValue={setActivePeriodValue} />
                 </Group>
-                <Progress value={29} radius={5} color={"#625FF8"} />
+                <Progress value={scaleValue(parseFloat(coinPriceReponse?.price), parseFloat(coinInfoResponse[0]?.lowPrice), parseFloat(coinInfoResponse[0]?.highPrice))} radius={5} color={"#625FF8"} />
                 <Group justify="space-between">
-                  <Text className={classes.grayText}>Low : $37,005.19</Text>
-                  <Text className={classes.grayText}>High : $37,005.19</Text>
+                  <Text className={classes.grayText}>Low : {parseFloat(coinInfoResponse[0]?.lowPrice)}</Text>
+                  <Text className={classes.grayText}>High : {parseFloat(coinInfoResponse[0]?.highPrice)}</Text>
                 </Group>
               </Stack>
             </Stack>
@@ -88,7 +120,7 @@ export const MarketStats = () => {
                   <Text className={classes.grayText}>24 Volume</Text>
                 </Group>
                 <Text className={classes.statBlockText} mb={4}>
-                  $22,822,762,169
+                  {"$" + formatNumberWithCommas(parseFloat(coinInfoResponse[0]?.quoteVolume).toFixed(2))}
                 </Text>
                 <Group gap={4} className={classes.statBlockTrandWrapper}>
                   <Text className={classes.trandText}>+2%</Text>

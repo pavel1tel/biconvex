@@ -7,22 +7,22 @@ export const getCoinTabs = (coins: Crypto[], setCurrentPair: Dispatch<SetStateAc
   return [
     {
       title: "All",
-      content: <CoinsTable setCurrentPair={setCurrentPair} coins={coins} sufix={["USDT", "TRY", "EUR", "RUB", "UAH", "BRL", "JPY"]} />,
+      content: <CoinsTable setCurrentPair={setCurrentPair} coins={coins} isFiat={false} isMain={true} />,
       id: "all",
     },
     {
       title: "USDT",
-      content: <CoinsTable setCurrentPair={setCurrentPair} coins={coins} sufix={["USDT"]} />,
+      content: <CoinsTable setCurrentPair={setCurrentPair} coins={coins} isFiat={false} isMain={false} />,
       id: "usdt",
     },
     {
       title: "FIAT",
-      content: <CoinsTable setCurrentPair={setCurrentPair} coins={coins} sufix={["TRY", "EUR", "RUB", "UAH", "BRL", "JPY"]} />,
+      content: <CoinsTable setCurrentPair={setCurrentPair} coins={coins} isFiat={true} isMain={false} />,
       id: "fiat",
     },
     {
       title: "FAV",
-      content: <CoinsTable setCurrentPair={setCurrentPair} coins={coins} sufix={["USDT"]} />,
+      content: <CoinsTable setCurrentPair={setCurrentPair} coins={[]} isFiat={false} isMain={false} />,
       id: "fav",
     },
   ];

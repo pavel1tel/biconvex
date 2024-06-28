@@ -13,6 +13,7 @@ import { MarketTrades } from "./components/MarketTrades/MarketTrades";
 // import { MarketTrades } from "./components/MarketTrades/MarketTrades";
 import { $profileReponse } from "@/pages/my-profile/model";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
+import { getCoinInfo, getCoinPrice } from "@/shared/api/trading/requests";
 import { ProfileReponse } from "@/shared/api/types";
 import { useUnit } from "effector-react";
 import { Payment } from "./components/Payment/Payment";
@@ -25,8 +26,8 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>(categories[0]);
   const profileResponse = useUnit<ProfileReponse>($profileReponse);
   const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
-  const [currentPair, setCurrentPair] = useState("");
-  const [currentPairName, setCurrentPairName] = useState("");
+  const [currentPair, setCurrentPair] = useState("BTC/USDT");
+  const [currentPairName, setCurrentPairName] = useState("Bitcoin/USDT");
 
   useEffect(() => {
     if (!profileResponsePending) {
@@ -41,6 +42,11 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
     }
   }, [profileResponsePending, currentPair])
 
+  useEffect(() => {
+    getCoinInfo(currentPair.split("/").join(""))
+    getCoinPrice(currentPair.split("/").join(""))
+  }, [currentPair])
+
   return (
     <Stack gap={20} py={64}>
       {md ? (
@@ -49,7 +55,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
           {activeCategory === "Chart" && (
             <>
               <TradeChart currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
-              <MarketStats />
+              <MarketStats currentPair={currentPair} />
               <OrderBook currentPair={currentPair} />
             </>
           )}
@@ -72,7 +78,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
             </Stack>
             <Stack className={classes.secondCol} style={{ flex: 1 }} gap={20}>
               <TradeChart currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
-              <MarketStats />
+              <MarketStats currentPair={currentPair} />
             </Stack>
             <Stack gap={20} w={345} className={classes.wrapper}>
               <Payment currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
