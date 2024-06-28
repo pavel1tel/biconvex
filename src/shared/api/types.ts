@@ -261,3 +261,23 @@ export enum RoleType {
   USER = "USER",
   ADMIN = "ADMIN",
 }
+
+interface CryptoItem {
+  image: string;
+  circulating_supply: number;
+  market_cap: number;
+  total_supply: number;
+  price: number;
+  rank: number;
+  price_change_percent: number;
+  volume_change_24h: number;
+  active?: boolean;  // 'active' is optional because it's missing in the ETH object
+}
+
+interface CryptoItems {
+  [key: string]: CryptoItem;
+}
+
+export interface CryptoData {
+  items: CryptoItems;
+}

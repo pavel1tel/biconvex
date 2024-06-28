@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createEffect } from "effector";
-import { requestBinance } from "../request";
+import { requestBinance, requestRegistration } from "../request";
 import { CandlesRequest, ResponseDto } from "../types";
 
 export const getCandles = createEffect<CandlesRequest, any, ResponseDto>(async (request) => {
@@ -51,6 +51,17 @@ export const getCoinPrice = createEffect<string, any, ResponseDto>(async (symbol
         method: "GET",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
+        },
+    });
+});
+
+export const requestTrading = createEffect<void, ResponseDto>(async () => {
+    return requestRegistration({
+        path: '/api/trading',
+        method: 'GET',
+        headers: {
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
     });
 });

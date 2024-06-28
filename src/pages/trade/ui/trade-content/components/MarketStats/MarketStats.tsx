@@ -10,16 +10,16 @@ import { PositiveTrandIcon } from "@/shared/ui/icon/PositiveTrandIcon";
 import { SwapIcon } from "@/shared/ui/icon/SwapIcon";
 
 import { $profileReponse } from "@/pages/my-profile/model";
-import { $coinInfoResponse, $coinPrice } from "@/pages/trade/model";
+import { $coinInfoResponse, $coinPrice, $tradingReponse } from "@/pages/trade/model";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { Crypto, CryptoTicker, ProfileReponse } from "@/shared/api/types";
+import { getCoinPrice } from "@/shared/api/trading/requests";
+import { Crypto, CryptoData, CryptoTicker, ProfileReponse } from "@/shared/api/types";
 import { NegativeTrendIcon } from "@/shared/ui/icon/NegativeTrendIcon";
 import { useUnit } from "effector-react";
+import useWebSocket from "react-use-websocket";
 import { Select } from "../Select/Select";
 import classes from "./MarketStats.module.css";
 import "./Progress.css";
-import useWebSocket from "react-use-websocket";
-import { getCoinPrice } from "@/shared/api/trading/requests";
 
 export const MarketStats = ({
   currentPair
@@ -29,6 +29,7 @@ export const MarketStats = ({
   const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
   const [currentCoin, setCurrentCoin] = useState<Crypto>();
   const coinInfoResponse = useUnit<CryptoTicker[]>($coinInfoResponse);
+  const tradingResponse = useUnit<CryptoData>($tradingReponse);
   const coinPriceReponse = useUnit<any>($coinPrice);
   const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
@@ -90,9 +91,9 @@ export const MarketStats = ({
                   <FavoriteStarFilledIcon />
                 </Group>
                 <Group>
-                  <Text className={classes.grayText}>Rank #1</Text>
+                  <Text className={classes.grayText}>Rank #{tradingResponse["items"] ? tradingResponse["items"][currentCoin ? currentCoin.symbol : "BTC"].rank : 0}</Text>
                   <Text className={classes.grayText}>Coin</Text>
-                  <Text className={classes.grayText}>On 2,771,773 watchlists</Text>
+                  {/* <Text className={classes.grayText}>On 2,771,773 watchlists</Text> */}
                 </Group>
               </Group>
               <Group justify="space-between">
@@ -130,12 +131,8 @@ export const MarketStats = ({
                   <Text className={classes.grayText}>Market Cap</Text>
                 </Group>
                 <Text className={classes.statBlockText} mb={4}>
-                  $826,445,951,378
+                  ${formatNumberWithCommas((tradingResponse["items"] ? tradingResponse["items"][currentCoin ? currentCoin.symbol : "BTC"].market_cap : 0).toFixed(0))}
                 </Text>
-                <Group gap={4} className={classes.statBlockTrandWrapper}>
-                  <Text className={classes.trandText}>+2%</Text>
-                  <PositiveTrandIcon />
-                </Group>
               </div>
               <div className={classes.statBlockContainer}>
                 <Group gap={4} mb={16} className={classes.statBlockHeader}>
@@ -146,8 +143,8 @@ export const MarketStats = ({
                   {"$" + formatNumberWithCommas(parseFloat(coinInfoResponse[0]?.quoteVolume).toFixed(2))}
                 </Text>
                 <Group gap={4} className={classes.statBlockTrandWrapper}>
-                  <Text className={classes.trandText}>+2%</Text>
-                  <PositiveTrandIcon />
+                  <Text className={(tradingResponse["items"] ? tradingResponse["items"][currentCoin ? currentCoin.symbol : "BTC"].volume_change_24h : 0) > 0 ? classes.trandText : classes.negativeTrandText}>{(tradingResponse["items"] ? tradingResponse["items"][currentCoin ? currentCoin.symbol : "BTC"].volume_change_24h : 0).toFixed(2)} %</Text>
+                  {(tradingResponse["items"] ? tradingResponse["items"][currentCoin ? currentCoin.symbol : "BTC"].volume_change_24h : 0) > 0 ? <PositiveTrandIcon /> : <NegativeTrendIcon fill="rgba(244, 74, 74, 0.8)" />}
                 </Group>
               </div>
               <div className={classes.statBlockContainer}>
@@ -156,9 +153,9 @@ export const MarketStats = ({
                   <Text className={classes.grayText}>Circulating Supply</Text>
                 </Group>
                 <Text className={classes.statBlockText} mb={4}>
-                  18,958,437.00 BTC
+                  {formatNumberWithCommas((tradingResponse["items"] ? tradingResponse["items"][currentCoin ? currentCoin.symbol : "BTC"].circulating_supply : 0).toFixed(0))} {currentCoin?.symbol}
                 </Text>
-                <Text className={classes.smallGrayText}>Max supply 21,000,000</Text>
+                <Text className={classes.smallGrayText}>Max supply {formatNumberWithCommas((tradingResponse["items"] ? tradingResponse["items"][currentCoin ? currentCoin.symbol : "BTC"].total_supply : 0).toFixed(0))}</Text>
               </div>
             </Group>
           </div>
