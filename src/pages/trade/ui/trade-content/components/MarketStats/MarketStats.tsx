@@ -18,6 +18,8 @@ import { useUnit } from "effector-react";
 import { Select } from "../Select/Select";
 import classes from "./MarketStats.module.css";
 import "./Progress.css";
+import useWebSocket from "react-use-websocket";
+import { getCoinPrice } from "@/shared/api/trading/requests";
 
 export const MarketStats = ({
   currentPair
@@ -28,6 +30,27 @@ export const MarketStats = ({
   const [currentCoin, setCurrentCoin] = useState<Crypto>();
   const coinInfoResponse = useUnit<CryptoTicker[]>($coinInfoResponse);
   const coinPriceReponse = useUnit<any>($coinPrice);
+  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+  const [price, setPrice] = useState<any>(0)
+
+  useEffect(() => {
+    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
+    getCoinPrice(currentPair.split("/").join(""));
+  }, [currentPair])
+
+  useEffect(() => {
+    setPrice(parseFloat(coinPriceReponse?.price))
+  }, [coinPriceReponse])
+
+  useEffect(() => {
+    if (lastMessage !== null) {
+      let temp = JSON.parse(lastMessage.data)
+      setPrice((prev) => {
+        return parseFloat(temp["k"]["c"])
+      })
+    }
+  }, [lastMessage])
 
   const formatNumberWithCommas = (number) => {
     if (isNaN(number)) {
@@ -74,7 +97,7 @@ export const MarketStats = ({
               </Group>
               <Group justify="space-between">
                 <Group gap={12}>
-                  <Text className={classes.priceText}>${parseFloat(coinPriceReponse?.price)}</Text>
+                  <Text className={classes.priceText}>${price}</Text>
                   <Group gap={3}>
                     <Text className={parseFloat(coinInfoResponse[0]?.priceChangePercent) > 0 ? classes.trandText : classes.negativeTrandText}>{coinInfoResponse[0]?.priceChangePercent}</Text>
                     {parseFloat(coinInfoResponse[0]?.priceChangePercent) > 0 ? <PositiveTrandIcon /> : <NegativeTrendIcon fill="rgba(244, 74, 74, 0.8)" />}
@@ -93,7 +116,7 @@ export const MarketStats = ({
                   </Group>
                   <Select defaultFirst activeValue={activePeriodValue} setActiveValue={setActivePeriodValue} />
                 </Group>
-                <Progress value={scaleValue(parseFloat(coinPriceReponse?.price), parseFloat(coinInfoResponse[0]?.lowPrice), parseFloat(coinInfoResponse[0]?.highPrice))} radius={5} color={"#625FF8"} />
+                <Progress value={scaleValue(parseFloat(price), parseFloat(coinInfoResponse[0]?.lowPrice), parseFloat(coinInfoResponse[0]?.highPrice))} radius={5} color={"#625FF8"} />
                 <Group justify="space-between">
                   <Text className={classes.grayText}>Low : {parseFloat(coinInfoResponse[0]?.lowPrice)}</Text>
                   <Text className={classes.grayText}>High : {parseFloat(coinInfoResponse[0]?.highPrice)}</Text>
