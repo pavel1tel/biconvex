@@ -12,12 +12,14 @@ export const CoinsTable = ({
   coins,
   isFiat,
   isMain,
-  setCurrentPair
+  setCurrentPair,
+  search
 }: {
   coins: Crypto[]
   isFiat: boolean
   isMain: boolean
   setCurrentPair: Dispatch<SetStateAction<string>>
+  search: string
 }) => {
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   const rates = useUnit<any>($ratesResponse);
@@ -35,9 +37,9 @@ export const CoinsTable = ({
           <Table.Tr>{["Pair", "Price"].map((header, index) => <Table.Th key={index}>{header}</Table.Th>)}</Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {coins.map((row, rowIndex) => (
+          {coins.filter(e => e.symbol.startsWith(search)).map((row, rowIndex) => (
             isFiat ? (
-              row.fiat_pairs.map(pair => (
+              row.fiat_pairs.filter(e => e.startsWith(search)).map(pair => (
                 <Table.Tr
                   key={pair}
                   onClick={() => {
@@ -77,7 +79,7 @@ export const CoinsTable = ({
           ))}
           {coins.map((row, rowIndex) => (
             isMain ? (
-              row.fiat_pairs.map(pair => (
+              row.fiat_pairs.filter(e => e.startsWith(search)).map(pair => (
                 <Table.Tr
                   key={pair}
                   onClick={() => {

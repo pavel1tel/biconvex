@@ -43,7 +43,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
   }, [profileResponsePending, currentPair])
 
   useEffect(() => {
-    getCoinInfo(currentPair.split("/").join(""))
+    getCoinInfo({ symbol: currentPair.split("/").join(""), windowSize: "1d" });
     getCoinPrice(currentPair.split("/").join(""))
   }, [currentPair])
 

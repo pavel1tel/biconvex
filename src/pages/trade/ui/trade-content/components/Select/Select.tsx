@@ -12,21 +12,28 @@ type SelectProps = {
   backgroundTransparent?: boolean;
   bordered?: boolean;
   defaultFirst?: boolean;
+  customOptions?: any;
+  defaultIndex?: number;
 };
-const options = [
+let options = [
   { title: "1d", value: 1440 },
   { title: "3d", value: 4320 },
   { title: "1w", value: 10080 },
   { title: "1M", value: 43829 },
 ];
-export const Select = ({ activeValue, setActiveValue, backgroundTransparent, bordered, defaultFirst }: SelectProps) => {
+export const Select = ({ activeValue, setActiveValue, backgroundTransparent, bordered, defaultFirst, customOptions, defaultIndex }: SelectProps) => {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
+  options = customOptions ? customOptions : options;
   const label = (() => options.find((opt) => opt.title === activeValue)?.title)();
   useEffect(() => {
-    if (defaultFirst) setActiveValue(options[0].title);
-  }, [defaultFirst]);
+    if (defaultFirst) {
+      setActiveValue(options[0].title)
+    } else if (defaultIndex) {
+      setActiveValue(options[defaultIndex].title)
+    }
+  }, [defaultFirst, defaultIndex]);
   return (
     <Combobox
       store={combobox}

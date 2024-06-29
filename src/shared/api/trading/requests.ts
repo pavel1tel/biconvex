@@ -33,10 +33,10 @@ export const getRates = createEffect<void, any, ResponseDto>(async () => {
 });
 
 
-export const getCoinInfo = createEffect<string, any, ResponseDto>(async (symbol) => {
+export const getCoinInfo = createEffect<any, any, ResponseDto>(async ({ symbol, windowSize }) => {
 
     return requestBinance({
-        path: "/api/v3/ticker?symbols=[\"" + symbol + "\"]&windowSize=1d",
+        path: "/api/v3/ticker?symbols=[\"" + symbol + "\"]&windowSize=" + windowSize,
         method: "GET",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
