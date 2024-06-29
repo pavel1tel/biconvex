@@ -13,7 +13,7 @@ import { MarketTrades } from "./components/MarketTrades/MarketTrades";
 // import { MarketTrades } from "./components/MarketTrades/MarketTrades";
 import { $profileReponse } from "@/pages/my-profile/model";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { getCoinInfo, getCoinPrice } from "@/shared/api/trading/requests";
+import { getCoinInfo, getCoinPrice, getTrades } from "@/shared/api/trading/requests";
 import { ProfileReponse } from "@/shared/api/types";
 import { useUnit } from "effector-react";
 import { Payment } from "./components/Payment/Payment";
@@ -45,6 +45,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
   useEffect(() => {
     getCoinInfo({ symbol: currentPair.split("/").join(""), windowSize: "1d" });
     getCoinPrice(currentPair.split("/").join(""))
+    getTrades(currentPair.split("/").join(""))
   }, [currentPair])
 
   return (
@@ -82,7 +83,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
             </Stack>
             <Stack gap={20} w={345} className={classes.wrapper}>
               <Payment currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
-              <MarketTrades />
+              <MarketTrades currentPair={currentPair} />
             </Stack>
           </Group>
           <TradeHistory />

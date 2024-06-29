@@ -4,7 +4,7 @@ import { Tabs } from "@/shared/ui/tabs";
 import classes from "./MarketTrades.module.css";
 import { MarketTradesTab } from "./tabs/MarketTradesTab/MarketTradesTab";
 
-export const MarketTrades = () => {
+export const MarketTrades = ({ currentPair }) => {
   return (
     <div className={classes.marketTradesContainer}>
       <Container>
@@ -12,7 +12,7 @@ export const MarketTrades = () => {
           tabsControllsWidth={"fit-content"}
           tabControllPadding={"0 16px"}
           tabControllFontSize={16}
-          tabs={[{ id: "marketTrades", title: "Market Trades", content: <MarketTradesTab /> }]}
+          tabs={[{ id: "marketTrades", title: "Market Trades", content: <MarketTradesTab currentPair={currentPair} /> }]}
         />
       </Container>
     </div>

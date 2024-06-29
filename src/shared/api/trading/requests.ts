@@ -55,6 +55,17 @@ export const getCoinPrice = createEffect<string, any, ResponseDto>(async (symbol
     });
 });
 
+export const getTrades = createEffect<string, any, ResponseDto>(async (symbol) => {
+
+    return requestBinance({
+        path: "/api/v3/trades?symbol=" + symbol.toUpperCase() + "&limit=30",
+        method: "GET",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    });
+});
+
 export const requestTrading = createEffect<void, ResponseDto>(async () => {
     return requestRegistration({
         path: '/api/trading',
