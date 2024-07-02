@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createEffect } from "effector";
 import { requestBinance, requestRegistration } from "../request";
-import { CandlesRequest, ResponseDto } from "../types";
+import { CandlesRequest, ResponseDto, SpotOrderRequest } from "../types";
 
 export const getCandles = createEffect<CandlesRequest, any, ResponseDto>(async (request) => {
 
@@ -74,5 +74,25 @@ export const requestTrading = createEffect<void, ResponseDto>(async () => {
             "Accept": "*/*",
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
+    });
+});
+
+export const createOrder = createEffect<SpotOrderRequest, any, ResponseDto>(async (request) => {
+    const data = new URLSearchParams();
+    data.append('action', 'CREATE_ORDER');
+    data.append('pair_price', request.pair_price.toString());
+    data.append('crypto', request.crypto);
+    data.append('amount', request.amount.toString());
+    data.append('type', request.type.toString());
+    data.append('category', request.category);
+
+    return requestRegistration({
+        path: '/trading_api',
+        method: 'POST',
+        headers: {
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        body: data
     });
 });

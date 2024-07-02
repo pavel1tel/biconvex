@@ -88,6 +88,7 @@ export const MarketStats = ({
       setCurrentCoin(profileResponse.coins!.filter((coin) => coin.symbol === currentPair.split("/")[0])[0])
     }
   })
+
   return (
     <div style={{ flex: 1 }}>
       <Container className={classes.container} padding={48}>

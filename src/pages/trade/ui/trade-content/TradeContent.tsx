@@ -63,7 +63,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
           {activeCategory === "Trade" && (
             <>
               <div className={classes.tradeTabContainer}>
-                <Payment currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
+                <Payment currentPair={currentPair} currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
                 <OrderBookMobileTradeTab currentPair={currentPair} activeTab="Trade" activeCategory="All" addScroll={true} />
               </div>
               <TradeHistory />
@@ -82,7 +82,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
               <MarketStats currentPair={currentPair} />
             </Stack>
             <Stack gap={20} w={345} className={classes.wrapper}>
-              <Payment currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
+              <Payment currentPair={currentPair} currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
               <MarketTrades currentPair={currentPair} />
             </Stack>
           </Group>

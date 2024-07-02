@@ -1,13 +1,13 @@
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates, getTrades, requestTrading } from "@/shared/api/trading/requests";
+import { createOrder, getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates, getTrades, requestTrading } from "@/shared/api/trading/requests";
 import { routes } from "@/shared/routing";
-import { chainAnonymous } from "@/shared/session";
+import { chainAnonymous, chainAuthenticated } from "@/shared/session";
 import { chainRoute } from "atomic-router";
-import { createStore } from "effector";
+import { createStore, sample } from "effector";
 
 export const currentRoute = routes.trade;
 
-export const anonymousRoute = chainAnonymous(currentRoute, {
+export const anonymousRoute = chainAuthenticated(currentRoute, {
   otherwise: routes.trade.open,
 });
 
@@ -80,3 +80,8 @@ chainRoute({
     mapParams: (params) => "1m",
   },
 });
+
+sample({
+  clock: createOrder.doneData,
+  target: getStakingHistoryFx
+})

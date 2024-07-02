@@ -291,3 +291,11 @@ export interface Trade {
   isBuyerMaker: boolean;
   isBestMatch: boolean;
 }
+
+export interface SpotOrderRequest {
+  pair_price: number;
+  crypto: string;
+  amount: number;
+  type: number;
+  category: string;
+}

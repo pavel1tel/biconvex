@@ -9,16 +9,17 @@ import containerClasses from "../../../../../../shared/ui/TradePageContainer/Con
 import { BuyTab } from "./components/tabs/BuyTab/BuyTab";
 import { SellTab } from "./components/tabs/SellTab/SellTab";
 
-const tabs = [
-  { id: "buy", title: "Buy", content: <BuyTab /> },
-  { id: "sell", title: "Sell", content: <SellTab /> },
-];
+
 export const Payment = ({
   currentPairName,
-  setCurrentPair
+  setCurrentPair,
+  currentPair
 }) => {
   const { isAdaptive: md } = useResize(1200);
-
+  const tabs = [
+    { id: "buy", title: "Buy", content: <BuyTab currentPair={currentPair} /> },
+    { id: "sell", title: "Sell", content: <SellTab /> },
+  ];
   return (
     <Stack className={containerClasses.payment}>
       <Container style={{ padding: "2rem clamp(1.5rem, 2vw, 2rem) 2rem clamp(1.5rem, 2vw, 2rem)" }}>
