@@ -1,50 +1,134 @@
 import { Group, Table } from "@mantine/core";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { MarketSortIcon } from "@/shared/ui";
 
-import { data, header } from "./OrdersTab.constants";
+import { $openOrdersResponse } from "@/pages/trade/model";
+import { cancelOrder, requestOpenOrders } from "@/shared/api/trading/requests";
+import { OpenOrderResponse } from "@/shared/api/types";
+import { useUnit } from "effector-react";
+import { header } from "./OrdersTab.constants";
 import classes from "./OrdersTab.module.css";
 
-export const OrdersTabDesktop = () => {
-  const [sortState, setSortState] = useState<{ sortCol: string; sortFunc: 1 | 2 | 3 }>({ sortCol: "", sortFunc: 1 });
-  const sortHandler = (cell: string) => {
-    if (cell !== sortState.sortCol) setSortState({ sortCol: cell, sortFunc: 2 });
-    if (cell === sortState.sortCol) setSortState({ ...sortState, sortFunc: sortState.sortFunc === 3 ? 1 : ((sortState.sortFunc + 1) as 2 | 3) });
+export const OrdersTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCoins, activePeriodValue }) => {
+  const openOrdersReponse = useUnit<OpenOrderResponse>($openOrdersResponse);
+  const openOrdersReponsePending = useUnit(requestOpenOrders.pending);
+  const [data, setData] = useState<any[]>([]);
+
+  const parseDate = (dateString) => {
+    const [datePart, timePart] = dateString.split(' ');
+    const [year, month, day] = datePart.split('/').map(Number);
+    const [hour, minute] = timePart.split(':').map(Number);
+    return new Date(year, month - 1, day, hour, minute);
   };
+
+  const filterByPeriod = (data, period) => {
+    const now = new Date();
+    let fromDate;
+
+    switch (period) {
+      case '1d':
+        fromDate = new Date(now);
+        fromDate.setDate(now.getDate() - 1);
+        break;
+      case '3d':
+        fromDate = new Date(now);
+        fromDate.setDate(now.getDate() - 3);
+        break;
+      case '1w':
+        fromDate = new Date(now);
+        fromDate.setDate(now.getDate() - 7);
+        break;
+      case '1m':
+        fromDate = new Date(now);
+        fromDate.setMonth(now.getMonth() - 1);
+        break;
+      default:
+        throw new Error('Unsupported period');
+    }
+
+    return data.filter(item => parseDate(item.date) >= fromDate);
+  };
+
+  const handleCancel = (id) => {
+    cancelOrder(id)
+  }
+
+  useEffect(() => {
+    if (!openOrdersReponsePending) {
+      let temp: any[] = [];
+      const startIndex = (currentPage - 1) * 20;
+      const endIndex = startIndex + 20;
+      filterByPeriod(openOrdersReponse.orders, activePeriodValue).slice(startIndex, endIndex).forEach((order) => {
+        temp.push([
+          {
+            key: "Pairs",
+            value: order.pair,
+          },
+          {
+            key: "Direction",
+            value: order.direction,
+          },
+          {
+            key: "Order Type",
+            value: order.category,
+          },
+          {
+            key: "Qty",
+            value: parseFloat(order.amount.toFixed(5)),
+          },
+          {
+            key: "Order Price",
+            value: "$" + parseFloat(order.price.toFixed(2)),
+          },
+          {
+            key: "Price",
+            value: "$" + parseFloat(order.order_price.toFixed(2)),
+          },
+          {
+            key: "Order ID",
+            value: order.order_id,
+          },
+          {
+            key: "Order Time",
+            value: order.date,
+          },
+          {
+            key: "id",
+            value: order.id,
+          }])
+      })
+      setTotalPages(filterByPeriod(openOrdersReponse.orders, activePeriodValue).length)
+      setCurrentPageCoins(temp.length)
+      setData(temp)
+    }
+  }, [openOrdersReponse, openOrdersReponsePending, currentPage, activePeriodValue])
+
+
   return (
     <Table className={classes.table} withRowBorders={false}>
       <Table.Thead>
         <Table.Tr>
           {header.map((cell) => (
             <Table.Th key={cell}>
-              <Group gap={0} onClick={() => sortHandler(cell)}>
+              <Group gap={0} >
                 {cell}
-                <div
-                  className={clsx(
-                    classes.sortArrowWrapper,
-                    sortState.sortCol === cell && (sortState.sortFunc === 2 || sortState.sortFunc === 3) && classes.active,
-                    sortState.sortCol === cell && sortState.sortFunc === 3 && classes.rotate,
-                  )}
-                >
-                  <MarketSortIcon width={20} height={20} />
-                </div>
               </Group>
             </Table.Th>
           ))}
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {data.map((row, i) => (
+        {data.map((row: any[], i) => (
           <Table.Tr key={i}>
-            {row.map((cell) => (
-              <Table.Td key={cell.key} className={clsx({ [classes.green]: cell.value === "Buy", [classes.red]: cell.value === "Sell" })}>
+            {row.map((cell) => {
+              return cell.key != "id" ? (<Table.Td key={cell.key} className={clsx({ [classes.green]: cell.value === "Buy", [classes.red]: cell.value === "Sell" })}>
                 {cell.value}
-              </Table.Td>
-            ))}
+              </Table.Td>) : null
+            }
+            )}
             <Table.Td>
-              <button>Cancel</button>
+              <button onClick={() => handleCancel(row.find(cell => cell.key == "id").value)}>Cancel</button>
             </Table.Td>
           </Table.Tr>
         ))}

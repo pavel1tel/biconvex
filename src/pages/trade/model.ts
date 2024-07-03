@@ -1,7 +1,7 @@
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { createOrder, getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates, getTrades, requestTrading } from "@/shared/api/trading/requests";
+import { cancelOrder, createOrder, getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates, getTrades, requestOpenOrders, requestTrading } from "@/shared/api/trading/requests";
 import { routes } from "@/shared/routing";
-import { chainAnonymous, chainAuthenticated } from "@/shared/session";
+import { chainAuthenticated } from "@/shared/session";
 import { chainRoute } from "atomic-router";
 import { createStore, sample } from "effector";
 
@@ -31,6 +31,9 @@ $tradingReponse.on(requestTrading.doneData, (_, data) => data.message);
 
 export const $tradesResponse = createStore<any>({});
 $tradesResponse.on(getTrades.doneData, (_, data) => data.message);
+
+export const $openOrdersResponse = createStore<any>({});
+$openOrdersResponse.on(requestOpenOrders.doneData, (_, data) => data.message);
 
 $tradingReponse.watch((i) => console.log(i["items"] ? i["items"]["BTC"] : 0))
 chainRoute({
@@ -81,7 +84,30 @@ chainRoute({
   },
 });
 
+chainRoute({
+  route: currentRoute,
+  beforeOpen: {
+    effect: requestOpenOrders,
+    mapParams: (params) => "1m",
+  },
+});
+
 sample({
   clock: createOrder.doneData,
   target: getStakingHistoryFx
+})
+
+sample({
+  clock: createOrder.doneData,
+  target: getStakingHistoryFx
+})
+
+sample({
+  clock: createOrder.doneData,
+  target: requestOpenOrders
+})
+
+sample({
+  clock: cancelOrder.doneData,
+  target: requestOpenOrders
 })

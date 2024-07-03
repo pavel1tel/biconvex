@@ -12,13 +12,16 @@ import classes from "./TradeHistory.module.css";
 import { HistoryTab } from "./tabs/HistoryTab/HistoryTab";
 import { OrdersTab } from "./tabs/OrdersTab/OrdersTab";
 
-export const tabs = [
-  { id: "orders", title: "My Open Orders", content: <OrdersTab /> },
-  { id: "history", title: "My Trading History", content: <HistoryTab /> },
-];
-export const TradeHistory = () => {
-  const [activePeriodValue, setActivePeriodValue] = useState("1d");
 
+export const TradeHistory = () => {
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageCoins, setCurrentPageCoins] = useState(1);
+  const [activePeriodValue, setActivePeriodValue] = useState("1d");
+  const tabs = [
+    { id: "orders", title: "My Open Orders", content: <OrdersTab activePeriodValue={activePeriodValue} setCurrentPageCoins={setCurrentPageCoins} setTotalPages={setTotalPages} currentPage={currentPage} /> },
+    { id: "history", title: "My Trading History", content: <HistoryTab /> },
+  ];
   const [siblings, setSiblings] = useState(getSiblings());
 
   useEffect(() => {
@@ -46,8 +49,8 @@ export const TradeHistory = () => {
         <Tabs tabs={tabs} />
         <Divider color="white" opacity={0.12} />
         <Group justify={"space-between"}>
-          <Text className={classes.grayText}>1-20 of 9,383 assets</Text>
-          <Pagination total={20} defaultValue={1} {...{ siblings }}>
+          <Text className={classes.grayText}>{(currentPage - 1) * 5 + 1}-{(currentPage - 1) * 5 + (currentPageCoins ? currentPageCoins : 0)} of {totalPages}</Text>
+          <Pagination value={currentPage} onChange={setCurrentPage} total={Math.ceil(totalPages / 20)} defaultValue={1} {...{ siblings }}>
             <Group gap={8} justify="center">
               <Pagination.Previous icon={PreviousIcon} />
               <Pagination.Items />

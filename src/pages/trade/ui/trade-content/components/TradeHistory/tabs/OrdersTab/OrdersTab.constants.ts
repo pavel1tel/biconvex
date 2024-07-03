@@ -145,7 +145,7 @@ export const dataMobile = [
     },
   ],
 ];
-export const header = ["Pairs", "Direction", "Order Type", "Qty", "Order Price", "Order ID", "Order Time", "Action"];
+export const header = ["Pairs", "Direction", "Order Type", "Qty", "Order Price", "Price", "Order ID", "Order Time", "Action"];
 export const data = [
   [
     {

@@ -1,6 +1,6 @@
 import { Combobox, Group, Text, useCombobox } from "@mantine/core";
 import clsx from "clsx";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { ArrowDown } from "@/shared/ui";
 
@@ -15,7 +15,7 @@ type SelectProps = {
   customOptions?: any;
   defaultIndex?: number;
 };
-let options = [
+let optionss = [
   { title: "1d", value: 1440 },
   { title: "3d", value: 4320 },
   { title: "1w", value: 10080 },
@@ -25,15 +25,25 @@ export const Select = ({ activeValue, setActiveValue, backgroundTransparent, bor
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
-  options = customOptions ? customOptions : options;
+  const [options, setOptions] = useState<any[]>([]);
   const label = (() => options.find((opt) => opt.title === activeValue)?.title)();
+
   useEffect(() => {
-    if (defaultFirst) {
+    if (defaultFirst && options.length > 0) {
       setActiveValue(options[0].title)
-    } else if (defaultIndex) {
+    } else if (defaultIndex && options.length > 0) {
       setActiveValue(options[defaultIndex].title)
     }
-  }, [defaultFirst, defaultIndex]);
+  }, [defaultFirst, defaultIndex, options]);
+
+  useEffect(() => {
+    console.log("here")
+    if (customOptions) {
+      setOptions(customOptions)
+    } else {
+      setOptions(optionss)
+    }
+  }, [])
   return (
     <Combobox
       store={combobox}

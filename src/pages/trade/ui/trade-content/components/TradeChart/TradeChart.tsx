@@ -30,7 +30,7 @@ export const TradeChart = ({
 
   return (
     <Container padding={48} className={classes.chartContainer}>
-      <TradeChartTitle currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
+      <TradeChartTitle currentPairName={currentPair} setCurrentPair={setCurrentPair} />
       <Group className={classes.buttonFlex} mt={20} mb={32}>
         {period.map((item) => (
           <button

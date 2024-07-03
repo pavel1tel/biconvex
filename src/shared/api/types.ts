@@ -299,3 +299,23 @@ export interface SpotOrderRequest {
   type: number;
   category: string;
 }
+
+
+export interface OpenOrder {
+  date: string;
+  amount: number;
+  price: number;
+  order_price: number;
+  fee: string;
+  category: string;
+  id: number;
+  full_price: number;
+  order_id: string;
+  pair: string;
+  direction: "Buy" | "Sell";
+  full_amount: string;
+}
+
+export interface OpenOrderResponse {
+  orders: OpenOrder[]
+}

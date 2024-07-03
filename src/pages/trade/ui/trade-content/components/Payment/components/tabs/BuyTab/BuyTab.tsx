@@ -78,6 +78,7 @@ export const BuyTab = ({ currentPair }: { currentPair: string }) => {
             classNames={{ input: classes.textInput, section: classes.section }}
             placeholder="0"
             type="number"
+            step="0.00001"
             value={coinAmount}
             onChange={e => { setCoinAmount(parseFloat(e.target.value)); setRecalculateCoin(prev => !prev) }}
             rightSectionWidth="fit-content"
@@ -99,6 +100,7 @@ export const BuyTab = ({ currentPair }: { currentPair: string }) => {
               onChange={e => setPrice(parseFloat(e.target.value))}
               classNames={{ input: classes.textInput, section: classes.section }}
               placeholder="$0"
+              step="0.01"
               type="number"
               rightSectionWidth="fit-content"
               rightSection={
@@ -118,6 +120,7 @@ export const BuyTab = ({ currentPair }: { currentPair: string }) => {
             classNames={{ input: classes.textInput, section: classes.section }}
             placeholder="$0"
             type="number"
+            step="0.01"
             rightSectionWidth="fit-content"
             rightSection={
               <Group gap={8} wrap="nowrap">

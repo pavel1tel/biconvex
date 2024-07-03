@@ -66,6 +66,17 @@ export const getTrades = createEffect<string, any, ResponseDto>(async (symbol) =
     });
 });
 
+export const requestOpenOrders = createEffect<void, ResponseDto>(async () => {
+    return requestRegistration({
+        path: '/trading_api?action=GET_OPEN_ORDERS',
+        method: 'GET',
+        headers: {
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+    });
+});
+
 export const requestTrading = createEffect<void, ResponseDto>(async () => {
     return requestRegistration({
         path: '/api/trading',
@@ -94,5 +105,20 @@ export const createOrder = createEffect<SpotOrderRequest, any, ResponseDto>(asyn
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         },
         body: data
+    });
+});
+
+export const cancelOrder = createEffect<string, any, ResponseDto>(async (id) => {
+    return requestRegistration({
+        path: '/trading_api',
+        method: 'POST',
+        headers: {
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        body: new URLSearchParams({
+            action: 'CANCEL_ORDER',
+            order_id: id,
+          })
     });
 });
