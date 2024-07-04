@@ -16,9 +16,9 @@ type SelectProps = {
   defaultIndex?: number;
 };
 let optionss = [
-  { title: "1d", value: 1440 },
-  { title: "3d", value: 4320 },
-  { title: "1w", value: 10080 },
+  { title: "1D", value: 1440 },
+  { title: "3D", value: 4320 },
+  { title: "1W", value: 10080 },
   { title: "1M", value: 43829 },
 ];
 export const Select = ({ activeValue, setActiveValue, backgroundTransparent, bordered, defaultFirst, customOptions, defaultIndex }: SelectProps) => {
@@ -30,20 +30,20 @@ export const Select = ({ activeValue, setActiveValue, backgroundTransparent, bor
 
   useEffect(() => {
     if (defaultFirst && options.length > 0) {
-      setActiveValue(options[0].title)
+      setActiveValue(options[0].title);
     } else if (defaultIndex && options.length > 0) {
-      setActiveValue(options[defaultIndex].title)
+      setActiveValue(options[defaultIndex].title);
     }
   }, [defaultFirst, defaultIndex, options]);
 
   useEffect(() => {
-    console.log("here")
+    console.log("here");
     if (customOptions) {
-      setOptions(customOptions)
+      setOptions(customOptions);
     } else {
-      setOptions(optionss)
+      setOptions(optionss);
     }
-  }, [])
+  }, []);
   return (
     <Combobox
       store={combobox}

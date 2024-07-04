@@ -1,7 +1,14 @@
 import { useResize } from "@/hooks/useResize";
 import { Group, Stack } from "@mantine/core";
+import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
 
+// import { MarketTrades } from "./components/MarketTrades/MarketTrades";
+import { $profileReponse } from "@/pages/my-profile/model";
+
+import { getStakingHistoryFx } from "@/shared/api/profile/profile";
+import { getCoinInfo, getCoinPrice, getTrades } from "@/shared/api/trading/requests";
+import { ProfileReponse } from "@/shared/api/types";
 import { ButtonTabs } from "@/shared/ui/ButtonTabs/ui";
 import { TradeActions } from "@/shared/ui/TradeActions/ui";
 
@@ -10,12 +17,6 @@ import { OrderBookMobileTradeTab } from "../../../../shared/ui/OrderBook/OrderBo
 import classes from "./TradeContent.module.css";
 import { MarketStats } from "./components/MarketStats/MarketStats";
 import { MarketTrades } from "./components/MarketTrades/MarketTrades";
-// import { MarketTrades } from "./components/MarketTrades/MarketTrades";
-import { $profileReponse } from "@/pages/my-profile/model";
-import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { getCoinInfo, getCoinPrice, getTrades } from "@/shared/api/trading/requests";
-import { ProfileReponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
 import { Payment } from "./components/Payment/Payment";
 import { TradeChart } from "./components/TradeChart/TradeChart";
 import { TradeHistory } from "./components/TradeHistory/TradeHistory";
@@ -31,22 +32,22 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
 
   useEffect(() => {
     if (!profileResponsePending) {
-      setCurrentPair(profileResponse.coins![0].symbol + "/USDT")
-      setCurrentPairName(profileResponse.coins![0].name + "/USDT")
+      setCurrentPair(profileResponse.coins![0].symbol + "/USDT");
+      setCurrentPairName(profileResponse.coins![0].name + "/USDT");
     }
-  }, [profileResponsePending])
+  }, [profileResponsePending]);
 
   useEffect(() => {
     if (!profileResponsePending && currentPair) {
-      setCurrentPairName(profileResponse.coins!.filter((coin) => coin.symbol == currentPair.split("/")[0])[0].name + "/" + currentPair.split("/")[1])
+      setCurrentPairName(profileResponse.coins!.filter((coin) => coin.symbol == currentPair.split("/")[0])[0].name + "/" + currentPair.split("/")[1]);
     }
-  }, [profileResponsePending, currentPair])
+  }, [profileResponsePending, currentPair]);
 
   useEffect(() => {
     getCoinInfo({ symbol: currentPair.split("/").join(""), windowSize: "1d" });
-    getCoinPrice(currentPair.split("/").join(""))
-    getTrades(currentPair.split("/").join(""))
-  }, [currentPair])
+    getCoinPrice(currentPair.split("/").join(""));
+    getTrades(currentPair.split("/").join(""));
+  }, [currentPair]);
 
   return (
     <Stack gap={20} py={64}>

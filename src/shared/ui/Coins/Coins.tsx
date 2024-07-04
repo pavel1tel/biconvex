@@ -2,23 +2,17 @@ import { useResize } from "@/hooks/useResize";
 import { Button, CloseButton, Popover, Stack, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import clsx from "clsx";
+import { Dispatch, SetStateAction, useState } from "react";
 
+import { Crypto } from "@/shared/api/types";
 import { getCoinTabs } from "@/shared/config/Coins.config";
 import { ArrowDown, SearchIcon } from "@/shared/ui";
 import { Tabs } from "@/shared/ui/tabs";
 
-import { Crypto } from "@/shared/api/types";
-import { Dispatch, SetStateAction, useState } from "react";
 import { Container } from "../TradePageContainer/Container";
 import classes from "./Coins.module.css";
 
-export const Coins = ({
-  coins,
-  setCurrentPair
-}: {
-  coins: Crypto[] | undefined,
-  setCurrentPair: Dispatch<SetStateAction<string>>
-}) => {
+export const Coins = ({ coins, setCurrentPair }: { coins: Crypto[] | undefined; setCurrentPair: Dispatch<SetStateAction<string>> }) => {
   const { isAdaptive: md } = useResize(1200);
   const [opened, { close, toggle }] = useDisclosure(false);
   const [search, setSearch] = useState<string>("");
@@ -46,7 +40,7 @@ export const Coins = ({
                   leftSection={<SearchIcon />}
                   placeholder="Search Coin Name"
                 />
-                {md && <CloseButton className={classes.closeSearchWndowIcon} onClick={close} />}
+                <CloseButton className={classes.closeSearchWndowIcon} onClick={close} />
               </div>
               <Tabs tabs={getCoinTabs(coins ? coins : [], setCurrentPair, search)} showTrack={false} indicatorRadius={8} tabControllFontSize={16} />
             </Stack>

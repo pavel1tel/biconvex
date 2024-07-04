@@ -56,7 +56,8 @@
   background: var(--color-black);
   font-size: rem(20) !important;
   line-height: rem(24px) !important;
-  width: 56px;
+  /* width: 56px; */
+  padding: 10px 5px 10px 5px;
 }
 .dropdown {
   background: var(--color-black);
