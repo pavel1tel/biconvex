@@ -5,15 +5,14 @@ import { Helmet } from "react-helmet-async";
 
 import { DepositsAddress, DepositsBox } from "@/pages/deposit/ui";
 
+import { DepositCoin } from "@/shared/api/types";
 import { Container, Footer, Header, Sidebar, Wrapper } from "@/shared/ui";
 
-import { DepositCoin } from "@/shared/api/types";
 import classes from "./styles.module.css";
 
 export function Page() {
   const [selectedDeposit, setSelectedDeposit] = useState(0);
   const [currentCoin, setCurrentCoin] = useState<DepositCoin>();
-
 
   const goToQR = () => {
     const depositQRSection = document.getElementById("depositQR");
@@ -34,11 +33,11 @@ export function Page() {
       <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/my-profile/1.png`} alt="light-3" className={classes.lightFour} />
 
       <Header />
-      <Container>
+      <Container className={classes.container}>
         <Sidebar>
           <Flex className={classes.wrapper} gap={rem(32)}>
             <DepositsBox
-              height={799}
+              height={819}
               coin={selectedDeposit}
               setCoin={(selected) => {
                 setSelectedDeposit(selected);

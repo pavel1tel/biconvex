@@ -6,9 +6,9 @@ import { Helmet } from "react-helmet-async";
 import { DepositsBox } from "@/pages/deposit/ui";
 import { TransferBox } from "@/pages/transfer/ui";
 
+import { DepositCoin } from "@/shared/api/types";
 import { Container, Footer, Header, Sidebar, Wrapper } from "@/shared/ui";
 
-import { DepositCoin } from "@/shared/api/types";
 import classes from "./styles.module.css";
 
 export function Page() {
@@ -36,9 +36,9 @@ export function Page() {
       <Header />
       <Container>
         <Sidebar>
-          <Flex className={classes.flexContainer} gap={rem(32)}>
+          <Flex className={classes.flexContainer} style={{ height: "100%" }} gap={rem(32)}>
             <DepositsBox
-              height={694}
+              height={819}
               coin={selectedDeposit}
               setCoin={(selected) => {
                 setSelectedDeposit(selected);

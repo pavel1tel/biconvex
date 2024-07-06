@@ -4,14 +4,14 @@ import { useResize } from "@/hooks/useResize";
 import { Box, Checkbox, Divider, Flex, Group, Image, Pagination, Stack, Table, Text, TextInput, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
 import clsx from "clsx";
+import { useUnit } from "effector-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
-
-import { routes } from "@/shared/routing";
-import { MarketSortIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
 
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { Crypto, ProfileReponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
+import { routes } from "@/shared/routing";
+import { MarketSortIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
+
 import { $profileReponse } from "../../model";
 import classes from "./styles.module.css";
 import { getSortingFunc } from "./utils";
@@ -46,8 +46,8 @@ export const TableProfile = () => {
   const { isAdaptive: laptop } = useResize(1200);
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("Coin");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
-  const [hideZeros, setHideZeros] = useState<boolean>(true)
-  const [hideZerosTotalPage, setHideZerosTotalPage] = useState<number>(1)
+  const [hideZeros, setHideZeros] = useState<boolean>(true);
+  const [hideZerosTotalPage, setHideZerosTotalPage] = useState<number>(1);
   const profileReponse = useUnit<ProfileReponse>($profileReponse);
   const profileReponsepending = useUnit<boolean>(getStakingHistoryFx.pending);
   const [COINS, setCOINS] = useState<any[]>(defaultC);
@@ -56,47 +56,54 @@ export const TableProfile = () => {
   const [searchFunc, setSearchFunc] = useState<any>(() => (a: Crypto) => true);
   const [search, setSearch] = useState("");
 
-  let calculatePage = (sortFn: ((a: Crypto, b: Crypto) => number) | undefined, searchFn: ((a : Crypto) => boolean )) => {
+  let calculatePage = (sortFn: ((a: Crypto, b: Crypto) => number) | undefined, searchFn: (a: Crypto) => boolean) => {
     if (!profileReponsepending) {
-      let temp: any[] = []
+      let temp: any[] = [];
       const startIndex = (page - 1) * 5;
       const endIndex = startIndex + 5;
-      profileReponse.coins!.filter(searchFn).filter((coin) => {
-        if (hideZeros) {
-          return coin.balance > 0;
-        }
-        return true;
-      }).sort(sortFn).slice(startIndex, endIndex).forEach((coin) => {
-        temp.push({
-          icon: <Image src={coin.image} h={29} w={29} />,
-          short_name: coin.symbol,
-          name: coin.name,
-          Balance: coin.balance,
-          Equivalent: "$" + (coin.price * coin.balance).toFixed(2),
+      profileReponse
+        .coins!.filter(searchFn)
+        .filter((coin) => {
+          if (hideZeros) {
+            return coin.balance > 0;
+          }
+          return true;
         })
-      })
-      setHideZerosTotalPage(profileReponse.coins!.filter(searchFn).filter((coin) => {
-        if (hideZeros) {
-          return coin.balance > 0;
-        }
-        return true;
-      }).length)
+        .sort(sortFn)
+        .slice(startIndex, endIndex)
+        .forEach((coin) => {
+          temp.push({
+            icon: <Image src={coin.image} h={29} w={29} />,
+            short_name: coin.symbol,
+            name: coin.name,
+            Balance: coin.balance,
+            Equivalent: "$" + (coin.price * coin.balance).toFixed(2),
+          });
+        });
+      setHideZerosTotalPage(
+        profileReponse.coins!.filter(searchFn).filter((coin) => {
+          if (hideZeros) {
+            return coin.balance > 0;
+          }
+          return true;
+        }).length,
+      );
       setCOINS(temp);
     }
-  }
+  };
 
   useEffect(() => {
-    calculatePage(sortFunc, searchFunc)
-  }, [profileReponsepending, profileReponse, page, hideZeros, sortFunc, searchFunc])
+    calculatePage(sortFunc, searchFunc);
+  }, [profileReponsepending, profileReponse, page, hideZeros, sortFunc, searchFunc]);
 
   useEffect(() => {
     setPage(1);
     if (search !== "") {
       setSearchFunc(() => (a: Crypto) => a.name.toLocaleLowerCase().startsWith(search.toLocaleLowerCase()));
     } else {
-      setSearchFunc(() => (a : Crypto) => true);
+      setSearchFunc(() => (a: Crypto) => true);
     }
-  }, [search])
+  }, [search]);
 
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {
@@ -116,7 +123,6 @@ export const TableProfile = () => {
   const handleRedirection = () => {
     window.scrollTo(0, 0);
   };
-
 
   const headers = useMemo(() => {
     return HEADERS.map((header) => {
@@ -186,7 +192,7 @@ export const TableProfile = () => {
           <Flex className={classes.boxHeader} gap={rem(32)} align={"center"} mb={rem("32px")}>
             <TextInput
               value={search}
-              onChange={e => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
               size="lg"
               classNames={{
                 input: classes.searchInput,
@@ -195,7 +201,7 @@ export const TableProfile = () => {
               leftSection={<SearchIcon />}
               placeholder="Search Crypto"
             />
-            <Checkbox
+            {/* <Checkbox
               checked={hideZeros}
               onChange={(e) => {
                 setPage(1);
@@ -207,7 +213,7 @@ export const TableProfile = () => {
               }}
               defaultChecked
               label="Hide zero balances"
-            />
+            /> */}
           </Flex>
 
           <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
@@ -223,9 +229,9 @@ export const TableProfile = () => {
 
           <Group justify={"space-between"} mt={rem("32px")}>
             <Text variant="text-4" className={classes.greyText}>
-            {(page - 1) * 5 + 1}-{(page - 1) * 5 + (COINS ? COINS?.length : 0)} of {hideZerosTotalPage}
+              {(page - 1) * 5 + 1}-{(page - 1) * 5 + (COINS ? COINS?.length : 0)} of {hideZerosTotalPage}
             </Text>
-            <Pagination value={page} onChange={setPage} total={hideZerosTotalPage?  Math.ceil(hideZerosTotalPage / 5)  : 1} defaultValue={1}>
+            <Pagination value={page} onChange={setPage} total={hideZerosTotalPage ? Math.ceil(hideZerosTotalPage / 5) : 1} defaultValue={1}>
               <Group gap={rem("0px")} justify="center">
                 <Pagination.Previous icon={PreviousIcon} />
                 <Pagination.Items />
