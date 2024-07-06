@@ -10,7 +10,6 @@ import { OrderBookMobileTradeTab } from "../../../../shared/ui/OrderBook/OrderBo
 import classes from "./TradeContent.module.css";
 import { MarketStats } from "./components/MarketStats/MarketStats";
 import { MarketTrades } from "./components/MarketTrades/MarketTrades";
-// import { MarketTrades } from "./components/MarketTrades/MarketTrades";
 import { $profileReponse } from "@/pages/my-profile/model";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { getCoinInfo, getCoinPrice, getTrades } from "@/shared/api/trading/requests";
@@ -19,6 +18,7 @@ import { useUnit } from "effector-react";
 import { Payment } from "./components/Payment/Payment";
 import { TradeChart } from "./components/TradeChart/TradeChart";
 import { TradeHistory } from "./components/TradeHistory/TradeHistory";
+import useWebSocket from "react-use-websocket";
 
 export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) => {
   const { isAdaptive: md } = useResize(1200);
@@ -28,6 +28,12 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
   const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
   const [currentPair, setCurrentPair] = useState("BTC/USDT");
   const [currentPairName, setCurrentPairName] = useState("Bitcoin/USDT");
+  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+  const { lastMessage: priceWs } = useWebSocket(socketUrl);
+
+  useEffect(() => {
+    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
+  }, [currentPair])
 
   useEffect(() => {
     if (!profileResponsePending) {
@@ -55,16 +61,16 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
           <ButtonTabs {...{ categories, activeCategory, setActiveCategory }} />
           {activeCategory === "Chart" && (
             <>
-              <TradeChart currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
-              <MarketStats currentPair={currentPair} />
-              <OrderBook currentPair={currentPair} />
+              <TradeChart priceWs={priceWs}  currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
+              <MarketStats priceWs={priceWs} currentPair={currentPair} />
+              <OrderBook priceWs={priceWs} currentPair={currentPair} />
             </>
           )}
           {activeCategory === "Trade" && (
             <>
               <div className={classes.tradeTabContainer}>
-                <Payment currentPair={currentPair} currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
-                <OrderBookMobileTradeTab currentPair={currentPair} activeTab="Trade" activeCategory="All" addScroll={true} />
+                <Payment priceWs={priceWs} currentPair={currentPair} currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
+                <OrderBookMobileTradeTab priceWs={priceWs} currentPair={currentPair} activeTab="Trade" activeCategory="All" addScroll={true} />
               </div>
               <TradeHistory />
             </>
@@ -75,14 +81,14 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
         <>
           <Group className={classes.tableFlex} gap={20} align="stretch" h={1134} wrap="nowrap">
             <Stack className={classes.firstCol} gap={20} w={345}>
-              <OrderBook currentPair={currentPair} orderBookHeight={orderBookHeight} isFullRows={true} />
+              <OrderBook priceWs={priceWs} currentPair={currentPair} orderBookHeight={orderBookHeight} isFullRows={true} />
             </Stack>
             <Stack className={classes.secondCol} style={{ flex: 1 }} gap={20}>
-              <TradeChart currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
-              <MarketStats currentPair={currentPair} />
+              <TradeChart priceWs={priceWs} currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
+              <MarketStats priceWs={priceWs} currentPair={currentPair} />
             </Stack>
             <Stack gap={20} w={345} className={classes.wrapper}>
-              <Payment currentPair={currentPair} currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
+              <Payment priceWs={priceWs} currentPair={currentPair} currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
               <MarketTrades currentPair={currentPair} />
             </Stack>
           </Group>

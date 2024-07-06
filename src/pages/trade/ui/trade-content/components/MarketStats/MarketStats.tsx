@@ -22,7 +22,8 @@ import classes from "./MarketStats.module.css";
 import "./Progress.css";
 
 export const MarketStats = ({
-  currentPair
+  currentPair,
+  priceWs
 }) => {
   const [activePeriodValue, setActivePeriodValue] = useState("1d");
   const profileResponse = useUnit<ProfileReponse>($profileReponse);
@@ -31,15 +32,12 @@ export const MarketStats = ({
   const coinInfoResponse = useUnit<CryptoTicker[]>($coinInfoResponse);
   const tradingResponse = useUnit<CryptoData>($tradingReponse);
   const coinPriceReponse = useUnit<any>($coinPrice);
-  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
   const [tickerUrl, setTickerUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@ticker');
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
   const { lastMessage: tickerMessage } = useWebSocket(tickerUrl);
   const [price, setPrice] = useState<any>(0)
   const [percent, setPercent] = useState<any>(undefined)
 
   useEffect(() => {
-    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
     setTickerUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@ticker')
     getCoinPrice(currentPair.split("/").join(""));
   }, [currentPair])
@@ -53,16 +51,16 @@ export const MarketStats = ({
       let temp = JSON.parse(tickerMessage.data)
       setPercent(parseFloat(temp.P).toFixed(2))
     }
-  }, [lastMessage])
+  }, [tickerMessage])
 
   useEffect(() => {
-    if (lastMessage !== null) {
-      let temp = JSON.parse(lastMessage.data)
+    if (priceWs !== null) {
+      let temp = JSON.parse(priceWs.data)
       setPrice((prev) => {
         return parseFloat(temp["k"]["c"])
       })
     }
-  }, [tickerMessage])
+  }, [priceWs])
 
   useEffect(() => {
     getCoinInfo({ symbol: currentPair.split("/").join(""), windowSize: activePeriodValue });

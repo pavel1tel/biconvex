@@ -10,7 +10,7 @@ import { OrderBookMobile } from "./OrderBookMobile";
 
 const categories = ["All", "Asks", "Bids"] as const;
 
-export const OrderBook = ({ addScroll, orderBookHeight, isFullRows, currentPair }: { addScroll?: boolean, orderBookHeight?: string, isFullRows?: boolean; currentPair: string }) => {
+export const OrderBook = ({ addScroll, orderBookHeight, isFullRows, currentPair, priceWs }: { addScroll?: boolean, orderBookHeight?: string, isFullRows?: boolean; currentPair: string; priceWs: any }) => {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>(categories[0]);
   const { isAdaptive: md } = useResize(1200);
   return (
@@ -29,7 +29,7 @@ export const OrderBook = ({ addScroll, orderBookHeight, isFullRows, currentPair 
           ))}
         </div>
 
-        {md ? <OrderBookMobile currentPair={currentPair} {...{ activeCategory }} activeTab="Chart" /> : <OrderBookDesktop currentPair={currentPair} {...{ activeCategory }} addScroll={addScroll} isFullRows={isFullRows} />}
+        {md ? <OrderBookMobile priceWs={priceWs} currentPair={currentPair} {...{ activeCategory }} activeTab="Chart" /> : <OrderBookDesktop priceWs={priceWs} currentPair={currentPair} {...{ activeCategory }} addScroll={addScroll} isFullRows={isFullRows} />}
       </Stack>
     </Container>
   );

@@ -103,15 +103,6 @@ chainRoute({
   },
 });
 
-sample({
-  clock: createOrder.doneData,
-  target: getStakingHistoryFx
-})
-
-sample({
-  clock: createOrder.doneData,
-  target: getStakingHistoryFx
-})
 
 sample({
   clock: createOrder.doneData,

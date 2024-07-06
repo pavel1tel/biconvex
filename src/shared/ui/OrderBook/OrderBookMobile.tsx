@@ -1,32 +1,25 @@
 import { Flex, StyleProp } from "@mantine/core";
 import clsx from "clsx";
 
-// import { NegativeTrendIcon } from "../icon/NegativeTrendIcon";
-// import { PositiveTrendIcon } from "../icon/PositiveTrendIcon";
-import { $orderBookResponse } from "@/pages/trade/model";
+import { $coinPrice, $orderBookResponse } from "@/pages/trade/model";
 import { getOrderBook } from "@/shared/api/trading/requests";
 import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
-import useWebSocket from "react-use-websocket";
 import { Container } from "../TradePageContainer/Container";
 import { NegativeTrendIcon } from "../icon/NegativeTrendIcon";
 import { PositiveTrendIcon } from "../icon/PositiveTrendIcon";
 import { SortIcon } from "../icon/SortIcon";
 import classes from "./OrderBook.module.css";
-// import { NegativeTrendIcon } from "../icon/NegativeTrendIcon";
-// import { PositiveTrendIcon } from "../icon/PositiveTrendIcon";
 
 const header = ["Price USD", "Qty BTC", "Qty BTC", "Price USD",];
 
-export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row", currentPair }: { activeTab: string; activeCategory: string, addScroll?: boolean, direction?: StyleProp<'row' | 'column' | undefined>; currentPair: string }) => {
+export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row", currentPair, priceWs }: { activeTab: string; activeCategory: string, addScroll?: boolean, direction?: StyleProp<'row' | 'column' | undefined>; currentPair: string; priceWs: any }) => {
   const orderBookReponse = useUnit<any>($orderBookResponse);
   const orderBookResponsePending = useUnit(getOrderBook.pending);
   const [asks, setAsks] = useState<any[]>([])
   const [bids, setBids] = useState<any[]>([])
   const [reverseBids, setreverseBids] = useState<any[]>([])
-
-  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+  const coinPriceReponse = useUnit<any>($coinPrice);
   const [price, setPrice] = useState<any>({
     price: 0,
     up: false,
@@ -80,13 +73,12 @@ export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row", 
   }, [currentPair]);
 
   useEffect(() => {
-    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
-    setPrice({ price: "...", up: false })
-  }, [currentPair])
+    setPrice({ price: parseFloat(coinPriceReponse?.price), up: false })
+  }, [coinPriceReponse, currentPair])
 
   useEffect(() => {
-    if (lastMessage !== null) {
-      let temp = JSON.parse(lastMessage.data)
+    if (priceWs !== null) {
+      let temp = JSON.parse(priceWs.data)
       setPrice((prev) => {
         return {
           price: parseFloat(temp["k"]["c"]),
@@ -94,7 +86,7 @@ export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row", 
         }
       })
     }
-  }, [lastMessage])
+  }, [priceWs])
 
   return (
     <div className={classes.tableContainer}>
@@ -186,15 +178,13 @@ export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row", 
 
 
 
-export const OrderBookMobileTradeTab = ({ activeCategory, addScroll, currentPair }: { activeTab: string; activeCategory: string, addScroll?: boolean, currentPair: string; }
+export const OrderBookMobileTradeTab = ({ activeCategory, addScroll, currentPair, priceWs }: { activeTab: string; activeCategory: string, addScroll?: boolean, currentPair: string; priceWs: any }
 ) => {
   const orderBookReponse = useUnit<any>($orderBookResponse);
   const orderBookResponsePending = useUnit(getOrderBook.pending);
   const [asks, setAsks] = useState<any[]>([])
   const [bids, setBids] = useState<any[]>([])
-
-  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+  const coinPriceReponse = useUnit<any>($coinPrice);
   const [price, setPrice] = useState<any>({
     price: 0,
     up: false,
@@ -239,13 +229,12 @@ export const OrderBookMobileTradeTab = ({ activeCategory, addScroll, currentPair
   }, [currentPair]);
 
   useEffect(() => {
-    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
-    setPrice({ price: "...", up: false })
-  }, [currentPair])
+    setPrice({ price: parseFloat(coinPriceReponse?.price), up: false })
+  }, [coinPriceReponse, currentPair])
 
   useEffect(() => {
-    if (lastMessage !== null) {
-      let temp = JSON.parse(lastMessage.data)
+    if (priceWs !== null) {
+      let temp = JSON.parse(priceWs.data)
       setPrice((prev) => {
         return {
           price: parseFloat(temp["k"]["c"]),
@@ -253,7 +242,7 @@ export const OrderBookMobileTradeTab = ({ activeCategory, addScroll, currentPair
         }
       })
     }
-  }, [lastMessage])
+  }, [priceWs])
 
   return (
     <Container className={classes.tableContainer}>

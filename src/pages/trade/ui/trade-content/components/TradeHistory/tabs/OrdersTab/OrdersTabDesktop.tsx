@@ -79,7 +79,7 @@ export const OrdersTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCoi
           },
           {
             key: "Order Price",
-            value: "$" + parseFloat(order.price.toFixed(2)),
+            value: "$" + parseFloat(order.full_price.toFixed(2)),
           },
           {
             key: "Price",
