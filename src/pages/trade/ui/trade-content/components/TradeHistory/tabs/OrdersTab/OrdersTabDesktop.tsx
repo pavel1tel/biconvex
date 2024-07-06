@@ -39,7 +39,7 @@ export const OrdersTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCoi
         fromDate = new Date(now);
         fromDate.setDate(now.getDate() - 7);
         break;
-      case '1m':
+      case '1M':
         fromDate = new Date(now);
         fromDate.setMonth(now.getMonth() - 1);
         break;
@@ -71,7 +71,7 @@ export const OrdersTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCoi
           },
           {
             key: "Order Type",
-            value: order.category,
+            value: order.category.slice(0, 1) + order.category.slice(1).toLowerCase(),
           },
           {
             key: "Qty",

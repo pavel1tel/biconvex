@@ -20,7 +20,7 @@ export const TradeHistory = () => {
   const [activePeriodValue, setActivePeriodValue] = useState("1d");
   const tabs = [
     { id: "orders", title: "My Open Orders", content: <OrdersTab activePeriodValue={activePeriodValue} setCurrentPageCoins={setCurrentPageCoins} setTotalPages={setTotalPages} currentPage={currentPage} /> },
-    { id: "history", title: "My Trading History", content: <HistoryTab /> },
+    { id: "history", title: "My Trading History", content: <HistoryTab activePeriodValue={activePeriodValue} setCurrentPageCoins={setCurrentPageCoins} setTotalPages={setTotalPages} currentPage={currentPage} /> },
   ];
   const [siblings, setSiblings] = useState(getSiblings());
 

@@ -1,5 +1,5 @@
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { cancelOrder, createOrder, getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates, getTrades, requestOpenOrders, requestTrading } from "@/shared/api/trading/requests";
+import { cancelOrder, createOrder, getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates, getTrades, requestHistoryOrders, requestOpenOrders, requestTrading } from "@/shared/api/trading/requests";
 import { routes } from "@/shared/routing";
 import { chainAuthenticated } from "@/shared/session";
 import { chainRoute } from "atomic-router";
@@ -34,6 +34,9 @@ $tradesResponse.on(getTrades.doneData, (_, data) => data.message);
 
 export const $openOrdersResponse = createStore<any>({});
 $openOrdersResponse.on(requestOpenOrders.doneData, (_, data) => data.message);
+
+export const $historyOrdersResponse = createStore<any>({});
+$historyOrdersResponse.on(requestHistoryOrders.doneData, (_, data) => data.message);
 
 $tradingReponse.watch((i) => console.log(i["items"] ? i["items"]["BTC"] : 0))
 chainRoute({
@@ -88,6 +91,14 @@ chainRoute({
   route: currentRoute,
   beforeOpen: {
     effect: requestOpenOrders,
+    mapParams: (params) => "1m",
+  },
+});
+
+chainRoute({
+  route: currentRoute,
+  beforeOpen: {
+    effect: requestHistoryOrders,
     mapParams: (params) => "1m",
   },
 });
