@@ -17,6 +17,7 @@ import { MarketTrades } from "./components/MarketTrades/MarketTrades";
 import { Payment } from "./components/Payment/Payment";
 import { TradeChart } from "./components/TradeChart/TradeChart";
 import { TradeHistory } from "./components/TradeHistory/TradeHistory";
+import useWebSocket from "react-use-websocket";
 
 export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
   const { isAdaptive: md } = useResize(1200);
@@ -26,7 +27,12 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
   const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
   const [currentPair, setCurrentPair] = useState("");
   const [currentPairName, setCurrentPairName] = useState("");
+  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+  const { lastMessage: priceWs } = useWebSocket(socketUrl);
 
+  useEffect(() => {
+    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
+  }, [currentPair])
   useEffect(() => {
     if (!profileResponsePending) {
       setCurrentPair(profileResponse.coins![0].symbol + "/USDT")
@@ -47,9 +53,9 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
           <ButtonTabs {...{ categories, activeCategory, setActiveCategory }} />
           {activeCategory === "Chart" && (
             <>
-              <TradeChart currentPairName={currentPairName} setCurrentPair={setCurrentPair} currentPair={currentPair} />
+              <TradeChart priceWs={priceWs} currentPairName={currentPairName} setCurrentPair={setCurrentPair} currentPair={currentPair} />
               <MarketStats />
-              <OrderBook currentPair={currentPair} />
+              <OrderBook priceWs={priceWs} currentPair={currentPair} />
             </>
           )}
           {activeCategory === "Trade" && (
@@ -57,7 +63,7 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
               <div className={classes.tradeTabContainer}>
                 <Payment currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
                 {/* <OrderBookMobile activeTab="Trade" activeCategory="All" addScroll={true}/> */}
-                <OrderBookMobileTradeTab currentPair={currentPair} activeTab="Trade" activeCategory="All" addScroll={true} />
+                <OrderBookMobileTradeTab priceWs={priceWs} currentPair={currentPair} activeTab="Trade" activeCategory="All" addScroll={true} />
               </div>
               <TradeHistory />
             </>
@@ -68,11 +74,11 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
         <>
           <Group gap={20} wrap="nowrap" align="stretch">
             <Stack gap={20} w={345}>
-              <OrderBook currentPair={currentPair} addScroll={addScroll} orderBookHeight="auto" />
+              <OrderBook priceWs={priceWs} currentPair={currentPair} addScroll={addScroll} orderBookHeight="auto" />
               <MarketTrades />
             </Stack>
             <Stack style={{ flex: 1 }} gap={20}>
-              <TradeChart currentPairName={currentPairName} setCurrentPair={setCurrentPair} currentPair={currentPair} />
+              <TradeChart priceWs={priceWs} currentPairName={currentPairName} setCurrentPair={setCurrentPair} currentPair={currentPair} />
               <MarketStats />
             </Stack>
             <Payment currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
