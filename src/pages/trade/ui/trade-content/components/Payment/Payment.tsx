@@ -24,7 +24,7 @@ export const Payment = ({
   return (
     <Stack className={containerClasses.payment}>
       <Container style={{ padding: "2rem clamp(1.5rem, 2vw, 2rem) 2rem clamp(1.5rem, 2vw, 2rem)" }}>
-        {md && <TradeChartTitle currentPairName={currentPairName} setCurrentPair={setCurrentPair} className="withBottomIndent" />}
+        {md && <TradeChartTitle currentPairName={currentPair} setCurrentPair={setCurrentPair} className="withBottomIndent" />}
 
         <Tabs overflowContainer={false} tabs={tabs} />
       </Container>
