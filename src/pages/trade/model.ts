@@ -1,9 +1,11 @@
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { cancelOrder, createOrder, getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates, getTrades, requestHistoryOrders, requestOpenOrders, requestTrading } from "@/shared/api/trading/requests";
+import { ResponseDto } from "@/shared/api/types";
+import { showErrorNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { chainAuthenticated } from "@/shared/session";
 import { chainRoute } from "atomic-router";
-import { createEffect, createEvent, createStore, sample } from "effector";
+import { createEvent, createStore, sample } from "effector";
 
 export const currentRoute = routes.trade;
 
@@ -39,6 +41,9 @@ export const $historyOrdersResponse = createStore<any>({});
 $historyOrdersResponse.on(requestHistoryOrders.doneData, (_, data) => data.message);
 
 $tradingReponse.watch((i) => console.log(i["items"] ? i["items"]["BTC"] : 0))
+
+const $createOrderError = createStore<ResponseDto>({ message: "" });
+$createOrderError.on(createOrder.failData, (_, error) => error);
 
 chainRoute({
   route: currentRoute,
@@ -119,8 +124,15 @@ sample({
   clock: navv,
   fn: (pair) => ({
     params: { pairId: pair },
-    query : {},
+    query: {},
     replace: true
   }),
   target: routes.trade.navigate,
 })
+
+sample({
+  clock: createOrder.failData,
+  source: $createOrderError,
+  fn: (error) => error.message,
+  target: showErrorNotification,
+});
