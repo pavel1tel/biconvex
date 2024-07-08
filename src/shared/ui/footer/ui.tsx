@@ -92,7 +92,7 @@ export const Footer = ({ width }: { width?: number }) => {
               Products
             </Title>
             <Stack gap={rem("16px")}>
-              <Link to={routes.trade} className={classes.link} onClick={handleDirectionToPage}>
+              <Link to={routes.trade} params={{pairId : "BTC-USDT"}} className={classes.link} onClick={handleDirectionToPage}>
                 Spot trading
               </Link>
               <Link to={routes.tradeFutures} className={classes.link} onClick={handleDirectionToPage}>

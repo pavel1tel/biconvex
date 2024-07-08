@@ -155,7 +155,7 @@ export const Banner = () => {
                 <Text c="white" className={classes.bannerSubTitle}>
                   Join the Rapidly Expanding Global Crypto Exchange
                 </Text>
-                <BannerButton size="extra-large" text="START TRADING" route={routes.trade} {...{ handleRedirection }} />
+                <BannerButton params={{pairId : "BTC-USDT"}} size="extra-large" text="START TRADING" route={routes.trade} {...{ handleRedirection }} />
               </Stack>
             </motion.div>
           </Stack>

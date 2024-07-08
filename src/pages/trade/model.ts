@@ -3,13 +3,13 @@ import { cancelOrder, createOrder, getCandles, getCoinInfo, getCoinPrice, getOrd
 import { routes } from "@/shared/routing";
 import { chainAuthenticated } from "@/shared/session";
 import { chainRoute } from "atomic-router";
-import { createStore, sample } from "effector";
+import { createEffect, createEvent, createStore, sample } from "effector";
 
 export const currentRoute = routes.trade;
 
-export const anonymousRoute = chainAuthenticated(currentRoute, {
-  otherwise: routes.trade.open,
-});
+export const anonymousRoute = chainAuthenticated(currentRoute);
+
+export const navv = createEvent<any>();
 
 export const $candlesReponse = createStore<any>({});
 $candlesReponse.on(getCandles.doneData, (_, data) => data.message);
@@ -39,6 +39,7 @@ export const $historyOrdersResponse = createStore<any>({});
 $historyOrdersResponse.on(requestHistoryOrders.doneData, (_, data) => data.message);
 
 $tradingReponse.watch((i) => console.log(i["items"] ? i["items"]["BTC"] : 0))
+
 chainRoute({
   route: currentRoute,
   beforeOpen: {
@@ -112,4 +113,14 @@ sample({
 sample({
   clock: cancelOrder.doneData,
   target: requestOpenOrders
+})
+
+sample({
+  clock: navv,
+  fn: (pair) => ({
+    params: { pairId: pair },
+    query : {},
+    replace: true
+  }),
+  target: routes.trade.navigate,
 })

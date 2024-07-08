@@ -9,7 +9,7 @@ export const routes = {
   myProfile: createRoute(),
   home: createRoute(),
   card: createRoute(),
-  trade: createRoute(),
+  trade: createRoute<{pairId : string}>(),
   tradeFutures: createRoute(),
   staking: createRoute(),
   finance: createRoute(),
@@ -65,7 +65,7 @@ export const router = createHistoryRouter({
       route: routes.card,
     },
     {
-      path: "/trade",
+      path: "/trade/:pairId",
       route: routes.trade,
     },
     {

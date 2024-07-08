@@ -2,7 +2,7 @@ import { Table } from "@mantine/core";
 import clsx from "clsx";
 import { Dispatch, SetStateAction, useState } from "react";
 
-import { $ratesResponse } from "@/pages/trade/model";
+import { $ratesResponse, navv } from "@/pages/trade/model";
 import { useUnit } from "effector-react";
 import { Crypto } from "../../../../api/types";
 import { Favorite } from "../Favorite/Favorite";
@@ -26,6 +26,7 @@ export const CoinsTable = ({
   const handleRowClick = (index: string) => {
     setSelectedRow(index);
   };
+
   return (
     <div className={classes.tableContainer}>
       <Table
@@ -45,6 +46,7 @@ export const CoinsTable = ({
                   onClick={() => {
                     handleRowClick(pair)
                     setCurrentPair(pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length));
+                    navv(pair.substring(0, row.symbol.length) + "-" + pair.substring(row.symbol.length))
                   }}
                   className={clsx(classes.tableRow, classes.noSelect, { [classes.rowHover]: true, [classes.rowSelected]: selectedRow === pair })}
                 >
@@ -64,6 +66,7 @@ export const CoinsTable = ({
                 onClick={() => {
                   handleRowClick(row.symbol + "USDT")
                   setCurrentPair(row.symbol + "/USDT");
+                  navv(row.symbol + "-USDT")
                 }}
                 className={clsx(classes.tableRow, classes.noSelect, { [classes.rowHover]: true, [classes.rowSelected]: selectedRow === row.symbol + "USDT" })}
               >
@@ -85,13 +88,14 @@ export const CoinsTable = ({
                   onClick={() => {
                     handleRowClick(pair)
                     setCurrentPair(pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length));
+                    navv(pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length))
                   }}
                   className={clsx(classes.tableRow, classes.noSelect, { [classes.rowHover]: true, [classes.rowSelected]: selectedRow === pair })}
                 >
                   <Table.Td>
                     <div className={classes.tableFavoriteCellWrapper}>
                       <Favorite />
-                      <p>{pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length)}</p>
+                      <p>{pair.substring(0, row.symbol.length) + "-" + pair.substring(row.symbol.length)}</p>
                     </div>
                   </Table.Td><Table.Td>
                     {rates ? (row.price * rates["usd"][pair.substring(row.symbol.length).toLocaleLowerCase()]).toFixed(2) : row.price}
