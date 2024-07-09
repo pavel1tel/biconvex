@@ -6,7 +6,7 @@
   padding: var(--adaptive-section-py) rem(0);
   border-top: rem(1px) solid rgba(255, 255, 255, 0.12);
   background: var(--color-black);
-  z-index: 0;
+  z-index: 1;
 }
 .box {
   width: 1340px;

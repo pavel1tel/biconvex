@@ -1,14 +1,15 @@
 import { useResize } from "@/hooks/useResize";
 import { Group, Stack } from "@mantine/core";
+import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
 
+import { $profileReponse } from "@/pages/my-profile/model";
+
+import { getStakingHistoryFx } from "@/shared/api/profile/profile";
+import { ProfileReponse } from "@/shared/api/types";
 import { ButtonTabs } from "@/shared/ui/ButtonTabs/ui";
 import { TradeActions } from "@/shared/ui/TradeActions/ui";
 
-import { $profileReponse } from "@/pages/my-profile/model";
-import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { ProfileReponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
 import { OrderBook } from "../../../../shared/ui/OrderBook/OrderBook";
 import { OrderBookMobileTradeTab } from "../../../../shared/ui/OrderBook/OrderBookMobile";
 import classes from "./TradeContent.module.css";
@@ -35,16 +36,16 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
   }, [currentPair])
   useEffect(() => {
     if (!profileResponsePending) {
-      setCurrentPair(profileResponse.coins![0].symbol + "/USDT")
-      setCurrentPairName(profileResponse.coins![0].name + "/USDT")
+      setCurrentPair(profileResponse.coins![0].symbol + "/USDT");
+      setCurrentPairName(profileResponse.coins![0].name + "/USDT");
     }
-  }, [profileResponsePending])
+  }, [profileResponsePending]);
 
   useEffect(() => {
     if (!profileResponsePending && currentPair) {
-      setCurrentPairName(profileResponse.coins!.filter((coin) => coin.symbol == currentPair.split("/")[0])[0].name + "/" + currentPair.split("/")[1])
+      setCurrentPairName(profileResponse.coins!.filter((coin) => coin.symbol == currentPair.split("/")[0])[0].name + "/" + currentPair.split("/")[1]);
     }
-  }, [profileResponsePending, currentPair])
+  }, [profileResponsePending, currentPair]);
 
   return (
     <Stack gap={20} py={64}>

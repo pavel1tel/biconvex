@@ -10,10 +10,10 @@
   --_input-bg: var(--color-black);
   --_input-color: var(--color-white);
   --_input-placeholder-color: var(--color-grey);
-
+  border-radius: 4px;
   font-weight: 500;
   border: none;
-  border-left: rem(4px) solid var(--color-grey);
+  border-left: rem(2px) solid var(--color-grey);
   background: var(--color-black);
   box-shadow: 0 0 12px 0 rgba(108, 112, 128, 0.04) inset;
 

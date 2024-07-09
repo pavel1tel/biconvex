@@ -1,16 +1,18 @@
 import { useResize } from "@/hooks/useResize";
 import { Group, Stack } from "@mantine/core";
+import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
+import useWebSocket from "react-use-websocket";
 
-import { ButtonTabs } from "@/shared/ui/ButtonTabs/ui";
-import { TradeActions } from "@/shared/ui/TradeActions/ui";
-
+// import { MarketTrades } from "./components/MarketTrades/MarketTrades";
 import { $profileReponse } from "@/pages/my-profile/model";
+
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { getCoinInfo, getCoinPrice, getTrades } from "@/shared/api/trading/requests";
 import { ProfileReponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
-import useWebSocket from "react-use-websocket";
+import { ButtonTabs } from "@/shared/ui/ButtonTabs/ui";
+import { TradeActions } from "@/shared/ui/TradeActions/ui";
+
 import { OrderBook } from "../../../../shared/ui/OrderBook/OrderBook";
 import { OrderBookMobileTradeTab } from "../../../../shared/ui/OrderBook/OrderBookMobile";
 import { currentRoute } from "../../model";
@@ -27,33 +29,33 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>(categories[0]);
   const profileResponse = useUnit<ProfileReponse>($profileReponse);
   const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
-  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+  const [socketUrl, setSocketUrl] = useState("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
   const { lastMessage: priceWs } = useWebSocket(socketUrl);
-  const routeParams = useUnit(currentRoute.$params)
+  const routeParams = useUnit(currentRoute.$params);
   const [currentPair, setCurrentPair] = useState("");
   const [currentPairName, setCurrentPairName] = useState("");
   useEffect(() => {
-    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
-  }, [currentPair])
+    setSocketUrl("wss://stream.binance.com:9443/ws/" + currentPair.split("/").join("").toLocaleLowerCase() + "@kline_1m");
+  }, [currentPair]);
 
   useEffect(() => {
     if (!profileResponsePending) {
-      setCurrentPair(routeParams.pairId.replace("-", "/"))
-      setCurrentPairName(routeParams.pairId.replace("-", "/"))
+      setCurrentPair(routeParams.pairId.replace("-", "/"));
+      setCurrentPairName(routeParams.pairId.replace("-", "/"));
     }
-  }, [profileResponsePending, routeParams])
+  }, [profileResponsePending, routeParams]);
 
   useEffect(() => {
     if (!profileResponsePending && currentPair) {
-      setCurrentPairName(profileResponse.coins!.filter((coin) => coin.symbol == currentPair.split("/")[0])[0].name + "/" + currentPair.split("/")[1])
+      setCurrentPairName(profileResponse.coins!.filter((coin) => coin.symbol == currentPair.split("/")[0])[0].name + "/" + currentPair.split("/")[1]);
     }
-  }, [profileResponsePending, currentPair])
+  }, [profileResponsePending, currentPair]);
 
   useEffect(() => {
     getCoinInfo({ symbol: currentPair.split("/").join(""), windowSize: "1d" });
-    getCoinPrice(currentPair.split("/").join(""))
-    getTrades(currentPair.split("/").join(""))
-  }, [currentPair])
+    getCoinPrice(currentPair.split("/").join(""));
+    getTrades(currentPair.split("/").join(""));
+  }, [currentPair]);
 
   return (
     <Stack gap={20} py={64}>

@@ -8,7 +8,7 @@ export interface ResponseDto {
 
 export interface CandlesRequest {
   interval: string;
-  pair: string
+  pair: string;
 }
 
 export interface Transaction {
@@ -25,9 +25,8 @@ export interface Transaction {
 }
 
 export interface TransactionsResponse {
-  transactions?: Transaction[]
+  transactions?: Transaction[];
 }
-
 
 export interface DepositCoin {
   symbol: string;
@@ -55,16 +54,16 @@ export interface WithdrawCoin {
 export interface FeesRequest {
   withdraw_coins?: {
     [key: string]: WithdrawCoin;
-  }
+  };
   coins_balances?: {
     [key: string]: number;
-  }
+  };
 }
 
 export interface TransferResponse {
   coins_balances?: {
     [key: string]: number;
-  }
+  };
 }
 interface Coin {
   symbol: string;
@@ -82,6 +81,7 @@ export interface UpdateAccountRequest {
   username: string;
   phone: string;
   fullname: string;
+  gender: string;
 }
 
 export interface UpdatePasswordRequest {
@@ -99,6 +99,7 @@ export interface UpdatePersonalInfoRequest {
 }
 
 export interface SettingsReponse {
+  surname: string | undefined;
   name?: string;
   phone_number?: string;
   username?: string;
@@ -108,6 +109,7 @@ export interface SettingsReponse {
   postalCode?: string;
   presentAddress?: string;
   country?: string;
+  gender?: string;
 }
 
 export interface TransferRequest {
@@ -140,10 +142,8 @@ export interface Course {
 export interface InvestResponse {
   invest_coins?: InvestCoins;
   plans_percents?: Plans;
-  total_balance?: string
-  courses?: [
-    Course
-  ]
+  total_balance?: string;
+  courses?: [Course];
 }
 
 export interface ProfileReponse {
@@ -190,7 +190,7 @@ export interface Crypto {
   balance: number;
   price: number;
   name: string;
-  fiat_pairs: string[]
+  fiat_pairs: string[];
 }
 
 export interface InvestmentHistory {
@@ -271,7 +271,7 @@ interface CryptoItem {
   rank: number;
   price_change_percent: number;
   volume_change_24h: number;
-  active?: boolean;  // 'active' is optional because it's missing in the ETH object
+  active?: boolean; // 'active' is optional because it's missing in the ETH object
 }
 
 interface CryptoItems {
@@ -300,7 +300,6 @@ export interface SpotOrderRequest {
   category: string;
 }
 
-
 export interface OpenOrder {
   date: string;
   amount: number;
@@ -317,5 +316,5 @@ export interface OpenOrder {
 }
 
 export interface OpenOrderResponse {
-  orders: OpenOrder[]
+  orders: OpenOrder[];
 }

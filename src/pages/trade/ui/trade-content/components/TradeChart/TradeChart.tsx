@@ -20,13 +20,7 @@ const period = [
   { title: "12h", value: 720 },
 ];
 
-export const TradeChart = ({
-  currentPairName,
-  setCurrentPair,
-  currentPair,
-  priceWs
-}) => {
-
+export const TradeChart = ({ currentPairName, setCurrentPair, currentPair, priceWs }) => {
   const [activePeriod, setActivePeriod] = useState("1m");
 
   return (

@@ -1,4 +1,5 @@
 import { useResize } from "@/hooks/useResize";
+import { useSwrHomepage } from "@/hooks/useSwrHomepage";
 import { Group, Image, Pill, Stack, Table, Text, Title, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
 import { motion } from "framer-motion";
@@ -21,7 +22,6 @@ import {
 } from "@/shared/ui";
 
 import classes from "./styles.module.css";
-import { useSwrHomepage } from "@/hooks/useSwrHomepage";
 
 export const getCoinIcon = (symbol: string) => {
   let icon = <></>;
@@ -64,10 +64,11 @@ export const Markets = () => {
   const [sortState, setSortState] = useState<{ sortCol: string; sortFunc: 1 | 2 | 3 }>({ sortCol: "", sortFunc: 1 });
   const sortHandler = (cell: string) => {
     if (cell !== sortState.sortCol) setSortState({ sortCol: cell, sortFunc: 2 });
-    if (cell === sortState.sortCol) setSortState({
-      ...sortState,
-      sortFunc: sortState.sortFunc === 3 ? 1 : ((sortState.sortFunc + 1) as 2 | 3),
-    });
+    if (cell === sortState.sortCol)
+      setSortState({
+        ...sortState,
+        sortFunc: sortState.sortFunc === 3 ? 1 : ((sortState.sortFunc + 1) as 2 | 3),
+      });
   };
   const { coins } = useSwrHomepage();
   const markets = useMemo(() => {
@@ -92,12 +93,11 @@ export const Markets = () => {
           <Table.Td>
             <Group>
               {icon}
-              <Group gap={rem(4)} align={"center"}>
+              <Group gap={rem(11)} align={"center"}>
                 <Title c="white" order={4}>
                   {coin.name == "BNB BEP-2" ? "BNB" : coin.name}
                 </Title>
-                <Pill size="md"
-                      classNames={{ root: classes.marketShortNameWrapper, label: classes.marketShortNameLabel }}>
+                <Pill size="md" classNames={{ root: classes.marketShortNameWrapper, label: classes.marketShortNameLabel }}>
                   {coin.symbol}
                 </Pill>
               </Group>
@@ -123,9 +123,12 @@ export const Markets = () => {
           </Table.Td>
           <Table.Td>
             <Group justify={"flex-end"} className={classes.marketChartWrapper}>
-              <RateChart type={type} data={coin.history.map((value, index) => {
-                return { name: `P${index}`, value: Number(value) };
-              })} />
+              <RateChart
+                type={type}
+                data={coin.history.map((value, index) => {
+                  return { name: `P${index}`, value: Number(value) };
+                })}
+              />
             </Group>
           </Table.Td>
         </Table.Tr>
@@ -222,8 +225,7 @@ export const Markets = () => {
               </Table>
             </Group>
 
-            <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/main/7.png`} alt="main-light-7"
-                   className={classes.lightSeven} />
+            <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/main/7.png`} alt="main-light-7" className={classes.lightSeven} />
           </Stack>
         </Container>
       </Stack>
