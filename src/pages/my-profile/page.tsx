@@ -24,9 +24,9 @@ export function Page() {
       <Container>
         <Sidebar>
           <Box className={classes.box}>
-            {/* <HeaderMyProfile /> */}
+            <HeaderMyProfile />
             <Promocode />
-            {/* <TableProfile /> */}
+            <TableProfile />
           </Box>
         </Sidebar>
       </Container>
