@@ -1,12 +1,10 @@
-import { trimLongName } from "@/helpers/trimLongName";
 import { useResize } from "@/hooks/useResize";
-import { Group, Table, Text, Title, UnstyledButton, rem } from "@mantine/core";
+import { Group, Table, Text, rem } from "@mantine/core";
 import clsx from "clsx";
-import { useCallback, useMemo, useState } from "react";
-import { P, match } from "ts-pattern";
+import { useCallback, useMemo } from "react";
 
-import { SortingDirection, SortingLabel } from "@/shared/types/CoinsTable";
-import { MarketSortIcon, RateIcon, RateType } from "@/shared/ui";
+import { SortingLabel } from "@/shared/types/CoinsTable";
+import { MarketSortIcon } from "@/shared/ui";
 
 import classes from "./styles.module.css";
 
@@ -27,6 +25,12 @@ type CoinsTableProps = {
   data: any[];
   currentPage: number;
   rowsPerPage: number;
+  headers: (typeof HEADERS),
+  transformData: any;
+  sortingLabel: string;
+  sortingDirection: string;
+  setSortingLabel: any;
+  setSortingDirection: any;
 };
 
 const formatNumber = (num: number) => {
@@ -51,29 +55,8 @@ const HEADERS = [
   { label: "TR", className: classes.tableHeadCell, sortable: false },
 ];
 
-const extractData = (dataItem: any): CoinData | null => {
-  const symbol = dataItem.d[0]?.split("crypto/")[1] || "";
-  const icon = `https://s3-symbol-logo.tradingview.com/crypto/${symbol}.svg`;
 
-  if (!symbol.length) return null;
-
-  return {
-    name: dataItem.d[13] || "",
-    price: parseFloat(dataItem.d[3]) || 0,
-    change: parseFloat(dataItem.d[4]) || 0,
-    changePrice: parseFloat(dataItem.d[5]) || 0,
-    high: parseFloat(dataItem.d[6]) || 0,
-    low: parseFloat(dataItem.d[7]) || 0,
-    vol: parseFloat(dataItem.d[9]) || 0,
-    volDayUsd: parseFloat(dataItem.d[11]) || 0,
-    volDayChgPercent: parseFloat(dataItem.d[12]) || 0,
-    icon,
-  };
-};
-
-export const CoinsTable = ({ data, currentPage, rowsPerPage }: CoinsTableProps) => {
-  const [sortingLabel, setSortingLabel] = useState<SortingLabel>("#");
-  const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
+export const CoinsTable = ({ data, currentPage, rowsPerPage, headers, transformData, sortingLabel, sortingDirection, setSortingLabel, setSortingDirection }: CoinsTableProps) => {
   const { isAdaptive: md } = useResize(1200);
 
   const onTableHeadSortLabelClick = useCallback(
@@ -88,8 +71,8 @@ export const CoinsTable = ({ data, currentPage, rowsPerPage }: CoinsTableProps) 
     [sortingDirection, sortingLabel],
   );
 
-  const headers = useMemo(() => {
-    return HEADERS.map((header) => (
+  const hdrs = useMemo(() => {
+    return headers.map((header) => (
       <Table.Th key={header.label} className={header.className}>
         <Group
           gap={rem("2px")}
@@ -106,115 +89,15 @@ export const CoinsTable = ({ data, currentPage, rowsPerPage }: CoinsTableProps) 
         </Group>
       </Table.Th>
     ));
-  }, [onTableHeadSortLabelClick, sortingDirection]);
-
-  const tableData = useMemo(() => {
-    return data.map(extractData).filter((coin): coin is CoinData => coin !== null);
-  }, [data]);
-
-  const sortedData = useMemo(() => {
-    if (!tableData.length) return [];
-    const sorted = [...tableData];
-    const key = sortingLabel === "Coin Name" ? "name" : (sortingLabel.toLowerCase() as keyof CoinData);
-    sorted.sort((a, b) => {
-      if (sortingLabel === "Coin Name") {
-        if (a.name < b.name) return sortingDirection === "ASC" ? -1 : 1;
-        if (a.name > b.name) return sortingDirection === "ASC" ? 1 : -1;
-      } else {
-        if (a[key] < b[key]) return sortingDirection === "ASC" ? -1 : 1;
-        if (a[key] > b[key]) return sortingDirection === "ASC" ? 1 : -1;
-      }
-      return 0;
-    });
-    return sorted;
-  }, [tableData, sortingDirection, sortingLabel]);
+  }, [onTableHeadSortLabelClick, sortingDirection, headers]);
 
   return (
     <Table classNames={{ tr: classes.tableTr, td: classes.tableTd }} verticalSpacing={rem("16px")} withRowBorders={true}>
       <Table.Thead classNames={{ thead: classes.tableHead }}>
-        <Table.Tr>{headers}</Table.Tr>
+        <Table.Tr>{hdrs}</Table.Tr>
       </Table.Thead>
       <Table.Tbody classNames={{ tbody: classes.tableBody }}>
-        {sortedData.map((coin, index) => {
-          const type: RateType = match(coin.change)
-            .with(
-              P.when((value) => value > 0),
-              () => "positive" as RateType,
-            )
-            .with(
-              P.when((value) => value < 0),
-              () => "negative" as RateType,
-            )
-            .otherwise(() => "zero" as RateType);
-
-          const adaptiveFullCoinName = trimLongName(coin.name, md);
-
-          return (
-            <Table.Tr key={coin.name}>
-              <Table.Td w={70}>
-                <Group gap={rem(16)} className={classes.firstTdWrapper}>
-                  <Text variant="text-3" className={classes.greyText} span>
-                    №{(currentPage - 1) * rowsPerPage + index + 1}
-                  </Text>
-                </Group>
-              </Table.Td>
-              <Table.Td className={classes.tbodyTdWithIcon}>
-                <Group gap={rem(8)}>
-                  <img src={coin.icon} alt={`${coin.name} icon`} className={classes.tokenIcon} />
-                  <Title c="white" fz={20} order={4}>
-                    {adaptiveFullCoinName}
-                  </Title>
-                </Group>
-              </Table.Td>
-              <Table.Td>
-                <Text c="white" variant="text-4" span>
-                  ${formatNumber(coin.price)}
-                </Text>
-              </Table.Td>
-              <Table.Td>
-                <Group gap={rem(4)}>
-                  <RateIcon type={type} />
-                  <Text c="white" variant="text-4" span>
-                    {coin.change.toFixed(2)}%
-                  </Text>
-                </Group>
-              </Table.Td>
-              <Table.Td>
-                <Text c="white" variant="text-4" span>
-                  ${formatNumber(coin.changePrice)}
-                </Text>
-              </Table.Td>
-              <Table.Td>
-                <Text c="white" variant="text-4" span>
-                  ${formatNumber(coin.high)}
-                </Text>
-              </Table.Td>
-              <Table.Td>
-                <Text c="white" variant="text-4" span>
-                  ${formatNumber(coin.low)}
-                </Text>
-              </Table.Td>
-              <Table.Td>
-                <Text c="white" variant="text-4" span>
-                  ${formatNumber(coin.vol)}
-                </Text>
-              </Table.Td>
-              <Table.Td>
-                <Text c="white" variant="text-4" span>
-                  ${formatNumber(coin.volDayUsd)}
-                </Text>
-              </Table.Td>
-              <Table.Td>
-                <Text c="white" variant="text-4" span>
-                  ${formatNumber(coin.volDayChgPercent)}
-                </Text>
-              </Table.Td>
-              <Table.Td>
-                <UnstyledButton className={classes.buyButton}>BUY</UnstyledButton>
-              </Table.Td>
-            </Table.Tr>
-          );
-        })}
+        {transformData(data, currentPage, rowsPerPage)}
       </Table.Tbody>
     </Table>
   );

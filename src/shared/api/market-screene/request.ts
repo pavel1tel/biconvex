@@ -14,9 +14,9 @@ type Filter = {
   right: string;
 };
 export type Range = [number, number];
-export type FetchFunc = (range: Range) => Promise<any>;
+export type FetchFunc = (sort: Sort, filter: Filter[], preset: string) => Promise<any>;
 
-const fetchData = async (columns: Column[], sort: Sort, filter: Filter[] = [], range: Range = [0, 150]): Promise<any[]> => {
+const fetchData = async (columns: Column[], sort: Sort, filter: Filter[] = [], preset): Promise<any[]> => {
   const data = {
     filter,
     options: {
@@ -31,6 +31,7 @@ const fetchData = async (columns: Column[], sort: Sort, filter: Filter[] = [], r
     },
     columns,
     sort,
+    preset,
     price_conversion: {
       to_symbol: false,
     },
@@ -44,20 +45,20 @@ const fetchData = async (columns: Column[], sort: Sort, filter: Filter[] = [], r
   return response.data.data;
 };
 
-const fetchOverviewData: FetchFunc = (range) =>
+const fetchOverviewData: FetchFunc = (sortRequest, filter: Filter[], preset) =>
   fetchData(
     [
       "base_currency_logoid",
       "currency_logoid",
-      "name",
+      "description",
       "close",
       "change",
       "change_abs",
       "high",
       "low",
       "volume",
-      "24h_vol|5",
-      "24h_vol_change|5",
+      "24h_vol_cmc",
+      "24h_vol_change_cmc",
       "Recommend.All",
       "exchange",
       "description",
@@ -67,103 +68,76 @@ const fetchOverviewData: FetchFunc = (range) =>
       "pricescale",
       "minmov",
       "fractional",
-      "minmove2",
+      "minmove2"
     ],
-    { sortBy: "crypto_total_rank", sortOrder: "asc" },
-    [],
+    sortRequest,
+    filter,
+    preset,
   );
 
-const fetchPerformanceData: FetchFunc = (range) =>
+const fetchPerformanceData: FetchFunc = (sortRequest, filter: Filter[], preset) =>
   fetchData(
     [
       "base_currency_logoid",
       "currency_logoid",
-      "name",
-      "close",
-      "change",
-      "change_abs",
-      "high",
-      "low",
-      "volume",
-      "24h_vol|5",
-      "24h_vol_change|5",
-      "Recommend.All",
-      "exchange",
       "description",
-      "type",
-      "subtype",
-      "update_mode",
-      "pricescale",
-      "minmov",
-      "fractional",
-      "minmove2",
+      "market_cap_calc",
+      "24h_close_change|5",
+      "Perf.W",
+      "Perf.1M",
+      "Perf.3M",
+      "Perf.6M",
+      "Perf.Y",
+      "Perf.All",
+      "Volatility.D",
     ],
-    { sortBy: "crypto_total_rank", sortOrder: "asc" },
-    [],
+    sortRequest,
+    filter,
+    preset,
   );
 
-const fetchOscillatorsData: FetchFunc = (range) =>
+const fetchOscillatorsData: FetchFunc = (sortRequest, filter: Filter[], preset) =>
   fetchData(
     [
       "base_currency_logoid",
       "currency_logoid",
-      "name",
-      "close",
-      "change",
-      "change_abs",
-      "high",
-      "low",
-      "volume",
-      "24h_vol|5",
-      "24h_vol_change|5",
-      "Recommend.All",
-      "exchange",
       "description",
-      "type",
-      "subtype",
-      "update_mode",
-      "pricescale",
-      "minmov",
-      "fractional",
-      "minmove2",
+      "Recommend.Other",
+      "ADX",
+      "AO",
+      "ATR",
+      "CCI20",
+      "MACD.macd",
+      "MACD.signal",
+      "Mom",
+      "RSI",
     ],
-    { sortBy: "crypto_total_rank", sortOrder: "asc" },
-    [],
+    sortRequest,
+    filter,
+    preset
   );
 
-const fetchTrendFollowingData: FetchFunc = (range) =>
+const fetchTrendFollowingData: FetchFunc = (sortRequest, filter: Filter[], preset) =>
   fetchData(
     [
       "base_currency_logoid",
       "currency_logoid",
-      "name",
-      "close",
-      "change",
-      "change_abs",
-      "high",
-      "low",
-      "volume",
-      "24h_vol|5",
-      "24h_vol_change|5",
-      "Recommend.All",
-      "exchange",
       "description",
-      "type",
-      "subtype",
-      "update_mode",
-      "pricescale",
-      "minmov",
-      "fractional",
-      "minmove2",
+      "Recommend.MA",
+      "close",
+      "SMA20",
+      "SMA50",
+      "SMA200",
+      "BB.upper",
+      "BB.lower",
     ],
-    { sortBy: "crypto_total_rank", sortOrder: "asc" },
-    [],
+    sortRequest,
+    filter,
+    preset
   );
 
 export {
-  fetchOverviewData,
-  fetchPerformanceData,
-  fetchOscillatorsData,
-  fetchTrendFollowingData,
-  fetchData, // for custom requests
+  fetchData, fetchOscillatorsData, fetchOverviewData,
+  fetchPerformanceData, fetchTrendFollowingData
 };
+

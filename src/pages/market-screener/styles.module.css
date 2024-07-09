@@ -10,6 +10,30 @@
   }
 }
 
+.tokenIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 100px;
+}
+
+.buy-button {
+  @mixin text-3-full var(--color-blue);
+  @mixin transition;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+  -webkit-text-decoration-color: transparent;
+  -moz-text-decoration-color: transparent;
+  @mixin hover {
+    text-shadow: 0px 2px 8px rgba(98, 95, 244, 0.64);
+    text-decoration-color: var(--color-blue);
+    -webkit-text-decoration-color: var(--color-blue);
+    -moz-text-decoration-color: var(--color-blue);
+  }
+}
+
 .light-one {
   top: 0;
   width: auto;

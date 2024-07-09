@@ -28,6 +28,10 @@ import { Coin } from "./ui/coins-table/ui";
 export type Selector = {
   label: string;
   fetchData: any;
+  filter?: any;
+  sort?: any;
+  isSelected?: boolean;
+  preset?: string;
 };
 
 const TAG_FILTERS: Record<string, (coin: Coin) => boolean> = {
