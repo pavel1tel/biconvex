@@ -23,7 +23,7 @@ export function Page() {
       <Header />
       <Container>
         <Sidebar>
-          <Box className={classes.box}>
+          <Box className={classes.box} style={{ alignItems: "flex-start " }}>
             <HeaderMyProfile />
             <Promocode />
             <TableProfile />
