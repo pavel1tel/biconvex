@@ -269,7 +269,8 @@ const series = [
 export const TradeChart = ({
   currentPair,
   setCurrentPair,
-  currentPairName
+  currentPairName,
+  priceWs
 }) => {
   const [activePeriod, setActivePeriod] = useState("1m");
   const [minZoomIndex, setMinZoomIndex] = useState(0);
@@ -345,7 +346,7 @@ export const TradeChart = ({
         ))}
         <Select bordered activeValue={activePeriod} setActiveValue={setActivePeriod} />
       </Group>
-      <LightWeightChart currentPair={currentPair} period={activePeriod} />
+      <LightWeightChart priceWs={priceWs} currentPair={currentPair} period={activePeriod} />
     </Container>
   );
 };

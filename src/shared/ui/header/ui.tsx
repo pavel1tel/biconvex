@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useResize } from "@/hooks/useResize";
 import { Button, Divider, Group, Menu, Stack, Text, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
@@ -39,9 +40,11 @@ const LINKS = [
   {
     to: routes.trade,
     label: "Trade",
+    params: {pairId : "BTC-USDT"},
     links: [
       {
         to: routes.trade,
+        params: {pairId : "BTC-USDT"},
         icon: <SpotTradingIcon />,
         label: "Spot Trading",
         subtitle: "Buy and sell on the Spot market with advanced tools. ",
@@ -162,6 +165,7 @@ export const Header = ({ className = "" }: { className?: string }) => {
         <Menu.Item
           key={item.label}
           to={item.to}
+          params={link.params}
           component={Link}
           classNames={{
             item: classes.menuItem,
@@ -203,7 +207,8 @@ export const Header = ({ className = "" }: { className?: string }) => {
     }
 
     return (
-      <Link to={link.to} key={link.label} className={classes.link} activeClassName={classes.linkActive}>
+      
+      <Link to={link.to} params={link.params} key={link.label} className={classes.link} activeClassName={classes.linkActive}>
         <Text variant="text-4" span classNames={{ root: classes.linkLabel }}>
           {link.label}
         </Text>
@@ -290,6 +295,7 @@ export const Header = ({ className = "" }: { className?: string }) => {
                           {link.links.map((hiddenLink) => (
                             <Link
                               to={hiddenLink.to}
+                              params={hiddenLink.params}
                               style={{
                                 display: "flex",
                                 alignItems: "center",

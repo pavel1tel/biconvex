@@ -13,7 +13,7 @@ import { useUnit } from "effector-react";
 import { MarketSwitch } from "../../MarketSwitch/MarketSwitch";
 import classes from "./BuyTab.module.css";
 
-export const BuyTab = ({ currentPair }: { currentPair: string }) => {
+export const BuyTab = ({ currentPair, priceWs }: { currentPair: string; priceWs: any }) => {
   const [activeSwitch, setActiveSwitch] = useState<1 | 2>(1);
   const profileResponse = useUnit<ProfileReponse>($profileReponse);
   const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
@@ -25,22 +25,53 @@ export const BuyTab = ({ currentPair }: { currentPair: string }) => {
   const [recalculateTotal, setRecalculateTotal] = useState<boolean>(false);
 
   useEffect(() => {
+    setCoinAmount(NaN);
+    setTotal(NaN);
+    setPrice(NaN);
+  }, [activeSwitch])
+  useEffect(() => {
     if (!profileResponsePending) {
       setCurrentCoin(profileResponse.coins!.filter((coin) => coin.symbol === currentPair.split("/")[0])[0])
     }
   })
 
   useEffect(() => {
-    if (price && coinAmount) {
-      setTotal(coinAmount * price)
-    } else {
+    if (activeSwitch === 1) {
+      if (price && coinAmount) {
+        setTotal(coinAmount * price)
+      }
     }
   }, [recalculateCoin, price])
 
   useEffect(() => {
-    if (price && total) {
-      setCoinAmount(parseFloat((total / price).toFixed(5)))
-    } else {
+    if (activeSwitch === 1) {
+      if (price && total) {
+        setCoinAmount(parseFloat((total / price).toFixed(5)))
+      }
+    }
+  }, [recalculateTotal])
+
+  useEffect(() => {
+    if (activeSwitch === 2) {
+      if (coinAmount && priceWs) {
+        let temp = JSON.parse(priceWs.data)
+        setPrice(parseFloat(temp["k"]["c"]))
+        setTotal(coinAmount * parseFloat(temp["k"]["c"]))
+      } else {
+        setTotal(NaN)
+      }
+    }
+  }, [recalculateCoin])
+
+  useEffect(() => {
+    if (activeSwitch === 2) {
+      if (total && priceWs) {
+        let temp = JSON.parse(priceWs.data)
+        setPrice(parseFloat(temp["k"]["c"]))
+        setCoinAmount(parseFloat((total / temp["k"]["c"]).toFixed(5)))
+      } else {
+        setCoinAmount(NaN)
+      }
     }
   }, [recalculateTotal])
 
@@ -52,6 +83,14 @@ export const BuyTab = ({ currentPair }: { currentPair: string }) => {
         amount: coinAmount,
         type: 0,
         category: "LIMIT"
+      })
+    } else if (activeSwitch == 2 && coinAmount && total && price) {
+      createOrder({
+        pair_price: price,
+        crypto: currentCoin!.symbol,
+        amount: coinAmount,
+        type: 0,
+        category: "MARKET"
       })
     }
   }

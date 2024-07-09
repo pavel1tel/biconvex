@@ -20,7 +20,7 @@ const period = [
   { title: "12h", value: 720 },
 ];
 
-export const TradeChart = ({ currentPairName, setCurrentPair, currentPair }) => {
+export const TradeChart = ({ currentPairName, setCurrentPair, currentPair, priceWs }) => {
   const [activePeriod, setActivePeriod] = useState("1m");
 
   return (
@@ -39,7 +39,7 @@ export const TradeChart = ({ currentPairName, setCurrentPair, currentPair }) => 
         <Select bordered activeValue={activePeriod} setActiveValue={setActivePeriod} />
       </Group>
 
-      <LightWeightChart currentPair={currentPair} period={activePeriod} />
+      <LightWeightChart priceWs={priceWs} currentPair={currentPair} period={activePeriod} />
     </Container>
   );
 };

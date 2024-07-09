@@ -77,6 +77,17 @@ export const requestOpenOrders = createEffect<void, ResponseDto>(async () => {
     });
 });
 
+export const requestHistoryOrders = createEffect<void, ResponseDto>(async () => {
+    return requestRegistration({
+        path: '/trading_api?action=GET_ORDERS_HISTORY',
+        method: 'GET',
+        headers: {
+            "Accept": "*/*",
+            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+    });
+});
+
 export const requestTrading = createEffect<void, ResponseDto>(async () => {
     return requestRegistration({
         path: '/api/trading',
@@ -119,6 +130,6 @@ export const cancelOrder = createEffect<string, any, ResponseDto>(async (id) => 
         body: new URLSearchParams({
             action: 'CANCEL_ORDER',
             order_id: id,
-          })
+        })
     });
 });

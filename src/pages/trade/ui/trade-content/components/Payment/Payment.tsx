@@ -13,17 +13,18 @@ import { SellTab } from "./components/tabs/SellTab/SellTab";
 export const Payment = ({
   currentPairName,
   setCurrentPair,
-  currentPair
+  currentPair,
+  priceWs
 }) => {
   const { isAdaptive: md } = useResize(1200);
   const tabs = [
-    { id: "buy", title: "Buy", content: <BuyTab currentPair={currentPair} /> },
-    { id: "sell", title: "Sell", content: <SellTab /> },
+    { id: "buy", title: "Buy", content: <BuyTab priceWs={priceWs} currentPair={currentPair} /> },
+    { id: "sell", title: "Sell", content: <SellTab priceWs={priceWs} currentPair={currentPair} /> },
   ];
   return (
     <Stack className={containerClasses.payment}>
       <Container style={{ padding: "2rem clamp(1.5rem, 2vw, 2rem) 2rem clamp(1.5rem, 2vw, 2rem)" }}>
-        {md && <TradeChartTitle currentPairName={currentPairName} setCurrentPair={setCurrentPair} className="withBottomIndent" />}
+        {md && <TradeChartTitle currentPairName={currentPair} setCurrentPair={setCurrentPair} className="withBottomIndent" />}
 
         <Tabs overflowContainer={false} tabs={tabs} />
       </Container>

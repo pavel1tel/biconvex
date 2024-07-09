@@ -2,9 +2,8 @@ import { Table } from "@mantine/core";
 import clsx from "clsx";
 import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
-import useWebSocket from "react-use-websocket";
 
-import { $orderBookResponse } from "@/pages/trade/model";
+import { $coinPrice, $orderBookResponse } from "@/pages/trade/model";
 
 import { getOrderBook } from "@/shared/api/trading/requests";
 
@@ -20,11 +19,13 @@ export const OrderBookDesktop = ({
   activeCategory,
   addScroll,
   currentPair,
+  priceWs,
 }: {
   isFullRows?: boolean;
   activeCategory: string;
   addScroll?: boolean;
   currentPair: string;
+  priceWs: any;
 }) => {
   const orderBookReponse = useUnit<any>($orderBookResponse);
   const orderBookResponsePending = useUnit(getOrderBook.pending);
@@ -32,9 +33,8 @@ export const OrderBookDesktop = ({
   const [bids, setBids] = useState<any[]>([]);
   const [fullAsks, setFullAsks] = useState<any[]>([]);
   const [fullBids, setFullBids] = useState<any[]>([]);
+  const coinPriceReponse = useUnit<any>($coinPrice);
 
-  const [socketUrl, setSocketUrl] = useState("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
   const [price, setPrice] = useState<any>({
     price: 0,
     up: false,
@@ -91,8 +91,8 @@ export const OrderBookDesktop = ({
   }, [currentPair]);
 
   useEffect(() => {
-    if (lastMessage !== null) {
-      let temp = JSON.parse(lastMessage.data);
+    if (priceWs !== null) {
+      let temp = JSON.parse(priceWs.data);
       setPrice((prev) => {
         return {
           price: parseFloat(temp["k"]["c"]),
@@ -100,12 +100,11 @@ export const OrderBookDesktop = ({
         };
       });
     }
-  }, [lastMessage]);
+  }, [priceWs]);
 
   useEffect(() => {
-    setSocketUrl("wss://stream.binance.com:9443/ws/" + currentPair.split("/").join("").toLocaleLowerCase() + "@kline_1m");
-    setPrice({ price: "...", up: false });
-  }, [currentPair]);
+    setPrice({ price: parseFloat(coinPriceReponse?.price), up: false });
+  }, [coinPriceReponse, currentPair]);
 
   return (
     <div className={classes.tableContainer}>

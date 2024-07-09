@@ -55,7 +55,7 @@ export const StakingTable = ({
             Plane: val.plan,
             Expires: val.expires,
             Realtime_profit: val.profit + " " + val.symbol,
-            Invested: val.invested,
+            Invested: val.invested + " " + val.symbol,
             cancel: <CloseButton className={classes.closeButton} />,
           };
         });

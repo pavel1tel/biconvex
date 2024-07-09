@@ -1,15 +1,17 @@
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { cancelOrder, createOrder, getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates, getTrades, requestOpenOrders, requestTrading } from "@/shared/api/trading/requests";
+import { cancelOrder, createOrder, getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates, getTrades, requestHistoryOrders, requestOpenOrders, requestTrading } from "@/shared/api/trading/requests";
+import { ResponseDto } from "@/shared/api/types";
+import { showErrorNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { chainAuthenticated } from "@/shared/session";
 import { chainRoute } from "atomic-router";
-import { createStore, sample } from "effector";
+import { createEvent, createStore, sample } from "effector";
 
 export const currentRoute = routes.trade;
 
-export const anonymousRoute = chainAuthenticated(currentRoute, {
-  otherwise: routes.trade.open,
-});
+export const anonymousRoute = chainAuthenticated(currentRoute);
+
+export const navv = createEvent<any>();
 
 export const $candlesReponse = createStore<any>({});
 $candlesReponse.on(getCandles.doneData, (_, data) => data.message);
@@ -35,7 +37,14 @@ $tradesResponse.on(getTrades.doneData, (_, data) => data.message);
 export const $openOrdersResponse = createStore<any>({});
 $openOrdersResponse.on(requestOpenOrders.doneData, (_, data) => data.message);
 
+export const $historyOrdersResponse = createStore<any>({});
+$historyOrdersResponse.on(requestHistoryOrders.doneData, (_, data) => data.message);
+
 $tradingReponse.watch((i) => console.log(i["items"] ? i["items"]["BTC"] : 0))
+
+const $createOrderError = createStore<ResponseDto>({ message: "" });
+$createOrderError.on(createOrder.failData, (_, error) => error);
+
 chainRoute({
   route: currentRoute,
   beforeOpen: {
@@ -92,15 +101,14 @@ chainRoute({
   },
 });
 
-sample({
-  clock: createOrder.doneData,
-  target: getStakingHistoryFx
-})
+chainRoute({
+  route: currentRoute,
+  beforeOpen: {
+    effect: requestHistoryOrders,
+    mapParams: (params) => "1m",
+  },
+});
 
-sample({
-  clock: createOrder.doneData,
-  target: getStakingHistoryFx
-})
 
 sample({
   clock: createOrder.doneData,
@@ -111,3 +119,20 @@ sample({
   clock: cancelOrder.doneData,
   target: requestOpenOrders
 })
+
+sample({
+  clock: navv,
+  fn: (pair) => ({
+    params: { pairId: pair },
+    query: {},
+    replace: true
+  }),
+  target: routes.trade.navigate,
+})
+
+sample({
+  clock: createOrder.failData,
+  source: $createOrderError,
+  fn: (error) => error.message,
+  target: showErrorNotification,
+});

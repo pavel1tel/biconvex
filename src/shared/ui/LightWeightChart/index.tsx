@@ -1,6 +1,5 @@
 import { CrosshairMode, IChartApi, ISeriesApi, UTCTimestamp, createChart } from "lightweight-charts";
 import { useEffect, useRef, useState } from "react";
-import useWebSocket from 'react-use-websocket';
 
 import { $candlesReponse } from "@/pages/trade/model";
 import { getCandles } from "@/shared/api/trading/requests";
@@ -10,25 +9,25 @@ import classes from "./TradeChart.module.css";
 const LightWeightChart = ({
   period,
   currentPair,
+  priceWs,
 }: {
   period: string;
   currentPair: string;
+  priceWs: any
 }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
   const volumeSeries = useRef<ISeriesApi<"Histogram"> | null>(null);
 
-  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
   const seriesData = useRef<any>(null)
   const [redraw, setRedraw] = useState(false);
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
   const candelsReponse = useUnit<[any[]]>($candlesReponse);
   const candelsReponsePending = useUnit(getCandles.pending);
 
   useEffect(() => {
-    if (!candelsReponsePending && lastMessage !== null && seriesRef.current && volumeSeries.current) {
-      let temp = JSON.parse(lastMessage.data)
+    if (!candelsReponsePending && priceWs !== null && seriesRef.current && volumeSeries.current) {
+      let temp = JSON.parse(priceWs.data)
       seriesRef.current.update({
         time: (temp["k"]["t"] / 1000) as UTCTimestamp,
         open: parseFloat(temp["k"]["o"]),
@@ -42,7 +41,7 @@ const LightWeightChart = ({
         color: parseFloat(temp["k"]["o"]) > parseFloat(temp["k"]["c"]) ? '#E4222280' : "#0ECB7B80"
       });
     }
-  }, [lastMessage]);
+  }, [priceWs]);
 
   useEffect(() => {
     if (!candelsReponsePending && seriesRef.current && volumeSeries.current) {
@@ -70,7 +69,6 @@ const LightWeightChart = ({
 
   useEffect(() => {
     getCandles({ interval: period, pair: currentPair.split("/").join("") });
-    setSocketUrl("wss://stream.binance.com:9443/ws/" + currentPair.split("/").join("").toLocaleLowerCase() + "@kline_" + period)
     setRedraw((prev) => !prev)
   }, [period, currentPair])
 

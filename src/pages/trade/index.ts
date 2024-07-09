@@ -6,6 +6,6 @@ import { currentRoute } from "./model";
 import { Page } from "./page";
 
 export const TradeRoute = {
-  view: createRouteView({ route: currentRoute, view: Page, otherwise: PageLoader }),
+  view: Page,
   route: currentRoute,
 };
