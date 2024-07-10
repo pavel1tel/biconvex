@@ -46,7 +46,7 @@ export const TableProfile = () => {
   const { isAdaptive: laptop } = useResize(1200);
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("Coin");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
-  const [hideZeros, setHideZeros] = useState<boolean>(true);
+  const [hideZeros, setHideZeros] = useState<boolean>(false);
   const [hideZerosTotalPage, setHideZerosTotalPage] = useState<number>(1);
   const profileReponse = useUnit<ProfileReponse>($profileReponse);
   const profileReponsepending = useUnit<boolean>(getStakingHistoryFx.pending);
@@ -201,7 +201,7 @@ export const TableProfile = () => {
               leftSection={<SearchIcon />}
               placeholder="Search Crypto"
             />
-            {/* <Checkbox
+            <Checkbox
               checked={hideZeros}
               onChange={(e) => {
                 setPage(1);
@@ -213,7 +213,7 @@ export const TableProfile = () => {
               }}
               defaultChecked
               label="Hide zero balances"
-            /> */}
+            />
           </Flex>
 
           <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />

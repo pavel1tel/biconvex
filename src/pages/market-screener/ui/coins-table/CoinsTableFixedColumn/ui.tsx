@@ -1,4 +1,3 @@
-import { useResize } from "@/hooks/useResize";
 import { Group, Table, Text, rem } from "@mantine/core";
 import clsx from "clsx";
 import { useCallback, useMemo } from "react";
@@ -36,7 +35,6 @@ const HEADERS = [
 
 
 export const CoinsTableFixedColumn = ({ data, currentPage, rowsPerPage, headers, transformData, sortingLabel, sortingDirection, setSortingLabel, setSortingDirection }: CoinsTableFixedColumnProps) => {
-  const { isAdaptive: md } = useResize(1200);
 
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {

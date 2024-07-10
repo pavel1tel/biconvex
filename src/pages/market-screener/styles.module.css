@@ -148,6 +148,13 @@
   padding-top: rem(32px);
 }
 
+.fixedColumn {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--color-black);
+}
+
 .category-button-wrapper {
   height: rem(54);
   cursor: pointer;
@@ -252,5 +259,43 @@
 @media screen and (max-width: 48em) {
   .description {
     font-size: 16px;
+  }
+}
+
+.table-td {
+  height: 1px;
+
+  & svg {
+    width: rem(22);
+    height: rem(22);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .fixedColumn {
+    width: 34%;
+    position: sticky;
+  }
+
+  .table-td:not(.fixedColumn) {
+    z-index: 1;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .table-head-th-sortable:not(.fixedColumn) {
+    position: relative;
+    z-index: 1;
+    padding-left: 20px !important;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .fixedColumn {
+    width: 43%;
+    position: sticky;
+    .coinFullName {
+      font-size: 16px !important;
+    }
   }
 }
