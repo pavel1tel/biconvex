@@ -39,8 +39,10 @@ export const MarketStats = ({
   const [percent, setPercent] = useState<any>(undefined);
 
   useEffect(() => {
-    setTickerUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@ticker')
-    getCoinPrice(currentPair.split("/").join(""));
+    if (currentPair.length > 0) {
+      setTickerUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@ticker')
+      getCoinPrice(currentPair.split("/").join(""));
+    }
   }, [currentPair]);
 
   useEffect(() => {
@@ -64,7 +66,9 @@ export const MarketStats = ({
   }, [priceWs])
 
   useEffect(() => {
-    getCoinInfo({ symbol: currentPair.split("/").join(""), windowSize: activePeriodValue.toLowerCase() });
+    if (currentPair.length > 0) {
+      getCoinInfo({ symbol: currentPair.split("/").join(""), windowSize: activePeriodValue.toLowerCase() });
+    }
   }, [activePeriodValue]);
 
   const formatNumberWithCommas = (number) => {

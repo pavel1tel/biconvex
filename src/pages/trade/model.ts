@@ -40,8 +40,6 @@ $openOrdersResponse.on(requestOpenOrders.doneData, (_, data) => data.message);
 export const $historyOrdersResponse = createStore<any>({});
 $historyOrdersResponse.on(requestHistoryOrders.doneData, (_, data) => data.message);
 
-$tradingReponse.watch((i) => console.log(i["items"] ? i["items"]["BTC"] : 0))
-
 const $createOrderError = createStore<ResponseDto>({ message: "" });
 $createOrderError.on(createOrder.failData, (_, error) => error);
 
@@ -69,13 +67,6 @@ chainRoute({
   },
 });
 
-chainRoute({
-  route: currentRoute,
-  beforeOpen: {
-    effect: getOrderBook,
-    mapParams: (params) => "1m",
-  },
-});
 
 chainRoute({
   route: currentRoute,

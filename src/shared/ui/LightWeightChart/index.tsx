@@ -68,8 +68,10 @@ const LightWeightChart = ({
   }, [candelsReponsePending, candelsReponse])
 
   useEffect(() => {
-    getCandles({ interval: period, pair: currentPair.split("/").join("") });
-    setRedraw((prev) => !prev)
+    if (currentPair.length > 0) {
+      getCandles({ interval: period, pair: currentPair.split("/").join("") });
+      setRedraw((prev) => !prev)
+    }
   }, [period, currentPair])
 
   useEffect(() => {

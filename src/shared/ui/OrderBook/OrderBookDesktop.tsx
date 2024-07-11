@@ -41,7 +41,7 @@ export const OrderBookDesktop = ({
   });
 
   useEffect(() => {
-    if (!orderBookResponsePending) {
+    if (!orderBookResponsePending && orderBookReponse.asks) {
       {
         let max = Math.max.apply(
           Math,
@@ -83,7 +83,9 @@ export const OrderBookDesktop = ({
 
   useEffect(() => {
     let interval = setInterval(() => {
-      getOrderBook(currentPair.split("/").join(""));
+      if (currentPair.length > 0) {
+        getOrderBook(currentPair.split("/").join(""));
+      }
     }, 1000);
     return () => {
       clearInterval(interval);
@@ -140,9 +142,8 @@ export const OrderBookDesktop = ({
                 key={row.id}
                 className={clsx(classes.tableRow, activeCategory === "All" || activeCategory === "Bids" ? classes.positive : classes.negative)}
                 style={{
-                  background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${
-                    activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
-                  } ${100 - row.fill}%)`,
+                  background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
+                    } ${100 - row.fill}%)`,
                 }}
               >
                 {row.cells.map((td) => (

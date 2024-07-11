@@ -26,7 +26,7 @@ export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row", 
   })
 
   useEffect(() => {
-    if (!orderBookResponsePending) {
+    if (!orderBookResponsePending && orderBookReponse.asks) {
       {
         let max = Math.max.apply(Math, orderBookReponse.asks.map(function (o) { return parseFloat(o[1]); }))
         let tempAsks: any[] = [];
@@ -72,7 +72,7 @@ export const OrderBookMobile = ({ activeCategory, addScroll, direction = "row", 
     };
   }, [currentPair]);
 
-  useEffect(() => {
+    useEffect(() => {
     setPrice({ price: parseFloat(coinPriceReponse?.price), up: false })
   }, [coinPriceReponse, currentPair])
 
@@ -191,7 +191,7 @@ export const OrderBookMobileTradeTab = ({ activeCategory, addScroll, currentPair
   })
 
   useEffect(() => {
-    if (!orderBookResponsePending) {
+    if (!orderBookResponsePending && orderBookReponse.asks) {
       {
         let max = Math.max.apply(Math, orderBookReponse.asks.map(function (o) { return parseFloat(o[1]); }))
         let tempAsks: any[] = [];

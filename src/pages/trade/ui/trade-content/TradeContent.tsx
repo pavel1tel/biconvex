@@ -52,9 +52,11 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
   }, [profileResponsePending, currentPair]);
 
   useEffect(() => {
+    if(currentPair.length > 0){
     getCoinInfo({ symbol: currentPair.split("/").join(""), windowSize: "1d" });
     getCoinPrice(currentPair.split("/").join(""));
     getTrades(currentPair.split("/").join(""));
+    }
   }, [currentPair]);
 
   return (

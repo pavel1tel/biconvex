@@ -22,11 +22,11 @@ export const OrdersTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCoi
     return new Date(year, month - 1, day, hour, minute);
   };
 
-  const filterByPeriod = (data, period) => {
+  const filterByPeriod = (data, period : string) => {
     const now = new Date();
     let fromDate;
-
-    switch (period) {
+    console.log(period)
+    switch (period.toLocaleLowerCase()) {
       case '1d':
         fromDate = new Date(now);
         fromDate.setDate(now.getDate() - 1);

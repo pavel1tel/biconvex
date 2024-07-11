@@ -24,8 +24,7 @@ export const HistoryTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCo
   const filterByPeriod = (data, period) => {
     const now = new Date();
     let fromDate;
-
-    switch (period) {
+    switch (period.toLocaleLowerCase()) {
       case '1d':
         fromDate = new Date(now);
         fromDate.setDate(now.getDate() - 1);
@@ -54,6 +53,7 @@ export const HistoryTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCo
       let temp: any[] = [];
       const startIndex = (currentPage - 1) * 20;
       const endIndex = startIndex + 20;
+      console.log(activePeriodValue)
       filterByPeriod(historyOrderResponse.orders, activePeriodValue).slice(startIndex, endIndex).forEach((order) => {
         temp.push([
           {

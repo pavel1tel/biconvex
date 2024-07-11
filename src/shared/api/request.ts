@@ -19,7 +19,7 @@ export const api = axios.create({
 });
 
 export const binanceApi = axios.create({
-  baseURL: `https://api.binance.com/`,
+  baseURL: `https://data-api.binance.vision`,
 });
 
 export const requestFx = createEffect<Request, any>((request) => {
