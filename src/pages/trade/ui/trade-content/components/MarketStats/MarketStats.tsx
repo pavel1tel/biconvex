@@ -147,9 +147,9 @@ export const MarketStats = ({
                       { title: "1h", value: "1h" },
                       { title: "3h", value: "3h" },
                       { title: "12h", value: "12h" },
-                      { title: "1D", value: "1d" },
-                      { title: "3D", value: "3d" },
-                      { title: "7D", value: "7d" },
+                      { title: "1d", value: "1d" },
+                      { title: "3d", value: "3d" },
+                      { title: "7d", value: "7d" },
                     ]}
                     defaultIndex={3}
                     activeValue={activePeriodValue}

@@ -24,7 +24,7 @@ export const HistoryTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCo
   const filterByPeriod = (data, period) => {
     const now = new Date();
     let fromDate;
-    switch (period.toLocaleLowerCase()) {
+    switch (period) {
       case '1d':
         fromDate = new Date(now);
         fromDate.setDate(now.getDate() - 1);

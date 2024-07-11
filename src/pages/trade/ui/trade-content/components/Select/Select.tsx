@@ -16,8 +16,8 @@ type SelectProps = {
   defaultIndex?: number;
 };
 let optionss = [
-  { title: "1D", value: 1440 },
-  { title: "3D", value: 4320 },
+  { title: "1d", value: 1440 },
+  { title: "3d", value: 4320 },
   { title: "1W", value: 10080 },
   { title: "1M", value: 43829 },
 ];

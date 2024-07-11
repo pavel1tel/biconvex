@@ -25,8 +25,7 @@ export const OrdersTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCoi
   const filterByPeriod = (data, period : string) => {
     const now = new Date();
     let fromDate;
-    console.log(period)
-    switch (period.toLocaleLowerCase()) {
+    switch (period) {
       case '1d':
         fromDate = new Date(now);
         fromDate.setDate(now.getDate() - 1);
