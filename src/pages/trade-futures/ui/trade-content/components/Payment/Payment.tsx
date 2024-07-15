@@ -130,7 +130,7 @@ export const Payment = ({ currentPairName, setCurrentPair }) => {
               Buy/Long
             </Button>
             <Button className={classes.button} variant="danger">
-              Sell/Shot
+              Sell/Short
             </Button>
           </Group>
         </Stack>
