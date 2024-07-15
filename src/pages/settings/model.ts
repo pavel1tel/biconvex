@@ -1,11 +1,13 @@
+import { chainRoute } from "atomic-router";
+import { createStore, sample } from "effector";
+
+import { getKycInfo } from "@/shared/api/kyc/requests";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { requestSettings, updateAccount, updatePassword, updatePersonalInfo } from "@/shared/api/settings/requests";
 import { ResponseDto } from "@/shared/api/types";
 import { showErrorNotification, showSuccessNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { chainAuthenticated } from "@/shared/session";
-import { chainRoute } from "atomic-router";
-import { createStore, sample } from "effector";
 
 export const currentRoute = routes.settings;
 
@@ -66,7 +68,6 @@ sample({
   target: showErrorNotification,
 });
 
-
 sample({
   clock: updatePersonalInfo.doneData,
   fn: () => "",
@@ -80,9 +81,16 @@ sample({
   target: showErrorNotification,
 });
 
-
 sample({
   clock: updatePassword.doneData,
   fn: () => "",
   target: showSuccessNotification,
+});
+
+chainRoute({
+  route: currentRoute,
+  beforeOpen: {
+    effect: getKycInfo,
+    mapParams: (params) => params,
+  },
 });

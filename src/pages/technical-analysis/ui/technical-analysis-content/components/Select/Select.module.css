@@ -2,12 +2,19 @@
 
 .show-filter-wrapper {
   cursor: pointer;
+<<<<<<< HEAD
   padding: 7px 19px 7px 20px;
   border: var(--border1);
   border-radius: 4px;
   /* min-width: 97px; */
   width: 110px;
   white-space: nowrap;
+=======
+  padding: 7px 19px 7px 23px;
+  border: var(--border1);
+  border-radius: 4px;
+  min-width: 97px;
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
   @mixin transition;
 
   & svg {
@@ -37,7 +44,10 @@
   background-color: var(--color-black) !important;
   box-shadow: 0px 0px 50px 0px rgba(12, 13, 16, 0.5);
   border-radius: 4px;
+<<<<<<< HEAD
   white-space: nowrap;
+=======
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 }
 
 .dropdown-options {

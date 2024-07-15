@@ -84,7 +84,11 @@ export const Banner = () => {
             initial="hidden"
             whileInView={"visible"}
             viewport={{ once: true }}
+<<<<<<< HEAD
             transition={{ duration: 1 }}
+=======
+            transition={{ duration: 1, delay: 0.2 }}
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
             className={clsx(classes.motionContainer, classes.right)}
           >
             <BannerImage />

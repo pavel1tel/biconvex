@@ -3,6 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Link } from "atomic-router-react";
 import { useUnit } from "effector-react";
 
+import { $kycResponse } from "@/pages/kyc/model";
 import { $profileReponse } from "@/pages/my-profile/model";
 import { ArrowIcon, CopyIcon, SecureIcon } from "@/pages/my-profile/ui";
 
@@ -18,6 +19,7 @@ import classes from "./style.module.css";
 export const SettingsBox = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const profileReponse = useUnit<ProfileReponse>($profileReponse);
+  const kycResponse = useUnit<any>($kycResponse);
 
   const handleRedirection = () => window.scrollTo(0, 0);
 
@@ -29,7 +31,11 @@ export const SettingsBox = () => {
         </Text>
         <Group wrap="nowrap">
           <div className={classes.boxWrapper}>
-            <Flex align={"center"} justify={"space-between"} className={classes.boxRed}>
+            <Flex
+              align={"center"}
+              justify={"space-between"}
+              className={profileReponse.kyc_accepted ? classes.boxGreen : kycResponse.id_type ? classes.boxOrange : classes.boxRed}
+            >
               <Stack gap={8}>
                 <Flex gap={4} align={"center"}>
                   <CopyIcon />
@@ -37,6 +43,8 @@ export const SettingsBox = () => {
                 </Flex>
                 {profileReponse.kyc_accepted ? (
                   <Text className={classes.textGreen}>VERIFIED</Text>
+                ) : kycResponse.id_type ? (
+                  <Text className={classes.textOrange}>IN PROGRESS</Text>
                 ) : (
                   <Text className={classes.textRed}>UNVERIFIED</Text>
                 )}

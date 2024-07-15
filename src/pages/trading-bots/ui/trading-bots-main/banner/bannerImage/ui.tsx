@@ -6,6 +6,7 @@ import classes from "./styles.module.css";
 export const BannerImage = () => {
   return (
     <Box className={classes.bannerRightSide}>
+<<<<<<< HEAD
       <motion.div
         variants={{
           hidden: {
@@ -25,6 +26,9 @@ export const BannerImage = () => {
         <img draggable="false" className={classes.mainRobot} src={`${import.meta.env.BASE_URL}assets/trading-bots/Main_robot.png`} alt="banner" />
       </motion.div>
 
+=======
+      <img draggable="false" className={classes.mainRobot} src={`${import.meta.env.BASE_URL}assets/trading-bots/Main_robot.png`} alt="banner" />
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
       <motion.div
         variants={{
           hidden: {

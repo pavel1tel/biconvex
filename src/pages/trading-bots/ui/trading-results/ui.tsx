@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import { Carousel } from "@mantine/carousel";
+=======
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 import { Grid, Stack, Text, Title } from "@mantine/core";
 import { motion } from "framer-motion";
 
@@ -60,7 +63,11 @@ export const TradingResults = () => {
           </Title>
 
           <Grid gutter={{ 0: 16, md: 30 }} align={"stretch"}>
+<<<<<<< HEAD
             {/* {TRADING_RESULTS.map((result, i) => {
+=======
+            {TRADING_RESULTS.map((result, i) => {
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
               return (
                 <Grid.Col key={i} span={{ md: 3, lg: 3, xl: 3 }} className={classes.col}>
                   <motion.div
@@ -84,6 +91,7 @@ export const TradingResults = () => {
                   </motion.div>
                 </Grid.Col>
               );
+<<<<<<< HEAD
             })} */}
             <div>
               <Carousel className={classes.botsWrapper} withControls={false}>
@@ -116,6 +124,9 @@ export const TradingResults = () => {
         ))}
       </div> */}
             </div>
+=======
+            })}
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
           </Grid>
         </Stack>
       </Container>

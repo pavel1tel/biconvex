@@ -6,7 +6,11 @@
 
 .box {
   border: 1px solid rgba(255, 255, 255, 0.12);
+<<<<<<< HEAD
   padding: rem(20px) rem(35px) rem(25px) rem(35px);
+=======
+  padding: rem(64px);
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
   border-radius: rem(8px);
   background: var(--color-black);
   color: var(--color-white);
@@ -14,11 +18,14 @@
 
 .table-tr {
   border: none;
+<<<<<<< HEAD
   /* white-space: nowrap; */
 }
 
 .cell-with-icon-text {
   font-size: 18px;
+=======
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 }
 
 .closeButton {
@@ -30,7 +37,10 @@
 
 .table-td {
   height: 1px;
+<<<<<<< HEAD
   /* white-space: pre-line; */
+=======
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 
   & svg {
     width: rem(29);
@@ -70,6 +80,7 @@
   }
 }
 
+<<<<<<< HEAD
 .table-body {
   --table-vertical-spacing: calc(1.5rem * var(--mantine-scale));
   --table-horizontal-spacing: calc(1.3rem * var(--mantine-scale));
@@ -79,6 +90,8 @@
   --table-horizontal-spacing: calc(1.1rem * var(--mantine-scale));
 }
 
+=======
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 .table-head-sort-label {
   cursor: pointer;
   user-select: none;
@@ -190,5 +203,8 @@
   background: transparent !important;
   border: none;
   text-decoration: underline;
+<<<<<<< HEAD
   padding-left: 0;
+=======
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 }

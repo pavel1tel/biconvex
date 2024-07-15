@@ -24,6 +24,23 @@ export interface Transaction {
   status: number;
 }
 
+<<<<<<< HEAD
+=======
+export interface KycSaveRequest {
+  kyc_first_name: string;
+  kyc_last_name: string;
+  kyc_country: string;
+  kyc_country_code: string;
+  kyc_phone: string;
+  kyc_date_of_birth: string;
+  kyc_id_type: string;
+  kyc_id_number: string;
+  image_document: File;
+  image_document_back: File;
+  image_selfie: File;
+}
+
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 export interface TransactionsResponse {
   transactions?: Transaction[];
 }

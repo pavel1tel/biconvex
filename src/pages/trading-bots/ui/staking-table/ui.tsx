@@ -140,6 +140,10 @@ export const StakingTable = ({
             <Text c="inherit" variant="text-4" span>
               {header.label}
             </Text>
+<<<<<<< HEAD
+=======
+            {header.sortable ? <MarketSortIcon /> : null}
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
           </Group>
         </Table.Th>
       );
@@ -153,7 +157,11 @@ export const StakingTable = ({
           <Table.Td w={"225"} px={15} className={classes.tbodyTdWithIcon}>
             <Group gap={rem(8)} wrap="nowrap">
               {coin.icon}
+<<<<<<< HEAD
               <Title c="white" order={4} className={classes.cellWithIconText}>
+=======
+              <Title c="white" order={4}>
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
                 {coin.name}
               </Title>
             </Group>
@@ -178,10 +186,22 @@ export const StakingTable = ({
               {coin.Invested || coin.activationTime}
             </Text>
           </Table.Td>
+<<<<<<< HEAD
           {usedForTradingBot && (
             <>
               <Table.Td w={"225"}>
                 <Text c="white" variant="text-3" span className={classes.plAmount}>
+=======
+          <Table.Td w={"225"}>
+            <Center maw={255}>
+              <CloseButton onClick={() => unstake(coin.id)} className={classes.closeButton} />
+            </Center>
+          </Table.Td>
+          {usedForTradingBot && (
+            <>
+              <Table.Td w={"225"}>
+                <Text variant="text-3" span className={classes.plAmount}>
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
                   {coin.pl}%
                 </Text>
               </Table.Td>
@@ -219,7 +239,11 @@ export const StakingTable = ({
 
         <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
         <div className={classes.tableContainer}>
+<<<<<<< HEAD
           <Table classNames={{ tr: classes.tableTr, td: classes.tableTd, table: classes.table }} verticalSpacing={rem("16px")} withRowBorders={true}>
+=======
+          <Table classNames={{ tr: classes.tableTr, td: classes.tableTd }} verticalSpacing={rem("16px")} withRowBorders={true}>
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
             <Table.Thead classNames={{ thead: classes.tableHead }}>
               <Table.Tr>{headers}</Table.Tr>
             </Table.Thead>

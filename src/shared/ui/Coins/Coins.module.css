@@ -35,10 +35,14 @@
   padding: 16px 0 16px 16px;
 }
 
-.closeSearchWindowIcon {
+.closeSearchWndowIcon {
   margin-left: 30px;
-  box-shadow: none;
-  border: none;
+}
+
+.closeSearchWndowIcon:hover,
+.closeSearchWndowIcon:active {
+  background-color: unset;
+  color: inherit;
 }
 
 .dropdown {

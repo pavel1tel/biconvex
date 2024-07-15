@@ -47,17 +47,28 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
 
   useEffect(() => {
     if (!profileResponsePending && currentPair) {
+<<<<<<< HEAD
       setCurrentPairName(
         profileResponse?.coins!.filter((coin) => coin.symbol == currentPair.split("/")[0])[0].name + "/" + currentPair.split("/")[1],
       );
+=======
+      setCurrentPairName(profileResponse.coins!.filter((coin) => coin.symbol == currentPair.split("/")[0])[0].name + "/" + currentPair.split("/")[1]);
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
     }
   }, [profileResponsePending, currentPair]);
 
   useEffect(() => {
+<<<<<<< HEAD
     if (currentPair.length > 0) {
       getCoinInfo({ symbol: currentPair.split("/").join(""), windowSize: "1d" });
       getCoinPrice(currentPair.split("/").join(""));
       getTrades(currentPair.split("/").join(""));
+=======
+    if(currentPair.length > 0){
+    getCoinInfo({ symbol: currentPair.split("/").join(""), windowSize: "1d" });
+    getCoinPrice(currentPair.split("/").join(""));
+    getTrades(currentPair.split("/").join(""));
+>>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
     }
   }, [currentPair]);
 
