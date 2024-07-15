@@ -9,11 +9,7 @@ import { ActiveInvestments } from "./ui/active-investments";
 import { CalculateProfit } from "./ui/calculate-profit/ui";
 import { ChooseBot } from "./ui/choose-bot/ui";
 import { TradeType } from "./ui/trade-type/ui";
-<<<<<<< HEAD
-import { Banner } from "./ui/trading-bots-main/banner";
-=======
 import { Banner } from "./ui/trading-bots-main/banner/ui";
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 import { TradingResults } from "./ui/trading-results/ui";
 
 export function Page() {

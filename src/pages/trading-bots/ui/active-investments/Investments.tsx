@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { AltBitcoinIcon, BitcoinIcon } from "@/shared/ui/icon";
-=======
-import { BitcoinIcon } from "@/shared/ui/icon";
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 
 export const INVESTMENT_TABLE_HEADERS = [
   {
@@ -41,7 +37,6 @@ export const INVESTMENT_TABLE_HEADERS = [
 
 export const INVESTMENTS = [
   {
-<<<<<<< HEAD
     icon: <AltBitcoinIcon width={29} />,
     name: "BTC",
     qty: "0.0004",
@@ -53,9 +48,6 @@ export const INVESTMENTS = [
   },
   {
     icon: <AltBitcoinIcon width={29} />,
-=======
-    icon: <BitcoinIcon width={29} />,
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
     name: "BTC",
     qty: "0.0004",
     bot: "Smart Money Trading Bot",
@@ -65,11 +57,7 @@ export const INVESTMENTS = [
     earned: 267,
   },
   {
-<<<<<<< HEAD
     icon: <AltBitcoinIcon width={29} />,
-=======
-    icon: <BitcoinIcon width={29} />,
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
     name: "BTC",
     qty: "0.0004",
     bot: "Smart Money Trading Bot",
@@ -79,21 +67,7 @@ export const INVESTMENTS = [
     earned: 267,
   },
   {
-<<<<<<< HEAD
     icon: <AltBitcoinIcon width={29} />,
-=======
-    icon: <BitcoinIcon width={29} />,
-    name: "BTC",
-    qty: "0.0004",
-    bot: "Smart Money Trading Bot",
-    tradeType: "Lite",
-    activationTime: "2024.04.24 2:35",
-    pl: 200,
-    earned: 267,
-  },
-  {
-    icon: <BitcoinIcon width={29} />,
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
     name: "BTC",
     qty: "0.0004",
     bot: "Smart Money Trading Bot",

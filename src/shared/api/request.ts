@@ -10,11 +10,7 @@ interface Request {
 
 //axios.defaults.withCredentials = true;
 
-<<<<<<< HEAD
-const BACKEND_HOST = "https://20.79.188.227/";
-=======
 const BACKEND_HOST = "https://74.235.165.183/";
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 // const BACKEND_HOST = "http://localhost:8088/";
 
 export const api = axios.create({
@@ -76,7 +72,6 @@ export const requestRegistration = createEffect<Request, any>((request) => {
       }
     });
 });
-
 
 export const requestBinance = createEffect<Request, any>((request) => {
   return binanceApi({

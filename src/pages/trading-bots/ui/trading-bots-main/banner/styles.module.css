@@ -52,11 +52,7 @@
   gap: 32px;
 
   .activeStatistics {
-<<<<<<< HEAD
     padding: 21px;
-=======
-    padding: 25px;
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
     height: 124px;
     border: var(--border1);
     border-radius: 8px;
@@ -91,11 +87,7 @@
     gap: 32px;
 
     .activeStatistics {
-<<<<<<< HEAD
       padding: 22px;
-=======
-      padding: 25px;
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
       height: 96px;
       border: var(--border1);
       border-radius: 8px;
@@ -111,10 +103,7 @@
   }
   .banner-right-side {
     max-width: 320px;
-<<<<<<< HEAD
     height: 400px;
-=======
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
   }
 
   .tradeActions {

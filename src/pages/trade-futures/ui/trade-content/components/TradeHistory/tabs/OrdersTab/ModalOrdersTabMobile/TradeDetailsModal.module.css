@@ -7,10 +7,7 @@
   background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
-<<<<<<< HEAD
   z-index: 90;
-=======
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
   justify-content: center;
   z-index: 1000;
 }
@@ -19,10 +16,7 @@
   background-color: #0c0d10;
   color: #fff;
   border-radius: 8px;
-<<<<<<< HEAD
   z-index: 99;
-=======
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
   padding: 32px 20px 32px 20px;
   width: 90%;
   max-width: 500px;

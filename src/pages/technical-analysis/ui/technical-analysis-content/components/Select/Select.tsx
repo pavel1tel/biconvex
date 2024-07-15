@@ -32,14 +32,9 @@ export const Select = ({ activeValue, setActiveValue }: SelectProps) => {
     >
       <Combobox.Target>
         <Group
-<<<<<<< HEAD
           gap={2}
           display="flex"
           justify="center"
-=======
-          gap={0}
-          justify="space-around"
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
           className={clsx(classes.showFilterWrapper, { [classes.active]: !!label })}
           onClick={() => combobox.toggleDropdown()}
         >
