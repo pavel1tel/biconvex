@@ -70,7 +70,7 @@
   }
 }
 
-<<<<<<< HEAD .table-body {
+.table-body {
   --table-vertical-spacing: calc(1.5rem * var(--mantine-scale));
   --table-horizontal-spacing: calc(1.3rem * var(--mantine-scale));
 }
@@ -79,7 +79,7 @@
   --table-horizontal-spacing: calc(1.1rem * var(--mantine-scale));
 }
 
-=======>>>>>>>9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44 .table-head-sort-label {
+.table-head-sort-label {
   cursor: pointer;
   user-select: none;
 

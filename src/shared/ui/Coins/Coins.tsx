@@ -40,7 +40,7 @@ export const Coins = ({ coins, setCurrentPair }: { coins: Crypto[] | undefined; 
                   leftSection={<SearchIcon />}
                   placeholder="Search Coin Name"
                 />
-                <CloseButton className={classes.closeSearchWndowIcon} onClick={close} />
+                <CloseButton className={classes.closeSearchWindowIcon} onClick={close} />
               </div>
               <Tabs tabs={getCoinTabs(coins ? coins : [], setCurrentPair, search)} showTrack={false} indicatorRadius={8} tabControllFontSize={16} />
             </Stack>
