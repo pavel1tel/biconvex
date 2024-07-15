@@ -40,8 +40,9 @@
 }
 
 .closeSearchWindowIcon:hover,
-.closeSearchWindowIcon:active {
-  background-color: unset !important;
+.closeSearchWindowIcon:active,
+.closeSearchWindowIcon:focus {
+  background-color: transparent !important;
   color: inherit !important;
 }
 
