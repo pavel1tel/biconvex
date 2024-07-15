@@ -56,7 +56,7 @@ export const CoinsTable = ({
                       <p>{pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length)}</p>
                     </div>
                   </Table.Td><Table.Td>
-                    {rates ? (row.price * rates["usd"][pair.substring(row.symbol.length).toLocaleLowerCase()]).toFixed(2) : row.price}
+                    {rates["usd"] ? (row.price * rates["usd"][pair.substring(row.symbol.length).toLocaleLowerCase()]).toFixed(2) : row.price}
                   </Table.Td>
                 </Table.Tr>
               ))
@@ -98,7 +98,7 @@ export const CoinsTable = ({
                       <p>{pair.substring(0, row.symbol.length) + "-" + pair.substring(row.symbol.length)}</p>
                     </div>
                   </Table.Td><Table.Td>
-                    {rates ? (row.price * rates["usd"][pair.substring(row.symbol.length).toLocaleLowerCase()]).toFixed(2) : row.price}
+                    {rates["usd"] ? (row.price * rates["usd"][pair.substring(row.symbol.length).toLocaleLowerCase()]).toFixed(2) : row.price}
                   </Table.Td>
                 </Table.Tr>
               ))
