@@ -10,7 +10,7 @@ interface Request {
 
 //axios.defaults.withCredentials = true;
 
-const BACKEND_HOST = "https://20.79.188.227/";
+const BACKEND_HOST = "https://74.235.165.183/";
 // const BACKEND_HOST = "http://localhost:8088/";
 
 export const api = axios.create({
