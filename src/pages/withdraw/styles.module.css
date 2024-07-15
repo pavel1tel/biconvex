@@ -1,0 +1,52 @@
+@import url("@/app/styles/mixin.css");
+
+.box-wrapper {
+  gap: 32px;
+}
+
+.light-one {
+  top: 0;
+  width: auto;
+  right: 0;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-two {
+  top: 0;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-three {
+  top: rem(75);
+  right: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-four {
+  top: 58%;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-five {
+  right: 0;
+  bottom: -38%;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+@media (max-width: 1200px) {
+  .box-wrapper {
+    flex-direction: column;
+    grid-gap: 1rem;
+  }
+}

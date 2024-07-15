@@ -1,0 +1,111 @@
+.table {
+  th {
+    color: var(--color-grey);
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "ProximaNova";
+    border-top: var(--border1);
+    border-bottom: var(--border1);
+    padding: 16px 0;
+    cursor: pointer;
+    &:hover svg {
+      path {
+        fill: var(--color-blue);
+      }
+    }
+  }
+  tr {
+    border: none;
+  }
+  tbody {
+    td {
+      padding: 29px 0 5px;
+      color: white;
+      font-size: 16px;
+      font-weight: 400;
+      font-family: "ProximaNova";
+      &.green {
+        color: var(--color-green);
+      }
+      &.red {
+        color: var(--color-red);
+      }
+      &:first-child {
+        font-size: 20px;
+        font-family: "CraftworkGrotesk";
+        font-weight: 600;
+      }
+      button {
+        border: none;
+        background: none;
+        color: var(--color-blue);
+        text-decoration: underline;
+        font-size: 16px;
+        font-family: "ProximaNova";
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.sortArrowWrapper {
+  transition: 0.3s;
+  width: 20px;
+  height: 20px;
+  &.active {
+    svg {
+      path {
+        fill: var(--color-blue);
+      }
+    }
+    &.rotate {
+      rotate: 180deg;
+    }
+  }
+}
+
+@media (max-width: 1280px) {
+  .table-wrapper {
+    overflow-x: scroll;
+  }
+  .table-wrapper table {
+    min-width: 1000px;
+  }
+  .table tr td {
+    padding: 12px 0;
+  }
+  .table th {
+    padding: 12px 0;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .table {
+    th {
+      font-size: 17px;
+    }
+
+    tbody {
+      td {
+        font-size: 1.1em !important;
+        line-height: 16.8px;
+        padding-right: 3em;
+
+        &.green,
+        &.red {
+          font-size: 16px;
+        }
+
+        &:nth-child(2),
+        &:nth-child(3) {
+          padding-right: 4.5em;
+        }
+      }
+
+      &.green,
+      &.red {
+        font-size: 16px;
+      }
+    }
+  }
+}

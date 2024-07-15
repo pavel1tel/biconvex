@@ -1,0 +1,62 @@
+.container {
+  width: 194px;
+  height: 27px;
+  border: var(--border1);
+  border-radius: 4px;
+  padding: 3px;
+  gap: 3px;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.input {
+  min-width: 0;
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 16px;
+  font-family: "ProximaNova";
+  font-weight: 400;
+  padding: 0;
+  &.green {
+    color: var(--color-green);
+  }
+  &.red {
+    color: var(--color-red);
+  }
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+.divider {
+  border-left: 1px solid white;
+  height: 12px;
+}
+.editButton {
+  display: flex;
+  align-items: center;
+  border: none;
+  outline: none;
+  background-color: none;
+  padding: 0;
+  height: 100%;
+
+  flex: 0 0 16px;
+  svg {
+    width: 16px;
+    height: 16px;
+    path {
+      fill: var(--color-grey);
+    }
+  }
+}

@@ -1,0 +1,11 @@
+@import url("../../app//styles//Policy.module.css");
+
+@media (max-width: 1200px) {
+  .icon-wrapper {
+    padding: 7px;
+  }
+  .icon-wrapper img {
+    width: 64px;
+    height: 64px;
+  }
+}

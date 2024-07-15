@@ -1,0 +1,55 @@
+.tradeActionsView {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  width: 100%;
+  z-index: 100000;
+
+  .tradeActionsFlexContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+
+    .tradeIconButton {
+      flex: 1 0 5%;
+      background: transparent;
+      border: none;
+
+      .tradeButtonLabel {
+        color: white;
+      }
+    }
+
+    .stockActions {
+      flex: 1 1 95%;
+      display: flex;
+
+      .actionButton {
+        padding: 16px 32px;
+        outline: none;
+        border-radius: 8px;
+        border-width: 0;
+        flex: 1 0 40%;
+        margin: 0 0.5rem;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .tradeActionsView {
+    .tradeActionsFlexContainer {
+      gap: 20px;
+
+      .stockActions {
+        .actionButton {
+          padding: 11px 22px;
+        }
+      }
+    }
+  }
+}

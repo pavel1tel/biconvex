@@ -1,0 +1,29 @@
+@import url("../../app//styles/Policy.module.css");
+
+.link-navigation a {
+  width: fit-content;
+}
+
+.link-navigation a:hover {
+  text-decoration: underline;
+}
+
+.light-one {
+  pointer-events: all;
+}
+
+.icon-wrapper > img {
+  --icon-ratio: 112px;
+  width: var(--icon-ratio);
+  height: var(--icon-ratio);
+}
+
+@media (max-width: 1200px) {
+  .icon-wrapper > img {
+    --icon-ratio: 54px;
+  }
+}
+
+.link {
+  color: var(--color-blue);
+}

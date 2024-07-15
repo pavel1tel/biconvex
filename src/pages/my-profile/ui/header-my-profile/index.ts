@@ -1,0 +1,1 @@
+export { HeaderMyProfile } from "./ui";

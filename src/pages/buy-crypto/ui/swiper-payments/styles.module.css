@@ -1,0 +1,36 @@
+@import url("@/app/styles/mixin.css");
+
+.banner-wrapper {
+  margin: var(--adaptive-section-py) rem(0);
+  position: relative;
+  overflow: hidden;
+}
+.metrics-title {
+  color: white;
+  font-size: rem(54px) !important;
+}
+.metrics-title-highlighted {
+  font-size: inherit !important;
+  font-style: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  font-family: inherit !important;
+  @mixin textLinearGradient;
+}
+.metrics-sub-title {
+  &[data-variant="text-2"] {
+    --text-color: var(--color-grey) !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .metrics-title {
+    font-size: 40px !important;
+  }
+  .banner-wrapper {
+    margin: 1.75rem 0 0 0;
+  }
+  .banner-wrapper p {
+    font-size: 1rem;
+  }
+}

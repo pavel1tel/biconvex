@@ -1,0 +1,217 @@
+@import url("@/app/styles/mixin.css");
+
+:root {
+  --roadmap-list-gap: 2rem;
+}
+
+.mob-roadmap-list {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--roadmap-list-gap);
+  color: var(--color-white);
+  position: relative;
+}
+
+.mob-roadmap-line {
+  position: absolute;
+  left: 2px;
+  top: 0;
+  pointer-events: none;
+  height: 100%;
+  width: 8px;
+  background-color: var(--color-blue);
+  opacity: 0.12;
+  border-radius: 2px;
+}
+
+.mob-roadmap-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.mob-roadmap-item {
+  display: flex;
+  align-items: center;
+  grid-gap: 1rem;
+  position: relative;
+}
+
+.disabled-item::after,
+.disabled-item::before {
+  content: "";
+  position: absolute;
+  height: 50%;
+  width: 2px;
+  left: 5px;
+  border: 1px dashed var(--color-blue);
+}
+
+.last-item::before {
+  display: none;
+}
+
+.last-item .mob-roadmap-point {
+  box-shadow: 0 0 1px 7px rgba(255, 255, 255, 0.08);
+}
+
+.mob-roadmap-item::after {
+  top: 3px;
+}
+
+.mob-roadmap-item::before {
+  top: 50%;
+  height: calc(50% + var(--roadmap-list-gap));
+}
+
+.mobRoadmapText {
+  font-size: 12px;
+  line-height: 100%;
+}
+
+.mob-roadmap-point {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.mob-roadmap-year {
+  color: var(--color-grey);
+  font-size: 12px;
+}
+
+.year-item-wrap {
+  width: 25%;
+  padding: 50px 25px;
+  position: relative;
+  &:after {
+    content: "";
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background-color: var(--color-grey);
+    left: -6px;
+    bottom: -9px;
+    z-index: 10;
+  }
+  &.current-item {
+  }
+  &.blue-item {
+    &:after {
+      background-color: var(--color-blue);
+    }
+    &:before {
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--color-blue) 100%);
+    }
+  }
+  &:before {
+    content: "";
+    width: 2px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--color-grey) 100%);
+    position: absolute;
+    left: -1px;
+    bottom: 0;
+    top: 0;
+  }
+  &.bottom-item {
+    &:before {
+      background: linear-gradient(180deg, var(--color-grey) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+    &:after {
+      bottom: auto;
+      top: -9px;
+    }
+    &.blue-item {
+      &:before {
+        background: linear-gradient(180deg, var(--color-blue) 0%, rgba(0, 0, 0, 0) 100%);
+      }
+    }
+  }
+}
+
+.partners-wrapper {
+  display: flex !important;
+  flex-wrap: nowrap;
+}
+
+.divider {
+  border-radius: 1.66px;
+  background: linear-gradient(180deg, rgb(98, 95, 244), rgb(98, 95, 248) 100%);
+  opacity: 0.12;
+  height: 6px;
+}
+
+.item-dash {
+  height: 0;
+  border-top: 2px dashed var(--color-blue);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  &.bottom-item-dash {
+    bottom: auto;
+    top: -4px;
+  }
+  &.item-dash-previous {
+    right: 100%;
+  }
+  &.item-dash-current {
+    right: 100%;
+  }
+}
+
+.text {
+  font-size: var(--text-5-fz);
+  color: var(--color-grey);
+  font-weight: 400;
+  line-height: rem(17px);
+  font-family: ProximaNova;
+}
+
+.text-subtitle {
+  font-size: rem(12px);
+  color: var(--color-grey);
+  font-weight: 400;
+  line-height: rem(17px);
+  font-family: ProximaNova;
+}
+
+.title {
+  font-family: "CraftworkGrotesk" !important;
+  font-size: rem(19px);
+  color: var(--color-grey);
+  font-weight: 600;
+}
+
+.text-year {
+  color: var(--color-grey);
+  font-weight: 400;
+  line-height: rem(17px);
+  font-family: ProximaNova;
+  font-size: rem(12px);
+  position: absolute;
+  bottom: rem(-45px);
+  left: 0;
+  transform: translateX(-50%);
+}
+
+.bottom-item {
+  .text-year {
+    bottom: auto;
+    top: rem(-45px);
+  }
+}
+
+.blue-item {
+  .title {
+    color: var(--color-blue);
+  }
+  .text {
+    color: var(--color-white);
+  }
+}

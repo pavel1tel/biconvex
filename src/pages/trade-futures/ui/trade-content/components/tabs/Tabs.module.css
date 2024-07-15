@@ -1,0 +1,101 @@
+.tabsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+}
+
+.tabsControllWrapper {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  width: max-content;
+  gap: 32px;
+}
+
+.tab {
+  position: relative;
+  flex: 1;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0 16px 32px;
+  p {
+    text-align: center;
+    color: rgb(108, 112, 128);
+    font-family: "ProximaNova";
+    font-size: 16px;
+    transition: 0.3s;
+    white-space: nowrap;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-blue);
+    border-radius: 8px 8px 0 0;
+    opacity: 0;
+    transition: 0.3s;
+  }
+  &.active::after {
+    content: "";
+    opacity: 1;
+  }
+  &.active p {
+    color: var(--color-blue);
+  }
+}
+
+.indicatorTrack {
+  position: absolute;
+  width: 99.8%;
+  height: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+  /* border-radius: 4px 4px 0 0; */
+  z-index: 1;
+  background-color: rgb(108, 112, 128);
+}
+
+.indicator {
+  position: absolute;
+  height: 2px;
+  bottom: 0;
+  border-radius: 4px 4px 0 0;
+  z-index: 2;
+  background-color: var(--color-blue);
+}
+
+.tabsContentContainer {
+  width: 100%;
+  overflow: hidden;
+}
+
+.tabContent {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 1380px) {
+  .tabsContainer {
+    grid-gap: 1rem;
+  }
+  .tabContent table {
+    max-width: 100%;
+  }
+  .tabsControllWrapper p {
+    font-size: 14px;
+  }
+  .tabsContainer {
+    grid-gap: 0;
+  }
+  .tab {
+    padding-bottom: 24px;
+  }
+}

@@ -1,0 +1,243 @@
+@import url("@/app/styles/mixin.css");
+.box {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: rem(48px);
+  border-radius: rem(8px);
+  background: var(--color-black);
+  color: var(--color-white);
+}
+.title {
+  margin-bottom: rem(32);
+  color: var(--color-white);
+  font-size: rem(54px);
+  line-height: rem(64px);
+  font-weight: 600;
+}
+.table-td > div {
+  flex-wrap: nowrap;
+}
+.table-tr {
+  border: none;
+}
+
+.table-td {
+  height: 1px;
+
+  & svg {
+    width: rem(24);
+    height: rem(24);
+  }
+}
+
+.table-link {
+  text-decoration: none;
+  font-size: rem(18);
+  color: var(--color-blue);
+  font-weight: 400;
+  font-family: ProximaNova;
+}
+
+.first-td-wrapper {
+  & svg {
+    width: rem(24);
+    height: rem(24);
+  }
+}
+
+.table-head {
+  --_table-border-color: rgba(255, 255, 255, 0.07) !important;
+
+  & tr {
+    height: 19px;
+    border-bottom: var(--_tr-border-bottom);
+
+    /*&[data-with-row-border] {
+      --_tr-border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }*/
+
+    & th {
+      color: var(--color-grey);
+      padding: rem(16) 0;
+    }
+
+    &:first-child {
+      & th {
+        &:first-child {
+          padding-left: rem(16);
+        }
+      }
+    }
+  }
+}
+.table-body {
+  & tr {
+    border: none;
+
+    & td {
+      border: none;
+      height: rem(29);
+      padding: rem(24) rem(5);
+    }
+
+    &:first-child {
+      & td {
+        padding-top: rem(32);
+      }
+    }
+
+    &:last-child {
+      & td {
+        padding-bottom: rem(16);
+      }
+    }
+  }
+}
+.table-head-sort-label {
+  cursor: pointer;
+  user-select: none;
+
+  & svg {
+    @mixin transition;
+
+    & path {
+      @mixin transition;
+    }
+  }
+
+  @mixin hover {
+    & svg {
+      & path {
+        fill: var(--color-blue);
+      }
+    }
+  }
+}
+
+.table-head-sort-label-sorting-desc {
+  & svg {
+    transform: rotate(180deg);
+  }
+}
+
+.grey-text {
+  @mixin textGrey;
+}
+
+.rates-divider-root {
+  --divider-color: rgba(255, 255, 255, 0.12);
+}
+.label {
+  font-size: var(--text-4-fz);
+}
+.search-input {
+  --input-padding-y: 0;
+  --_input-padding-left: rem(43);
+  --_input-padding-right: rem(16);
+  height: rem(51px);
+  @mixin text-5-full;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+  border-radius: 4px;
+
+  &::placeholder {
+    color: var(--color-grey) !important;
+    font-size: var(--text-5-fz) !important;
+  }
+}
+
+.search-input-wrapper {
+  min-width: rem(300px);
+}
+.market-short-name-wrapper {
+  @mixin light {
+    --_pill-bg: var(--color-black);
+    --pill-radius: rem(3px);
+
+    padding: 4px 12px;
+  }
+}
+
+.market-short-name-label {
+  @mixin text-5-full;
+  @mixin textLinearGradient;
+}
+
+.market-short-name {
+  @mixin textLinearGradient;
+}
+.text {
+  color: var(--color-white);
+  font-size: var(--text-2-fz);
+  line-height: rem(24px);
+  font-weight: 600;
+}
+.pill {
+  text-align: center;
+  height: rem(24px);
+  justify-content: space-between;
+  align-items: center;
+  padding: rem(4) rem(10);
+  background: var(--gradient-linear);
+  border-radius: rem(3px);
+  font-size: var(--text-5-fz);
+  line-height: rem(17px);
+  .coin-short-name-label {
+    @mixin text-5-full;
+  }
+  gap: 8px;
+}
+
+@media (max-width: 1200px) {
+  .pill {
+    display: none;
+  }
+  .table-tr th {
+    padding: 1rem 0 !important;
+  }
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 1.125rem;
+  }
+  .box {
+    padding: 2rem 1.5rem;
+  }
+  .table-container {
+    overflow-x: scroll;
+  }
+  .table-td:first-child {
+    width: 200px;
+  }
+  .table-td:first-child > div {
+    flex-wrap: nowrap;
+  }
+  .box-header {
+    display: flex;
+    grid-gap: 1rem !important;
+    flex-direction: column;
+  }
+  .box-header > div {
+    width: 100%;
+  }
+  .table-head-sort-label span {
+    font-size: 14px;
+  }
+  .table-td {
+    padding: 12px 0 !important;
+  }
+  .table-td > div {
+    padding: 0 !important;
+  }
+  .table-td > div > p:nth-child(1) {
+    display: none;
+  }
+  .table-td span {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 440px) {
+  .box {
+    padding: 1.5rem 0.75rem;
+  }
+}

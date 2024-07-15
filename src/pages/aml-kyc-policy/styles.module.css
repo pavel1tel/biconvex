@@ -1,0 +1,13 @@
+@import url(../../app/styles/Policy.module.css);
+
+img.amlKycPolicyIcon {
+  --icon-ratio: 112px;
+  width: var(--icon-ratio);
+  height: var(--icon-ratio);
+}
+
+@media (max-width: 1200px) {
+  img.amlKycPolicyIcon {
+    --icon-ratio: 54px;
+  }
+}

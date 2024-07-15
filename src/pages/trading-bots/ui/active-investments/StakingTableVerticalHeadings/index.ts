@@ -1,0 +1,1 @@
+export { StakingTableVerticalHeadings } from "./ui";

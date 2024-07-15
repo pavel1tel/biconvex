@@ -1,0 +1,38 @@
+.orderBookButtonsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.orderBooksButton {
+  border-radius: 4px;
+  background-color: var(--color-black-bg);
+  border: var(--border1);
+  padding: 8px 24px;
+  font-family: "ProximaNova";
+  font-size: 16px;
+  color: var(--color-grey);
+  cursor: pointer;
+  transition: 0.3s;
+  &.active {
+    background-color: var(--color-blue);
+    border-color: var(-color-blue);
+    color: white;
+  }
+}
+
+.tabsWrapper {
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+
+  .tabBadge {
+    flex: 1 0 40%;
+  }
+}
+
+.orderBooksButton {
+}
+
+.tabBadge {
+}

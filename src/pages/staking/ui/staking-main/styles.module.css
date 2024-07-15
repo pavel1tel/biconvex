@@ -1,0 +1,182 @@
+@import url("@/app/styles/mixin.css");
+
+.wrapper {
+  margin: 64px 0;
+  color: var(--color-white);
+}
+.box {
+  border: rem(1px) solid rgba(255, 255, 255, 0.12);
+  background: var(--color-black);
+  border-radius: rem(8px);
+  padding: rem(64px);
+}
+.text {
+  font-size: var(--text-5-fz);
+  color: var(--color-grey);
+  font-weight: 400;
+  line-height: rem(17px);
+  font-family: ProximaNova;
+}
+.staking {
+  font-size: var(--text-1-fz);
+  line-height: rem(38.4px);
+  font-weight: 700;
+  text-align: center;
+}
+.text16 {
+  font-size: var(--text-4-fz) !important;
+  line-height: rem(19.49px);
+}
+.col1 {
+  width: rem(470px);
+}
+
+.divider {
+  --divider-color: rgba(255, 255, 255, 0.12) !important;
+}
+.input {
+  border-left: 4px solid var(--color-blue);
+  border-bottom: none;
+  border-right: 4px solid var(--color-black);
+  border-top: none;
+  box-shadow: 0px 0px 12px 0px #6c70800a inset;
+  background: linear-gradient(0deg, #080808, #080808), linear-gradient(180deg, #625ff4 0%, #625ff8 100%);
+  padding: rem(24px);
+  height: rem(77px);
+}
+.inputValue {
+  font-size: var(--text-3-fz);
+}
+.option {
+  font-size: var(--text-3-fz);
+  &:hover {
+    background: #16171c;
+  }
+}
+.dropdown {
+  background: var(--color-black);
+  border: rem(1px) solid #ffffff1f;
+  color: var(--color-white);
+  height: 200px;
+  overflow: auto;
+}
+.dropdown::-webkit-scrollbar {
+  width: 2px !important;
+}
+.clearInputBtn {
+  &:hover {
+    background: var(--color-black);
+  }
+}
+.label {
+  font-size: var(--text-3-fz);
+  line-height: 21.29px;
+  font-family: ProximaNova;
+}
+.labelMargin {
+  margin-bottom: rem(16px);
+}
+.wrap-box {
+  background-color: var(--color-black);
+}
+.selectedBoxBg {
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23625FF4FF' stroke-width='2' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
+  border-radius: rem(8px);
+  z-index: 10;
+  background-position: bottom;
+  background-size: -1px 1px;
+  background-repeat: no-repeat;
+}
+.selectBox {
+  position: relative;
+  z-index: 10;
+  padding: 24px 27.83px;
+  cursor: pointer;
+  background-color: #080808;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='%23333' stroke-width='2' stroke-dasharray='10' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
+  border-radius: 8px;
+  user-select: none;
+}
+
+.selectedBox {
+  background: linear-gradient(313.06deg, rgba(98, 95, 244, 0.2) 6.43%, rgba(12, 13, 16, 0.2) 99.25%) !important;
+  z-index: 10;
+}
+
+.value {
+  font-size: var(--text-4-fz);
+  font-weight: 600;
+  line-height: var(--text-2-lh);
+}
+.greenText {
+  color: var(--color-green);
+}
+.btn {
+  display: block;
+  width: rem(280px);
+  height: rem(93px);
+  line-height: rem(28px);
+  font-size: var(--text-btn-fz);
+  margin: rem(46px) auto 0 auto;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+  .wrapper {
+    margin: 0 !important;
+  }
+  .gridCols > div {
+    height: auto !important;
+  }
+  .selectBox {
+    padding: 1.8rem;
+    display: grid;
+    grid-template-columns: auto 1px auto;
+  }
+  .selectBox .divider {
+    width: fit-content !important;
+  }
+  .box {
+    padding: 2rem 1.25rem;
+  }
+  .btn {
+    height: 88px;
+    width: 100%;
+  }
+  .btn span {
+    font-size: 1.25rem;
+  }
+  .btn svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .box {
+    flex-direction: column;
+    gap: 56px;
+  }
+  .box div:not([role="presentation"]) {
+    width: 100% !important;
+    max-width: 100%;
+    margin-bottom: 0 !important;
+  }
+  .box p {
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 470px) {
+  .selectBox {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 12px !important;
+  }
+  .selectBox .divider {
+    width: 100% !important;
+    height: 1px !important;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+}

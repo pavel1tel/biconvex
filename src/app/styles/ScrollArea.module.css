@@ -1,0 +1,42 @@
+.root {
+  border-radius: 2px;
+}
+
+.thumb {
+  border-radius: 2px;
+
+  @mixin light {
+    --_thumb-bg: var(--color-grey);
+  }
+
+  @mixin dark {
+    --_thumb-bg: var(--color-grey);
+  }
+}
+/*The footer is not at the end of the page due to this setting.*/
+/*  .viewport {*/
+/*    position: relative;*/
+
+/*  }*/
+
+.scrollbar {
+  padding: 0;
+  z-index: 10;
+  @mixin light {
+    --_scrollbar-bg: rgba(255, 255, 255, 0.12);
+  }
+
+  @mixin dark {
+    --_scrollbar-bg: rgba(255, 255, 255, 0.12);
+  }
+
+  @mixin hover {
+    @mixin light {
+      --_scrollbar-bg: rgba(255, 255, 255, 0.12);
+    }
+
+    @mixin dark {
+      --_scrollbar-bg: rgba(255, 255, 255, 0.12);
+    }
+  }
+}

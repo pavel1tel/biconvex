@@ -1,0 +1,120 @@
+.banner-wrapper {
+  flex: 1;
+  padding: clamp(28px, 6vw, 96px) 0;
+  position: relative;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  z-index: 2;
+  a {
+    width: fit-content;
+  }
+}
+
+.banner-title {
+  z-index: 10;
+  font-weight: 700 !important;
+}
+
+.banner-title-colored-part {
+  font-size: inherit !important;
+  font-style: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  background: var(--gradient-linear);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.banner-sub-title {
+  z-index: 10;
+  position: relative;
+  max-width: 63%;
+}
+
+.banner-button {
+  z-index: 9;
+  position: relative;
+}
+
+.banner-light {
+  right: rem(-680);
+  filter: blur(300px);
+  width: rem(600);
+  bottom: rem(-300);
+  height: rem(600);
+  position: absolute;
+  background: var(--gradient-linear);
+  border-radius: 600px;
+}
+
+.tradeActions {
+  flex-direction: row;
+  gap: 32px;
+
+  .activeStatistics {
+    padding: 21px;
+    height: 124px;
+    border: var(--border1);
+    border-radius: 8px;
+    background-color: var(--color-black);
+    width: 400px;
+  }
+}
+
+@media only screen and (max-width: 75rem) {
+  .banner-wrapper {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .banner-left-side {
+    align-items: center;
+    text-align: center;
+  }
+  .banner-right-side {
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .banner-sub-title {
+    max-width: 63%;
+    margin: auto;
+  }
+
+  .tradeActions {
+    flex-direction: row;
+    justify-content: center;
+    gap: 32px;
+
+    .activeStatistics {
+      padding: 22px;
+      height: 96px;
+      border: var(--border1);
+      border-radius: 8px;
+      background-color: var(--color-black);
+      width: 344px;
+    }
+  }
+}
+
+@media only screen and (max-width: 48em) {
+  .banner-title {
+    font-size: 3rem !important;
+  }
+  .banner-right-side {
+    max-width: 320px;
+    height: 400px;
+  }
+
+  .tradeActions {
+    .activeStatistics {
+      order: 1;
+    }
+  }
+}
+
+@media only screen and (max-width: 30em) {
+  .banner-title {
+    font-size: 2rem !important;
+  }
+}

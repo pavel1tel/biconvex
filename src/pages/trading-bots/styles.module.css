@@ -1,0 +1,130 @@
+@import url("@/app/styles/mixin.css");
+
+.light-three {
+  top: -2%;
+  right: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.cube-one-light {
+  position: absolute;
+  top: 11%;
+  left: 0;
+  z-index: -1;
+  width: auto;
+}
+
+.cube-one {
+  position: absolute;
+  width: 7%;
+  left: 0;
+  top: 27%;
+}
+
+.cube-two {
+  width: 6%;
+  left: 0;
+  position: absolute;
+  top: 78%;
+}
+.light-four {
+  width: 30%;
+  left: 0;
+  position: absolute;
+  top: 68%;
+}
+
+.light-cube-two {
+  position: absolute;
+  left: -5%;
+  top: 63%;
+  z-index: -1;
+  width: 30%;
+}
+
+.column-light-three {
+  position: absolute;
+  top: 20%;
+  right: -50%;
+  z-index: -1;
+}
+
+.light-column {
+  top: 39%;
+  right: -4%;
+  width: 10%;
+  z-index: 0;
+  position: absolute;
+  transform: translate(0, -39%);
+  pointer-events: none;
+}
+
+.lightTradeType {
+  position: absolute;
+  top: 34%;
+  left: 0;
+  z-index: -1;
+  width: auto;
+}
+
+.shape {
+  bottom: 6%;
+  width: auto;
+  z-index: 0;
+  position: absolute;
+}
+
+.user-select-forbidden {
+  user-select: none;
+}
+
+.section {
+  gap: rem(64px);
+}
+
+@media screen and (max-width: 1400px) {
+  .column-light-three {
+    top: 23%;
+    right: -26%;
+  }
+
+  .light-column {
+    top: 40%;
+    right: -4%;
+  }
+}
+
+@media screen and (max-width: 75em) {
+  .column-light-three {
+    top: 36%;
+    right: -22%;
+  }
+
+  .light-column {
+    top: 48%;
+    right: -4%;
+  }
+}
+
+@media screen and (max-width: 45em) {
+  .column-light-three {
+    top: 39%;
+    right: 0;
+  }
+
+  .cube-one {
+    width: 18%;
+  }
+
+  .light-column {
+    top: 46%;
+    right: -4%;
+    width: 18%;
+  }
+
+  .section {
+    gap: rem(32px);
+  }
+}

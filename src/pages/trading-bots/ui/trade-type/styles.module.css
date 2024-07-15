@@ -1,0 +1,83 @@
+.wrapper {
+  flex: 1;
+  padding: var(--adaptive-section-py) 0;
+  position: relative;
+
+  .tradeTypesFlex {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.tradeTypesWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  overflow-x: auto;
+  flex-basis: 75%;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+
+  .tradeType {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-items: flex-start;
+    flex-basis: 21%;
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 1260px) {
+  .wrapper {
+    .tradeTypesFlex {
+      flex-direction: column;
+    }
+  }
+
+  .tradeTypesWrapper {
+    flex-wrap: nowrap;
+    flex-basis: 100%;
+    gap: 20px;
+
+    .tradeType {
+      flex-shrink: 0;
+      flex-basis: 49%;
+    }
+  }
+
+  .light-six {
+    right: -9%;
+    transform: translate(0, -50%);
+  }
+  .indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .indicator {
+    width: 20px;
+    height: 8px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    transition: background-color 0.3s;
+    cursor: pointer;
+  }
+
+  .indicator.active {
+    background-color: var(--color-blue);
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .tradeTypesWrapper {
+    .tradeType {
+      flex-basis: 100%;
+    }
+  }
+}

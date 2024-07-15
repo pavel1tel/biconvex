@@ -1,0 +1,109 @@
+@import url("@/app/styles/mixin.css");
+
+.collaborators-wrapper {
+  flex: 1;
+  width: 100vw;
+  padding: var(--adaptive-section-pys) 0;
+}
+
+.collaborators-title {
+  font-size: 54px !important;
+  color: white;
+}
+
+.collaborators-title-highlighted {
+  font-size: inherit !important;
+  font-style: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  @mixin textLinearGradient;
+}
+
+.collaborators-sub-title {
+  color: var(--color-grey);
+}
+
+.collaborators-carousel-wrapper {
+  height: rem(80px);
+}
+
+.collaborators-carousel-slide {
+  width: auto;
+  height: rem(80px);
+}
+
+.images-list {
+  margin: 0;
+  padding-inline: 0;
+  list-style: none;
+}
+
+.scroller {
+  width: 100%;
+}
+
+.scroller__inner {
+  gap: 6rem;
+  display: flex;
+  flex-wrap: wrap;
+  padding-block: 1rem;
+}
+
+.scroller[data-animated="true"] {
+  overflow: hidden;
+}
+
+.scroller[data-animated="true"] .scroller__inner {
+  width: max-content;
+  flex-wrap: nowrap;
+  animation: scroll var(--_animation-duration, 40s) var(--_animation-direction, forwards) linear infinite;
+}
+
+.scroller[data-direction="right"] {
+  --_animation-direction: reverse;
+}
+
+.scroller[data-direction="left"] {
+  --_animation-direction: forwards;
+}
+
+.scroller[data-speed="fast"] {
+  --_animation-duration: 20s;
+}
+
+.scroller[data-speed="slow"] {
+  --_animation-duration: 60s;
+}
+
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 3rem));
+  }
+}
+
+@media (max-width: 1200px) {
+  .images-list {
+    grid-gap: 2rem;
+  }
+  .images-list li img {
+    height: 40px;
+  }
+  .collaborators-title {
+    font-size: 40px !important;
+    line-height: 48px;
+    margin: 0 1em;
+  }
+
+  .collaborators-sub-title {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.49px;
+    padding: 0 60px;
+  }
+}
+
+@media screen and (min-width: 360px) and (max-width: 549px) {
+  .collaborators-sub-title {
+    padding: 0 10px;
+  }
+}

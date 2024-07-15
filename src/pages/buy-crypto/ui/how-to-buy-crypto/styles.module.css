@@ -1,0 +1,118 @@
+@import url("@/app/styles/mixin.css");
+
+.step-wrapper {
+  margin: var(--adaptive-section-py) 0 164px 0;
+  @media (max-width: 1200px) {
+    margin: 4rem 0 28px 0;
+  }
+}
+.step-title {
+  color: white;
+  font-size: clamp(40px, 3.375vw, 54px) !important;
+}
+.step-title-highlighted {
+  font-size: inherit !important;
+  font-style: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  font-family: inherit !important;
+  @mixin textLinearGradient;
+}
+.step-sub-title {
+  &[data-variant="text-2"] {
+    --text-color: var(--color-grey) !important;
+  }
+}
+.step-item-wrapper {
+  display: flex;
+  width: rem(238px);
+  justify-content: space-between !important;
+  flex-direction: column;
+  padding: rem(32px);
+  height: rem(278px);
+  border-radius: rem(8px);
+  border-left: 2px solid var(--color-blue);
+  background: var(--color-black);
+  @media (max-width: 1155px) {
+    padding: rem(16);
+    width: rem(200px) !important;
+  }
+}
+
+.step-number {
+  border-radius: rem(4px);
+  background: var(--gradient-linear);
+  box-shadow: 0 4px 16px 0 rgba(98, 95, 244, 0.32);
+}
+
+.step-item-title {
+  width: rem(174.5px);
+  font-family: ProximaNova;
+  --text-fz: var(--text-2-fz);
+  line-height: rem(24px);
+  --text-color: var(--color-white);
+  font-weight: 400 !important;
+  @media (max-width: 1155px) {
+    font-size: rem(16px);
+  }
+}
+
+.step-item-number {
+  --text-fz: rem(32px);
+  --text-color: var(--color-blue);
+  font-weight: 700 !important;
+}
+.divider {
+  --divider-color: var(--color-blue) !important;
+}
+.grid {
+  display: none;
+}
+@media (max-width: 1200px) {
+  .adaptive > div {
+    display: none;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+    color: #fff;
+    padding: 0;
+    list-style: none;
+  }
+  .grid-item {
+    background-color: #0c0d10;
+    padding: 2rem;
+    border-radius: 8px;
+    min-height: 310px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    grid-gap: 1rem;
+    border-left: 2px solid var(--color-blue);
+  }
+  .gridOrder {
+    color: var(--color-blue);
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .grid-item:last-child {
+    grid-column: span 2;
+    min-height: 214px;
+  }
+  .grid-item p {
+    font-size: 1.125rem;
+    font-weight: 400;
+  }
+}
+
+@media (max-width: 470px) {
+  .grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .grid-item {
+    min-height: 160px;
+    padding: 1.5rem;
+  }
+}
