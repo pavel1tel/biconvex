@@ -32,7 +32,15 @@
   height: 24px;
   cursor: pointer;
 }
-
+.box-green {
+  border-radius: 8px 0 0 8px;
+  padding: 16px 32px;
+  border: none;
+  overflow: hidden;
+  background-clip: padding-box;
+  border-left: 2px solid #0ecb7b;
+  background: linear-gradient(313.06deg, rgba(14, 203, 123, 0.2) 6.43%, rgba(12, 13, 16, 0.2) 99.25%);
+}
 .box-orange {
   padding: 16px 32px;
   border-radius: 8px 0 0 8px;
@@ -41,6 +49,12 @@
   background-clip: padding-box;
   border-left: 2px solid var(--color-orange);
   background: linear-gradient(313deg, rgba(255, 158, 43, 0.2) 6.43%, rgba(12, 13, 16, 0.2) 99.25%);
+}
+.text-green {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  color: var(--color-green);
 }
 .text-red {
   font-weight: 700;

@@ -1,3 +1,4 @@
+import { getKycInfo } from "@/shared/api/kyc/requests";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { requestSettings, updateAccount, updatePassword, updatePersonalInfo } from "@/shared/api/settings/requests";
 import { ResponseDto } from "@/shared/api/types";
@@ -85,4 +86,12 @@ sample({
   clock: updatePassword.doneData,
   fn: () => "",
   target: showSuccessNotification,
+});
+
+chainRoute({
+  route: currentRoute,
+  beforeOpen: {
+    effect: getKycInfo,
+    mapParams: (params) => params,
+  },
 });
