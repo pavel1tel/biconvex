@@ -24,8 +24,6 @@ export interface Transaction {
   status: number;
 }
 
-<<<<<<< HEAD
-=======
 export interface KycSaveRequest {
   kyc_first_name: string;
   kyc_last_name: string;
@@ -40,7 +38,6 @@ export interface KycSaveRequest {
   image_selfie: File;
 }
 
->>>>>>> 9e4698fe887e8d6e3b273130c6e3dc20a4fe6a44
 export interface TransactionsResponse {
   transactions?: Transaction[];
 }
