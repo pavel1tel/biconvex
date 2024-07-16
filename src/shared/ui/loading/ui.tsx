@@ -1,6 +1,5 @@
 import { useResize } from "@/hooks/useResize";
-import { Center, Stack, Title } from "@mantine/core";
-import clsx from "clsx";
+import { Center, Title } from "@mantine/core";
 import { motion } from "framer-motion";
 import React, { FC } from "react";
 
@@ -42,7 +41,7 @@ const lgRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reve
 const mdRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reverse" as const, ease: "easeInOut", duration: 4 };
 const smRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reverse" as const, ease: "easeInOut", duration: 3.5 };
 
-const LoadingScreen: FC<LoadingScreenProps> = ({ opened = true }) => {
+export const LoadingScreen: FC<LoadingScreenProps> = ({ opened = true }) => {
   if (!opened) return null;
 
   const { isAdaptive: sm } = useResize(500);
@@ -144,5 +143,3 @@ const LoadingScreen: FC<LoadingScreenProps> = ({ opened = true }) => {
     </div>
   );
 };
-
-export default LoadingScreen;

@@ -7,7 +7,6 @@ import { Helmet } from "react-helmet-async";
 
 import { routes } from "@/shared/routing";
 import { Container, Footer, Header, StartTradingDarkIcon, Wrapper } from "@/shared/ui";
-import LoadingScreen from "@/shared/ui/Loading/ui";
 
 import { TradeHistory } from "../trade/ui/trade-content/components/TradeHistory/TradeHistory";
 import classes from "./styles.module.css";
