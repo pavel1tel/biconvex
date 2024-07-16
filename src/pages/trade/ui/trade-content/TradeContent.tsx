@@ -15,6 +15,7 @@ import { TradeActions } from "@/shared/ui/TradeActions/ui";
 
 import { OrderBook } from "../../../../shared/ui/OrderBook/OrderBook";
 import { OrderBookMobileTradeTab } from "../../../../shared/ui/OrderBook/OrderBookMobile";
+import { PromoPopup } from "../../../trade-futures/ui/promo-popup";
 import { currentRoute } from "../../model";
 import classes from "./TradeContent.module.css";
 import { MarketStats } from "./components/MarketStats/MarketStats";
