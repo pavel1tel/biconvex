@@ -24,7 +24,7 @@ export const StakingCalculate = ({ amount, percent, value1 }: { amount: string; 
 
   useEffect(() => {
     if (!investReponsePending) {
-      let course = getValueByKey(investReponse.courses!, value1);
+      const course = getValueByKey(investReponse.courses!, value1);
       setData([
         {
           key: 1,

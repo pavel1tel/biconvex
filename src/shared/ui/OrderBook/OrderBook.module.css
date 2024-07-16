@@ -73,9 +73,6 @@
   z-index: 2;
 }
 
-
-
-
 .tableBody tr {
   border: none;
   position: relative;
@@ -272,7 +269,6 @@
   border-collapse: collapse;
 }
 
-
 .tableRow {
   display: flex;
   /* justify-content: space-between; */
@@ -297,7 +293,6 @@
   color: white;
 }
 
-
 .tableCell {
   flex-grow: 1;
 }
@@ -312,7 +307,7 @@
 }
 
 .negative .tableCell:first-child {
-  color: rgba(244, 74, 74, 0.8)
+  color: rgba(244, 74, 74, 0.8);
 }
 
 .positive .tableCell:first-child {
@@ -321,7 +316,6 @@
 
 .negativeText:first-child {
   color: rgba(244, 74, 74, 0.8);
-
 }
 
 .totalCell {

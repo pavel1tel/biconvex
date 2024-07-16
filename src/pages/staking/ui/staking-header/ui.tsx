@@ -1,11 +1,12 @@
 import { Box, Flex, Image, Stack, Text, Title, rem } from "@mantine/core";
 import clsx from "clsx";
+import { useUnit } from "effector-react";
 import { useState } from "react";
 
 import { CloseEyeIcon, EyeIcon } from "@/pages/staking/ui";
 
 import { InvestResponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
+
 import { $investReponse } from "../../model";
 import classes from "./styles.module.css";
 

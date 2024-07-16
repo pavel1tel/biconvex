@@ -39,11 +39,11 @@ export const StakingTable = ({
   };
   const [sortFunc, setSortFunc] = useState<any>(defaultSortingFunc);
 
-  let calculatePage = (sortFn: ((a: [string, InvestmentHistory], b: [string, InvestmentHistory]) => number) | undefined, searchFn: any) => {
+  const calculatePage = (sortFn: ((a: [string, InvestmentHistory], b: [string, InvestmentHistory]) => number) | undefined, searchFn: any) => {
     if (!historyResponsePending) {
       const startIndex = (page - 1) * 5;
       const endIndex = startIndex + 5;
-      let temp = Object.entries(historyResponse.history ? historyResponse.history : [])
+      const temp = Object.entries(historyResponse.history ? historyResponse.history : [])
         .filter(searchFn)
         .sort(sortFn)
         .slice(startIndex, endIndex)
@@ -59,7 +59,7 @@ export const StakingTable = ({
             cancel: <CloseButton className={classes.closeButton} />,
           };
         });
-      let pages = Object.entries(historyResponse.history ? historyResponse.history : []).filter(searchFn).length;
+      const pages = Object.entries(historyResponse.history ? historyResponse.history : []).filter(searchFn).length;
       setTotalPage(Math.ceil(pages / 5));
       setInvestHistory(temp);
     }

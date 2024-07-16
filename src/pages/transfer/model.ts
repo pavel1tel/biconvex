@@ -1,3 +1,6 @@
+import { chainRoute } from "atomic-router";
+import { createStore, sample } from "effector";
+
 import { getDepostFx } from "@/shared/api/deposit/request";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { getTransfer, requestTransfer } from "@/shared/api/transfer/requests";
@@ -5,8 +8,6 @@ import { ResponseDto } from "@/shared/api/types";
 import { showErrorNotification, showSuccessNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { chainAuthenticated } from "@/shared/session";
-import { chainRoute } from "atomic-router";
-import { createStore, sample } from "effector";
 
 export const currentRoute = routes.transfer;
 
@@ -19,7 +20,6 @@ $transferResponse.on(getTransfer.doneData, (_: any, data: ResponseDto) => data.m
 
 const $transferError = createStore<ResponseDto>({ message: "" });
 $transferError.on(requestTransfer.failData, (_, error) => error).reset(requestTransfer);
-
 
 chainRoute({
   route: currentRoute,
@@ -62,5 +62,3 @@ sample({
   clock: requestTransfer.doneData,
   target: getDepostFx,
 });
-
-

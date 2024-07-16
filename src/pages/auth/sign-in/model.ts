@@ -19,10 +19,12 @@ const $error = createStore<ResponseDto>({ message: "" });
 $error.on(loginUser.failData, (_, error) => error).reset(loginUser);
 
 export const $token = createStore<string>("");
-$token.on(loginUser.doneData, (_, token) => {
-  // setCookie("session_id", token.message, 999)
-  return token.message;
-}).reset(loginUser);
+$token
+  .on(loginUser.doneData, (_, token) => {
+    // setCookie("session_id", token.message, 999)
+    return token.message;
+  })
+  .reset(loginUser);
 
 persist({
   store: $token,
@@ -42,17 +44,17 @@ redirect({
 
 sample({
   clock: loginUser.failData,
-  source : $error,
-  fn : (error) => error.message,
-  target: showErrorNotification
-})
+  source: $error,
+  fn: (error) => error.message,
+  target: showErrorNotification,
+});
 
-function setCookie(name: string,value: string,days: number) {
-  var expires = "";
+function setCookie(name: string, value: string, days: number) {
+  let expires = "";
   if (days) {
-      var date = new Date();
-      date.setTime(date.getTime() + (days*24*60*60*1000));
-      expires = "; expires=" + date.toUTCString();
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    expires = "; expires=" + date.toUTCString();
   }
-  document.cookie = name + "=" + (value || "")  + expires + "; path=/; Secure; SameSite=None; Domain=20.79.188.227";
+  document.cookie = name + "=" + (value || "") + expires + "; path=/; Secure; SameSite=None; Domain=20.79.188.227";
 }

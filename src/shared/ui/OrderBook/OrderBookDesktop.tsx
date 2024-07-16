@@ -43,13 +43,13 @@ export const OrderBookDesktop = ({
   useEffect(() => {
     if (!orderBookResponsePending && orderBookReponse.asks) {
       {
-        let max = Math.max.apply(
+        const max = Math.max.apply(
           Math,
           orderBookReponse.asks.map(function (o) {
             return parseFloat(o[1]);
           }),
         );
-        let tempAsks: any[] = [];
+        const tempAsks: any[] = [];
         orderBookReponse.asks.forEach((ask) => {
           tempAsks.push({
             id: ask[0],
@@ -61,13 +61,13 @@ export const OrderBookDesktop = ({
         setFullAsks(tempAsks);
       }
       {
-        let max = Math.max.apply(
+        const max = Math.max.apply(
           Math,
           orderBookReponse.bids.map(function (o) {
             return parseFloat(o[1]);
           }),
         );
-        let tempAsks: any[] = [];
+        const tempAsks: any[] = [];
         orderBookReponse.bids.forEach((ask) => {
           tempAsks.push({
             id: ask[0],
@@ -82,7 +82,7 @@ export const OrderBookDesktop = ({
   }, [orderBookReponse, orderBookReponse]);
 
   useEffect(() => {
-    let interval = setInterval(() => {
+    const interval = setInterval(() => {
       if (currentPair.length > 0) {
         getOrderBook(currentPair.split("/").join(""));
       }
@@ -94,7 +94,7 @@ export const OrderBookDesktop = ({
 
   useEffect(() => {
     if (priceWs !== null) {
-      let temp = JSON.parse(priceWs.data);
+      const temp = JSON.parse(priceWs.data);
       setPrice((prev) => {
         return {
           price: parseFloat(temp["k"]["c"]),
@@ -142,8 +142,9 @@ export const OrderBookDesktop = ({
                 key={row.id}
                 className={clsx(classes.tableRow, activeCategory === "All" || activeCategory === "Bids" ? classes.positive : classes.negative)}
                 style={{
-                  background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
-                    } ${100 - row.fill}%)`,
+                  background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${
+                    activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
+                  } ${100 - row.fill}%)`,
                 }}
               >
                 {row.cells.map((td) => (

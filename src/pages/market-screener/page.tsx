@@ -1,24 +1,25 @@
 import { getSiblings } from "@/helpers/getResponsivePaginationSiblings";
 import { useResize } from "@/hooks/useResize";
-import { Selector } from "@/pages/crypto-market-cap/page";
 import { Box, Divider, Group, Image, Pagination, Stack, Table, Text, Title, UnstyledButton, rem } from "@mantine/core";
+import { Link } from "atomic-router-react";
+import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+
+import { Selector } from "@/pages/crypto-market-cap/page";
 
 import {
   FetchFunc,
   fetchOscillatorsData,
   fetchOverviewData,
   fetchPerformanceData,
-  fetchTrendFollowingData
+  fetchTrendFollowingData,
 } from "@/shared/api/market-screene/request";
+import { SortingDirection } from "@/shared/types/CoinsTable";
 import { Container, Footer, Header, NextIcon, PreviousIcon, RateIcon, ShowRowsCount, Wrapper } from "@/shared/ui";
 import { TableSelectionHeader } from "@/shared/ui/tableSelectionHeader";
 import { TitleWithIcon } from "@/shared/ui/titleWithIcon";
 
-import { SortingDirection } from "@/shared/types/CoinsTable";
-import { Link } from "atomic-router-react";
-import clsx from "clsx";
 import classes from "./styles.module.css";
 import { CoinsTableFixedColumn } from "./ui/coins-table/CoinsTableFixedColumn";
 import { CoinsTable } from "./ui/coins-table/ui";
@@ -31,14 +32,13 @@ const formatNumber = (num: number) => {
   return num.toFixed(2);
 };
 
-
 export const SELECTORS: Selector[] = [
   {
     label: "General",
     isSelected: true,
     sort: { sortBy: "crypto_total_rank", sortOrder: "asc" },
     filter: [],
-    fetchData: () => (null),
+    fetchData: () => null,
   },
   {
     label: "Top gainers",
@@ -46,7 +46,7 @@ export const SELECTORS: Selector[] = [
     sort: {},
     filter: [],
     preset: "coin_gainers",
-    fetchData: () => (null),
+    fetchData: () => null,
   },
   {
     label: "All-time high",
@@ -54,7 +54,7 @@ export const SELECTORS: Selector[] = [
     sort: {},
     preset: "coin_all_time_high",
     filter: [],
-    fetchData: () => (null),
+    fetchData: () => null,
   },
   {
     label: "All-time low",
@@ -62,21 +62,21 @@ export const SELECTORS: Selector[] = [
     sort: {},
     filter: [],
     preset: "coin_all_time_low",
-    fetchData: () => (null),
+    fetchData: () => null,
   },
   {
     label: "New monthly high",
     isSelected: false,
     sort: { sortBy: "crypto_total_rank", sortOrder: "asc" },
     filter: [{ left: "High.1M", operation: "eless", right: "high" }],
-    fetchData: () => (null),
+    fetchData: () => null,
   },
   {
     label: "Most volatile",
     preset: "coin_most_volatile",
     sort: {},
     filter: [],
-    fetchData: () => (null),
+    fetchData: () => null,
   },
 ];
 
@@ -104,14 +104,16 @@ export function Page() {
       headers: [
         { label: "#", className: classes.tableHeadCell, sortable: false },
         {
-          label: "Coin Name", className: classes.tableHeadCell, sortable: true,
+          label: "Coin Name",
+          className: classes.tableHeadCell,
+          sortable: true,
           sortFunc: (direction) => {
             if (direction == "ASC") {
-              return (a, b) => a.d[2] < b.d[2] ? 1 : -1
+              return (a, b) => (a.d[2] < b.d[2] ? 1 : -1);
             } else {
-              return (a, b) => a.d[2] < b.d[2] ? -1 : 1
+              return (a, b) => (a.d[2] < b.d[2] ? -1 : 1);
             }
-          }
+          },
         },
         { label: "Price", className: classes.tableHeadCell, sortable: true },
         { label: "CHG%", className: classes.tableHeadCell, sortable: true },
@@ -124,83 +126,83 @@ export function Page() {
         { label: "TR", className: classes.tableHeadCell, sortable: false },
       ],
       transformData: (data, currentPage, rowsPerPage) => {
-        return (
-          data.map((coin, index) => {
-            return (
-              <Table.Tr key={coin.d[2]}>
-                {md ? null :
-                  <Table.Td w={70}>
-                    <Group gap={rem(16)} className={classes.firstTdWrapper}>
-                      <Text variant="text-3" className={classes.greyText} span>
-                        №{(currentPage - 1) * rowsPerPage + index + 1}
-                      </Text>
-                    </Group>
-                  </Table.Td>}
-                <Table.Td className={clsx(classes.tbodyTdWithIcon, classes.fixedColumn)}>
-                  <Group gap={rem(8)} style={md ? { display: "flex", flexDirection: "column", alignItems: "flex-start" } : undefined}>
-                    <img src={"https://s3-symbol-logo.tradingview.com/crypto/" + (coin.d[0]?.split("crypto/")[1] || "") + ".svg"} alt={`${coin.d[2]} icon`} className={classes.tokenIcon} />
-                    <Title c="white" order={4} fz={20} className={classes.coinFullName}>
-                      {coin.d[2].length > 15 ? coin.d[2].slice(0, 12).concat("...") : coin.d[2]}
-                    </Title>
-                    {/* <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill> */}
-                  </Group>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    ${formatNumber(parseFloat(coin.d[3]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Group gap={rem(4)}>
-                    <RateIcon type={coin.d[4] > 0 ? 'positive' : 'negative'} />
-                    <Text c="white" variant="text-4" span>
-                      {coin.d[4].toFixed(2)}%
+        return data.map((coin, index) => {
+          return (
+            <Table.Tr key={coin.d[2]}>
+              {md ? null : (
+                <Table.Td w={70}>
+                  <Group gap={rem(16)} className={classes.firstTdWrapper}>
+                    <Text variant="text-3" className={classes.greyText} span>
+                      №{(currentPage - 1) * rowsPerPage + index + 1}
                     </Text>
                   </Group>
                 </Table.Td>
-                <Table.Td>
+              )}
+              <Table.Td className={clsx(classes.tbodyTdWithIcon, classes.fixedColumn)}>
+                <Group gap={rem(8)} style={md ? { display: "flex", flexDirection: "column", alignItems: "flex-start" } : undefined}>
+                  <img
+                    src={"https://s3-symbol-logo.tradingview.com/crypto/" + (coin.d[0]?.split("crypto/")[1] || "") + ".svg"}
+                    alt={`${coin.d[2]} icon`}
+                    className={classes.tokenIcon}
+                  />
+                  <Title c="white" order={4} fz={20} className={classes.coinFullName}>
+                    {coin.d[2].length > 15 ? coin.d[2].slice(0, 12).concat("...") : coin.d[2]}
+                  </Title>
+                  {/* <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill> */}
+                </Group>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  ${formatNumber(parseFloat(coin.d[3]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Group gap={rem(4)}>
+                  <RateIcon type={coin.d[4] > 0 ? "positive" : "negative"} />
                   <Text c="white" variant="text-4" span>
-                    ${formatNumber(parseFloat(coin.d[5]) || 0)}
+                    {coin.d[4].toFixed(2)}%
                   </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    ${formatNumber(parseFloat(coin.d[6]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    ${formatNumber(parseFloat(coin.d[7]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    ${formatNumber(parseFloat(coin.d[8]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    ${formatNumber(parseFloat(coin.d[11]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    ${formatNumber(parseFloat(coin.d[12]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <UnstyledButton className={classes.buyButton}>
-                    <Link to={"#/trade/" + coin.d[0]?.split("crypto/XTVC")[1] + "-USDT"}>
-                      BUY
-                    </Link>
-                  </UnstyledButton>
-                </Table.Td>
-              </Table.Tr>
-            )
-          }
-          )
-        )
-      }
+                </Group>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  ${formatNumber(parseFloat(coin.d[5]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  ${formatNumber(parseFloat(coin.d[6]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  ${formatNumber(parseFloat(coin.d[7]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  ${formatNumber(parseFloat(coin.d[8]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  ${formatNumber(parseFloat(coin.d[11]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  ${formatNumber(parseFloat(coin.d[12]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <UnstyledButton className={classes.buyButton}>
+                  <Link to={"#/trade/" + coin.d[0]?.split("crypto/XTVC")[1] + "-USDT"}>BUY</Link>
+                </UnstyledButton>
+              </Table.Td>
+            </Table.Tr>
+          );
+        });
+      },
     },
     {
       label: "Performance",
@@ -208,14 +210,16 @@ export function Page() {
       headers: [
         { label: "#", className: classes.tableHeadCell, sortable: false },
         {
-          label: "Coin Name", className: classes.tableHeadCell, sortable: true,
+          label: "Coin Name",
+          className: classes.tableHeadCell,
+          sortable: true,
           sortFunc: (direction) => {
             if (direction == "ASC") {
-              return (a, b) => a.d[2] < b.d[2] ? 1 : -1
+              return (a, b) => (a.d[2] < b.d[2] ? 1 : -1);
             } else {
-              return (a, b) => a.d[2] < b.d[2] ? -1 : 1
+              return (a, b) => (a.d[2] < b.d[2] ? -1 : 1);
             }
-          }
+          },
         },
         { label: "Market cap", className: classes.tableHeadCell, sortable: true },
         { label: "CHG%24H", className: classes.tableHeadCell, sortable: true },
@@ -239,81 +243,83 @@ export function Page() {
           return mc;
         };
 
-        return (
-          data.map((coin, index) => {
-            return (
-              <Table.Tr key={coin.d[2]}>
-                {md ? null :
-                  <Table.Td w={70}>
-                    <Group gap={rem(16)} className={classes.firstTdWrapper}>
-                      <Text variant="text-3" className={classes.greyText} span>
-                        №{(currentPage - 1) * rowsPerPage + index + 1}
-                      </Text>
-                    </Group>
-                  </Table.Td>}
-                <Table.Td className={clsx(classes.tbodyTdWithIcon, classes.fixedColumn)}>
-                  <Group gap={rem(8)} style={md ? { display: "flex", flexDirection: "column", alignItems: "flex-start" } : undefined}>
-                    <img src={"https://s3-symbol-logo.tradingview.com/crypto/" + (coin.d[0]?.split("crypto/")[1] || "") + ".svg"} alt={`${coin.d[2]} icon`} className={classes.tokenIcon} />
-                    <Title c="white" order={4} fz={20} className={classes.coinFullName}>
-                      {coin.d[2].length > 15 ? coin.d[2].slice(0, 12).concat("...") : coin.d[2]}
-                    </Title>
-                    {/* <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill> */}
+        return data.map((coin, index) => {
+          return (
+            <Table.Tr key={coin.d[2]}>
+              {md ? null : (
+                <Table.Td w={70}>
+                  <Group gap={rem(16)} className={classes.firstTdWrapper}>
+                    <Text variant="text-3" className={classes.greyText} span>
+                      №{(currentPage - 1) * rowsPerPage + index + 1}
+                    </Text>
                   </Group>
                 </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    ${getMarketCap(parseFloat(formatNumber(parseFloat(coin.d[3]) || 0)))}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c={parseFloat(coin.d[4]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
-                    %{formatNumber(parseFloat(coin.d[4]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c={parseFloat(coin.d[5]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
-                    %{formatNumber(parseFloat(coin.d[5]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c={parseFloat(coin.d[6]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
-                    %{formatNumber(parseFloat(coin.d[6]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c={parseFloat(coin.d[7]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
-                    %{formatNumber(parseFloat(coin.d[7]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c={parseFloat(coin.d[8]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
-                    %{formatNumber(parseFloat(coin.d[8]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c={parseFloat(coin.d[9]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
-                    %{formatNumber(parseFloat(coin.d[9]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c={parseFloat(coin.d[10]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
-                    %{formatNumber(parseFloat(coin.d[10]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" span>
-                    %{formatNumber(parseFloat(coin.d[11]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <UnstyledButton className={classes.buyButton}>BUY</UnstyledButton>
-                </Table.Td>
-              </Table.Tr>
-            )
-          }
-          )
-        )
-      }
+              )}
+              <Table.Td className={clsx(classes.tbodyTdWithIcon, classes.fixedColumn)}>
+                <Group gap={rem(8)} style={md ? { display: "flex", flexDirection: "column", alignItems: "flex-start" } : undefined}>
+                  <img
+                    src={"https://s3-symbol-logo.tradingview.com/crypto/" + (coin.d[0]?.split("crypto/")[1] || "") + ".svg"}
+                    alt={`${coin.d[2]} icon`}
+                    className={classes.tokenIcon}
+                  />
+                  <Title c="white" order={4} fz={20} className={classes.coinFullName}>
+                    {coin.d[2].length > 15 ? coin.d[2].slice(0, 12).concat("...") : coin.d[2]}
+                  </Title>
+                  {/* <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill> */}
+                </Group>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  ${getMarketCap(parseFloat(formatNumber(parseFloat(coin.d[3]) || 0)))}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c={parseFloat(coin.d[4]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
+                  %{formatNumber(parseFloat(coin.d[4]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c={parseFloat(coin.d[5]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
+                  %{formatNumber(parseFloat(coin.d[5]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c={parseFloat(coin.d[6]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
+                  %{formatNumber(parseFloat(coin.d[6]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c={parseFloat(coin.d[7]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
+                  %{formatNumber(parseFloat(coin.d[7]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c={parseFloat(coin.d[8]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
+                  %{formatNumber(parseFloat(coin.d[8]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c={parseFloat(coin.d[9]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
+                  %{formatNumber(parseFloat(coin.d[9]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c={parseFloat(coin.d[10]) > 0 ? "var(--color-green)" : " var(--color-red)"} variant="text-4" span>
+                  %{formatNumber(parseFloat(coin.d[10]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" span>
+                  %{formatNumber(parseFloat(coin.d[11]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <UnstyledButton className={classes.buyButton}>BUY</UnstyledButton>
+              </Table.Td>
+            </Table.Tr>
+          );
+        });
+      },
     },
     {
       label: "Oscillators",
@@ -321,12 +327,14 @@ export function Page() {
       headers: [
         { label: "#", className: classes.tableHeadCell, sortable: false },
         {
-          label: "Name", className: classes.tableHeadCell, sortable: true,
+          label: "Name",
+          className: classes.tableHeadCell,
+          sortable: true,
           sortFunc: (direction) => {
             if (direction == "ASC") {
-              return (a, b) => a.d[2] < b.d[2] ? 1 : -1
+              return (a, b) => (a.d[2] < b.d[2] ? 1 : -1);
             } else {
-              return (a, b) => a.d[2] < b.d[2] ? -1 : 1
+              return (a, b) => (a.d[2] < b.d[2] ? -1 : 1);
             }
           },
         },
@@ -344,92 +352,94 @@ export function Page() {
       transformData: (data, currentPage, rowsPerPage) => {
         const getRating = (recommendation) => {
           if (recommendation < -0.5) {
-            return (<Text c={"red"}>Strong sell</Text>)
+            return <Text c={"red"}>Strong sell</Text>;
           } else if (recommendation >= -0.5 && recommendation < -0.1) {
-            return (<Text c="lightcoral">Sell</Text>)
+            return <Text c="lightcoral">Sell</Text>;
           } else if (recommendation >= -0.1 && recommendation < 0.1) {
-            return (<Text c="grey">Neutral</Text>)
+            return <Text c="grey">Neutral</Text>;
           } else if (recommendation >= 0.1 && recommendation < 0.5) {
-            return (<Text c="lightgreen">Buy</Text>)
+            return <Text c="lightgreen">Buy</Text>;
           } else {
-            return (<Text c="green">Strong Buy</Text>)
+            return <Text c="green">Strong Buy</Text>;
           }
-        }
-        return (
-          data.map((coin, index) => {
-            return (
-              <Table.Tr key={coin.d[2]}>
-                {md ? null :
-                  <Table.Td w={70}>
-                    <Group gap={rem(16)} className={classes.firstTdWrapper}>
-                      <Text variant="text-3" className={classes.greyText} span>
-                        №{(currentPage - 1) * rowsPerPage + index + 1}
-                      </Text>
-                    </Group>
-                  </Table.Td>}
-                <Table.Td className={clsx(classes.tbodyTdWithIcon, classes.fixedColumn)}>
-                  <Group gap={rem(8)} style={md ? { display: "flex", flexDirection: "column", alignItems: "flex-start" } : undefined}>
-                    <img src={"https://s3-symbol-logo.tradingview.com/crypto/" + (coin.d[0]?.split("crypto/")[1] || "") + ".svg"} alt={`${coin.d[2]} icon`} className={classes.tokenIcon} />
-                    <Title c="white" order={4} fz={20} className={classes.coinFullName}>
-                      {coin.d[2].length > 15 ? coin.d[2].slice(0, 12).concat("...") : coin.d[2]}
-                    </Title>
-                    {/* <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill> */}
+        };
+        return data.map((coin, index) => {
+          return (
+            <Table.Tr key={coin.d[2]}>
+              {md ? null : (
+                <Table.Td w={70}>
+                  <Group gap={rem(16)} className={classes.firstTdWrapper}>
+                    <Text variant="text-3" className={classes.greyText} span>
+                      №{(currentPage - 1) * rowsPerPage + index + 1}
+                    </Text>
                   </Group>
                 </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {getRating(parseFloat(coin.d[3]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[4]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[5]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[6]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[7]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[8]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[9]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[10]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[11]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <UnstyledButton className={classes.buyButton}>BUY</UnstyledButton>
-                </Table.Td>
-              </Table.Tr>
-            )
-          }
-          )
-        )
-      }
+              )}
+              <Table.Td className={clsx(classes.tbodyTdWithIcon, classes.fixedColumn)}>
+                <Group gap={rem(8)} style={md ? { display: "flex", flexDirection: "column", alignItems: "flex-start" } : undefined}>
+                  <img
+                    src={"https://s3-symbol-logo.tradingview.com/crypto/" + (coin.d[0]?.split("crypto/")[1] || "") + ".svg"}
+                    alt={`${coin.d[2]} icon`}
+                    className={classes.tokenIcon}
+                  />
+                  <Title c="white" order={4} fz={20} className={classes.coinFullName}>
+                    {coin.d[2].length > 15 ? coin.d[2].slice(0, 12).concat("...") : coin.d[2]}
+                  </Title>
+                  {/* <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill> */}
+                </Group>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {getRating(parseFloat(coin.d[3]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[4]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[5]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[6]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[7]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[8]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[9]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[10]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[11]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <UnstyledButton className={classes.buyButton}>BUY</UnstyledButton>
+              </Table.Td>
+            </Table.Tr>
+          );
+        });
+      },
     },
     {
       label: "Trend-Following",
@@ -437,14 +447,16 @@ export function Page() {
       headers: [
         { label: "#", className: classes.tableHeadCell, sortable: false },
         {
-          label: "Name", className: classes.tableHeadCell, sortable: true,
+          label: "Name",
+          className: classes.tableHeadCell,
+          sortable: true,
           sortFunc: (direction) => {
             if (direction == "ASC") {
-              return (a, b) => a.d[2] < b.d[2] ? 1 : -1
+              return (a, b) => (a.d[2] < b.d[2] ? 1 : -1);
             } else {
-              return (a, b) => a.d[2] < b.d[2] ? -1 : 1
+              return (a, b) => (a.d[2] < b.d[2] ? -1 : 1);
             }
-          }
+          },
         },
         { label: "Moving Avarage Rating", className: classes.tableHeadCell, sortable: true },
         { label: "Price", className: classes.tableHeadCell, sortable: true },
@@ -458,82 +470,84 @@ export function Page() {
       transformData: (data, currentPage, rowsPerPage) => {
         const getRating = (recommendation) => {
           if (recommendation < -0.5) {
-            return (<Text c={"red"}>Strong sell</Text>)
+            return <Text c={"red"}>Strong sell</Text>;
           } else if (recommendation >= -0.5 && recommendation < -0.1) {
-            return (<Text c="lightcoral">Sell</Text>)
+            return <Text c="lightcoral">Sell</Text>;
           } else if (recommendation >= -0.1 && recommendation < 0.1) {
-            return (<Text c="grey">Neutral</Text>)
+            return <Text c="grey">Neutral</Text>;
           } else if (recommendation >= 0.1 && recommendation < 0.5) {
-            return (<Text c="lightgreen">Buy</Text>)
+            return <Text c="lightgreen">Buy</Text>;
           } else {
-            return (<Text c="green">Strong Buy</Text>)
+            return <Text c="green">Strong Buy</Text>;
           }
-        }
-        return (
-          data.map((coin, index) => {
-            return (
-              <Table.Tr key={coin.d[2]}>
-                {md ? null :
-                  <Table.Td w={70}>
-                    <Group gap={rem(16)} className={classes.firstTdWrapper}>
-                      <Text variant="text-3" className={classes.greyText} span>
-                        №{(currentPage - 1) * rowsPerPage + index + 1}
-                      </Text>
-                    </Group>
-                  </Table.Td>}
-                <Table.Td className={clsx(classes.tbodyTdWithIcon, classes.fixedColumn)}>
-                  <Group gap={rem(8)} style={md ? { display: "flex", flexDirection: "column", alignItems: "flex-start" } : undefined}>
-                    <img src={"https://s3-symbol-logo.tradingview.com/crypto/" + (coin.d[0]?.split("crypto/")[1] || "") + ".svg"} alt={`${coin.d[2]} icon`} className={classes.tokenIcon} />
-                    <Title c="white" order={4} fz={20} className={classes.coinFullName}>
-                      {coin.d[2].length > 15 ? coin.d[2].slice(0, 12).concat("...") : coin.d[2]}
-                    </Title>
-                    {/* <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill> */}
+        };
+        return data.map((coin, index) => {
+          return (
+            <Table.Tr key={coin.d[2]}>
+              {md ? null : (
+                <Table.Td w={70}>
+                  <Group gap={rem(16)} className={classes.firstTdWrapper}>
+                    <Text variant="text-3" className={classes.greyText} span>
+                      №{(currentPage - 1) * rowsPerPage + index + 1}
+                    </Text>
                   </Group>
                 </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {getRating(parseFloat(coin.d[3]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[4]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[5]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[6]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[7]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[8]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <Text c="white" variant="text-4" span>
-                    {formatNumber(parseFloat(coin.d[9]) || 0)}
-                  </Text>
-                </Table.Td>
-                <Table.Td>
-                  <UnstyledButton className={classes.buyButton}>BUY</UnstyledButton>
-                </Table.Td>
-              </Table.Tr>
-            )
-          }
-          )
-        )
-      }
+              )}
+              <Table.Td className={clsx(classes.tbodyTdWithIcon, classes.fixedColumn)}>
+                <Group gap={rem(8)} style={md ? { display: "flex", flexDirection: "column", alignItems: "flex-start" } : undefined}>
+                  <img
+                    src={"https://s3-symbol-logo.tradingview.com/crypto/" + (coin.d[0]?.split("crypto/")[1] || "") + ".svg"}
+                    alt={`${coin.d[2]} icon`}
+                    className={classes.tokenIcon}
+                  />
+                  <Title c="white" order={4} fz={20} className={classes.coinFullName}>
+                    {coin.d[2].length > 15 ? coin.d[2].slice(0, 12).concat("...") : coin.d[2]}
+                  </Title>
+                  {/* <Pill classNames={{ root: classes.coinShortName, label: classes.coinShortNameLabel }}>{coin.shortName}</Pill> */}
+                </Group>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {getRating(parseFloat(coin.d[3]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[4]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[5]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[6]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[7]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[8]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <Text c="white" variant="text-4" span>
+                  {formatNumber(parseFloat(coin.d[9]) || 0)}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <UnstyledButton className={classes.buyButton}>BUY</UnstyledButton>
+              </Table.Td>
+            </Table.Tr>
+          );
+        });
+      },
     },
   ];
   const [activeBottomTab, setActiveBottomTab] = useState(SELECTORS1[0]);
@@ -573,12 +587,12 @@ export function Page() {
   }, [searchQuery, allData, rowsPerPage]);
 
   useEffect(() => {
-    let index = activeBottomTab.headers.findIndex(a => a.label === sortingLabel);
-    console.log(activeBottomTab.headers[index].sortFunc)
-    let defaultSortingFunc = sortingDirection === "DESC" ? (a, b) => b.d[index + 1] - a.d[index + 1] : (a, b) => a.d[index + 1] - b.d[index + 1]
-    allData.sort(activeBottomTab.headers[index].sortFunc ? activeBottomTab.headers[index].sortFunc!(sortingDirection) : defaultSortingFunc)
+    const index = activeBottomTab.headers.findIndex((a) => a.label === sortingLabel);
+    console.log(activeBottomTab.headers[index].sortFunc);
+    const defaultSortingFunc = sortingDirection === "DESC" ? (a, b) => b.d[index + 1] - a.d[index + 1] : (a, b) => a.d[index + 1] - b.d[index + 1];
+    allData.sort(activeBottomTab.headers[index].sortFunc ? activeBottomTab.headers[index].sortFunc!(sortingDirection) : defaultSortingFunc);
     updateDisplayData(allData, 1, rowsPerPage);
-  }, [sortingLabel, sortingDirection])
+  }, [sortingLabel, sortingDirection]);
 
   const updateDisplayData = (data: any[], page: number, rows: number) => {
     const filteredData = data.filter((item) => item.d[2]?.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -683,9 +697,29 @@ export function Page() {
                 {displayData && displayData.length > 0 ? (
                   <div className={classes.tableContainer}>
                     {!md ? (
-                      <CoinsTable sortingLabel={sortingLabel} sortingDirection={sortingDirection} setSortingDirection={setSortingDirection} setSortingLabel={setSortingLabel} headers={md ? activeBottomTab.headers.slice(1) : activeBottomTab.headers} data={displayData} transformData={activeBottomTab.transformData} rowsPerPage={rowsPerPage} currentPage={currentPage} />
+                      <CoinsTable
+                        sortingLabel={sortingLabel}
+                        sortingDirection={sortingDirection}
+                        setSortingDirection={setSortingDirection}
+                        setSortingLabel={setSortingLabel}
+                        headers={md ? activeBottomTab.headers.slice(1) : activeBottomTab.headers}
+                        data={displayData}
+                        transformData={activeBottomTab.transformData}
+                        rowsPerPage={rowsPerPage}
+                        currentPage={currentPage}
+                      />
                     ) : (
-                      <CoinsTableFixedColumn sortingLabel={sortingLabel} sortingDirection={sortingDirection} setSortingDirection={setSortingDirection} setSortingLabel={setSortingLabel} headers={md ? activeBottomTab.headers.slice(1) : activeBottomTab.headers} data={displayData} transformData={activeBottomTab.transformData} rowsPerPage={rowsPerPage} currentPage={currentPage} />
+                      <CoinsTableFixedColumn
+                        sortingLabel={sortingLabel}
+                        sortingDirection={sortingDirection}
+                        setSortingDirection={setSortingDirection}
+                        setSortingLabel={setSortingLabel}
+                        headers={md ? activeBottomTab.headers.slice(1) : activeBottomTab.headers}
+                        data={displayData}
+                        transformData={activeBottomTab.transformData}
+                        rowsPerPage={rowsPerPage}
+                        currentPage={currentPage}
+                      />
                     )}
                   </div>
                 ) : (

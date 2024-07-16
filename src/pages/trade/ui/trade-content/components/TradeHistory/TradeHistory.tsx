@@ -12,15 +12,36 @@ import classes from "./TradeHistory.module.css";
 import { HistoryTab } from "./tabs/HistoryTab/HistoryTab";
 import { OrdersTab } from "./tabs/OrdersTab/OrdersTab";
 
-
 export const TradeHistory = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageCoins, setCurrentPageCoins] = useState(1);
   const [activePeriodValue, setActivePeriodValue] = useState("1d");
   const tabs = [
-    { id: "orders", title: "My Open Orders", content: <OrdersTab activePeriodValue={activePeriodValue} setCurrentPageCoins={setCurrentPageCoins} setTotalPages={setTotalPages} currentPage={currentPage} /> },
-    { id: "history", title: "My Trading History", content: <HistoryTab activePeriodValue={activePeriodValue} setCurrentPageCoins={setCurrentPageCoins} setTotalPages={setTotalPages} currentPage={currentPage} /> },
+    {
+      id: "orders",
+      title: "My Open Orders",
+      content: (
+        <OrdersTab
+          activePeriodValue={activePeriodValue}
+          setCurrentPageCoins={setCurrentPageCoins}
+          setTotalPages={setTotalPages}
+          currentPage={currentPage}
+        />
+      ),
+    },
+    {
+      id: "history",
+      title: "My Trading History",
+      content: (
+        <HistoryTab
+          activePeriodValue={activePeriodValue}
+          setCurrentPageCoins={setCurrentPageCoins}
+          setTotalPages={setTotalPages}
+          currentPage={currentPage}
+        />
+      ),
+    },
   ];
   const [siblings, setSiblings] = useState(getSiblings());
 
@@ -49,7 +70,9 @@ export const TradeHistory = () => {
         <Tabs tabs={tabs} />
         <Divider color="white" opacity={0.12} />
         <Group justify={"space-between"}>
-          <Text className={classes.grayText}>{(currentPage - 1) * 5 + 1}-{(currentPage - 1) * 5 + (currentPageCoins ? currentPageCoins : 0)} of {totalPages}</Text>
+          <Text className={classes.grayText}>
+            {(currentPage - 1) * 5 + 1}-{(currentPage - 1) * 5 + (currentPageCoins ? currentPageCoins : 0)} of {totalPages}
+          </Text>
           <Pagination value={currentPage} onChange={setCurrentPage} total={Math.ceil(totalPages / 20)} defaultValue={1} {...{ siblings }}>
             <Group gap={8} justify="center">
               <Pagination.Previous icon={PreviousIcon} />

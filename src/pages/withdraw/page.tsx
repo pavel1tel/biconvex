@@ -1,15 +1,15 @@
 import { Flex, Image } from "@mantine/core";
 import { useState } from "react";
 import "react-circular-progressbar/dist/styles.css";
+import { Helmet } from "react-helmet-async";
 
 import { DepositsBox } from "@/pages/deposit/ui";
 import { WithdrawBox } from "@/pages/withdraw/ui";
 
+import { DepositCoin } from "@/shared/api/types";
 import { Container, Footer, Header, Sidebar, Wrapper } from "@/shared/ui";
 
 import classes from "./styles.module.css";
-import { Helmet } from "react-helmet-async";
-import { DepositCoin } from "@/shared/api/types";
 
 export function Page() {
   const [selectedDeposit, setSelectedDeposit] = useState(1);
@@ -18,14 +18,14 @@ export function Page() {
   const goToWithdraw = () => {
     const withdrawSection = document.getElementById("withdrawBitcoin");
 
-    if (!!withdrawSection) {
+    if (withdrawSection) {
       withdrawSection.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
     }
   };
 
   return (
     <Wrapper>
-         <Helmet>
+      <Helmet>
         <title>Withdraw | BitConvex </title>
       </Helmet>
       <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/main/1.png`} alt="main-light-1" className={classes.lightOne} />

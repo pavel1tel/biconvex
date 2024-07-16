@@ -68,7 +68,7 @@ const fetchOverviewData: FetchFunc = (sortRequest, filter: Filter[], preset) =>
       "pricescale",
       "minmov",
       "fractional",
-      "minmove2"
+      "minmove2",
     ],
     sortRequest,
     filter,
@@ -114,30 +114,15 @@ const fetchOscillatorsData: FetchFunc = (sortRequest, filter: Filter[], preset) 
     ],
     sortRequest,
     filter,
-    preset
+    preset,
   );
 
 const fetchTrendFollowingData: FetchFunc = (sortRequest, filter: Filter[], preset) =>
   fetchData(
-    [
-      "base_currency_logoid",
-      "currency_logoid",
-      "description",
-      "Recommend.MA",
-      "close",
-      "SMA20",
-      "SMA50",
-      "SMA200",
-      "BB.upper",
-      "BB.lower",
-    ],
+    ["base_currency_logoid", "currency_logoid", "description", "Recommend.MA", "close", "SMA20", "SMA50", "SMA200", "BB.upper", "BB.lower"],
     sortRequest,
     filter,
-    preset
+    preset,
   );
 
-export {
-  fetchData, fetchOscillatorsData, fetchOverviewData,
-  fetchPerformanceData, fetchTrendFollowingData
-};
-
+export { fetchData, fetchOscillatorsData, fetchOverviewData, fetchPerformanceData, fetchTrendFollowingData };

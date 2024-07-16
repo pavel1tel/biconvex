@@ -1,10 +1,11 @@
+import { chainRoute } from "atomic-router";
+import { createStore } from "effector";
+
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { getTransactions } from "@/shared/api/transactions/requests";
 import { ResponseDto } from "@/shared/api/types";
 import { routes } from "@/shared/routing";
 import { chainAnonymous, chainAuthenticated } from "@/shared/session";
-import { chainRoute } from "atomic-router";
-import { createStore } from "effector";
 
 export const currentRoute = routes.transactions;
 

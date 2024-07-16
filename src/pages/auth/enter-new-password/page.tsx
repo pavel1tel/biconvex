@@ -1,16 +1,16 @@
 import { Button, Group, Image, PasswordInput, Stack, Text, Title, rem } from "@mantine/core";
+import { sample } from "effector";
+import { useUnit } from "effector-react";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
+import { requestNewPassword } from "@/shared/api";
+import { showErrorNotification } from "@/shared/lib/notification";
 import { Header, HidePasswordIcon, ShowPasswordIcon, Wrapper } from "@/shared/ui";
 
 import { Footer } from "../components/Footer/Footer";
-import classes from "./styles.module.css";
-import { useEffect, useState } from "react";
-import { requestNewPassword } from "@/shared/api";
-import { useUnit } from "effector-react";
 import { $response } from "../sign-up/model";
-import { showErrorNotification } from "@/shared/lib/notification";
-import { sample } from "effector";
-import { Helmet } from "react-helmet-async";
+import classes from "./styles.module.css";
 
 const ResetIcon = () => {
   return (
@@ -26,36 +26,36 @@ const ResetIcon = () => {
 };
 
 export const Page = () => {
-  const [newPassword,setPassword] = useState("");
+  const [newPassword, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
   const [isError, setIsError] = useState(false);
   const isLoading = useUnit(requestNewPassword.pending);
   const userId = useUnit($response);
   const onContinue = (e: React.MouseEvent) => {
-    if(newPassword === "" || rePassword === ""){
+    if (newPassword === "" || rePassword === "") {
       setIsError(true);
       showErrorNotification("Fill all the fields");
       return;
     }
 
-    if(newPassword !== rePassword){
+    if (newPassword !== rePassword) {
       setIsError(true);
       showErrorNotification("Passwords do not match");
       return;
     }
     e.preventDefault();
-    let code = localStorage.getItem("code") + "";
-    requestNewPassword({userId, code, newPassword, rePassword})
+    const code = localStorage.getItem("code") + "";
+    requestNewPassword({ userId, code, newPassword, rePassword });
   };
 
   useEffect(() => {
     setIsError(false);
-  }, [newPassword, rePassword])
+  }, [newPassword, rePassword]);
 
   sample({
     clock: requestNewPassword.failData,
-    fn: () => setIsError(true)
-  })
+    fn: () => setIsError(true),
+  });
 
   return (
     <Wrapper>
@@ -123,7 +123,14 @@ export const Page = () => {
             </Stack>
 
             <Stack gap={rem("32px")}>
-              <Button loading={isLoading} size="xxl" className={classes.btn} variant="radial-gradient" rightSection={<ResetIcon />} onClick={onContinue}>
+              <Button
+                loading={isLoading}
+                size="xxl"
+                className={classes.btn}
+                variant="radial-gradient"
+                rightSection={<ResetIcon />}
+                onClick={onContinue}
+              >
                 Update password
               </Button>
             </Stack>

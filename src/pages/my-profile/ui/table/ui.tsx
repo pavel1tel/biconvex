@@ -56,9 +56,9 @@ export const TableProfile = () => {
   const [searchFunc, setSearchFunc] = useState<any>(() => (a: Crypto) => true);
   const [search, setSearch] = useState("");
 
-  let calculatePage = (sortFn: ((a: Crypto, b: Crypto) => number) | undefined, searchFn: (a: Crypto) => boolean) => {
+  const calculatePage = (sortFn: ((a: Crypto, b: Crypto) => number) | undefined, searchFn: (a: Crypto) => boolean) => {
     if (!profileReponsepending) {
-      let temp: any[] = [];
+      const temp: any[] = [];
       const startIndex = (page - 1) * 5;
       const endIndex = startIndex + 5;
       profileReponse
@@ -205,7 +205,7 @@ export const TableProfile = () => {
               checked={hideZeros}
               onChange={(e) => {
                 setPage(1);
-                setHideZeros(e.currentTarget.checked)
+                setHideZeros(e.currentTarget.checked);
               }}
               ff={"ProximaNova"}
               classNames={{

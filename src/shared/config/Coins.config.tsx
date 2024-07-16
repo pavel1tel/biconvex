@@ -1,5 +1,5 @@
-
 import { Dispatch, SetStateAction } from "react";
+
 import { Crypto } from "../api/types";
 import { CoinsTable } from "../ui/Coins/components/CoinsTable/CoinsTable";
 
@@ -26,4 +26,4 @@ export const getCoinTabs = (coins: Crypto[], setCurrentPair: Dispatch<SetStateAc
       id: "fav",
     },
   ];
-}
+};

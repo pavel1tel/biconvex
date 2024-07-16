@@ -1,14 +1,14 @@
 import { Flex, Group, Image, Stack, Text, Title } from "@mantine/core";
+import { Helmet } from "react-helmet-async";
 
 import { Container, Footer, Header, Wrapper } from "@/shared/ui";
 
 import classes from "./styles.module.css";
-import { Helmet } from "react-helmet-async";
 
 export function Page() {
   return (
     <Wrapper>
-        <Helmet>
+      <Helmet>
         <title> Cookies Policy | BitConvex</title>
       </Helmet>
       <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/cookies-policy/1.png`} alt="light-1" className={classes.lightOne} />
