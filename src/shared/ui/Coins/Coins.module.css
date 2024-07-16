@@ -43,7 +43,7 @@
 .closeSearchWindowIcon:active,
 .closeSearchWindowIcon:focus {
   background-color: transparent !important;
-  color: inherit !important;
+  /* color:  !important; */
 }
 
 .dropdown {

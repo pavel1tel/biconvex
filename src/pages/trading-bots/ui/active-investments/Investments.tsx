@@ -3,35 +3,35 @@ import { AltBitcoinIcon, BitcoinIcon } from "@/shared/ui/icon";
 export const INVESTMENT_TABLE_HEADERS = [
   {
     label: "Coin",
-    sortable: true,
+    sortable: false,
   },
   {
     label: "Qty",
-    sortable: true,
+    sortable: false,
   },
   {
     label: "Bot ",
-    sortable: true,
+    sortable: false,
   },
   {
     label: "Trade type",
-    sortable: true,
+    sortable: false,
   },
   {
     label: "Activation time",
-    sortable: true,
+    sortable: false,
   },
   {
     label: "P&L",
-    sortable: true,
+    sortable: false,
   },
   {
     label: "Earned",
-    sortable: true,
+    sortable: false,
   },
   {
     label: "Action",
-    sortable: true,
+    sortable: false,
   },
 ];
 

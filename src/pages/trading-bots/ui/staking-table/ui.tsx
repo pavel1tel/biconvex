@@ -130,7 +130,7 @@ export const StakingTable = ({
         <Table.Th key={header.label} className={header.className}>
           <Group
             gap={rem("2px")}
-            justify={header.sortable ? "flex-start" : "center"}
+            justify={"flex-start"}
             className={clsx(classes.tableHeadSortLabel, {
               [classes.tableHeadSortLabelSortingDesc]: sortingLabel === header.label && sortingDirection === "DESC",
             })}

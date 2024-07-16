@@ -64,7 +64,7 @@
   }
 }
 
-@media (max-width: 1280px) {
+/* @media (max-width: 1280px) {
   .table-wrapper {
     overflow-x: scroll;
   }
@@ -76,6 +76,29 @@
   }
   .table th {
     padding: 12px 0;
+  }
+} */
+
+@media (max-width: 1380px) {
+  .table-wrapper {
+    overflow-x: scroll;
+  }
+  .table-wrapper table {
+    min-width: 1000px;
+  }
+  .trHeaders th {
+    padding: 12px 0;
+    font-size: 14px;
+  }
+  .trHeaders th div {
+    flex-wrap: nowrap;
+  }
+  .row td {
+    padding: 12px 2px !important;
+    font-size: 1rem !important;
+  }
+  .row td:first-child {
+    font-size: 20px !important;
   }
 }
 
