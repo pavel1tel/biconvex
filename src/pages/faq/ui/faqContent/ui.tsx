@@ -114,86 +114,10 @@ Go to the settings page and click on the link "Click here to get your referral l
 `,
   },
 ];
-const secondGeneralQuestions = [
-  {
-    title: "What is cryptocurrency?",
-    description: `Сryptocurrency is a digital currency that uses cryptography for security, feature, that makes it difficult to counterfeit. It is not issued by any central authority, rendering it theoretically immune to government interference or manipulation.`,
-  },
-  {
-    title: "How do I register?",
-    description:
-      "Registering is as simple as 1, 2, 3. Go to main page and register with your email address to get started. For registration, you will need a username and a password.",
-  },
-  {
-    title: "How do I get verified?",
-    description: `For certain kinds of Exchange Cryptocurrency Platform payments profile transactions, we might need to verify your identity using information protecting your wallet. Verifying your identity helps prevent fraud and ensures that no one, except you, is able to use your payment information to make changes. You can make the first withdrawal of your funds to the wallet, which is registered and verified with your account. Click to Deposit at the left tab, select the minimum amount BTC that will be added to your account balance.`,
-  },
-  {
-    title: "What is ID verification for?",
-    description:
-      "ID verification is needed to increase the security and reliability of the account. In case of loss of access to the mail to which the account is linked, you can always restore access with your Passport, driving license and other legal ID. In addition, verification allows you to increase daily withdrawal limits.",
-  },
-  {
-    title: "What is 2Factor Authentication (or 2FA)?",
-    description:
-      "We allow you to enable 2FA on your account by checking 2FA box in Personal Area  Settings. When making a deposit or withdrawal, you will receive a link to the confirmation of the operation by email. The confirmation link has a limited validity period. This greatly increases the security of your account because if your device is hacked into, or your password is compromised, the hacker will still not be able withdraw or transfer funds because they need access email, too. You may turn the verification off anytime you want.",
-  },
-  {
-    title: "I lost my 2Factor Device.",
-    description: "Please contact Support and we will ask you questions to verify your account ownership.",
-  },
-  {
-    title: "I have other questions.",
-    description: "If you have other questions that are not answered here please feel free to contact support manager.",
-  },
-  // {
-  //   title: "What advantages does your exchange offer to new users?",
-  //   description:
-  //     "New users can benefit from discounts on trading fees, explore a variety of cryptocurrency pairs, and enjoy a user-friendly interface.",
-  // },
-];
-const referralProgramQuestions = [
-  {
-    title: "How does it work?",
-    description: `The referral system on our exchange is divided into three stages:
-A :a group of people who registered directly with your link B :friends of your referrals, who, in turn, were invited by category A referrals and registered by their referral code C :registered users on a referral link of a referral from category B Thus, the domain.site referral system consists of three stages.
-`,
-  },
-  {
-    title: "Who are referrals and why are they needed?",
-    description:
-      "A referral is a partner program participant who has registered on the recommendation of another participant. A referral is also a full-fledged user of the domain.site Exchange, without any restrictions. The person who brought the new member to the project will receive a commission (referral). Accordingly, the more people click on the link, the more passive earnings the referrer will have",
-  },
-  {
-    title: "What kind of reward awaits you?",
-    description: `As we mentioned above, the updated referral system includes as many as three stages of referrals, respectively, the rewards will also vary for you depending on your category. For category A referrals you get 50% of the commission, category B referrals will bring you 10%, and for category C you will get 2.5% of the commission.<br/>
-
-For each referral you will receive your percentage, but this percentage will depend on the referral category: A, B or C.
-
-At the moment, the referral system and the ability to create an unlimited number of referral codes are only available to premium users.
-
-domain.site referral program packs these key features:
-
-No referral limits - You can refer as many friends as possible; you and your friends will each get refferal bonus in BTC equivalent after they complete their verification.
-
-Anyone can participate - Available for all eligible Trading users, no BTC/ETH/BCH staking required to refer friends.
-
-Bonus credited instantly - Your friends can use their sign-up bonus immediately after they passing verification.
-
-Get rewards for your friends deposit - For each new friend you will receive 0.01% (in BTC) of the sum of all his deposits.
-`,
-  },
-  {
-    title: "Creation your referral link",
-    description: `Go to the settings page and click on the link "Click here to get your referral link". Enter your referral code in the field and click "Create". Please note that the code should include letters and numbers and be at least 8 and no more than 12 characters.`,
-  },
-];
 const policiesQuestions = [
-  //AML&CFT Policy
-
   {
     title: "AML&CFT Policy",
-    description: `<b style='margin-left: 25px;'>Anti-Money Laundering (AML) Policy:<b/><br/><br/>
+    description: `<b style='margin-left: 25px;'>Anti-Money Laundering (AML) Policy:</b><br/><br/>
 The BitConvex's AML Policy is designed to prevent money laundering by meeting the European standards on combating money laundering and terrorism financing, including the need to have adequate systems and controls in place to mitigate the risk of the firm being used to facilitate financial crime. This AML Policy sets out the minimum standards which must be complied with and includes:<br/><br/>
 Appointing a Money Laundering Reporting Officer (MLRO) who has a sufficient level of seniority and independence, and who has responsibility for oversight of compliance with the relevant legislation, regulations, rules and industry guidance;<br/><br/>
 Establishing and maintaining a Risk-Based Approach (RBA) to the assessment and management of money laundering and terrorist financing risks faced by the firm;<br/><br/>
@@ -444,55 +368,18 @@ In the event of a successful advertising campaign, the second wave of the pump b
 `,
   },
 ];
-const spotOrMarginQuestions = [
-  {
-    title: "Spot Trading",
-    description: `This type of trading occurs in the spot market at the current price. When you are engaged in spot trading, you make a deal at an affordable bid and ask price, which is requested by other market participants. To complete a trade, you need to have available assets to pay for the trade by the settlement date. For example, if you are going to make a purchase of BTC in the amount of $1,500, then you must make a deposit by the date of settlement of at least the specified amount. Usually the date is calculated according to the T + 2 trading day scheme. Otherwise, the exchange will refuse to enter the Bitcoin position.`,
-  },
-  {
-    title: "Margin Trading",
-    description:
-      "With margin trading, you borrow funds from a third party to increase your position. Margin and spot trading are different. With margin trading, you do not need the full amount of the transaction to open a position, you just need to have assets that will be on the margin of the position you are going to open. For example, you are going to buy BTC for $1000. Some platforms are ready to provide you with up to 100x leverage. That is, you only need $10 on your account to trade Bitcoin for $1,000 BTC. To keep a position open, you only need to hold 1% (with 100x leverage) of the contract amount. Depending on the course of the trade, you can open even more positions or withdraw profits.",
-  },
-  {
-    title: "What to choose?",
-    description: `Spot Trading: benefits Management of risks: trading occurs only with your own balance, which you actually own, that is, the impossibility of going into a negative. Guarantee: spot trading takes place only on own assets. In this way, the exchange ensures that you avoid over-leveraging.
-Spot Trading: limitations Missed trading opportunities: even with confidence in the deal, you will not be able to earn 100% or more, you will only be able to earn the amount that your capital allows.
-Margin Trading: benefits Possibility of increasing profits: the presence of leverage allows you to increase your trade up to 100 times in comparison with your capital. Low-frequency trading: an increased likelihood of trades identified in this type of trading.
-Margin Trading: limitations Risks: Opportunity to lose more money than the initial investment. Liquidation: complete liquidation of a position with insufficient funds to cover losses.`,
-  },
-  {
-    title: "What strategy should you follow?",
-    description:
-      "It all depends on your usual trading style and your character: are you tolerant of risks, what knowledge about investing you have. Choose the strategies that are right for you.",
-  },
-  {
-    title: "Technical Analysis",
-    description: `If you want to get into crypto trading, you better learn at least the basics of technical analysis. While looking at charts, drawing lines, and identifying key price levels may seem silly at first glance, it is actually one of the best weapons you can have at your disposal, and it is definitely better than having nothing.
-True, key levels and prices largely follow established methods of technical analysis, but crypto trading is a rebellious Wild West: volatility, markets move quickly, and they are more prone to price manipulation. Hence, the knowledge base that you might bring from other markets must be adapted to the cryptocurrency through your own experiences, lessons, drastic and decisive actions, and appropriate risk management techniques.
-While it may sound daunting, cryptocurrency combined with adequate TA techniques can lead to many profitable opportunities.
-If you are quick-witted and vigilant about your trades and strategies, you are likely to have a fun and profitable pastime.
-Tools you can use to help you make decisions:
-Tradingview (charts and technical analysis)
-Predicoin (service for analyzing market sentiment)
-Coinpaprika (coin index)
-Coinmarketcal (crypto events calendar)
-Delta (portfolio tracking app)
-`,
-  },
-];
 const transactionsQuestions = [
   {
     title: "Transactions",
-    description: `<b style='margin-left: 25px;'>Whats a wallet address?</b><br/><br/>
+    description: `<b style='margin-left: 25px;'>Whats a wallet address?</b><br/>
 A wallet is a digital place where you can store cryptocurrency coins. A wallet address is a randomly generated combination of digits and letters that is associated with a particular wallet. Just figure out what coin has its unique wallet address. Go to Personal area  Transfer and look for a compatible wallet for Bitcoin, Bitcoincash, Ethereum. As a rule, each coin has its official wallet client.<br/><br/>
-<b style='margin-left: 25px;'>Can I use transfer to send cryptocurrency coins outside this exchange platform?</b><br/><br/>
+<b style='margin-left: 25px;'>Can I use transfer to send cryptocurrency coins outside this exchange platform?</b><br/>
 Yes, but in this case, crediting of funds may take longer. If you wish to send cryptocurrency coins outside the platform, please, use Personal Area  Withdraw<br/><br/>
-<b style='margin-left: 25px;'>What's the recipients address?</b><br/><br/>
+<b style='margin-left: 25px;'>What's the recipients address?</b><br/>
 In any transaction there is always a sender and a recipient. The recipients address is the wallet address where you will send the currency. For example, if you want to send Ether (ETH), you should specify an ETH wallet address in the recipient field, and Exchange Crypto Platform will send coins to this address once the transaction is complete.<br/><br/>
-<b style='margin-left: 25px;'>What is the maximal/minimal amount?</b><br/><br/>
+<b style='margin-left: 25px;'>What is the maximal/minimal amount?</b><br/>
 There is no maximum amount. You can see the minimum amount when you try to withdraw funds or transfer.<br/><br/>
-<b style='margin-left: 25px;'>How do I cancel my transaction?</b><br/><br/>
+<b style='margin-left: 25px;'>How do I cancel my transaction?</b><br/>
 Unfortunately, blockchain transactions are irreversible. Once a transaction is made (money is sent to a particular wallet address), it cannot be rolled back. So, if you are going to exchange cryptocurrency, be sure to double check all payment details carefully before sending.<br/><br/>
 <b style='margin-left: 25px;'>Why is my wallet address recognized as invalid?</b><br/><br/>
 <span style='margin-left: 55px;'>If your wallet address is recognized as invalid, it is usually for one of the following reasons:</span><br/><br/>
@@ -501,379 +388,264 @@ Unfortunately, blockchain transactions are irreversible. Once a transaction is m
 <span style='margin-left: 55px; text-align: center;'>There was a typo or character missing in the address you provided. Make sure that the address you specify matches the actual address of your wallet.</span><br/><br/>
 `,
   },
-  {
-    title: "Can I use transfer to send cryptocurrency coins outside this exchange platform?",
-    description:
-      "Yes, but in this case, crediting of funds may take longer. If you wish to send cryptocurrency coins outside the platform, please, use Personal Area  Withdraw",
-  },
-  {
-    title: "What's the recipients address?",
-    description: `In any transaction there is always a sender and a recipient. The recipients address is the wallet address where you will send the currency. For example, if you want to send Ether (ETH), you should specify an ETH wallet address in the recipient field, and Exchange Crypto Platform will send coins to this address once the transaction is complete.`,
-  },
-  {
-    title: "What is the maximal/minimal amount?",
-    description: "There is no maximum amount. You can see the minimum amount when you try to withdraw funds or transfer.",
-  },
-  {
-    title: "How do I cancel my transaction?",
-    description: `Unfortunately, blockchain transactions are irreversible. Once a transaction is made (money is sent to a particular wallet address), it cannot be rolled back. So, if you are going to exchange cryptocurrency, be sure to double check all payment details carefully before sending.`,
-  },
-  {
-    title: "Why is my wallet address recognized as invalid?",
-    description: `If your wallet address is recognized as invalid, it is usually for one of the following reasons:
-Make sure your wallet address matches the chosen cryptocurrency.
-You are trying to make transfer to address outside the Exchange Crypto Platform.
-There was a typo or character missing in the address you provided. Make sure that the address you specify matches the actual address of your wallet.
-`,
-  },
 ];
 const depositsQuestions = [
   {
     title: "Deposit Did Not Arrive",
-    description: `Made a deposit to BitConvex but it hasnt arrived? Dont worry. As long as the address was filled correctly and you remembered to use the required Memo or Tag, your funds will be processed.
-There can be many reasons that crypto deposits can be delayed. This article explains the common reasons and provides corresponding solutions.
+    description: `<b>Made a deposit to BitConvex but it hasnt arrived? Dont worry. As long as the address was filled correctly and you remembered to use the required Memo or Tag, your funds will be processed.</b><br/><br/>
+<b>There can be many reasons that crypto deposits can be delayed. This article explains the common reasons and provides corresponding solutions.</b><br/><br/>
+<b style='margin-left: 25px;'>1. There is no TXID</b><br/>
+If you cannot find the transaction ID (TXID) of the deposit on the blockchain, this may indicate that the transfer was unsuccessful. It is recommended to contact the withdrawal platform to check the status of your withdrawal.<br/><br/>
+<b style='margin-left: 25px;'>2. The number of confirmations is insufficient</b><br/>
+Transactions on the blockchain must be confirmed by the nodes to be successful. The number of confirmations varies depending on the coin and network.<br/><br/>
+You can check the amount of confirmations required on the <b>BitConvex</b> deposit page. Please be patient and wait until the confirmation reaches the required amount.<br/><br/>
+<b style='margin-left: 25px;'>3. There have been sufficient confirmations but funds havent arrived</b><br/>
+Once there are enough confirmations on the blockchain, the <b>BitConvex</b> system will start proceeding your deposit. This can take up to 2-3 hours.<br/><br/>
+To check the number of confirmations for your deposit, refer to the blockchain explorers below:<br/><br/>
+<span style='margin-left: 25px;'>BTC blockchain: <a href='http://blockchain.info/' target='_blank'>http://blockchain.info/</a></span><br/>
+<span style='margin-left: 25px;'>ETH blockchain: <a href='https://etherscan.io/' target='_blank'>https://etherscan.io/</a></span><br/>
+<span style='margin-left: 25px;'>MATIC blockchain: <a href='https://polygonscan.com/' target='_blank'>https://polygonscan.com/</a></span><br/>
+<span style='margin-left: 25px;'>BSC blockchain: <a href='https://bscscan.com/' target='_blank'>https://bscscan.com/</a></span><br/>
+<span style='margin-left: 25px;'>FTM blockchain: <a href='https://ftmscan.com/' target='_blank'>https://ftmscan.com/</a></span><br/>
+<span style='margin-left: 25px;'>TRX blockchain: <a href='https://tronscan.org/#/' target='_blank'>https://tronscan.org/#/</a></span><br/>
+<span style='margin-left: 25px;'>HECO blockchain: <a href='https://hecoinfo.com' target='_blank'>https://hecoinfo.com/</a></span><br/><br/>
+<b style='margin-left: 25px;'>4. Deposits to an old deposit address</b><br/>
+The deposit address of some coins on <b>BitConvex</b> may be updated from time to time. Deposits using the old <b>BitConvex</b> deposit address will be delayed by 12 hours. As such, it is recommended to always deposit to the new <b>BitConvex</b> deposit address.<br/><br/>
+<b style='margin-left: 25px;'>5. Deposit service has been temporarily suspended</b><br/><br/>
+<b>BitConvex</b> may conduct wallet maintenance for certain coins from time to time, resulting in a delay to transactions. Refer to the deposit page to check out the latest service status.<br/><br/>
+<b style='margin-left: 25px;'>6. Deposit to the wrong address or deposit of the wrong coin</b><br/>
+Such transactions will not be credited to your BitConvex account. Please contact our online support for further assistance.<br/><br/>
+<b>We hope this article has been helpful. If you have any other questions, please reach out to our 24/7 customer support via <a href='https://coinmyup.com/profile/support' target='_blank'>online chat</a> or <a href='https://coinmyup.com/help/request' target='_blank'>submit a ticket</a>.</b><br/><br/>
+<b>Happy trading on BitConvex!</b>
 `,
   },
   {
-    title: "1. There is no TXID",
-    description:
-      "If you cannot find the transaction ID (TXID) of the deposit on the blockchain, this may indicate that the transfer was unsuccessful. It is recommended to contact the withdrawal platform to check the status of your withdrawal.",
-  },
-  {
-    title: "2. The number of confirmations is insufficient",
-    description: `Transactions on the blockchain must be confirmed by the nodes to be successful. The number of confirmations varies depending on the coin and network.
-You can check the amount of confirmations required on the BitConvex deposit page. Please be patient and wait until the confirmation reaches the required amount.
+    title: "Deposit Unsupported Tokens",
+    description: `<b style='margin-left: 25px;'>What Can I Do If Deposit Unsupported Tokens?</b><br/>
+Before you deposit, please check the deposit page to confirm if we support the BSC/MATIC/FTM token you want to deposit (as shown below, if we support the BEP20 token, the deposit interface will display the BEP20 deposit address). If we don't support it, then please do not deposit the token to your BitConvex account, otherwise, your deposit will not be credited.<br/>
+If you have already deposited the unsupported token, please kindly gather the information below for further checking.<br/>
+1. Your UID/Registered email address.<br/>
+2. The type and amount of the token you deposit.<br/>
+3. The txid.<br/>
+4. The screenshot of the transaction from the withdrawal party. (Please log in to the withdrawal account, search the withdrawal history and find the corresponding withdrawal record. Please ensure that the txid, token type, amount and address should be on the screenshot. If you deposit from your private wallet such as MEW, please provide a screenshot of your account address.)<br/>
+Please submit a request and provide the information above, we will check the details for you. After you submit the request, please wait patiently, we will reply to your email if there is any updates. At the same time, in order to solve your problem as soon as possible, please do not repeat to submit to avoid problem overlap, thank you for your support.<br/>
 `,
   },
   {
-    title: "3. There have been sufficient confirmations but funds havent arrived",
-    description: `Once there are enough confirmations on the blockchain, the BitConvex system will start proceeding your deposit. This can take up to 2-3 hours.
-To check the number of confirmations for your deposit, refer to the blockchain explorers below:
-BTC blockchain: http://blockchain.info/
-ETH blockchain: https://etherscan.io/
-MATIC blockchain: https://polygonscan.com/
-BSC blockchain: https://bscscan.com/
-FTM blockchain: https://ftmscan.com/
-TRX blockchain: https://tronscan.org/#/
-HECO blockchain: https://hecoinfo.com/
-`,
-  },
-  {
-    title: "4. Deposits to an old deposit address",
-    description: `The deposit address of some coins on BitConvex may be updated from time to time. Deposits using the old BitConvex deposit address will be delayed by 12 hours. As such, it is recommended to always deposit to the new BitConvex deposit address.`,
-  },
-  {
-    title: "5. Deposit service has been temporarily suspended",
-    description: `BitConvex may conduct wallet maintenance for certain coins from time to time, resulting in a delay to transactions. Refer to the deposit page to check out the latest service status.`,
-  },
-  {
-    title: "6. Deposit to the wrong address or deposit of the wrong coin",
-    description: `Such transactions will not be credited to your BitConvex account. Please contact our online support for further assistance.
-
-We hope this article has been helpful. If you have any other questions, please reach out to our 24/7 customer support via online chat or submit a ticket.
-
-Happy trading on BitConvex!
-`,
-  },
-];
-const depositUnsupportedTokenQuestions = [
-  {
-    title: "What Can I Do If Deposit Unsupported Tokens?",
-    description: `Before you deposit, please check the deposit page to confirm if we support the BSC/MATIC/FTM token you want to deposit (as shown below, if we support the BEP20 token, the deposit interface will display the BEP20 deposit address). If we don't support it, then please do not deposit the token to your BitConvex account, otherwise, your deposit will not be credited.
-If you have already deposited the unsupported token, please kindly gather the information below for further checking.
-1. Your UID/Registered email address.
-2. The type and amount of the token you deposit.
-3. The txid.
-4. The screenshot of the transaction from the withdrawal party. (Please log in to the withdrawal account, search the withdrawal history and find the corresponding withdrawal record. Please ensure that the txid, token type, amount and address should be on the screenshot. If you deposit from your private wallet such as MEW, please provide a screenshot of your account address.)
-Please submit a request and provide the information above, we will check the details for you. After you submit the request, please wait patiently, we will reply to your email if there is any updates. At the same time, in order to solve your problem as soon as possible, please do not repeat to submit to avoid problem overlap, thank you for your support.
-`,
-  },
-];
-const firstDepositWrongCrypto = [
-  {
-    title: "What Can I Do If Deposit Unsupported Tokens?",
-    description: `A crypto address is a string of characters that can be used to send and receive crypto. While each coin typically has its own unique address, coins on the same blockchain may have the same. For instance, all ERC20 tokens on BitConvex have the same address. Note that depositing coins to a non-matching address may result in the loss of your funds.
-This article shows the common mistakes of depositing the wrong crypto, and what to do to recover your funds in the event of such a mistake. Common Mistakes of Depositing Wrong Crypto:
-1. Depositing coins that have not been listed on BitConvex
-Though BitConvex supports Bitcoin and over 100+ altcoins, there are still many coins that have not been listed yet. Coins that have not been listed yet will not be displayed on BitConvex when deposited.
-2. Depositing coin A to the address of coin B
-Unless both coins are issued on the same blockchain, it is very likely that the deposit will fail to go through. For instance, a Bitcoin address will not accept deposits in ETH. The same goes for most other coins.
-3. Depositing a coin to the wrong network
+    title: "Deposit Wrong Crypto",
+    description: `<b style='margin-left: 25px;'>What Should I Do If Deposit Wrong Crypto?</b><br/>
+A crypto address is a string of characters that can be used to send and receive crypto. While each coin typically has its own unique address, coins on the same blockchain may have the same. For instance, all ERC20 tokens on BitConvex have the same address. Note that depositing coins to a non-matching address may result in the loss of your funds.<br/>
+This article shows the common mistakes of depositing the wrong crypto, and what to do to recover your funds in the event of such a mistake. Common Mistakes of Depositing Wrong Crypto:<br/>
+<b>1. Depositing coins that have not been listed on BitConvex</b></br/>
+Though <b>BitConvex</b> supports Bitcoin and over 100+ altcoins, there are still many coins that have not been listed yet. Coins that have not been listed yet will not be displayed on <b>BitConvex</b> when deposited.<br/><br/>
+<b>2. Depositing coin A to the address of coin B</b><br/>
+Unless both coins are issued on the same blockchain, it is very likely that the deposit will fail to go through. For instance, a Bitcoin address will not accept deposits in ETH. The same goes for most other coins.<br/><br/>
+<b>3. Depositing a coin to the wrong network</b><br/>
 Certain coins (such as USDT and ETH) support multiple blockchain networks on BitConvex. Ensure the network selected matches the network of the address entered.
-For instance, only the mainnet of EWT is supported on BitConvex, meaning that ERC20 deposits will fail to go through.
-4. Depositing coins with a different contract address
-Blockchain projects may upgrade the contract address of their token for certain reasons. BitConvex will publish an official announcement if we support the upgrade. Once the upgrade has been completed, deposits to the old contract address will not be credited to your BitConvex account.
-5. Deposit coins to the contract address
-Note that the contract address is not used for deposit and withdrawal. Transfers to the contract address will not be recoverable. You can always find the deposit address from the BitConvex deposit page.
+For instance, only the mainnet of EWT is supported on BitConvex, meaning that ERC20 deposits will fail to go through.<br/><br/>
+<b>4. Depositing coins with a different contract address</b><br/>
+Blockchain projects may upgrade the contract address of their token for certain reasons. <b>BitConvex</b> will publish an official announcement if we support the upgrade. Once the upgrade has been completed, deposits to the old contract address will not be credited to your <b>BitConvex</b> account.<br/><br/>
+<b>5. Deposit coins to the contract address</b><br/>
+Note that the contract address is not used for deposit and withdrawal. Transfers to the contract address will not be recoverable. You can always find the deposit address from the <b>BitConvex</b> deposit page.<br/><br/>
+<b style='margin-left: 25px;'>2. What To Do When Depositing the Wrong Crypto</b><br/><br/>
+<b>1. Collect the following information.</b><br/><br/>
+<p style='margin-left: 25px;'>Your BitConvex UID and registered email address.<br/>
+The name and the amount of the coins you deposited.<br/>
+The TXID of the transaction.<br/>
+The screenshot of the transfer record from the withdrawal platform.</p>
+<span style='margin-left: 80px;'>Ensure that the TXID, coin type, amount, and address are shown on the screenshot.</span><br/>
+<span style='margin-left: 80px;'>If you deposited from a private wallet such as MEW, provide a screenshot of your account address.</span><br/>
+<b>2. <a href='https://coinmyup.com/help/request' target='_blank'>Submit a request</a> to the BitConvex Support team and provide the information collected.</b><br/>
+Please be patient as we will reply to you by email once there is an update.<br/>
+In order to solve the issue as soon as possible, please avoid repetitive submissions for the same issue. Thank you for your understanding.<br/>
+We hope this article has been helpful. If you have any other questions, please reach out to our 24/7 customer support via <a href='https://coinmyup.com/profile/support' target='_blank'>online chat</a> or <a href='https://coinmyup.com/help/request' target='_blank'>submit a ticket</a>.<br/><br/>
+<b>Happy trading on BitConvex!</b>
 `,
   },
   {
-    title: "2. What To Do When Depositing the Wrong Crypto",
-    description: `1. Collect the following information.
-Your BitConvex UID and registered email address.
-The name and the amount of the coins you deposited.
-The TXID of the transaction.
-The screenshot of the transfer record from the withdrawal platform.
-Ensure that the TXID, coin type, amount, and address are shown on the screenshot.
-If you deposited from a private wallet such as MEW, provide a screenshot of your account address.
-2. Submit a request to the BitConvex Support team and provide the information collected. 
-Please be patient as we will reply to you by email once there is an update.
-In order to solve the issue as soon as possible, please avoid repetitive submissions for the same issue. Thank you for your understanding.
-We hope this article has been helpful. If you have any other questions, please reach out to our 24/7 customer support via online chat or submit a ticket.
-Happy trading on BitConvex!
-`,
-  },
-];
-const secondDepositWrongCrypto = [
-  {
-    title: "How to Deposit Crypto to Exchange?",
-    description: `To start trading Bitcoin and 600+ other coins on BitConvex, the first step is to deposit crypto to the platform. While it is easy to make a deposit on BitConvex, there are a few common mistakes to avoid to ensure the deposit reaches your account in a fast and secure manner. `,
-  },
-  {
-    title: "1. How to Deposit Crypto on the BitConvex Website?",
-    description: `1. Go to BitConvex, and click the Personal Area icon at the upper right corner of header.
-2. Click Deposit, select the coin, then the network.
-3. Copy your deposit address and paste it into the withdrawal platform, then deposit the coins to the relevant BitConvex account.
-Tips:
-If you are depositing a coin for the first time, you must activate the deposit address first.
+    title: "Deposit Wrong Crypto",
+    description: `<b style='margin-left: 25px;'>How to Deposit Crypto to Exchange?</b><br/>
+To start trading Bitcoin and 600+ other coins on BitConvex, the first step is to deposit crypto to the platform. While it is easy to make a deposit on BitConvex, there are a few common mistakes to avoid to ensure the deposit reaches your account in a fast and secure manner.<br/><br/>
+<b style='margin-left: 25px;'>1. How to Deposit Crypto on the BitConvex Website?</b><br/>
+1. Go to BitConvex, and click the Personal Area icon at the upper right corner of header.<br/>
+2. Click Deposit, select the coin, then the network.<br/>
+3. Copy your deposit address and paste it into the withdrawal platform, then deposit the coins to the relevant BitConvex account.<br/>
+Tips:<br/><br/>
+<p style="margin-left: 25px;">If you are depositing a coin for the first time, you must activate the deposit address first.
 Bitcoin address will not accept deposits in ETH. Deposits of coins that do not match the address may not be recoverable. The same goes for most other coins.
-Certain coins (such as USDT and ETH) support multiple blockchain networks on BitConvex. Ensure the network selected matches the network of the address entered.
+Certain coins (such as USDT and ETH) support multiple blockchain networks on <b>BitConvex</b>. Ensure the network selected matches the network of the address entered.
 If the coin you want to deposit requires a Memo, Tag, Payment ID, or Message, ensure that it is entered correctly. Otherwise, the coins won't arrive in your account.
-Each ERC20 coin has a unique contract ID that can be checked from Etherscan. Ensure that the contract ID of the coin you wish to deposit is the same as the one listed on BitConvex.
-`,
-  },
-  {
-    title: "3. FAQ",
-    description: `1. How long does a deposit take to process?
-Deposits can take a few minutes to a few hours, depending on the coin. If the coin has not arrived in your account after a long time, contact customer support and provide info such as your BitConvex UID, the coin deposited, and the TXID.
-2. What are the fees for crypto deposits?
-The commission depends on a number of factors, check in support for more details.
-3. What if I deposit a coin that BitConvex does not support?
-BitConvex may not be able to recover any unsupported assets. Please contact customer support and provide info such as your BitConvex UID, the coin deposited, and the TXID.
-4. What if I deposit a token to the wrong address?
-BitConvex may not be able to recover the assets for such a mistake. Please contact our support and provide info like your BitConvex UID, the coin deposited, and the TXID.
-5. What if I forgot the Memo, Tag, or Message when making the deposit?
-BitConvex may not be able to recover the assets for such a mistake. Please contact our support and provide info like your BitConvex UID, the coin deposited, and the TXID.
-We hope this article has been helpful. If you have any other questions, please reach out to our 24/7 customer support via online chat or submit a ticket.
-Happy trading on BitConvex!
+Each ERC20 coin has a unique contract ID that can be checked from <a href='https://etherscan.io/' target='_blank'>Etherscan</a>. Ensure that the contract ID of the coin you wish to deposit is the same as the one listed on <b>BitConvex</b>.
+<b>3. FAQ</b></p><br/>
+<b>1. How long does a deposit take to process?</b><br/>
+Deposits can take a few minutes to a few hours, depending on the coin. If the coin has not arrived in your account after a long time, contact customer support and provide info such as your <b>BitConvex</b> UID, the coin deposited, and the TXID.<br/><br/>
+<b>2. What are the fees for crypto deposits?</b><br/>
+The commission depends on a number of factors, check in support for more details.<br/><br/>
+<b>3. What if I deposit a coin that BitConvex does not support?</b><br/><br/>
+<b>BitConvex</b> may not be able to recover any unsupported assets. Please contact customer support and provide info such as your <b>BitConvex</b> UID, the coin deposited, and the TXID.<br/><br/>
+<b>4. What if I deposit a token to the wrong address?</b><br/><br/>
+<b>BitConvex</b> may not be able to recover the assets for such a mistake. Please contact our support and provide info like your <b>BitConvex</b> UID, the coin deposited, and the TXID.<br/><br/>
+<b>5. What if I forgot the Memo, Tag, or Message when making the deposit?</b><br/><br/>
+<b>BitConvex</b> may not be able to recover the assets for such a mistake. Please contact our support and provide info like your <b>BitConvex</b> UID, the coin deposited, and the TXID.<br/><br/>
+<b>We hope this article has been helpful. If you have any other questions, please reach out to our 24/7 customer support via <a href='https://coinmyup.com/profile/support' target='_blank'>online chat</a> or <a href='https://coinmyup.com/help/request' target='_blank'>submit a ticket</a></b>.<br/><br/>
+<b>Happy trading on BitConvex!</b>
 `,
   },
 ];
+
 const withdrawalsQuestions = [
-  //How to Withdrawals Coins
   {
     title: "How to Withdraw Coins?",
-    description: `1. Go to BitConvex and click the Personal Area icon at the upper right corner of the top bar.
-2. Click Withdraw, and select a coin. Then fill in the wallet address and choose the corresponding network. Input the amount and then click confirm to proceed.
-3. Security verification window will pop up, fill 2FA code one by one to submit the withdrawal request.
-`,
-  },
-  {
-    title: "3. FAQs",
-    description: `1. How long does withdrawal take to process?
-
-It takes a few minutes to a few hours, varying from coin to coin.
-
-2. Why does it take very long to receive my withdrawal?
-
-Usually, we will process your withdrawal within 30 minutes, but delays may happen for many reasons like network congestion. Also, to enhance the security of your assets, if your withdrawal amount is larger than a certain amount, we will manually process your request and it may take a bit longer. You can contact our online support for further checks.
-
-3. What is the fee for crypto withdrawal?
-
-BitConvex charges a small amount of fee, and it depends on the coin as well as the blockchain network. For instance, usually, the transaction fee of TRC20 tokens is lower than their ERC20 counterparts. Check the withdraw page for more info.
-If you are withdrawing the funds to another BitConvex account, you can tick Internal transfer on the withdrawal page, then the transaction will be almost instant with 0 fees.
-
-4. What is the minimal amount to withdraw?
-
-It varies from coin to coin. Check the withdraw page for more info.
-
-5. What if I withdraw a token to the wrong address?
-
-BitConvex may not be able to recover the funds if it has left the platform. Kindly contact the receiving platform for further assistance.
-
-6. I have funds in my account but why does it say the balance is insufficient?
-
-Please make sure the funds are in your Main Account when making a withdrawal.
-
-7. Why does it say Contain invalid or sensitive information when withdrawing?
-
-Very likely the address entered is incorrect. Please double-check the crypto address or contact online support for further check.
-For some tokens, we only support transferring via a specific mainnet chain instead of an ERC20 or BEP20 chain, such as DOCK, XMR, etc. Please do not transfer tokens via unsupported chains or addresses.
-
-8. Why the withdrawal service for some tokens is not available?
-
-Some wallets may be under maintenance from time to time. We will keep everyone informed via our official announcements. Appreciate your patience.
-
-9. Why my withdrawal service has been suspended?
-
-To enhance the security of your account and assets, your withdrawal function will be temporarily suspended for 24 hours after changing some important security settings such as trading password, Google 2FA, and more. 
-
-We hope this article has been helpful. If you have any other questions, please reach out to our 24/7 customer support via online chat or submit a ticket.
-
-Happy trading on BitConvex!
+    description: `<b style='margin-left: 25px;'>How to Withdraw Coins?</b><br/>
+1. Go to BitConvex and click the Personal Area icon at the upper right corner of the top bar.<br/>
+2. Click Withdraw, and select a coin. Then fill in the wallet address and choose the corresponding network. Input the amount and then click confirm to proceed.<br/>
+3. Security verification window will pop up, fill 2FA code one by one to submit the withdrawal request.<br/><br/>
+<span style="margin-left: 25px;">3. FAQs</span><br/><br/>
+<b>1. How long does withdrawal take to process?</b>
+It takes a few minutes to a few hours, varying from coin to coin.<br/><br/>
+<b>2. Why does it take very long to receive my withdrawal?</b>
+Usually, we will process your withdrawal within 30 minutes, but delays may happen for many reasons like network congestion. Also, to enhance the security of your assets, if your withdrawal amount is larger than a certain amount, we will manually process your request and it may take a bit longer. You can contact our online support for further checks.<br/><br/>
+<b>3. What is the fee for crypto withdrawal?</b>
+BitConvex charges a small amount of fee, and it depends on the coin as well as the blockchain network. For instance, usually, the transaction fee of TRC20 tokens is lower than their ERC20 counterparts. Check the withdraw page for more info.<br/>
+If you are withdrawing the funds to another BitConvex account, you can tick Internal transfer on the withdrawal page, then the transaction will be almost instant with 0 fees. <br/><br/>
+<b>4. What is the minimal amount to withdraw?</b>
+It varies from coin to coin. Check the withdraw page for more info.<br/><br/>
+<b>5. What if I withdraw a token to the wrong address?</b>
+BitConvex may not be able to recover the funds if it has left the platform. Kindly contact the receiving platform for further assistance.<br/><br/>
+<b>6. I have funds in my account but why does it say the balance is insufficient?</b>
+Please make sure the funds are in your Main Account when making a withdrawal.<br/><br/>
+<b>7. Why does it say Contain invalid or sensitive information when withdrawing?</b>
+Very likely the address entered is incorrect. Please double-check the crypto address or contact online support for further check.<br/>
+For some tokens, we only support transferring via a specific mainnet chain instead of an ERC20 or BEP20 chain, such as DOCK, XMR, etc. Please do not transfer tokens via unsupported chains or addresses.<br/><br/>
+<b>8. Why the withdrawal service for some tokens is not available?</b>
+Some wallets may be under maintenance from time to time. We will keep everyone informed via our official announcements. Appreciate your patience.<br/><br/>
+<b>9. Why my withdrawal service has been suspended?</b><br/>
+To enhance the security of your account and assets, your withdrawal function will be temporarily suspended for 24 hours after changing some important security settings such as trading password, Google 2FA, and more.<br/>
+We hope this article has been helpful. If you have any other questions, please reach out to our 24/7 customer support via <a href='https://coinmyup.com/profile/support' target='_blank'>online chat</a> or <a href='https://coinmyup.com/help/request' target='_blank'>submit a ticket</a>.<br/><br/>
+<b>Happy trading on BitConvex!</b>
 `,
   },
   {
     title: "USDT Based on Different Chain",
-    description: `BitConvex users will be able to deposit and withdraw USDT in different forms: USDT-ERC20, USDT-TRC20, USDT-BEP20, USDT-MATIC, USDT-SOL.
-To ensure that users can freely choose their favored forms of USDT to deposit and withdraw at any time, BitConvex will exchange four forms of USDT in advance to ensure an adequate balance of these 4 forms of USDT. If you do not agree to the exchange, please do not deposit or withdraw USDT.
-Notesï¼
-USDT-ERC20 is the USDT issued by Tether based on the ETH network. Its deposit address is the ETH address, with deposits and withdrawals taking place on the ETH network. The protocol of USDT-ERC20 is the ERC20 protocol.
-USDT-TRON (TRC20) is the USDT issued by Tether based on the TRON network. The currency deposit address is the TRON address, with deposits and withdrawals taking place on the TRON network. The USDT-TRON (TRC20) uses the TRC20 protocol.
-USDT-SOL is the USDT issued by Tether based on the SOL network. The currency deposit address is the SOL address, with deposits and withdrawals taking place on the SOL network. The USDT-SOL uses the SOL protocol.
-USDT-BEP20 is the USDT issued by Tether based on the BNB network. The currency deposit address is the BEP20 address, with deposits and withdrawals taking place on the BNB network. The USDT-BNB uses the BEP20 protocol.
-USDT-MATIC is the USDT issued by Tether based on the POLYGON network. The currency deposit address is the MATIC address, with deposits and withdrawals taking place on the POLYGON network. The USDT-MATIC uses the PILYGON protocol.
+    description: `BitConvex users will be able to deposit and withdraw USDT in different forms: <b>USDT-ERC20</b>, <b>USDT-TRC20</b>, <b>USDT-BEP20</b>, <b>USDT-MATIC</b>, <b>USDT-SOL</b>.<br/>
+To ensure that users can freely choose their favored forms of USDT to deposit and withdraw at any time, BitConvex will exchange four forms of USDT in advance to ensure an adequate balance of these 4 forms of USDT. If you do not agree to the exchange, please do not deposit or withdraw USDT.<br/>
+Notesï¼<br/><br/>
+<p style='margin-left: 25px;'><b>USDT-ERC20</b> is the USDT issued by Tether based on the ETH network. Its deposit address is the ETH address, with deposits and withdrawals taking place on the ETH network. The protocol of USDT-ERC20 is the ERC20 protocol.
+<b>USDT-TRON (TRC20)</b> is the USDT issued by Tether based on the TRON network. The currency deposit address is the TRON address, with deposits and withdrawals taking place on the TRON network. The USDT-TRON (TRC20) uses the TRC20 protocol.
+<b>USDT-SOL</b> is the USDT issued by Tether based on the SOL network. The currency deposit address is the SOL address, with deposits and withdrawals taking place on the SOL network. The USDT-SOL uses the SOL protocol.
+<b>USDT-BEP20</b> is the USDT issued by Tether based on the BNB network. The currency deposit address is the BEP20 address, with deposits and withdrawals taking place on the BNB network. The USDT-BNB uses the BEP20 protocol.
+<b>USDT-MATIC</b> is the USDT issued by Tether based on the POLYGON network. The currency deposit address is the MATIC address, with deposits and withdrawals taking place on the POLYGON network. The USDT-MATIC uses the PILYGON protocol.</p><br/>
  
-1. How to get your USDT wallet address?
-Please choose the public chain to get the corresponding USDT deposit address. Please ensure the public chain and address are correct.
+<b style='margin-left: 25px;'>1. How to get your USDT wallet address?</b><br/>
+Please choose the public chain to get the corresponding USDT deposit address. Please ensure the public chain and address are correct.<br/><br/>
  
-2. How to withdraw USDT based on different forms?
-Please input the withdrawal address. The system will identify the public chain automatically.
-`,
-  },
-];
-
-const withdrawalDidNotGoThroughQuestions = [
-  {
-    title: "1. Three Types of Withdrawal Status",
-    description: `The time needed for a crypto withdrawal varies from coin to coin, ranging from a few minutes to a few hours. You can check the status of each withdrawal request on the BitConvex withdrawal page. 
-Go to BitConvex and log in with your account, then check the status of your withdrawal through Personal Area - Withdraw. There are three types of withdrawal status:
-Pending: it means we are processing the withdrawal, and it may take 2 - 3 hours.
-Success: it means we have processed your withdrawal, and the transaction has been recorded on the blockchain.
-Error: this means that the transaction was not completed due to account restrictions.
+<b style='margin-left: 25px;'>2. How to withdraw USDT based on different forms?</b><br/>
+Please input the withdrawal address. The system will identify the public chain automatically.<br/>
 `,
   },
   {
-    title: "2. What If My Withdrawal Did Not Go Through",
-    description: `If the withdrawal is Pending, kindly wait for about 3 hours and check the status again. If the withdrawal status is still processing after 3 hours, please contact online support and provide the following information:
-Your UID, Registered email address
+    title: "Withdrawal Did Not Go Through",
+    description: `<b style='margin-left: 25px;'>1. Three Types of Withdrawal Status</b><br/>
+The time needed for a crypto withdrawal varies from coin to coin, ranging from a few minutes to a few hours. You can check the status of each withdrawal request on the BitConvex withdrawal page.<br/> 
+Go to BitConvex and log in with your account, then check the status of your withdrawal through <b>Personal Area - Withdraw</b>. There are three types of withdrawal status:<br/><br/>
+<div style='margin-left: 25px;'><b>Pending:</b> it means we are processing the withdrawal, and it may take 2 - 3 hours.
+<b>Success:</b> it means we have processed your withdrawal, and the transaction has been recorded on the blockchain.
+<b>Error:</b> this means that the transaction was not completed due to account restrictions.
+<b>2. What If My Withdrawal Did Not Go Through</b></div><br/>
+<b>If the withdrawal is Pending</b>, kindly wait for about 3 hours and check the status again. If the withdrawal status is still processing after 3 hours, please contact online support and provide the following information:<br/><br/>
+<div style="margin-left: 25px;">Your UID, Registered email address
 The type(s) and amount(s) of coin(s)
-The recipient's address
-If the status is Success, you can find the transaction on the blockchain explorer, and once the number of confirmations is sufficient, you can check your funds on the receiving platform. If there is no information on the blockchain explorer while the status shows Succeeded, please contact our customer support and provide the following information:
-Your UID, Registered email address
+The recipient's address</div>
+<b>If the status is Success</b>, you can find the transaction on the blockchain explorer, and once the number of confirmations is sufficient, you can check your funds on the receiving platform. If there is no information on the blockchain explorer while the status shows Succeeded, please contact our customer support and provide the following information:<br/><br/>
+<div style='margin-left: 25px;'>Your UID, Registered email address
 The type(s) and amount(s) of coin(s)
-The recipient's address
-Below please find the link to the blockchain explorer of some major blockchains:
-BTC blockchain: http://blockchain.info/
-ETH blockchain: https://etherscan.io/
-MATIC blockchain: https://polygonscan.com/
-BSC blockchain: https://bscscan.com/
-FTM blockchain: https://ftmscan.com/
-TRX blockchain: https://tronscan.org/#/
-HECO blockchain: https://hecoinfo.com/
+The recipient's address</div>
+Below please find the link to the blockchain explorer of some major blockchains:<br/><br/>
+<div style="margin-left: 25px;">
+<span>BTC blockchain: <a href='http://blockchain.info/' target='_blank'>http://blockchain.info/</a></span><br/>
+<span>ETH blockchain: <a href='https://etherscan.io/' target='_blank'>https://etherscan.io/</a></span><br/>
+<span>MATIC blockchain: <a href='https://polygonscan.com/' target='_blank'>https://polygonscan.com/</a></span><br/>
+<span>BSC blockchain: <a href='https://bscscan.com/' target='_blank'>https://bscscan.com/</a></span><br/>
+<span>FTM blockchain: <a href='https://ftmscan.com/' target='_blank'>https://ftmscan.com/</a></span><br/>
+<span>TRX blockchain: <a href='https://tronscan.org/#/' target='_blank'>https://tronscan.org/#/</a></span><br/>
+<span>HECO blockchain: <a href='https://hecoinfo.com' target='_blank'>https://hecoinfo.com/</a></span><br/>
+<b>3. What If I Withdraw to The Wrong Address</b><br/><br/>
+</div>
+<b>If the status is Pending</b>, please contact our <b>online support</b> as soon as possible and we will help check if we can cancel this request.<br/><br/>
+<b>If the status is Success</b>, neither you nor we can cancel it. It is suggested to contact the customer support of the receiving platform and ask for their help to recover this transaction. Let us know if they need any info or proof from our side.<br/><br/> 
+<b>We hope this article has been helpful. If you have any other questions, please reach out to our 24/7 customer support via <a href='https://coinmyup.com/profile/support' target='_blank'>online chat</a> or <a href='https://coinmyup.com/help/request' target='_blank'>submit a ticket</a>.</b><br/><br/>
+<b>Happy trading on BitConvex!</b>
 `,
-  },
-  {
-    title: "3. What If I Withdraw to The Wrong Address",
-    description: `If the status is Pending, please contact our online support as soon as possible and we will help check if we can cancel this request.
-If the status is Success, neither you nor we can cancel it. It is suggested to contact the customer support of the receiving platform and ask for their help to recover this transaction. Let us know if they need any info or proof from our side. 
-We hope this article has been helpful. If you have any other questions, please reach out to our 24/7 customer support via online chat or submit a ticket.
-Happy trading on BitConvex!`,
   },
 ];
 
 const accountQuestions = [
-  //Email Issues
   {
-    title: "I didn't receive a confirmation e-mail.",
-    description: `If you did not receive a confirmation e-mail for your BitConvex account, it is likely that It was sent to the "Spam" folder.
-
-1. Check the "Spam" folder for an e-mail from BitConvex with the subject line "Registration on the exchange BitConvex";
-
-2. In the e-mail, you will see a link to confirm the action. Click the link to complete your account registration.
-`,
-  },
-  {
-    title: `If the e-mail is not in the "Spam" folder:`,
-    description: `Check your Promotions folder (if you are using gmail)
-
+    title: "Email Issues",
+    description: `<b style='margin-left: 25px;'>I didn't receive a confirmation e-mail.</b><br/>
+If you did not receive a confirmation e-mail for your BitConvex account, it is likely that It was sent to the "Spam" folder.<br/>
+1. Check the "Spam" folder for an e-mail from BitConvex with the subject line "Registration on the exchange BitConvex";<br/>
+2. In the e-mail, you will see a link to confirm the action. Click the link to complete your account registration.<br/><br/>
+<b>If the e-mail is not in the "Spam" folder:</b><br/>
+<div style='margin-left: 25px;'>
+Check your Promotions folder (if you are using gmail)
 Check that the e-mail address you entered is correct - enter the correct address to complete registration;
-
 Make sure you haven't used this e-mail address before - if you have used this e-mail before, the system will let you know that someone is already using this e-mail address;
-
 E-mail for account activation is available for a limited amount of time - if you ignore the activation of the account, you will need to create a new one;
-
 If nothing from this list has not helped, please contact support.
+</div>
 `,
   },
-  //KYC verification
   {
-    title: "KYC - Know Your Customer.",
-    description:
-      "The KYC process includes submitting and verifying documents that serve as your identity proofs. They mention your date of birth, address, and other essential details. KYC is a fundamental practice to protect an organization from fraud and losses resulting from illegal funds and transactions.",
-  },
-  {
-    title: "Important information:",
-    description:
-      "To avoid conditions such as forgetting access credentials to exchange and accounts being taken over by others (information leakage from client side), we strongly suggest you to complete the KYC verification. Through the KYC information, we could help recover your account more quickly; Currently the same account only supports one authentication status, can not both be certified at the same time.",
-  },
-  {
-    title: "How to pass KYC(Identity Verification)",
-    description: `Go to the home page, click on the "Sign up" button and complete the registration procedure. Confirm your email, click on the tab "Settings" and follow the link "Click here to verify your ID" Fill out the data for the verification, you will get the status "Under review". Verification of documents takes up to 24 hours. After checking the documents you will see the message "Your ID information has been verified". After passing the verification, you will receive increased withdrawal limits and a deposit bonus.`,
+    title: "KYC verification",
+    description: `<b style='margin-left: 25px;'>KYC - Know Yout Customer.</b><br/>
+The KYC process includes submitting and verifying documents that serve as your identity proofs. They mention your date of birth, address, and other essential details. KYC is a fundamental practice to protect an organization from fraud and losses resulting from illegal funds and transactions.<br/><br/>
+<b style='margin-left: 25px;'>Important information:</b><br/>
+To avoid conditions such as forgetting access credentials to exchange and accounts being taken over by others (information leakage from client side), we strongly suggest you to complete the KYC verification. Through the KYC information, we could help recover your account more quickly; Currently the same account only supports one authentication status, can not both be certified at the same time.<br/><br/>
+<b style="margin-left: 25px;">How to pass KYC(Identity Verification)</b><br/>
+Go to the home page, click on the "Sign up" button and complete the registration procedure. Confirm your email, click on the tab "Settings" and follow the link "Click here to verify your ID" Fill out the data for the verification, you will get the status "Under review". Verification of documents takes up to 24 hours. After checking the documents you will see the message "Your ID information has been verified". After passing the verification, you will receive increased withdrawal limits and a deposit bonus.
+`,
   },
 ];
 
 const securityQuestions = [
-  //Account Security Guide
   {
-    title: "2FA and backup code",
-    description: `Enabling two-factor authentication (2FA) increases the security of your BitConvex Account, as well as coins/tokens stored on It. This method of account protection is called two-factor protection, because it is the second security barrier after the password to log in to the account. This really increases your security, because in addition to the username and password, the attacker will need to enter a 2FA-code. In the event of a hacking attempt, an attacker can reset your password through your e-mail address that you specified during registration, if it was hacked. However, even if the attacker has a username and password from your BitConvex account`,
-  },
-  {
-    title: "Password",
-    description: `Several rules for creating a password:
-
-The password has never been used before;
-
-The minimum length is 6 characters;
-
-Use upper and lower case;
-
-Use special characters and numbers.
-
+    title: "Account Security Guide",
+    description: `<b style='margin-left: 25px;'>2FA and backup code</b><br/>
+Enabling two-factor authentication (2FA) increases the security of your BitConvex Account, as well as coins/tokens stored on It. This method of account protection is called two-factor protection, because it is the second security barrier after the password to log in to the account. This really increases your security, because in addition to the username and password, the attacker will need to enter a 2FA-code. In the event of a hacking attempt, an attacker can reset your password through your e-mail address that you specified during registration, if it was hacked. However, even if the attacker has a username and password from your BitConvex account
+ 
+<b style='margin-left: 25px;'>Password</b><br/>
+Several rules for creating a password:<br/>
+The password has never been used before;<br/>
+The minimum length is 6 characters;<br/>
+Use upper and lower case;<br/>
+Use special characters and numbers.<br/><br/>
+ 
+<b style='margin-left: 25px;'>HTTP(S)</b><br/>
+Check the "S" after "http" in the browser's address bar. If there is no "S", the connection is not secure. It can lead to loss of access to the account and loss of funds. A green lock near the address informs the user about the security of the visited page. If there is no lock, you should pay special attention to the site name in the address bar or do not use it at all, because the http Protocol is not secure. It is safe to use websites with https Protocol only.
+ 
+<b style='margin-left: 25px;'>Checking the SSL certificate</b><br/>
+To check the SSL certificate, follow the instructions. Click on the certificate details and make sure that you are on the official website.
 `,
   },
   {
-    title: "HTTP(S)",
-    description: `Check the "S" after "http" in the browser's address bar. If there is no "S", the connection is not secure. It can lead to loss of access to the account and loss of funds. A green lock near the address informs the user about the security of the visited page. If there is no lock, you should pay special attention to the site name in the address bar or do not use it at all, because the http Protocol is not secure. It is safe to use websites with https Protocol only.`,
-  },
-  {
-    title: "Checking the SSL certificate",
-    description:
-      "To check the SSL certificate, follow the instructions. Click on the certificate details and make sure that you are on the official website.",
-  },
-];
+    title: "Anti-Fraud Guide",
+    description: `<b style='margin-left: 25px;'>1. Account information</b><br/>
+BitConvex support will not require anyone for any login information, payment password, Google authentication code, or private key in any name. Any requests of this nature are fraudulent.<br/><br/>
 
-const antiFraudGuide = [
-  {
-    title: "1. Account information",
-    description:
-      "BitConvex support will not require anyone for any login information, payment password, Google authentication code, or private key in any name. Any requests of this nature are fraudulent.",
-  },
-  {
-    title: "2. Account/devices access",
-    description:
-      "Never give access to your account and the funds stored on it to a third-party. BitConvex will never request remote access to your account or your devices.",
-  },
-  {
-    title: "3. Phishing",
-    description: `Phishing scammers can copy official e-mails on behalf of the BitConvex exchange. Scammers may request confidential data via e-mail that compromises your account data, as well as your personal data that helps to identify you. Fraudsters can also attach links to change the phone number and password. Links of this nature may redirect you to a third-party fraudulent website or contain malware. Therefore, never click on links and do not give your data to third-parties.
+<b style="margin-left: 25px;">2. Account/devices access</b><br/>
+Never give access to your account and the funds stored on it to a third-party. BitConvex will never request remote access to your account or your devices.
 
-Common types of phishing scam:
-
-Spear Phishing is based on personalized communication in order to gain the user's trust;
-
-Clone Phishing - copying a legitimate e-mail containing an attachment or link of a fraudulent version. The e-mail is sent from a masked address;
-
-Whaling - targeted at senior executives or senior people within the company. It usually looks like a legitimate concern, subpoena, client issue, or corporate matter;
-
-SMiShing - fraud using text or SMS. It looks like a confirmation of account activity.
-
-Often, fraudulent e-mails come as spam because they do not pass DKIM/SPF verification.
-
-Domain Keys Identified Mail (DKIM) technology allows a company to vouch for an e-mail message that is sent. Technically  this is a method of confirming the sender's domain through a cryptographic signature.
-
-The Sender Policy Framework (SPF) technology is another way to identify the sender of an email and provides an additional option to filter the mail stream for spam messages.
+<b style="margin-left: 25px;">3. Phishing</b><br/>
+Phishing scammers can copy official e-mails on behalf of the BitConvex exchange. Scammers may request confidential data via e-mail that compromises your account data, as well as your personal data that helps to identify you. Fraudsters can also attach links to change the phone number and password. Links of this nature may redirect you to a third-party fraudulent website or contain malware. Therefore, never click on links and do not give your data to third-parties.<br/>
+Common types of phishing scam:<br/><br/>
+<b>Spear</b> Phishing is based on personalized communication in order to gain the user's trust;<br/><br/>
+<b>Clone Phishing</b> - copying a legitimate e-mail containing an attachment or link of a fraudulent version. The e-mail is sent from a masked address;<br/><br/>
+<b>Whaling</b> - targeted at senior executives or senior people within the company. It usually looks like a legitimate concern, subpoena, client issue, or corporate matter;<br/><br/>
+<b>SMiShing</b> - fraud using text or SMS. It looks like a confirmation of account activity.<br/>
+Often, fraudulent e-mails come as spam because they do not pass DKIM/SPF verification.<br/><br/>
+<b>Domain Keys Identified Mail (DKIM)</b> technology allows a company to vouch for an e-mail message that is sent. Technically  this is a method of confirming the sender's domain through a cryptographic signature.<br/><br/>
+<b>The Sender Policy Framework (SPF)</b> technology is another way to identify the sender of an email and provides an additional option to filter the mail stream for spam messages.
 `,
   },
 ];
@@ -983,35 +755,6 @@ export const FaqContent = () => {
             chevron: classes.faqAccordionChevron,
             content: classes.faqAccordionContent,
           }}
-        >
-          {policiesQuestions.map((faqItem) => (
-            <Accordion.Item key={faqItem.title} value={faqItem.title}>
-              <Accordion.Control>
-                <Title order={3}>{faqItem.title}</Title>
-              </Accordion.Control>
-              <Accordion.Panel>
-                <Text c="white" variant="text-2">
-                  {ReactHtmlParser(faqItem.description)}
-                </Text>
-              </Accordion.Panel>
-            </Accordion.Item>
-          ))}
-        </Accordion>
-      </Stack>
-      <Stack gap={rem("32px")}>
-        <Text className={classes.topicTitle}>Privacy Policy</Text>
-        <Accordion
-          chevron={<PlusIcon />}
-          classNames={{
-            root: classes.faqAccordionRoot,
-            item: classes.faqAccordionItem,
-            label: classes.faqAccordionLabel,
-            panel: classes.faqAccordionPanel,
-            control: classes.faqAccordionControl,
-            chevron: classes.faqAccordionChevron,
-            content: classes.faqAccordionContent,
-          }}
-          pb={{ 0: 32, md: 87 }}
         >
           {policiesQuestions.map((faqItem) => (
             <Accordion.Item key={faqItem.title} value={faqItem.title}>
