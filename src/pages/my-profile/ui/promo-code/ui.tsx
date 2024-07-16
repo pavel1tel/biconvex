@@ -59,9 +59,13 @@ export const Promocode = () => {
                     <Text className={classes.textOrange}>MEDIUM</Text>
                   )}
                 </Stack>
-                <button className={classes.actionArrow} onClick={open}>
-                  <ArrowIcon />
-                </button>
+                {profileReponse.twoFactorEnabled ? (
+                  <></>
+                ) : (
+                  <button className={classes.actionArrow} onClick={open}>
+                    <ArrowIcon />
+                  </button>
+                )}
               </Flex>
             </div>
           </Stack>

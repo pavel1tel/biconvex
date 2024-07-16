@@ -1,8 +1,17 @@
 import { createEffect } from "effector";
 
-import { ConfrimRegRequerstDto, LoginRequestDto, NewPasswordRequestDto, RegistrationRequestDto, ResponseDto, UserDto } from "@/shared/api/types";
+import {
+  ConfrimRegRequerstDto,
+  Login2FARequestDto,
+  LoginRequestDto,
+  LoginResponseDto,
+  NewPasswordRequestDto,
+  RegistrationRequestDto,
+  ResponseDto,
+  UserDto,
+} from "@/shared/api/types";
 
-import { requestFx, requestRegistration } from "./request";
+import { requestFx, requestLogin, requestRegistration } from "./request";
 
 export const logoutFx = createEffect<void, void, void>(async () => {
   return requestFx({
@@ -11,11 +20,28 @@ export const logoutFx = createEffect<void, void, void>(async () => {
   });
 });
 
-export const loginUser = createEffect<LoginRequestDto, ResponseDto>(async (request) => {
+export const loginUser = createEffect<LoginRequestDto, LoginResponseDto>(async (request) => {
   const data = new URLSearchParams();
   data.append("action", "LOGIN");
   data.append("email", request.email);
   data.append("password", request.password);
+
+  return requestLogin({
+    path: "/sign",
+    method: "POST",
+    headers: {
+      Accept: "*/*",
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    },
+    body: data,
+  });
+});
+
+export const loginUser2FA = createEffect<Login2FARequestDto, ResponseDto>(async (request) => {
+  const data = new URLSearchParams();
+  data.append("action", "LOGIN_2FA");
+  data.append("code_2fa", request.code_2fa);
+  data.append("user_id", request.user_id);
 
   return requestRegistration({
     path: "/sign",
