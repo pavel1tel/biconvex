@@ -1,3 +1,4 @@
+import { enable2Fa } from "@/shared/api/2fa/requests";
 import { getKycInfo } from "@/shared/api/kyc/requests";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { requestSettings, updateAccount, updatePassword, updatePersonalInfo } from "@/shared/api/settings/requests";
@@ -22,6 +23,9 @@ $updatePersonalInfoError.on(updatePersonalInfo.failData, (_, error) => error);
 
 const $updatePasswordError = createStore<ResponseDto>({ message: "" });
 $updatePasswordError.on(updatePassword.failData, (_, error) => error);
+
+const $enable2FaError = createStore<ResponseDto>({ message: "" });
+$enable2FaError.on(enable2Fa.failData, (_, error) => error);
 
 export const $settingsResponse = createStore<any>({});
 $settingsResponse.on(requestSettings.doneData, (_, error) => error.message);
@@ -61,12 +65,29 @@ sample({
 });
 
 sample({
+  clock: enable2Fa.doneData,
+  fn: () => "2FA Enabled!",
+  target: showSuccessNotification,
+});
+
+sample({
+  clock: enable2Fa.doneData,
+  target: getStakingHistoryFx,
+});
+
+sample({
   clock: updatePersonalInfo.failData,
   source: $updatePersonalInfoError,
   fn: (error) => error.message,
   target: showErrorNotification,
 });
 
+sample({
+  clock: enable2Fa.failData,
+  source: $enable2FaError,
+  fn: (error) => error.message,
+  target: showErrorNotification,
+});
 
 sample({
   clock: updatePersonalInfo.doneData,

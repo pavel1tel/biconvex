@@ -73,6 +73,33 @@ export const requestRegistration = createEffect<Request, any>((request) => {
     });
 });
 
+export const requestLogin = createEffect<Request, any>((request) => {
+  return api({
+    method: request.method,
+    url: request.path,
+    data: request.body,
+    headers: {
+      Accept: "application/json",
+      ...request.headers,
+    },
+    withCredentials: true,
+  })
+    .then((response) => {
+      return { message: response.data };
+    })
+    .catch((error) => {
+      if (error.response.status == 302) {
+        return Promise.reject({ message: error.response.data, fa2: true });
+      }
+      console.error(error, error.message);
+      if (error.response) {
+        return Promise.reject({ message: error.response.data, fa2: false });
+      } else {
+        return Promise.reject({ message: error.message, fa2: true });
+      }
+    });
+});
+
 
 export const requestBinance = createEffect<Request, any>((request) => {
   return binanceApi({
