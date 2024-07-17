@@ -23,7 +23,7 @@ $error
   })
   .reset(loginUser);
 loginUser.failData.watch((e) => console.log(e.message));
-export const $token = createStore<string>("");
+const $token = createStore<string>("");
 $token
   .on(loginUser.doneData, (_, token) => {
     return token.message;
@@ -88,3 +88,5 @@ function setCookie(name: string, value: string, days: number) {
   }
   document.cookie = name + "=" + (value || "") + expires + "; path=/; Secure; SameSite=None; Domain=20.79.188.227";
 }
+
+export { $token };

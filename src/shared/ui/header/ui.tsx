@@ -8,12 +8,12 @@ import { createEvent, sample } from "effector";
 import { useUnit } from "effector-react";
 import { useState } from "react";
 
-import { $token } from "@/pages/auth/sign-in/model";
 import { ArrowMenuIcon } from "@/pages/staking/ui/icons/ArrowIcon";
 
 import { AuthStatus } from "@/shared/lib/types";
 import { routes } from "@/shared/routing";
 import { $authenticationStatus } from "@/shared/session";
+import { $token } from "@/shared/session/signIn/model";
 import {
   ChatIcon,
   ChevronDownIcon,

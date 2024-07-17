@@ -8,7 +8,7 @@ import { showErrorNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { chainAnonymous } from "@/shared/session";
 
-import { $token } from "../sign-in/model";
+import { $token } from "../../../shared/session/signIn/model";
 
 export const currentRoute = routes.auth.signUp;
 

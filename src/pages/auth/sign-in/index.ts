@@ -2,7 +2,7 @@ import { createRouteView } from "atomic-router-react";
 
 import { PageLoader } from "@/shared/ui";
 
-import { anonymousRoute, currentRoute } from "./model";
+import { anonymousRoute, currentRoute } from "../../../shared/session/signIn/model";
 import { Page } from "./page";
 
 export const SignInByEmailRoute = {

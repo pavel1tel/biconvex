@@ -6,12 +6,12 @@ import { createEvent, sample } from "effector";
 import { useUnit } from "effector-react";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 
-import { $token } from "@/pages/auth/sign-in/model";
 import { $profileReponse } from "@/pages/my-profile/model";
 
 import { getStakingHistoryFx, uploadAvatar } from "@/shared/api/profile/profile";
 import { ProfileReponse } from "@/shared/api/types";
 import { routes } from "@/shared/routing";
+import { $token } from "@/shared/session/signIn/model";
 import {
   AffiliateIcon,
   DepositIcon,

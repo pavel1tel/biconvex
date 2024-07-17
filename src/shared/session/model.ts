@@ -1,18 +1,22 @@
 import { RouteInstance, RouteParams, RouteParamsAndQuery, chainRoute, redirect } from "atomic-router";
-import { createEvent, sample } from "effector";
-
-import { $token } from "@/pages/auth/sign-in/model";
+import { createEvent, createStore, sample } from "effector";
 
 import { AuthStatus, ChainParams } from "@/shared/lib/types";
 import { routes } from "@/shared/routing";
 
-export const $authenticationStatus = $token.map((token) => {
-  if (token === "") {
-    return AuthStatus.Anonymous;
-  } else {
-    return AuthStatus.Authenticated;
-  }
-});
+import { $token } from "./signIn/model";
+
+// const $token2 = $token;
+
+const $authenticationStatus =
+  $token &&
+  $token.map((token) => {
+    if (token === "") {
+      return AuthStatus.Anonymous;
+    } else {
+      return AuthStatus.Authenticated;
+    }
+  });
 
 export function chainAuthenticated<Params extends RouteParams>(route: RouteInstance<Params>, {}: ChainParams = {}): RouteInstance<Params> {
   const sessionCheckStarted = createEvent<RouteParamsAndQuery<Params>>();
@@ -45,3 +49,5 @@ export function chainAuthenticated<Params extends RouteParams>(route: RouteInsta
 export function chainAnonymous<Params extends RouteParams>(route: RouteInstance<Params>, {}: ChainParams = {}): RouteInstance<Params> {
   return route;
 }
+
+export { $authenticationStatus };
