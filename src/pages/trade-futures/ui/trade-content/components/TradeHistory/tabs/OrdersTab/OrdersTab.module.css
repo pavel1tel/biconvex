@@ -46,6 +46,10 @@
     }
   }
 }
+.open-order-btn {
+  width: 100%;
+  white-space: nowrap;
+}
 .sortArrowWrapper {
   transition: 0.3s;
   width: 20px;

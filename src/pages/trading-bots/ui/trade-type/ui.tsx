@@ -120,22 +120,7 @@ const MobileViewCarousel = () => {
       <Carousel className={classes.tradeTypesWrapper} withControls={false} getEmblaApi={setEmbla}>
         {TRADE_TYPES.map((type, index) => (
           <Carousel.Slide className={classes.tradeType} key={index}>
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  y: "-70%",
-                },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView={"visible"}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 + (index + 1) * 0.2 }}
-            >
+            <>
               <TradeTypeWrapper
                 title={type.title}
                 profit={type.profit}
@@ -143,7 +128,7 @@ const MobileViewCarousel = () => {
                 risk={type.risk}
                 selected={type.selected}
               />
-            </motion.div>
+            </>
           </Carousel.Slide>
         ))}
       </Carousel>

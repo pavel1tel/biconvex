@@ -20,14 +20,14 @@
   position: absolute;
   width: 7%;
   left: 0;
-  top: 27%;
+  top: 26.3%;
 }
 
 .cube-two {
   width: 6%;
   left: 0;
   position: absolute;
-  top: 78%;
+  top: 81%;
 }
 .light-four {
   width: 30%;
@@ -52,7 +52,7 @@
 }
 
 .light-column {
-  top: 39%;
+  top: 45%;
   right: -4%;
   width: 10%;
   z-index: 0;
@@ -116,6 +116,15 @@
 
   .cube-one {
     width: 18%;
+  }
+
+  .light-cube-two {
+    width: 35%;
+  }
+
+  .cube-two {
+    width: 8.5%;
+    top: 65.9%;
   }
 
   .light-column {

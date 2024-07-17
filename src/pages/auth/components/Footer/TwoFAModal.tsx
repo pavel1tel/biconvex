@@ -1,8 +1,8 @@
 import { Button, Divider, Modal, Stack, Text, TextInput, rem } from "@mantine/core";
 import { FC, useState } from "react";
 
-
 import { loginUser2FA } from "@/shared/api";
+
 import classes from "./style.module.css";
 
 type TwoFAModalProps = {
@@ -12,9 +12,9 @@ type TwoFAModalProps = {
 };
 export const TwoFAModal: FC<TwoFAModalProps> = ({ opened, close, userId }) => {
   const [code, setCode] = useState<string>("");
-  loginUser2FA.doneData.watch(e => {
-    close()
-  })
+  loginUser2FA.doneData.watch((e) => {
+    close();
+  });
   return (
     <Modal
       opened={opened}
@@ -44,7 +44,13 @@ export const TwoFAModal: FC<TwoFAModalProps> = ({ opened, close, userId }) => {
           <TextInput value={code} onChange={(e) => setCode(e.target.value)} className={classes.activateCodeInput} placeholder="Enter code" />
         </Stack>
         <Divider color="rgba(255, 255, 255, 0.12)" />
-        <Button onClick={() => loginUser2FA({ code_2fa: code, user_id: userId })} className={classes.btn} fullWidth h={rem("54px")} variant="radial-gradient">
+        <Button
+          onClick={() => loginUser2FA({ code_2fa: code, user_id: userId })}
+          className={classes.btn}
+          fullWidth
+          h={rem("54px")}
+          variant="radial-gradient"
+        >
           Submit
         </Button>
       </Stack>

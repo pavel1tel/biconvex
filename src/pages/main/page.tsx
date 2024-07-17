@@ -8,6 +8,7 @@ import { Helmet } from "react-helmet-async";
 import { routes } from "@/shared/routing";
 import { Container, Footer, Header, StartTradingDarkIcon, Wrapper } from "@/shared/ui";
 
+import { TradeHistory } from "../trade/ui/trade-content/components/TradeHistory/TradeHistory";
 import classes from "./styles.module.css";
 import { Banner, Collaborators, Faq, HighestAprs, Markets, Metrics, Rates } from "./ui";
 
@@ -32,7 +33,6 @@ export function Page() {
         <HighestAprs />
         <Markets />
         <Collaborators />
-
         <Stack className={classes.textWrapper}>
           <Container>
             <Stack gap={"clamp(1.5rem, 4vw, 4rem)"} className={classes.cryptoTextContainer}>
@@ -119,9 +119,7 @@ export function Page() {
             <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/main/8.png`} alt="main-light-8" className={classes.lightEight} />
           </Container>
         </Stack>
-
         <Faq />
-
         <Group className={classes.tradingBannerWrapper}>
           <Container>
             <Group align={"stretch"} justify={"space-between"} className={classes.tradingBannerInnerWrapper}>

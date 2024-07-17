@@ -1,3 +1,6 @@
+import { chainRoute } from "atomic-router";
+import { createStore, sample } from "effector";
+
 import { enable2Fa } from "@/shared/api/2fa/requests";
 import { getKycInfo } from "@/shared/api/kyc/requests";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
@@ -6,8 +9,6 @@ import { ResponseDto } from "@/shared/api/types";
 import { showErrorNotification, showSuccessNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { chainAuthenticated } from "@/shared/session";
-import { chainRoute } from "atomic-router";
-import { createStore, sample } from "effector";
 
 export const currentRoute = routes.settings;
 
@@ -101,7 +102,6 @@ sample({
   fn: (error) => error.message,
   target: showErrorNotification,
 });
-
 
 sample({
   clock: updatePassword.doneData,

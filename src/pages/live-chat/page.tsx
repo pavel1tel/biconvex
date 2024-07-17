@@ -1,10 +1,10 @@
 import { Image } from "@mantine/core";
+import { Helmet } from "react-helmet-async";
 
 import { Container, Footer, Header, Wrapper } from "@/shared/ui";
 
 import classes from "./styles.module.css";
 import { Chat } from "./ui";
-import { Helmet } from "react-helmet-async";
 
 export function Page() {
   return (

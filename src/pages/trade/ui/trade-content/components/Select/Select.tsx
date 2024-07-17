@@ -15,7 +15,7 @@ type SelectProps = {
   customOptions?: any;
   defaultIndex?: number;
 };
-let optionss = [
+const optionss = [
   { title: "1d", value: 1440 },
   { title: "3d", value: 4320 },
   { title: "1W", value: 10080 },

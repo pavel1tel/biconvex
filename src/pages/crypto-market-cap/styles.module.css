@@ -174,4 +174,25 @@
   .gridColsItem p {
     font-size: 12px !important;
   }
+
+  .rates-divider-root {
+    position: absolute;
+    width: 83vw;
+    margin-top: 65px;
+  }
+
+  .rates-divider-root:first-child {
+    margin-top: 0;
+  }
+
+  .rates-divider-root:last-child {
+    margin-top: 0;
+    position: absolute;
+    width: 83vw;
+  }
+
+  .categories-wrapper {
+    grid-gap: 30px;
+    flex-wrap: nowrap;
+  }
 }

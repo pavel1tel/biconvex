@@ -6,6 +6,7 @@ import { NextIcon, PreviousIcon } from "@/shared/ui";
 import { Container } from "@/shared/ui/TradePageContainer/Container";
 import { CalendarIcon } from "@/shared/ui/icon/CalendarIcon";
 
+import { PromoPopup } from "../../../promo-popup/PromoPopup";
 import { Select } from "../Select/Select";
 import { Tabs } from "../tabs";
 import classes from "./TradeHistory.module.css";

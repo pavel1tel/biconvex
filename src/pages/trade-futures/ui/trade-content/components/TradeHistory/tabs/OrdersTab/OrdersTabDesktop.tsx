@@ -2,6 +2,8 @@ import { Group, Table } from "@mantine/core";
 import clsx from "clsx";
 import { useState } from "react";
 
+import { PromoPopup } from "@/pages/trade-futures/ui/promo-popup/PromoPopup";
+
 import { MarketSortIcon } from "@/shared/ui";
 
 import { data, header } from "./OrdersTab.constants";
@@ -16,8 +18,11 @@ export const OrdersTabDesktop = () => {
   };
 
   const handleSettingsClick = (rowIndex: number) => {
+    setOpen(true);
     console.log(`Settings clicked for row ${rowIndex}`);
   };
+
+  const [open, setOpen] = useState(false);
 
   return (
     <Table className={classes.table} withRowBorders={false}>
@@ -43,6 +48,7 @@ export const OrdersTabDesktop = () => {
           ))}
         </Table.Tr>
       </Table.Thead>
+      <PromoPopup handleSave={() => console.log("")} handleClose={() => setOpen(false)} opened={open} />
       <Table.Tbody>
         {data.map((row, i) => (
           <Table.Tr key={i}>

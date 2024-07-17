@@ -1,16 +1,16 @@
 import { Box, Button, Flex, Stack, Text, TextInput, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Link } from "atomic-router-react";
+import { useUnit } from "effector-react";
+import { useState } from "react";
 
 import { ArrowIcon, CopyIcon, SecureIcon } from "@/pages/my-profile/ui";
 import { TwoFAModal } from "@/pages/settings/ui/TwoFAModal";
 
-import { routes } from "@/shared/routing";
-
 import { activatePromo, getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { ProfileReponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
-import { useState } from "react";
+import { routes } from "@/shared/routing";
+
 import { $profileReponse } from "../../model";
 import classes from "./styles.module.css";
 
@@ -35,10 +35,11 @@ export const Promocode = () => {
                     <CopyIcon />
                     <Text className={classes.subTitle}>Verification</Text>
                   </Flex>
-                  {profileReponse.kyc_accepted ?
-                    <Text className={classes.textGreen}>VERIFIED</Text> :
+                  {profileReponse.kyc_accepted ? (
+                    <Text className={classes.textGreen}>VERIFIED</Text>
+                  ) : (
                     <Text className={classes.textRed}>UNVERIFIED</Text>
-                  }
+                  )}
                 </Stack>
                 <Link to={routes.kyc} className={classes.actionArrow} onClick={handleRedirection}>
                   <ArrowIcon />
@@ -52,17 +53,19 @@ export const Promocode = () => {
                     <SecureIcon />
                     <Text className={classes.subTitle}>Security level</Text>
                   </Flex>
-                  {profileReponse.twoFactorEnabled ?
-                    <Text className={classes.textGreen}>HARD</Text> :
+                  {profileReponse.twoFactorEnabled ? (
+                    <Text className={classes.textGreen}>HARD</Text>
+                  ) : (
                     <Text className={classes.textOrange}>MEDIUM</Text>
-                  }
+                  )}
                 </Stack>
-                {profileReponse.twoFactorEnabled ?
-                  <></> :
+                {profileReponse.twoFactorEnabled ? (
+                  <></>
+                ) : (
                   <button className={classes.actionArrow} onClick={open}>
                     <ArrowIcon />
                   </button>
-                }
+                )}
               </Flex>
             </div>
           </Stack>
@@ -74,7 +77,7 @@ export const Promocode = () => {
             </Text>
             <Flex gap={rem(16)} className={classes.wrapInput}>
               <TextInput
-                onChange={e => setPromo(e.target.value)}
+                onChange={(e) => setPromo(e.target.value)}
                 classNames={{
                   input: classes.input,
                 }}

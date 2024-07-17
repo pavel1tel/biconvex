@@ -1,17 +1,17 @@
+import { chainRoute } from "atomic-router";
+import { createEvent, createStore, sample } from "effector";
+
 import { uploadAvatar } from "@/shared/api/profile/profile";
 import { createStakeRequest, createUnstakeRequest, getStakingHistory, requestBalance, requestStaking } from "@/shared/api/staking/request";
 import { ResponseDto } from "@/shared/api/types";
 import { showErrorNotification, showSuccessNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { chainAuthenticated } from "@/shared/session";
-import { chainRoute } from "atomic-router";
-import { createEvent, createStore, sample } from "effector";
 
 export const currentRoute = routes.staking;
 export const anonymousRoute = chainAuthenticated(currentRoute, {
   otherwise: routes.staking.open,
 });
-
 
 export const $investReponse = createStore({});
 const $currentCoin = createStore("BTC");
@@ -27,15 +27,15 @@ sample({
   clock: createStakeRequest.doneData,
   source: $currentCoin,
   fn: (coin) => coin,
-  target: requestBalance
-})
+  target: requestBalance,
+});
 
 sample({
   clock: createUnstakeRequest.doneData,
   source: $currentCoin,
   fn: (coin) => coin,
-  target: requestBalance
-})
+  target: requestBalance,
+});
 
 chainRoute({
   route: currentRoute,
@@ -64,50 +64,50 @@ chainRoute({
 sample({
   clock: createStakeRequest.doneData,
   fn: () => "Investment created",
-  target: showSuccessNotification
-})
+  target: showSuccessNotification,
+});
 
 sample({
   clock: createUnstakeRequest.doneData,
   fn: () => "Done",
-  target: showSuccessNotification
-})
+  target: showSuccessNotification,
+});
 
 sample({
   clock: createUnstakeRequest.fail,
   fn: () => "Fail",
-  target: showErrorNotification
-})
+  target: showErrorNotification,
+});
 
 sample({
   clock: createStakeRequest.failData,
   fn: () => "Failed to create investement",
-  target: showErrorNotification
-})
+  target: showErrorNotification,
+});
 
 sample({
   clock: createStakeRequest.doneData,
-  target: getStakingHistory
-})
+  target: getStakingHistory,
+});
 
 sample({
   clock: createUnstakeRequest.doneData,
-  target: getStakingHistory
-})
+  target: getStakingHistory,
+});
 
 sample({
   clock: uploadAvatar.doneData,
-  target: getStakingHistory
-})
+  target: getStakingHistory,
+});
 
 sample({
   clock: uploadAvatar.failData,
   fn: () => "Failed to upload new avatar",
-  target: showErrorNotification
-})
+  target: showErrorNotification,
+});
 
 sample({
   clock: uploadAvatar.doneData,
   fn: () => "New avatar uploaded",
-  target: showSuccessNotification
-})
+  target: showSuccessNotification,
+});

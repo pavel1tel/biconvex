@@ -100,7 +100,6 @@ export const requestLogin = createEffect<Request, any>((request) => {
     });
 });
 
-
 export const requestBinance = createEffect<Request, any>((request) => {
   return binanceApi({
     method: request.method,

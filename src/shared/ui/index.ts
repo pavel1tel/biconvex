@@ -7,3 +7,4 @@ export * from "./sidebar";
 export * from "./container";
 export * from "./show-rows-count";
 export { PageLoader } from "./page-loader";
+export * from "./loading";

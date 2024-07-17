@@ -22,7 +22,7 @@ export const Payment = ({ currentPairName, setCurrentPair }) => {
 
   return (
     <Stack className={classes.payment}>
-      <Container style={{ height: "auto" }}>
+      <Container>
         {md && <TradeChartTitle currentPairName={currentPairName} setCurrentPair={setCurrentPair} className="withBottomIndent" />}
         <Stack gap={32}>
           <Stack gap={16}>
@@ -130,7 +130,7 @@ export const Payment = ({ currentPairName, setCurrentPair }) => {
               Buy/Long
             </Button>
             <Button className={classes.button} variant="danger">
-              Sell/Shot
+              Sell/Short
             </Button>
           </Group>
         </Stack>

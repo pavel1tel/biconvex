@@ -3,7 +3,6 @@ import { createEffect } from "effector";
 import { requestRegistration } from "../request";
 
 export const getStakingHistoryFx = createEffect<void, any, void>(async () => {
-
   return requestRegistration({
     path: "/api/wallet",
     method: "GET",
@@ -15,8 +14,8 @@ export const getStakingHistoryFx = createEffect<void, any, void>(async () => {
 
 export const activatePromo = createEffect<string, any, void>(async (code) => {
   const data = new URLSearchParams();
-  data.append('action', 'ACTIVATE_PROMOCODE');
-  data.append('promo_code', code);
+  data.append("action", "ACTIVATE_PROMOCODE");
+  data.append("promo_code", code);
 
   return requestRegistration({
     path: "/profile",
@@ -24,15 +23,15 @@ export const activatePromo = createEffect<string, any, void>(async (code) => {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: data
+    body: data,
   });
 });
 
 export const uploadAvatar = createEffect<File, any, void>(async (file) => {
   const form = new FormData();
 
-  form.append('profile_photo', file, file.name);
-  form.append('action', 'UPDATE_AVATAR');
+  form.append("profile_photo", file, file.name);
+  form.append("action", "UPDATE_AVATAR");
 
   return requestRegistration({
     path: "/api/edit_settings",
@@ -40,6 +39,6 @@ export const uploadAvatar = createEffect<File, any, void>(async (file) => {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: form
+    body: form,
   });
 });

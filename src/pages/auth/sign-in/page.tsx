@@ -1,5 +1,7 @@
 // @ts-nocheck
 import { Button, Checkbox, Group, Image, PasswordInput, Stack, Text, TextInput, Title, rem } from "@mantine/core";
+// import { Footer } from "../components/Footer/Footer";
+import { useDisclosure } from "@mantine/hooks";
 import { Link } from "atomic-router-react";
 import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
@@ -10,8 +12,6 @@ import { showErrorNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { Footer, Header, HidePasswordIcon, ShowPasswordIcon, Wrapper } from "@/shared/ui";
 
-// import { Footer } from "../components/Footer/Footer";
-import { useDisclosure } from "@mantine/hooks";
 import { TwoFAModal } from "../components/Footer/TwoFAModal";
 import classes from "./styles.module.css";
 
@@ -41,7 +41,7 @@ export const Page = () => {
       setUserId(e.message);
       open();
     }
-  })
+  });
   const loading = useUnit(loginUser.pending);
   const handleSubmit = async () => {
     if (email === "" || password === "") {

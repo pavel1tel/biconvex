@@ -17,20 +17,31 @@ export const anonymousRoute = chainAnonymous(currentRoute, {
 });
 
 const $error = createStore<LoginResponseDto>({ message: "", fa2: false });
-$error.on(loginUser.failData, (_, error) => { return { message: error.message, fa2: error.fa2 } }).reset(loginUser);
-loginUser.failData.watch(e => console.log(e.message))
+$error
+  .on(loginUser.failData, (_, error) => {
+    return { message: error.message, fa2: error.fa2 };
+  })
+  .reset(loginUser);
+loginUser.failData.watch((e) => console.log(e.message));
 export const $token = createStore<string>("");
-$token.on(loginUser.doneData, (_, token) => {
-  return token.message;
-}).reset(loginUser);
+$token
+  .on(loginUser.doneData, (_, token) => {
+    return token.message;
+  })
+  .reset(loginUser);
 
-$token.on(loginUser2FA.doneData, (_, token) => {
-  return token.message;
-}).reset(loginUser);
+$token
+  .on(loginUser2FA.doneData, (_, token) => {
+    return token.message;
+  })
+  .reset(loginUser);
 
 const $error2Fa = createStore<ResponseDto>({ message: "" });
-$error2Fa.on(loginUser2FA.failData, (_, error) => { return { message: error.message } }).reset(loginUser);
-
+$error2Fa
+  .on(loginUser2FA.failData, (_, error) => {
+    return { message: error.message };
+  })
+  .reset(loginUser);
 
 persist({
   store: $token,
@@ -58,21 +69,21 @@ sample({
   source: $error,
   filter: (error) => !error.fa2,
   fn: (error) => error.message,
-  target: showErrorNotification
-})
+  target: showErrorNotification,
+});
 
 sample({
   clock: loginUser2FA.failData,
   source: $error2Fa,
   fn: (error) => error.message,
-  target: showErrorNotification
-})
+  target: showErrorNotification,
+});
 
 function setCookie(name: string, value: string, days: number) {
   var expires = "";
   if (days) {
     var date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     expires = "; expires=" + date.toUTCString();
   }
   document.cookie = name + "=" + (value || "") + expires + "; path=/; Secure; SameSite=None; Domain=20.79.188.227";

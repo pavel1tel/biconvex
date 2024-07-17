@@ -266,12 +266,7 @@ const series = [
     ],
   },
 ];
-export const TradeChart = ({
-  currentPair,
-  setCurrentPair,
-  currentPairName,
-  priceWs
-}) => {
+export const TradeChart = ({ currentPair, setCurrentPair, currentPairName, priceWs }) => {
   const [activePeriod, setActivePeriod] = useState("1m");
   const [minZoomIndex, setMinZoomIndex] = useState(0);
   const [maxZoomIndex, setMaxZoomIndex] = useState(series[0].data.length - 1);

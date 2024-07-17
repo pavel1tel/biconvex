@@ -1,15 +1,16 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Button, Group, Image, Stack, Text, TextInput } from "@mantine/core";
+import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
 
-import { USDIcon } from "@/shared/ui/icon/USDIcon";
-import { WalletIcon } from "@/shared/ui/icon/WalletIcon";
-
 import { $profileReponse } from "@/pages/my-profile/model";
+
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { createOrder } from "@/shared/api/trading/requests";
 import { Crypto, ProfileReponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
+import { USDIcon } from "@/shared/ui/icon/USDIcon";
+import { WalletIcon } from "@/shared/ui/icon/WalletIcon";
+
 import { MarketSwitch } from "../../MarketSwitch/MarketSwitch";
 import classes from "./BuyTab.module.css";
 
@@ -28,52 +29,52 @@ export const BuyTab = ({ currentPair, priceWs }: { currentPair: string; priceWs:
     setCoinAmount(NaN);
     setTotal(NaN);
     setPrice(NaN);
-  }, [activeSwitch])
+  }, [activeSwitch]);
   useEffect(() => {
     if (!profileResponsePending) {
-      setCurrentCoin(profileResponse.coins!.filter((coin) => coin.symbol === currentPair.split("/")[0])[0])
+      setCurrentCoin(profileResponse.coins!.filter((coin) => coin.symbol === currentPair.split("/")[0])[0]);
     }
-  })
+  });
 
   useEffect(() => {
     if (activeSwitch === 1) {
       if (price && coinAmount) {
-        setTotal(coinAmount * price)
+        setTotal(coinAmount * price);
       }
     }
-  }, [recalculateCoin, price])
+  }, [recalculateCoin, price]);
 
   useEffect(() => {
     if (activeSwitch === 1) {
       if (price && total) {
-        setCoinAmount(parseFloat((total / price).toFixed(5)))
+        setCoinAmount(parseFloat((total / price).toFixed(5)));
       }
     }
-  }, [recalculateTotal])
+  }, [recalculateTotal]);
 
   useEffect(() => {
     if (activeSwitch === 2) {
       if (coinAmount && priceWs) {
-        let temp = JSON.parse(priceWs.data)
-        setPrice(parseFloat(temp["k"]["c"]))
-        setTotal(coinAmount * parseFloat(temp["k"]["c"]))
+        const temp = JSON.parse(priceWs.data);
+        setPrice(parseFloat(temp["k"]["c"]));
+        setTotal(coinAmount * parseFloat(temp["k"]["c"]));
       } else {
-        setTotal(NaN)
+        setTotal(NaN);
       }
     }
-  }, [recalculateCoin])
+  }, [recalculateCoin]);
 
   useEffect(() => {
     if (activeSwitch === 2) {
       if (total && priceWs) {
-        let temp = JSON.parse(priceWs.data)
-        setPrice(parseFloat(temp["k"]["c"]))
-        setCoinAmount(parseFloat((total / temp["k"]["c"]).toFixed(5)))
+        const temp = JSON.parse(priceWs.data);
+        setPrice(parseFloat(temp["k"]["c"]));
+        setCoinAmount(parseFloat((total / temp["k"]["c"]).toFixed(5)));
       } else {
-        setCoinAmount(NaN)
+        setCoinAmount(NaN);
       }
     }
-  }, [recalculateTotal])
+  }, [recalculateTotal]);
 
   const handleBuy = () => {
     if (activeSwitch == 1 && coinAmount && price) {
@@ -82,18 +83,18 @@ export const BuyTab = ({ currentPair, priceWs }: { currentPair: string; priceWs:
         crypto: currentCoin!.symbol,
         amount: coinAmount,
         type: 0,
-        category: "LIMIT"
-      })
+        category: "LIMIT",
+      });
     } else if (activeSwitch == 2 && coinAmount && total && price) {
       createOrder({
         pair_price: price,
         crypto: currentCoin!.symbol,
         amount: coinAmount,
         type: 0,
-        category: "MARKET"
-      })
+        category: "MARKET",
+      });
     }
-  }
+  };
 
   return (
     <Stack gap={32}>
@@ -119,7 +120,10 @@ export const BuyTab = ({ currentPair, priceWs }: { currentPair: string; priceWs:
             type="number"
             step="0.00001"
             value={coinAmount}
-            onChange={e => { setCoinAmount(parseFloat(e.target.value)); setRecalculateCoin(prev => !prev) }}
+            onChange={(e) => {
+              setCoinAmount(parseFloat(e.target.value));
+              setRecalculateCoin((prev) => !prev);
+            }}
             rightSectionWidth="fit-content"
             rightSection={
               <Group gap={8} wrap="nowrap">
@@ -136,7 +140,7 @@ export const BuyTab = ({ currentPair, priceWs }: { currentPair: string; priceWs:
             Price
             <TextInput
               value={price}
-              onChange={e => setPrice(parseFloat(e.target.value))}
+              onChange={(e) => setPrice(parseFloat(e.target.value))}
               classNames={{ input: classes.textInput, section: classes.section }}
               placeholder="$0"
               step="0.01"
@@ -155,7 +159,10 @@ export const BuyTab = ({ currentPair, priceWs }: { currentPair: string; priceWs:
           Total
           <TextInput
             value={total}
-            onChange={e => { setTotal(parseFloat(e.target.value)); setRecalculateTotal(prev => !prev) }}
+            onChange={(e) => {
+              setTotal(parseFloat(e.target.value));
+              setRecalculateTotal((prev) => !prev);
+            }}
             classNames={{ input: classes.textInput, section: classes.section }}
             placeholder="$0"
             type="number"

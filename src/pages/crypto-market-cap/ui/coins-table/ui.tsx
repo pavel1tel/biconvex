@@ -74,7 +74,7 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data }) => {
   );
 
   const sortedData = useMemo(() => {
-    let sorted = [...data];
+    const sorted = [...data];
     switch (sortingLabel) {
       case "Coin Name":
         sorted.sort((a, b) => (a.name > b.name ? 1 : -1));

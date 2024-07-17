@@ -81,7 +81,8 @@
 
 @media (max-width: 500px) {
   .text-red,
-  .text-orange {
+  .text-orange,
+  .text-green {
     font-size: 1rem;
   }
   .box-red,
@@ -91,4 +92,8 @@
 }
 
 @media (max-width: 400px) {
+  .text-orange,
+  .text-green {
+    font-size: 0.875rem;
+  }
 }

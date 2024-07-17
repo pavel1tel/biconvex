@@ -1,29 +1,26 @@
 import { Box, Button, Divider, List, Stack, Text, TextInput, rem } from "@mantine/core";
 import clsx from "clsx";
-
-import classes from "./styles.module.css";
-import { DepositCoin, TransferResponse } from "@/shared/api/types";
-import { $transferResponse } from "../../model";
 import { useUnit } from "effector-react";
 import { useState } from "react";
-import { requestTransfer } from "@/shared/api/transfer/requests";
 
-export const TransferBox = ({
-  currentCoin,
-} : {
-  currentCoin : DepositCoin | undefined
-}) => {
+import { requestTransfer } from "@/shared/api/transfer/requests";
+import { DepositCoin, TransferResponse } from "@/shared/api/types";
+
+import { $transferResponse } from "../../model";
+import classes from "./styles.module.css";
+
+export const TransferBox = ({ currentCoin }: { currentCoin: DepositCoin | undefined }) => {
   const transferResponse = useUnit<TransferResponse>($transferResponse);
   const [amount, setAmount] = useState<string>("");
   const [to, setTo] = useState<string>("");
 
   const submitTransfer = () => {
     requestTransfer({
-      amount : amount,
-      crypto : currentCoin!.symbol,
-      to : to
-    })
-  }
+      amount: amount,
+      crypto: currentCoin!.symbol,
+      to: to,
+    });
+  };
   return (
     <Stack gap={rem(32)} className={classes.wrapper} id="transferBox">
       <Text className={classes.title}>Transfer funds</Text>
@@ -31,8 +28,8 @@ export const TransferBox = ({
       <Divider opacity={"0.12"} color={"white"} />
       <Stack gap={rem("clamp(12px,2vw, 2rem)")}>
         <TextInput
-        value={to}
-        onChange={e => setTo(e.target.value)}
+          value={to}
+          onChange={(e) => setTo(e.target.value)}
           classNames={{
             input: classes.textInput,
             label: clsx(classes.label, classes.labelMargin),
@@ -41,8 +38,8 @@ export const TransferBox = ({
           placeholder="Enter ID or Email"
         />
         <TextInput
-        value={amount}
-        onChange={e => setAmount(e.target.value)}
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
           classNames={{
             wrapper: classes.inputWrapper,
             input: classes.textInput,
@@ -50,8 +47,22 @@ export const TransferBox = ({
           }}
           label="Amount"
           type="number"
-          placeholder={"Available "+ parseFloat(parseFloat(((transferResponse.coins_balances ? transferResponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") ? (transferResponse.coins_balances ? transferResponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0") : "0.00").toString()).toFixed(4)) + " " + currentCoin?.name}
-          />
+          placeholder={
+            "Available " +
+            parseFloat(
+              parseFloat(
+                ((transferResponse.coins_balances ? transferResponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"] : "0")
+                  ? transferResponse.coins_balances
+                    ? transferResponse.coins_balances![currentCoin ? currentCoin.symbol : "BTC"]
+                    : "0"
+                  : "0.00"
+                ).toString(),
+              ).toFixed(4),
+            ) +
+            " " +
+            currentCoin?.name
+          }
+        />
       </Stack>
       <Button onClick={submitTransfer} variant="radial-gradient" className={classes.btn}>
         <Text className={classes.inputValue}>Transfer funds</Text>

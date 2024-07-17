@@ -1,14 +1,14 @@
 import { BackgroundImage, Box, Flex, Group, SimpleGrid, Stack, Text, Title, rem } from "@mantine/core";
+import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 
 import { CloseEyeIcon, EyeIcon } from "@/pages/staking/ui";
 
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
+import { ProfileReponse } from "@/shared/api/types";
 import { RateChart } from "@/shared/ui";
 
-import { ProfileReponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
 import { $profileReponse } from "../../model";
 import classes from "./styles.module.css";
 
@@ -41,39 +41,39 @@ export const HeaderMyProfile = () => {
     if (!profileReponsepending) {
       setPnlData(profileReponse.pnl!);
       if (profileReponse.pnl!.length >= 2) {
-        let t = profileReponse.pnl![0] == 0 ? 1 : profileReponse.pnl![0];
-        setPercentage(((profileReponse.pnl![profileReponse.pnl!.length - 1] / t) - 1) * 100)
+        const t = profileReponse.pnl![0] == 0 ? 1 : profileReponse.pnl![0];
+        setPercentage((profileReponse.pnl![profileReponse.pnl!.length - 1] / t - 1) * 100);
       } else {
         setPercentage(0);
       }
       setValue("$" + profileReponse.total_balance!);
       if (parseFloat(profileReponse.total_balance!) == 0) {
         setBtcPercent(0);
-        setBtcValue(0)
+        setBtcValue(0);
         setEthPercent(0);
-        setEthValue(0)
+        setEthValue(0);
         setUsdtPercent(0);
-        setUsdtValue(0)
-        setOtherPercent(0)
-        setOtherValue(0)
+        setUsdtValue(0);
+        setOtherPercent(0);
+        setOtherValue(0);
         return;
       }
-      let btcPercent: number = ((profileReponse.btc_balance! * profileReponse.btc_price!) / parseFloat(profileReponse.total_balance!)) * 100;
-      let btcValue = parseFloat((profileReponse.btc_balance! * profileReponse.btc_price!).toFixed(2))
+      const btcPercent: number = ((profileReponse.btc_balance! * profileReponse.btc_price!) / parseFloat(profileReponse.total_balance!)) * 100;
+      const btcValue = parseFloat((profileReponse.btc_balance! * profileReponse.btc_price!).toFixed(2));
       setBtcPercent(Math.floor(btcPercent));
-      setBtcValue(btcValue)
-      let ethPercent: number = ((profileReponse.eth_balance! * profileReponse.eth_price!) / parseFloat(profileReponse.total_balance!)) * 100;
-      let ethValue = parseFloat((profileReponse.eth_balance! * profileReponse.eth_price!).toFixed(2))
+      setBtcValue(btcValue);
+      const ethPercent: number = ((profileReponse.eth_balance! * profileReponse.eth_price!) / parseFloat(profileReponse.total_balance!)) * 100;
+      const ethValue = parseFloat((profileReponse.eth_balance! * profileReponse.eth_price!).toFixed(2));
       setEthPercent(Math.floor(ethPercent));
-      setEthValue(ethValue)
-      let usdtPercent: number = ((profileReponse.usdt_balance! * profileReponse.usdt_price!) / parseFloat(profileReponse.total_balance!)) * 100;
-      let usdtValue: number = parseFloat((profileReponse.usdt_balance! * profileReponse.usdt_price!).toFixed(2));
+      setEthValue(ethValue);
+      const usdtPercent: number = ((profileReponse.usdt_balance! * profileReponse.usdt_price!) / parseFloat(profileReponse.total_balance!)) * 100;
+      const usdtValue: number = parseFloat((profileReponse.usdt_balance! * profileReponse.usdt_price!).toFixed(2));
       setUsdtPercent(Math.floor(usdtPercent));
-      setUsdtValue(usdtValue)
-      setOtherPercent(100 - Math.floor(usdtPercent) - Math.floor(ethPercent) - Math.floor(btcPercent))
-      setOtherValue(parseFloat((parseFloat(profileReponse.total_balance!) - btcValue - ethValue - usdtValue).toFixed(2)))
+      setUsdtValue(usdtValue);
+      setOtherPercent(100 - Math.floor(usdtPercent) - Math.floor(ethPercent) - Math.floor(btcPercent));
+      setOtherValue(parseFloat((parseFloat(profileReponse.total_balance!) - btcValue - ethValue - usdtValue).toFixed(2)));
     }
-  }, [profileReponse, profileReponsepending])
+  }, [profileReponse, profileReponsepending]);
 
   return (
     <Box>

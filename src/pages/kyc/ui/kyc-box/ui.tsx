@@ -2,16 +2,17 @@
 import { Box, Button, Combobox, Divider, FileInput, Flex, Group, Image, Input, Stack, Text, TextInput, rem, useCombobox } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import clsx from "clsx";
+import { useUnit } from "effector-react";
 import { useEffect, useRef, useState } from "react";
+import { useCountries } from "use-react-countries";
 
 import { ManIcon } from "@/pages/kyc/ui";
+import { $profileReponse } from "@/pages/my-profile/model";
 import { CopyIcon } from "@/pages/my-profile/ui";
 
-import { $profileReponse } from "@/pages/my-profile/model";
 import { getKycInfo, uploadKyc } from "@/shared/api/kyc/requests";
 import { ProfileReponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
-import { useCountries } from "use-react-countries";
+
 import { $kycResponse } from "../../model";
 import classes from "./styles.module.css";
 
@@ -57,7 +58,6 @@ export const KycBox = () => {
     </Combobox.Option>
   ));
 
-
   const kycResponse = useUnit<any>($kycResponse);
   const kycResponsePending = useUnit<boolean>(getKycInfo.pending);
 
@@ -69,10 +69,10 @@ export const KycBox = () => {
         firstName: kycResponse.first_name,
         lastName: kycResponse.last_name,
         phone: kycResponse.phone,
-        idNumber: kycResponse.id_number
+        idNumber: kycResponse.id_number,
       });
       setValue(countries.find((a) => a.name == kycResponse.country));
-      setDocumentType(kycResponse.id_type)
+      setDocumentType(kycResponse.id_type);
     }
   }, [kycResponsePending, kycResponse]);
 
@@ -100,18 +100,23 @@ export const KycBox = () => {
       <Flex justify={"space-between"} className={classes.headerFlex}>
         <Text className={classes.title}>KYC Verification</Text>
         <Box className={classes.boxWrapper}>
-          <Flex align={"center"} justify={"space-between"} className={profileReponse.kyc_accepted ? classes.boxGreen : (kycResponse.id_type ? classes.boxOrange : classes.boxRed)}>
+          <Flex
+            align={"center"}
+            justify={"space-between"}
+            className={profileReponse.kyc_accepted ? classes.boxGreen : kycResponse.id_type ? classes.boxOrange : classes.boxRed}
+          >
             <Stack gap={8}>
               <Flex gap={4} align={"center"}>
                 <CopyIcon />
                 <Text className={classes.subTitle}>Verification</Text>
               </Flex>
-              {profileReponse.kyc_accepted ?
-                <Text className={classes.textGreen}>VERIFIED</Text> :
-                (kycResponse.id_type ?
-                  <Text className={classes.textOrange}>IN PROGRESS</Text>
-                  : <Text className={classes.textRed}>UNVERIFIED</Text>)
-              }
+              {profileReponse.kyc_accepted ? (
+                <Text className={classes.textGreen}>VERIFIED</Text>
+              ) : kycResponse.id_type ? (
+                <Text className={classes.textOrange}>IN PROGRESS</Text>
+              ) : (
+                <Text className={classes.textRed}>UNVERIFIED</Text>
+              )}
             </Stack>
           </Flex>
         </Box>
@@ -129,10 +134,9 @@ export const KycBox = () => {
             kyc_id_number: values.idNumber,
             image_document: doc!,
             image_document_back: docBack!,
-            image_selfie: selfie!
+            image_selfie: selfie!,
           }),
-        )
-        }
+        )}
       >
         <Stack gap={rem(32)} className={classes.body}>
           <Text className={classes.subTitle2}>Personal Information</Text>
@@ -171,7 +175,6 @@ export const KycBox = () => {
                   Country
                   <Combobox
                     disabled={kycResponse.id_type ? true : false}
-
                     classNames={{
                       option: classes.option,
                     }}
@@ -238,10 +241,10 @@ export const KycBox = () => {
             {documentTypesButtons.map((item) => (
               <Button
                 onClick={() => {
-                  if (!kycResponse.id_type) { }
-                  setDocumentType(item.text)
-                }
-                }
+                  if (!kycResponse.id_type) {
+                  }
+                  setDocumentType(item.text);
+                }}
                 size="xl"
                 variant="outline"
                 className={clsx(item.text === documentType && classes.ratesButtonRootActive, classes.documentTypeBtn)}
@@ -251,81 +254,119 @@ export const KycBox = () => {
               </Button>
             ))}
           </Group>
-          <Flex gap={rem(16)} className={classes.columns} >
-            <Stack onClick={() => {
-              documentInput.current ? documentInput.current.click() : "";
-            }}>
+          <Flex gap={rem(16)} className={classes.columns}>
+            <Stack
+              onClick={() => {
+                documentInput.current ? documentInput.current.click() : "";
+              }}
+            >
               <Text className={classes.subTitle4}>Identity Document</Text>
               <Flex className={classes.selectBox}>
                 <Stack gap={rem(4)} justify={"center"} align={"center"}>
-                  {doc ?
+                  {doc ? (
                     <>
                       <Image h={50} w="auto" src={URL.createObjectURL(doc)}></Image>
                       <Text className={classes.subTitle4}>{doc.name}</Text>
                     </>
-                    : <><Text className={classes.subTitle3}>
-                      Drop your file upload or{" "}
-                      <Text span={true} className={classes.span}>
-                        Browse
+                  ) : (
+                    <>
+                      <Text className={classes.subTitle3}>
+                        Drop your file upload or{" "}
+                        <Text span={true} className={classes.span}>
+                          Browse
+                        </Text>
                       </Text>
-                    </Text>
-                      <Text className={classes.subTitle4}>Maximum size of image 3MB</Text></>}
+                      <Text className={classes.subTitle4}>Maximum size of image 3MB</Text>
+                    </>
+                  )}
                 </Stack>
               </Flex>
             </Stack>
-            <Stack onClick={() => {
-              documentBackInput.current ? documentBackInput.current.click() : "";
-            }}>
+            <Stack
+              onClick={() => {
+                documentBackInput.current ? documentBackInput.current.click() : "";
+              }}
+            >
               <Text className={classes.subTitle4}>Identity Document Back Side</Text>
               <Flex className={classes.selectBox}>
                 <Stack gap={rem(4)} justify={"center"} align={"center"}>
-                  {docBack ?
+                  {docBack ? (
                     <>
                       <Image h={50} w="auto" src={URL.createObjectURL(docBack)}></Image>
                       <Text className={classes.subTitle4}>{docBack.name}</Text>
                     </>
-                    : <><Text className={classes.subTitle3}>
-                      Drop your file upload or{" "}
-                      <Text span={true} className={classes.span}>
-                        Browse
+                  ) : (
+                    <>
+                      <Text className={classes.subTitle3}>
+                        Drop your file upload or{" "}
+                        <Text span={true} className={classes.span}>
+                          Browse
+                        </Text>
                       </Text>
-                    </Text>
-                      <Text className={classes.subTitle4}>Maximum size of image 3MB</Text></>}
+                      <Text className={classes.subTitle4}>Maximum size of image 3MB</Text>
+                    </>
+                  )}
                 </Stack>
               </Flex>
             </Stack>
-            <Stack onClick={() => {
-              selfieInput.current ? selfieInput.current.click() : "";
-            }}>
+            <Stack
+              onClick={() => {
+                selfieInput.current ? selfieInput.current.click() : "";
+              }}
+            >
               <Text className={classes.subTitle4}>A Selfie with your identity</Text>
               <Flex className={clsx(classes.selectBox)}>
-                {selfie ?
+                {selfie ? (
                   <>
                     <Stack gap={rem(4)} justify={"center"} align={"center"}>
                       <Image h={50} w="auto" src={URL.createObjectURL(selfie)}></Image>
                       <Text className={classes.subTitle4}>{selfie.name}</Text>
                     </Stack>
                   </>
-                  : <               Flex gap={rem(8)} justify={"center"} align={"center"}
-                  ><ManIcon />
+                ) : (
+                  <Flex gap={rem(8)} justify={"center"} align={"center"}>
+                    <ManIcon />
                     <Text className={classes.subTitle4}>
                       Every detail of <br /> the ID document <br /> is clearly visible.
-                    </Text></Flex>}
+                    </Text>
+                  </Flex>
+                )}
               </Flex>
             </Stack>
           </Flex>
-          {kycResponse.id_type ?
+          {kycResponse.id_type ? (
             <></>
-            :
+          ) : (
             <Button type="submit" className={classes.btn} variant="radial-gradient">
               <Text>Submit for review</Text>
             </Button>
-          }
+          )}
         </Stack>
       </form>
-      <FileInput disabled={kycResponse.id_type ? true : false} value={doc} onChange={setDocument} accept="image/png,image/jpeg" ref={documentInput} display={"none"} />
-      <FileInput disabled={kycResponse.id_type ? true : false} value={docBack} onChange={setDocumentBack} accept="image/png,image/jpeg" ref={documentBackInput} display={"none"} />
-      <FileInput disabled={kycResponse.id_type ? true : false} value={selfie} onChange={setSelfie} accept="image/png,image/jpeg" ref={selfieInput} display={"none"} />
+      <FileInput
+        disabled={kycResponse.id_type ? true : false}
+        value={doc}
+        onChange={setDocument}
+        accept="image/png,image/jpeg"
+        ref={documentInput}
+        display={"none"}
+      />
+      <FileInput
+        disabled={kycResponse.id_type ? true : false}
+        value={docBack}
+        onChange={setDocumentBack}
+        accept="image/png,image/jpeg"
+        ref={documentBackInput}
+        display={"none"}
+      />
+      <FileInput
+        disabled={kycResponse.id_type ? true : false}
+        value={selfie}
+        onChange={setSelfie}
+        accept="image/png,image/jpeg"
+        ref={selfieInput}
+        display={"none"}
+      />
     </Stack>
   );
 };

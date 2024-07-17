@@ -40,6 +40,10 @@
   position: absolute;
 }
 
+.flex-container {
+  align-items: inherit;
+}
+
 @media (max-width: 1000px) {
   .flex-container {
     flex-direction: column;

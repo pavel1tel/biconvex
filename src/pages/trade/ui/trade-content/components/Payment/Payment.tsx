@@ -9,13 +9,7 @@ import containerClasses from "../../../../../../shared/ui/TradePageContainer/Con
 import { BuyTab } from "./components/tabs/BuyTab/BuyTab";
 import { SellTab } from "./components/tabs/SellTab/SellTab";
 
-
-export const Payment = ({
-  currentPairName,
-  setCurrentPair,
-  currentPair,
-  priceWs
-}) => {
+export const Payment = ({ currentPairName, setCurrentPair, currentPair, priceWs }) => {
   const { isAdaptive: md } = useResize(1200);
   const tabs = [
     { id: "buy", title: "Buy", content: <BuyTab priceWs={priceWs} currentPair={currentPair} /> },

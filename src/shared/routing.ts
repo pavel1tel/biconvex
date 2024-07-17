@@ -9,7 +9,7 @@ export const routes = {
   myProfile: createRoute(),
   home: createRoute(),
   card: createRoute(),
-  trade: createRoute<{pairId : string}>(),
+  trade: createRoute<{ pairId: string }>(),
   tradeFutures: createRoute(),
   staking: createRoute(),
   finance: createRoute(),

@@ -2,6 +2,8 @@ import { Button, Group, Table } from "@mantine/core";
 import clsx from "clsx";
 import { useState } from "react";
 
+import { PromoPopup } from "@/pages/trade-futures/ui/promo-popup/PromoPopup";
+
 import { MarketSortIcon } from "@/shared/ui";
 
 import tradeHistoryClasses from "../../TradeHistory.module.css";
@@ -13,6 +15,7 @@ export const OrdersTabMobile = () => {
   const [sortState, setSortState] = useState<{ sortCol: string; sortFunc: 1 | 2 | 3 }>({ sortCol: "", sortFunc: 1 });
   const [modalOpened, setModalOpened] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const sortHandler = (cell: string) => {
     if (cell !== sortState.sortCol) setSortState({ sortCol: cell, sortFunc: 2 });
@@ -26,6 +29,7 @@ export const OrdersTabMobile = () => {
 
   return (
     <div className={tradeHistoryClasses.containerScrolled}>
+      {/* <PromoPopup handleSave={() => console.log("")} handleClose={() => setOpen(false)} opened={true} /> */}
       <Table className={classes.table} withRowBorders={false}>
         <Table.Thead>
           <Table.Tr>

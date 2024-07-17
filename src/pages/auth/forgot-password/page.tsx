@@ -1,17 +1,17 @@
 import { Button, Group, Image, Stack, Text, TextInput, Title, rem } from "@mantine/core";
 import { Link } from "atomic-router-react";
+import { sample } from "effector";
+import { useUnit } from "effector-react";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
+import { resetPassSendCode } from "@/shared/api";
+import { showErrorNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { Header, Wrapper } from "@/shared/ui";
 
 import { Footer } from "../components/Footer/Footer";
 import classes from "./styles.module.css";
-import { useEffect, useState } from "react";
-import { resetPassSendCode } from "@/shared/api";
-import { useUnit } from "effector-react";
-import { showErrorNotification } from "@/shared/lib/notification";
-import { sample } from "effector";
-import { Helmet } from "react-helmet-async";
 
 const ResetIcon = () => {
   return (
@@ -28,10 +28,10 @@ const ResetIcon = () => {
 
 export const Page = () => {
   const [email, setEmail] = useState("");
-  const[isError, setIsError] = useState(false);
-  const isLoading = useUnit(resetPassSendCode.pending)
+  const [isError, setIsError] = useState(false);
+  const isLoading = useUnit(resetPassSendCode.pending);
   const onFormSubmit = (e: React.MouseEvent) => {
-    if(email === ""){
+    if (email === "") {
       setIsError(true);
       showErrorNotification("Email is required");
       return;
@@ -42,12 +42,12 @@ export const Page = () => {
 
   useEffect(() => {
     setIsError(false);
-  }, [email])
+  }, [email]);
 
   sample({
     clock: resetPassSendCode.failData,
-    fn: () => setIsError(true)
-  })
+    fn: () => setIsError(true),
+  });
 
   return (
     <Wrapper>

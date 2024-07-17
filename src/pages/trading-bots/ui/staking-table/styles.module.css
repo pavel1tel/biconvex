@@ -6,7 +6,7 @@
 
 .box {
   border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: rem(64px);
+  padding: rem(20px) rem(35px) rem(25px) rem(35px);
   border-radius: rem(8px);
   background: var(--color-black);
   color: var(--color-white);
@@ -14,6 +14,11 @@
 
 .table-tr {
   border: none;
+  /* white-space: nowrap; */
+}
+
+.cell-with-icon-text {
+  font-size: 18px;
 }
 
 .closeButton {
@@ -25,6 +30,7 @@
 
 .table-td {
   height: 1px;
+  /* white-space: pre-line; */
 
   & svg {
     width: rem(29);
@@ -62,6 +68,15 @@
       }
     }
   }
+}
+
+.table-body {
+  --table-vertical-spacing: calc(1.5rem * var(--mantine-scale));
+  --table-horizontal-spacing: calc(1.3rem * var(--mantine-scale));
+}
+
+.table {
+  --table-horizontal-spacing: calc(1.1rem * var(--mantine-scale));
 }
 
 .table-head-sort-label {
@@ -175,4 +190,5 @@
   background: transparent !important;
   border: none;
   text-decoration: underline;
+  padding-left: 0;
 }

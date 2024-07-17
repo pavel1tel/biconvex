@@ -1,11 +1,24 @@
+import { chainRoute } from "atomic-router";
+import { createEvent, createStore, sample } from "effector";
+
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
-import { cancelOrder, createOrder, getCandles, getCoinInfo, getCoinPrice, getOrderBook, getRates, getTrades, requestHistoryOrders, requestOpenOrders, requestTrading } from "@/shared/api/trading/requests";
+import {
+  cancelOrder,
+  createOrder,
+  getCandles,
+  getCoinInfo,
+  getCoinPrice,
+  getOrderBook,
+  getRates,
+  getTrades,
+  requestHistoryOrders,
+  requestOpenOrders,
+  requestTrading,
+} from "@/shared/api/trading/requests";
 import { ResponseDto } from "@/shared/api/types";
 import { showErrorNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { chainAuthenticated } from "@/shared/session";
-import { chainRoute } from "atomic-router";
-import { createEvent, createStore, sample } from "effector";
 
 export const currentRoute = routes.trade;
 
@@ -67,7 +80,6 @@ chainRoute({
   },
 });
 
-
 chainRoute({
   route: currentRoute,
   beforeOpen: {
@@ -100,26 +112,25 @@ chainRoute({
   },
 });
 
-
 sample({
   clock: createOrder.doneData,
-  target: requestOpenOrders
-})
+  target: requestOpenOrders,
+});
 
 sample({
   clock: cancelOrder.doneData,
-  target: requestOpenOrders
-})
+  target: requestOpenOrders,
+});
 
 sample({
   clock: navv,
   fn: (pair) => ({
     params: { pairId: pair },
     query: {},
-    replace: true
+    replace: true,
   }),
   target: routes.trade.navigate,
-})
+});
 
 sample({
   clock: createOrder.failData,

@@ -2,6 +2,7 @@ import { useResize } from "@/hooks/useResize";
 import { Group, Stack } from "@mantine/core";
 import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
+import useWebSocket from "react-use-websocket";
 
 import { $profileReponse } from "@/pages/my-profile/model";
 
@@ -18,7 +19,6 @@ import { MarketTrades } from "./components/MarketTrades/MarketTrades";
 import { Payment } from "./components/Payment/Payment";
 import { TradeChart } from "./components/TradeChart/TradeChart";
 import { TradeHistory } from "./components/TradeHistory/TradeHistory";
-import useWebSocket from "react-use-websocket";
 
 export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
   const { isAdaptive: md } = useResize(1200);
@@ -28,12 +28,12 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
   const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
   const [currentPair, setCurrentPair] = useState("");
   const [currentPairName, setCurrentPairName] = useState("");
-  const [socketUrl, setSocketUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
+  const [socketUrl, setSocketUrl] = useState("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
   const { lastMessage: priceWs } = useWebSocket(socketUrl);
 
   useEffect(() => {
-    setSocketUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@kline_1m')
-  }, [currentPair])
+    setSocketUrl("wss://stream.binance.com:9443/ws/" + currentPair.split("/").join("").toLocaleLowerCase() + "@kline_1m");
+  }, [currentPair]);
   useEffect(() => {
     if (!profileResponsePending) {
       setCurrentPair(profileResponse.coins![0].symbol + "/USDT");

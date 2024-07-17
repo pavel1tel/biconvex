@@ -1,12 +1,13 @@
 import { Button, Divider, Group, Image, Modal, Stack, Text, TextInput, rem } from "@mantine/core";
+import { useUnit } from "effector-react";
 import { FC, useState } from "react";
 
-
 import { $profileReponse } from "@/pages/my-profile/model";
+
 import { enable2Fa } from "@/shared/api/2fa/requests";
 import { ProfileReponse } from "@/shared/api/types";
 import { showSuccessNotification } from "@/shared/lib/notification";
-import { useUnit } from "effector-react";
+
 import classes from "./style.module.css";
 
 type TwoFAModalProps = {
@@ -16,9 +17,9 @@ type TwoFAModalProps = {
 export const TwoFAModal: FC<TwoFAModalProps> = ({ opened, close }) => {
   const profileReponse = useUnit<ProfileReponse>($profileReponse);
   const [code, setCode] = useState<string>("");
-  enable2Fa.doneData.watch(e => {
-    close()
-  })
+  enable2Fa.doneData.watch((e) => {
+    close();
+  });
   return (
     <Modal
       opened={opened}
@@ -49,7 +50,17 @@ export const TwoFAModal: FC<TwoFAModalProps> = ({ opened, close }) => {
           <Group gap={rem(32)} align="center" wrap="nowrap">
             <div className={classes.qrCodeWrapper}>
               {/* <QRCode/> */}
-              <Image w={128} h={128} src={"https://api.qrserver.com/v1/create-qr-code/?data=otpauth://totp/bitconvex.com+(" + profileReponse.email + ")?secret=" + profileReponse.two_factor_code + "&amp;size=128x128&amp;ecc=M"}></Image>
+              <Image
+                w={128}
+                h={128}
+                src={
+                  "https://api.qrserver.com/v1/create-qr-code/?data=otpauth://totp/bitconvex.com+(" +
+                  profileReponse.email +
+                  ")?secret=" +
+                  profileReponse.two_factor_code +
+                  "&amp;size=128x128&amp;ecc=M"
+                }
+              ></Image>
             </div>
             <Text className={classes.modalTextDescription}>
               To add this account to the Google Authenticator app, scan the QR code . Simply open the app, tap on the QR scanner icon in the top right
@@ -64,10 +75,15 @@ export const TwoFAModal: FC<TwoFAModalProps> = ({ opened, close }) => {
           </Text>
           <div className={classes.copyRefWrapper}>
             <TextInput value={profileReponse.two_factor_code} className={classes.refLink} />
-            <Button onClick={() => {
-              navigator.clipboard.writeText(profileReponse.two_factor_code ? profileReponse.two_factor_code : "");
-              showSuccessNotification("Copied!")
-            }} className={classes.btn} h={rem("54px")} variant="radial-gradient">
+            <Button
+              onClick={() => {
+                navigator.clipboard.writeText(profileReponse.two_factor_code ? profileReponse.two_factor_code : "");
+                showSuccessNotification("Copied!");
+              }}
+              className={classes.btn}
+              h={rem("54px")}
+              variant="radial-gradient"
+            >
               Copy
             </Button>
           </div>
