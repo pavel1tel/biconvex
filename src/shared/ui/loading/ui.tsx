@@ -1,9 +1,8 @@
 import { useResize } from "@/hooks/useResize";
 import { Center, Title } from "@mantine/core";
 import { motion } from "framer-motion";
-import React, { FC } from "react";
 
-import classes from "./Loading.module.css";
+import classes from "./styles.module.css";
 
 interface LoadingScreenProps {
   opened: boolean;
@@ -41,7 +40,7 @@ const lgRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reve
 const mdRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reverse" as const, ease: "easeInOut", duration: 4 };
 const smRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reverse" as const, ease: "easeInOut", duration: 3.5 };
 
-export const LoadingScreen: FC<LoadingScreenProps> = ({ opened = true }) => {
+export const LoadingScreen = ({ opened = true }: LoadingScreenProps) => {
   if (!opened) return null;
 
   const { isAdaptive: sm } = useResize(500);
