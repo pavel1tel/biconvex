@@ -58,10 +58,11 @@ const TradeDetailsModal: FC<TradeDetailsModalProps> = ({ opened, onClose, data }
             <button>Market</button>
           </div>
         </div>
-        <div className={clsx(classes.infoRow, classes.marginTop32)}>
+        {/*Removed */}
+        {/* <div className={clsx(classes.infoRow, classes.marginTop32)}>
           <span className={classes.label}>Close By Limit</span>
           <TPSLInput containerClass={clsx(classes.customTPSLInput, classes.placeholderColor)} hideSecondInput={true} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -118,6 +118,7 @@
 @media only screen and (max-width: 48em) {
   .banner-right-side {
     max-width: 320px;
+    height: 399px;
 
     .mainRobot {
       width: 345px;

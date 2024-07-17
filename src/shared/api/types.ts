@@ -6,6 +6,11 @@ export interface ResponseDto {
   message: string;
 }
 
+export interface LoginResponseDto {
+  fa2: boolean;
+  message: string;
+}
+
 export interface CandlesRequest {
   interval: string;
   pair: string;
@@ -178,6 +183,7 @@ export interface ProfileReponse {
   coins?: Crypto[];
   avatar?: string;
   panel?: string;
+  two_factor_code?: string;
 }
 
 export interface CryptoTicker {
@@ -226,6 +232,11 @@ export interface StakingHistoryResponse {
 export interface LoginRequestDto {
   email: string;
   password: string;
+}
+
+export interface Login2FARequestDto {
+  code_2fa: string;
+  user_id: string;
 }
 
 export interface RegistrationRequestDto {

@@ -25,7 +25,7 @@ type CoinsTableProps = {
   data: any[];
   currentPage: number;
   rowsPerPage: number;
-  headers: (typeof HEADERS),
+  headers: typeof HEADERS;
   transformData: any;
   sortingLabel: string;
   sortingDirection: string;
@@ -55,8 +55,17 @@ const HEADERS = [
   { label: "TR", className: classes.tableHeadCell, sortable: false },
 ];
 
-
-export const CoinsTable = ({ data, currentPage, rowsPerPage, headers, transformData, sortingLabel, sortingDirection, setSortingLabel, setSortingDirection }: CoinsTableProps) => {
+export const CoinsTable = ({
+  data,
+  currentPage,
+  rowsPerPage,
+  headers,
+  transformData,
+  sortingLabel,
+  sortingDirection,
+  setSortingLabel,
+  setSortingDirection,
+}: CoinsTableProps) => {
   const { isAdaptive: md } = useResize(1200);
 
   const onTableHeadSortLabelClick = useCallback(
@@ -96,9 +105,7 @@ export const CoinsTable = ({ data, currentPage, rowsPerPage, headers, transformD
       <Table.Thead classNames={{ thead: classes.tableHead }}>
         <Table.Tr>{hdrs}</Table.Tr>
       </Table.Thead>
-      <Table.Tbody classNames={{ tbody: classes.tableBody }}>
-        {transformData(data, currentPage, rowsPerPage)}
-      </Table.Tbody>
+      <Table.Tbody classNames={{ tbody: classes.tableBody }}>{transformData(data, currentPage, rowsPerPage)}</Table.Tbody>
     </Table>
   );
 };

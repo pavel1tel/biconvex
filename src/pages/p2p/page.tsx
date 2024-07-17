@@ -1,17 +1,16 @@
 import { Image } from "@mantine/core";
+import { Helmet } from "react-helmet-async";
 
 import { Container, Footer, Header, Wrapper } from "@/shared/ui";
 
 import classes from "./styles.module.css";
 import { P2PContent } from "./ui";
-import { Helmet } from "react-helmet-async";
 
 export function Page() {
   return (
     <Wrapper>
-        <Helmet>
-        <title> P2P | BitConvex
- </title>
+      <Helmet>
+        <title> P2P | BitConvex</title>
       </Helmet>
       <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/main/1.png`} alt="main-light-1" className={classes.lightOne} />
       <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/my-profile/2.png`} alt="main-light-2" className={classes.lightTwo} />

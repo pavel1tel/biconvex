@@ -97,7 +97,7 @@ export const RateChart = ({ type, data, top, right, left, bottom }: RateChartPro
           connectNulls
           filter={`url(#drop-shadow-down-${chartId})`}
         />
-        <YAxis width={0} type="number" domain={['auto', 'auto']} />
+        <YAxis width={0} type="number" domain={["auto", "auto"]} />
       </AreaChart>
     </ResponsiveContainer>
   );

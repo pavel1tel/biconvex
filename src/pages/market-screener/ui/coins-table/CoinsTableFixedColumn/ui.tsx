@@ -11,7 +11,7 @@ type CoinsTableFixedColumnProps = {
   data: any[];
   currentPage: number;
   rowsPerPage: number;
-  headers: (typeof HEADERS),
+  headers: typeof HEADERS;
   transformData: any;
   sortingLabel: string;
   sortingDirection: string;
@@ -33,9 +33,17 @@ const HEADERS = [
   { label: "TR", className: classes.tableHeadCell, sortable: false },
 ];
 
-
-export const CoinsTableFixedColumn = ({ data, currentPage, rowsPerPage, headers, transformData, sortingLabel, sortingDirection, setSortingLabel, setSortingDirection }: CoinsTableFixedColumnProps) => {
-
+export const CoinsTableFixedColumn = ({
+  data,
+  currentPage,
+  rowsPerPage,
+  headers,
+  transformData,
+  sortingLabel,
+  sortingDirection,
+  setSortingLabel,
+  setSortingDirection,
+}: CoinsTableFixedColumnProps) => {
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {
       if (sortingLabel !== label) {
@@ -72,7 +80,6 @@ export const CoinsTableFixedColumn = ({ data, currentPage, rowsPerPage, headers,
     ));
   }, [onTableHeadSortLabelClick, sortingDirection, headers]);
 
-
   return (
     <div className={classes.tableContainer}>
       <Table
@@ -83,9 +90,7 @@ export const CoinsTableFixedColumn = ({ data, currentPage, rowsPerPage, headers,
         <Table.Thead className={classes.tableHead}>
           <Table.Tr>{hdrs}</Table.Tr>
         </Table.Thead>
-        <Table.Tbody classNames={{ tbody: classes.tableBody }}>
-          {transformData(data, currentPage, rowsPerPage)}
-        </Table.Tbody>
+        <Table.Tbody classNames={{ tbody: classes.tableBody }}>{transformData(data, currentPage, rowsPerPage)}</Table.Tbody>
       </Table>
     </div>
   );

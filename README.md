@@ -14,4 +14,5 @@
 
 - create `.env` file from `.env-example`.
 - run command `pnpm run dev`
+
 # bitconvex

@@ -6,6 +6,8 @@ export { ReactComponent as PlusIcon } from "./plus.svg?react";
 // @ts-expect-error HZ why
 export { ReactComponent as LogoIcon } from "./logo.svg?react";
 // @ts-expect-error HZ why
+export { ReactComponent as PromoLogo } from "./promo-futures-logo.svg?react";
+// @ts-expect-error HZ why
 export { ReactComponent as CheckboxIcon } from "./checkbox.svg?react";
 // @ts-expect-error HZ why
 export { ReactComponent as MarketSortIcon } from "./market-sort.svg?react";
@@ -33,3 +35,9 @@ export { ReactComponent as ChatIcon } from "./live-chat.svg?react";
 export { ReactComponent as SpotTradingIcon } from "./spot-trading-icon.svg?react";
 // @ts-expect-error HZ why
 export { ReactComponent as FastSwapIcon } from "./fast-swap-icon.svg?react";
+// @ts-expect-error HZ why
+export { ReactComponent as AltBitcoinIcon } from "./coin/altbitcoin.svg?react";
+// @ts-expect-error HZ why
+export { ReactComponent as CashPromoIcon } from "./cash-promo.svg?react";
+// @ts-expect-error HZ why
+export { ReactComponent as SaveIcon } from "./save.svg?react";

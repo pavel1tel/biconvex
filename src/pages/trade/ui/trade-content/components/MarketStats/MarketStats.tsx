@@ -22,10 +22,7 @@ import { Select } from "../Select/Select";
 import classes from "./MarketStats.module.css";
 import "./Progress.css";
 
-export const MarketStats = ({
-  currentPair,
-  priceWs
-}) => {
+export const MarketStats = ({ currentPair, priceWs }) => {
   const [activePeriodValue, setActivePeriodValue] = useState("1d");
   const profileResponse = useUnit<ProfileReponse>($profileReponse);
   const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
@@ -33,14 +30,14 @@ export const MarketStats = ({
   const coinInfoResponse = useUnit<CryptoTicker[]>($coinInfoResponse);
   const tradingResponse = useUnit<CryptoData>($tradingReponse);
   const coinPriceReponse = useUnit<any>($coinPrice);
-  const [tickerUrl, setTickerUrl] = useState('wss://stream.binance.com:9443/ws/btcusdt@ticker');
+  const [tickerUrl, setTickerUrl] = useState("wss://stream.binance.com:9443/ws/btcusdt@ticker");
   const { lastMessage: tickerMessage } = useWebSocket(tickerUrl);
   const [price, setPrice] = useState<any>(0);
   const [percent, setPercent] = useState<any>(undefined);
 
   useEffect(() => {
     if (currentPair.length > 0) {
-      setTickerUrl('wss://stream.binance.com:9443/ws/' + currentPair.split("/").join("").toLocaleLowerCase() + '@ticker')
+      setTickerUrl("wss://stream.binance.com:9443/ws/" + currentPair.split("/").join("").toLocaleLowerCase() + "@ticker");
       getCoinPrice(currentPair.split("/").join(""));
     }
   }, [currentPair]);
@@ -51,19 +48,19 @@ export const MarketStats = ({
 
   useEffect(() => {
     if (tickerMessage !== null) {
-      let temp = JSON.parse(tickerMessage.data);
+      const temp = JSON.parse(tickerMessage.data);
       setPercent(parseFloat(temp.P).toFixed(2));
     }
-  }, [tickerMessage])
+  }, [tickerMessage]);
 
   useEffect(() => {
     if (priceWs !== null) {
-      let temp = JSON.parse(priceWs.data)
+      const temp = JSON.parse(priceWs.data);
       setPrice((prev) => {
         return parseFloat(temp["k"]["c"]);
       });
     }
-  }, [priceWs])
+  }, [priceWs]);
 
   useEffect(() => {
     if (currentPair.length > 0) {

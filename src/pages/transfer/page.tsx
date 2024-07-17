@@ -18,7 +18,7 @@ export function Page() {
   const goToTransfer = () => {
     const transferBox = document.getElementById("transferBox");
 
-    if (!!transferBox) {
+    if (transferBox) {
       transferBox.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
     }
   };

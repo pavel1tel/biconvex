@@ -17,12 +17,12 @@ export const TradeActions = ({ actionsTitle, buyLabel, sellLabel, linkTo }: Trad
   return (
     <div className={classes.tradeActionsView}>
       <div className={classes.tradeActionsFlexContainer}>
-          <Text variant="text-4" to={linkTo} component={Link} style={{cursor:"pointer"}}>
-        <button className={classes.tradeIconButton}>
-          <TradeIcon />
+        <Text variant="text-4" to={linkTo} component={Link} style={{ cursor: "pointer" }}>
+          <button className={classes.tradeIconButton}>
+            <TradeIcon />
             <p className={classes.tradeButtonLabel}>{actionsTitle}</p>
-        </button>
-          </Text>{" "}
+          </button>
+        </Text>{" "}
         <div className={classes.stockActions}>
           <Button className={clsx(classes.btn, classes.actionButton)} h={rem("54px")} variant="success">
             {buyLabel}

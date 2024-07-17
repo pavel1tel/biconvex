@@ -10,6 +10,7 @@
   font-family: ProximaNova;
   font-size: var(--text-5-fz);
   line-height: rem(17px);
+  white-space: nowrap;
 }
 .boxWrapper {
   border-radius: 0 8px 8px 0;
@@ -122,7 +123,8 @@
     height: auto;
   }
   .text-red,
-  .text-green {
+  .text-green,
+  .text-orange {
     font-size: 1.125rem;
   }
   .promo {
@@ -162,5 +164,8 @@
   }
   .wrapInput > * {
     width: 100% !important;
+  }
+  .text-orange {
+    font-size: 18px;
   }
 }

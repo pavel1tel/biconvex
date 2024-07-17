@@ -1,8 +1,9 @@
 import { Button, Flex, PasswordInput, Stack, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useDisclosure } from "@mantine/hooks";
 
 import { updatePassword } from "@/shared/api/settings/requests";
-import { useDisclosure } from "@mantine/hooks";
+
 import classes from "./style.module.css";
 
 type FormType = {
@@ -25,13 +26,14 @@ export const PasswordForm = () => {
     },
   });
   return (
-    <form onSubmit={form.onSubmit((values) => {
-      updatePassword({
-        old_password: values.oldPass,
-        new_password: values.newPass,
-      })
-    })
-    }>
+    <form
+      onSubmit={form.onSubmit((values) => {
+        updatePassword({
+          old_password: values.oldPass,
+          new_password: values.newPass,
+        });
+      })}
+    >
       <Stack className={classes.container}>
         <Text className={classes.title} variant="text-3">
           Password

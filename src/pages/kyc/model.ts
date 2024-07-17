@@ -1,3 +1,6 @@
+import { chainRoute } from "atomic-router";
+import { createStore, sample } from "effector";
+
 import { getDepostFx } from "@/shared/api/deposit/request";
 import { getKycInfo, uploadKyc } from "@/shared/api/kyc/requests";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
@@ -5,8 +8,6 @@ import { ResponseDto } from "@/shared/api/types";
 import { showErrorNotification } from "@/shared/lib/notification";
 import { routes } from "@/shared/routing";
 import { chainAnonymous } from "@/shared/session";
-import { chainRoute } from "atomic-router";
-import { createStore, sample } from "effector";
 
 export const currentRoute = routes.kyc;
 
@@ -35,7 +36,6 @@ chainRoute({
     mapParams: (params) => params,
   },
 });
-
 
 chainRoute({
   route: currentRoute,

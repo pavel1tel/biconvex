@@ -116,14 +116,14 @@ export function Page() {
   };
 
   const filterData = (data: Coin[], filter: string, query: string) => {
-    let tempCur = currentPage
+    let tempCur = currentPage;
     if (query != "") {
       tempCur = 1;
       setCurrentPage(1);
     }
     const filtered = data.filter((coin) => TAG_FILTERS[filter](coin) && coin.name.toLowerCase().includes(query.toLowerCase()));
     const paginatedData = filtered.slice((tempCur - 1) * rowsPerPage, tempCur * rowsPerPage);
-    console.log(paginatedData.length)
+    console.log(paginatedData.length);
     setFilteredData(paginatedData);
     setTotalItems(filtered.length);
   };

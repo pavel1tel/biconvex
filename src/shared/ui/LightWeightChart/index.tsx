@@ -1,33 +1,27 @@
+import { useUnit } from "effector-react";
 import { CrosshairMode, IChartApi, ISeriesApi, UTCTimestamp, createChart } from "lightweight-charts";
 import { useEffect, useRef, useState } from "react";
 
 import { $candlesReponse } from "@/pages/trade/model";
+
 import { getCandles } from "@/shared/api/trading/requests";
-import { useUnit } from "effector-react";
+
 import classes from "./TradeChart.module.css";
 
-const LightWeightChart = ({
-  period,
-  currentPair,
-  priceWs,
-}: {
-  period: string;
-  currentPair: string;
-  priceWs: any
-}) => {
+const LightWeightChart = ({ period, currentPair, priceWs }: { period: string; currentPair: string; priceWs: any }) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const seriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
   const volumeSeries = useRef<ISeriesApi<"Histogram"> | null>(null);
 
-  const seriesData = useRef<any>(null)
+  const seriesData = useRef<any>(null);
   const [redraw, setRedraw] = useState(false);
   const candelsReponse = useUnit<[any[]]>($candlesReponse);
   const candelsReponsePending = useUnit(getCandles.pending);
 
   useEffect(() => {
     if (!candelsReponsePending && priceWs !== null && seriesRef.current && volumeSeries.current) {
-      let temp = JSON.parse(priceWs.data)
+      const temp = JSON.parse(priceWs.data);
       seriesRef.current.update({
         time: (temp["k"]["t"] / 1000) as UTCTimestamp,
         open: parseFloat(temp["k"]["o"]),
@@ -38,15 +32,15 @@ const LightWeightChart = ({
       volumeSeries.current.update({
         time: (temp["k"]["t"] / 1000) as UTCTimestamp,
         value: parseFloat(temp["k"]["v"]),
-        color: parseFloat(temp["k"]["o"]) > parseFloat(temp["k"]["c"]) ? '#E4222280' : "#0ECB7B80"
+        color: parseFloat(temp["k"]["o"]) > parseFloat(temp["k"]["c"]) ? "#E4222280" : "#0ECB7B80",
       });
     }
   }, [priceWs]);
 
   useEffect(() => {
     if (!candelsReponsePending && seriesRef.current && volumeSeries.current) {
-      let temp: any[] = []
-      let tempVol: any[] = []
+      const temp: any[] = [];
+      const tempVol: any[] = [];
       candelsReponse.forEach((candle) => {
         temp.push({
           time: (candle[0] / 1000) as UTCTimestamp,
@@ -54,25 +48,25 @@ const LightWeightChart = ({
           high: parseFloat(candle[2]),
           low: parseFloat(candle[3]),
           close: parseFloat(candle[4]),
-        })
+        });
 
         tempVol.push({
           time: (candle[0] / 1000) as UTCTimestamp,
           value: parseFloat(candle[5]),
-          color: parseFloat(candle[1]) > parseFloat(candle[4]) ? '#E4222290' : "#0ECB7B90"
-        })
-      })
-      seriesRef.current.setData(temp)
-      volumeSeries.current.setData(tempVol)
+          color: parseFloat(candle[1]) > parseFloat(candle[4]) ? "#E4222290" : "#0ECB7B90",
+        });
+      });
+      seriesRef.current.setData(temp);
+      volumeSeries.current.setData(tempVol);
     }
-  }, [candelsReponsePending, candelsReponse])
+  }, [candelsReponsePending, candelsReponse]);
 
   useEffect(() => {
     if (currentPair.length > 0) {
       getCandles({ interval: period, pair: currentPair.split("/").join("") });
-      setRedraw((prev) => !prev)
+      setRedraw((prev) => !prev);
     }
-  }, [period, currentPair])
+  }, [period, currentPair]);
 
   useEffect(() => {
     if (chartContainerRef.current) {
@@ -114,7 +108,7 @@ const LightWeightChart = ({
       });
 
       const resizeObserver = new ResizeObserver((entries) => {
-        for (let entry of entries) {
+        for (const entry of entries) {
           const { width, height } = entry.contentRect;
           chartRef.current?.applyOptions({ width, height });
         }
@@ -123,9 +117,9 @@ const LightWeightChart = ({
       resizeObserver.observe(chartContainerRef.current);
       volumeSeries.current = chartRef.current?.addHistogramSeries({
         priceFormat: {
-          type: 'volume',
+          type: "volume",
         },
-        priceScaleId: ''
+        priceScaleId: "",
       });
 
       volumeSeries.current.priceScale().applyOptions({

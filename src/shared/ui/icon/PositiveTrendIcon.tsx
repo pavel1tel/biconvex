@@ -1,8 +1,4 @@
-export const PositiveTrendIcon = ({
-  fill
-}: {
-  fill: string;
-}) => (
+export const PositiveTrendIcon = ({ fill }: { fill: string }) => (
   <svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect id="Icon" width="24.000000" height="24.000000" fill="#FFFFFF" fillOpacity="0" />
     <path

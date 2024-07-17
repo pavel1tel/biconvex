@@ -1,15 +1,15 @@
 import { Flex, Group, Stack, Text, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Link } from "atomic-router-react";
-
-import { ArrowIcon, CopyIcon, SecureIcon } from "@/pages/my-profile/ui";
-
-import { routes } from "@/shared/routing";
+import { useUnit } from "effector-react";
 
 import { $kycResponse } from "@/pages/kyc/model";
 import { $profileReponse } from "@/pages/my-profile/model";
+import { ArrowIcon, CopyIcon, SecureIcon } from "@/pages/my-profile/ui";
+
 import { ProfileReponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
+import { routes } from "@/shared/routing";
+
 import { TwoFAModal } from "../TwoFAModal";
 import { AccountInfoForm } from "./components/AccountInfoForm";
 import { PasswordForm } from "./components/PasswordForm";
@@ -31,18 +31,23 @@ export const SettingsBox = () => {
         </Text>
         <Group wrap="nowrap">
           <div className={classes.boxWrapper}>
-            <Flex align={"center"} justify={"space-between"} className={profileReponse.kyc_accepted ? classes.boxGreen : (kycResponse.id_type ? classes.boxOrange : classes.boxRed)}>
+            <Flex
+              align={"center"}
+              justify={"space-between"}
+              className={profileReponse.kyc_accepted ? classes.boxGreen : kycResponse.id_type ? classes.boxOrange : classes.boxRed}
+            >
               <Stack gap={8}>
                 <Flex gap={4} align={"center"}>
                   <CopyIcon />
                   <Text className={classes.subTitle}>Verification</Text>
                 </Flex>
-                {profileReponse.kyc_accepted ?
-                  <Text className={classes.textGreen}>VERIFIED</Text> :
-                  (kycResponse.id_type ?
-                    <Text className={classes.textOrange}>IN PROGRESS</Text>
-                    : <Text className={classes.textRed}>UNVERIFIED</Text>)
-                }
+                {profileReponse.kyc_accepted ? (
+                  <Text className={classes.textGreen}>VERIFIED</Text>
+                ) : kycResponse.id_type ? (
+                  <Text className={classes.textOrange}>IN PROGRESS</Text>
+                ) : (
+                  <Text className={classes.textRed}>UNVERIFIED</Text>
+                )}
               </Stack>
               <Link to={routes.kyc} className={classes.actionArrow} onClick={handleRedirection}>
                 <ArrowIcon />
@@ -56,10 +61,11 @@ export const SettingsBox = () => {
                   <SecureIcon />
                   <Text className={classes.subTitle}>Security level</Text>
                 </Flex>
-                {profileReponse.twoFactorEnabled ?
-                  <Text className={classes.textGreen}>HARD</Text> :
+                {profileReponse.twoFactorEnabled ? (
+                  <Text className={classes.textGreen}>HARD</Text>
+                ) : (
                   <Text className={classes.textOrange}>MEDIUM</Text>
-                }
+                )}
               </Stack>
               <button className={classes.actionArrow} onClick={open}>
                 <ArrowIcon />

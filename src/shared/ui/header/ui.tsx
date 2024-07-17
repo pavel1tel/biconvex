@@ -1,13 +1,19 @@
 // @ts-nocheck
 import { useResize } from "@/hooks/useResize";
 import { Button, Divider, Group, Menu, Stack, Text, rem } from "@mantine/core";
+import { redirect } from "atomic-router";
 import { Link } from "atomic-router-react";
 import clsx from "clsx";
+import { createEvent, sample } from "effector";
+import { useUnit } from "effector-react";
 import { useState } from "react";
 
+import { $token } from "@/pages/auth/sign-in/model";
 import { ArrowMenuIcon } from "@/pages/staking/ui/icons/ArrowIcon";
 
+import { AuthStatus } from "@/shared/lib/types";
 import { routes } from "@/shared/routing";
+import { $authenticationStatus } from "@/shared/session";
 import {
   ChatIcon,
   ChevronDownIcon,
@@ -25,12 +31,6 @@ import buttonMenuIcon from "../../../../public/assets/buttonMenu.svg";
 import closeIcon from "../../../../public/assets/closeIcon.svg";
 import logo from "../../../../public/assets/logo.svg";
 import classes from "./styles.module.css";
-import { useUnit } from "effector-react";
-import { $authenticationStatus } from "@/shared/session";
-import { AuthStatus } from "@/shared/lib/types";
-import { createEvent, sample } from "effector";
-import { redirect } from "atomic-router";
-import { $token } from "@/pages/auth/sign-in/model";
 
 const LINKS = [
   {
@@ -40,11 +40,11 @@ const LINKS = [
   {
     to: routes.trade,
     label: "Trade",
-    params: {pairId : "BTC-USDT"},
+    params: { pairId: "BTC-USDT" },
     links: [
       {
         to: routes.trade,
-        params: {pairId : "BTC-USDT"},
+        params: { pairId: "BTC-USDT" },
         icon: <SpotTradingIcon />,
         label: "Spot Trading",
         subtitle: "Buy and sell on the Spot market with advanced tools. ",
@@ -136,25 +136,25 @@ const LINKS = [
 
 export const Header = ({ className = "" }: { className?: string }) => {
   const logout = createEvent();
-  const eraseCookie = (name : string) => {   
-      document.cookie = name+'=; Max-Age=-99999999;';  
-  }
+  const eraseCookie = (name: string) => {
+    document.cookie = name + "=; Max-Age=-99999999;";
+  };
 
   sample({
-      clock : logout,
-      fn: () => "",
-      target : $token
-  })
+    clock: logout,
+    fn: () => "",
+    target: $token,
+  });
 
   sample({
-      clock : logout,
-      fn: () => eraseCookie("session_id"),
-  })
+    clock: logout,
+    fn: () => eraseCookie("session_id"),
+  });
 
   redirect({
-      clock : logout,
-      route : routes.home
-  })
+    clock: logout,
+    route: routes.home,
+  });
   const [isMenuActive, setMenuActive] = useState<boolean>(false);
   const [activeHiddenIndex, setActiveHiddenIndex] = useState<number>();
   const { isAdaptive: md } = useResize(1200);
@@ -207,7 +207,6 @@ export const Header = ({ className = "" }: { className?: string }) => {
     }
 
     return (
-      
       <Link to={link.to} params={link.params} key={link.label} className={classes.link} activeClassName={classes.linkActive}>
         <Text variant="text-4" span classNames={{ root: classes.linkLabel }}>
           {link.label}
@@ -368,38 +367,32 @@ export const Header = ({ className = "" }: { className?: string }) => {
               ))}
             </ul>
           </div>
-          { authStatus === AuthStatus.Anonymous ?
-          <div className="mobMenuButtons">
-            <Button
-              to={routes.auth.signInByEmail}
-              size="xl"
-              color="white"
-              variant="transparent"
-              component={Link}
-              classNames={{ root: classes.signInButtonRoot }}
-            >
-              Sign in
-            </Button>
-            <Button to={routes.auth.signUp} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
-              Sign up
-            </Button>
-          </div>
-          :
-          <div className="mobMenuButtons">
-            <Button
-              onClick={() => logout()}
-              size="xl"
-              color="white"
-              variant="transparent"
-              classNames={{ root: classes.signInButtonRoot }}
-            >
-              Log out
-            </Button>
-            <Button to={routes.myProfile} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
-              Profile
-            </Button>
-          </div>
-          }
+          {authStatus === AuthStatus.Anonymous ? (
+            <div className="mobMenuButtons">
+              <Button
+                to={routes.auth.signInByEmail}
+                size="xl"
+                color="white"
+                variant="transparent"
+                component={Link}
+                classNames={{ root: classes.signInButtonRoot }}
+              >
+                Sign in
+              </Button>
+              <Button to={routes.auth.signUp} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
+                Sign up
+              </Button>
+            </div>
+          ) : (
+            <div className="mobMenuButtons">
+              <Button onClick={() => logout()} size="xl" color="white" variant="transparent" classNames={{ root: classes.signInButtonRoot }}>
+                Log out
+              </Button>
+              <Button to={routes.myProfile} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
+                Profile
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -415,38 +408,32 @@ export const Header = ({ className = "" }: { className?: string }) => {
           {links}
         </Group>
       </Group>
-      { authStatus === AuthStatus.Anonymous ?
-      <Group gap={rem("32px")}>
-        <Button
-          to={routes.auth.signInByEmail}
-          size="xl"
-          color="white"
-          variant="transparent"
-          component={Link}
-          classNames={{ root: classes.signInButtonRoot }}
-        >
-          Sign in
-        </Button>
-        <Button to={routes.auth.signUp} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
-          Sign up
-        </Button>
-      </Group>
-      :
-      <Group gap={rem("32px")}>
-        <Button
-          size="xl"
-          color="white"
-          variant="transparent"
-          classNames={{ root: classes.signInButtonRoot }}
-          onClick={() => logout()}
-        >
-          Log out
-        </Button>
-        <Button to={routes.myProfile} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
-          Profile
-        </Button>
-      </Group>
-      }
+      {authStatus === AuthStatus.Anonymous ? (
+        <Group gap={rem("32px")}>
+          <Button
+            to={routes.auth.signInByEmail}
+            size="xl"
+            color="white"
+            variant="transparent"
+            component={Link}
+            classNames={{ root: classes.signInButtonRoot }}
+          >
+            Sign in
+          </Button>
+          <Button to={routes.auth.signUp} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
+            Sign up
+          </Button>
+        </Group>
+      ) : (
+        <Group gap={rem("32px")}>
+          <Button size="xl" color="white" variant="transparent" classNames={{ root: classes.signInButtonRoot }} onClick={() => logout()}>
+            Log out
+          </Button>
+          <Button to={routes.myProfile} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
+            Profile
+          </Button>
+        </Group>
+      )}
     </header>
   );
 };

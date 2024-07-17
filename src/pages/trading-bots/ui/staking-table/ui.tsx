@@ -51,11 +51,11 @@ export const StakingTable = ({
   };
   const [sortFunc, setSortFunc] = useState<any>(defaultSortingFunc);
 
-  let calculatePage = (sortFn: ((a: [string, InvestmentHistory], b: [string, InvestmentHistory]) => number) | undefined, searchFn: any) => {
+  const calculatePage = (sortFn: ((a: [string, InvestmentHistory], b: [string, InvestmentHistory]) => number) | undefined, searchFn: any) => {
     if (!historyResponsePending) {
       const startIndex = (page - 1) * 5;
       const endIndex = startIndex + 5;
-      let temp = Object.entries(historyResponse.history ? historyResponse.history : [])
+      const temp = Object.entries(historyResponse.history ? historyResponse.history : [])
         .filter(searchFn)
         .sort(sortFn)
         .slice(startIndex, endIndex)
@@ -71,7 +71,7 @@ export const StakingTable = ({
             cancel: <CloseButton className={classes.closeButton} />,
           };
         });
-      let pages = Object.entries(historyResponse.history ? historyResponse.history : []).filter(searchFn).length;
+      const pages = Object.entries(historyResponse.history ? historyResponse.history : []).filter(searchFn).length;
       setTotalPage(Math.ceil(pages / 5));
       setInvestHistory(temp);
     }
@@ -130,7 +130,7 @@ export const StakingTable = ({
         <Table.Th key={header.label} className={header.className}>
           <Group
             gap={rem("2px")}
-            justify={header.sortable ? "flex-start" : "center"}
+            justify={"flex-start"}
             className={clsx(classes.tableHeadSortLabel, {
               [classes.tableHeadSortLabelSortingDesc]: sortingLabel === header.label && sortingDirection === "DESC",
             })}
@@ -154,7 +154,7 @@ export const StakingTable = ({
           <Table.Td w={"225"} px={15} className={classes.tbodyTdWithIcon}>
             <Group gap={rem(8)} wrap="nowrap">
               {coin.icon}
-              <Title c="white" order={4}>
+              <Title c="white" order={4} className={classes.cellWithIconText}>
                 {coin.name}
               </Title>
             </Group>
@@ -179,15 +179,10 @@ export const StakingTable = ({
               {coin.Invested || coin.activationTime}
             </Text>
           </Table.Td>
-          <Table.Td w={"225"}>
-            <Center maw={255}>
-              <CloseButton onClick={() => unstake(coin.id)} className={classes.closeButton} />
-            </Center>
-          </Table.Td>
           {usedForTradingBot && (
             <>
               <Table.Td w={"225"}>
-                <Text variant="text-3" span className={classes.plAmount}>
+                <Text c="white" variant="text-3" span className={classes.plAmount}>
                   {coin.pl}%
                 </Text>
               </Table.Td>
@@ -225,7 +220,7 @@ export const StakingTable = ({
 
         <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
         <div className={classes.tableContainer}>
-          <Table classNames={{ tr: classes.tableTr, td: classes.tableTd }} verticalSpacing={rem("16px")} withRowBorders={true}>
+          <Table classNames={{ tr: classes.tableTr, td: classes.tableTd, table: classes.table }} verticalSpacing={rem("16px")} withRowBorders={true}>
             <Table.Thead classNames={{ thead: classes.tableHead }}>
               <Table.Tr>{headers}</Table.Tr>
             </Table.Thead>

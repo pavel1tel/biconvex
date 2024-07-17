@@ -120,7 +120,7 @@ export const Sidebar = ({
 
   return (
     <Box className={classes.wrapper} style={{ paddingTop: verticalPadding, paddingBottom: verticalPadding }}>
-      <Flex gap={gap} style={{ alignItems: "flex-start " }}>
+      <Flex gap={gap} style={{ alignItems: "inherit" }}>
         <Flex direction={"column"} gap={rem("32px")} className={classes.box}>
           <Flex align={"center"} gap={rem("16px")}>
             <Center className={classes.avatar}>

@@ -1,14 +1,24 @@
 import { Group, Text } from "@mantine/core";
 import clsx from "clsx";
-
-import { $profileReponse } from "@/pages/my-profile/model";
-import { ProfileReponse } from "@/shared/api/types";
 import { useUnit } from "effector-react";
 import { Dispatch, SetStateAction } from "react";
+
+import { $profileReponse } from "@/pages/my-profile/model";
+
+import { ProfileReponse } from "@/shared/api/types";
+
 import { Coins } from "../Coins/Coins";
 import classes from "./styles.module.css";
 
-export const TradeChartTitle = ({ className = "", currentPairName, setCurrentPair }: { className?: string, currentPairName: string, setCurrentPair: Dispatch<SetStateAction<string>> }) => {
+export const TradeChartTitle = ({
+  className = "",
+  currentPairName,
+  setCurrentPair,
+}: {
+  className?: string;
+  currentPairName: string;
+  setCurrentPair: Dispatch<SetStateAction<string>>;
+}) => {
   const profileResponse = useUnit<ProfileReponse>($profileReponse);
 
   return (

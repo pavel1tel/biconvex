@@ -1,25 +1,24 @@
 import { Flex, Grid, Group, Image, Stack, Text, Title, rem } from "@mantine/core";
 import clsx from "clsx";
+import { Helmet } from "react-helmet-async";
 
 import { Container, Footer, Header, Wrapper } from "@/shared/ui";
+import { FavoriteStarFilledIcon } from "@/shared/ui/icon/FavoriteStarFilledIcon";
 
 import aboutUsOverlay from "../../../public/assets/aboutUsOverlay.png";
 import classes from "./styles.module.css";
 import { RoadMap } from "./ui";
-import { Helmet } from "react-helmet-async";
 
 export function Page() {
   return (
     <Wrapper>
-       <Helmet>
-        <title> About us | BitConvex
-</title>
+      <Helmet>
+        <title> About us | BitConvex</title>
       </Helmet>
       <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/about-us/1.png`} alt="main-light-1" className={classes.lightOne} />
       <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/about-us/2.png`} alt="main-light-2" className={classes.lightTwo} />
       <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/about-us/3.png`} alt="main-light-3" className={classes.lightThree} />
       <Header />
-
       <Stack gap={0} pos="relative">
         <Container>
           <Group className={classes.section} pb={{ 0: 32, md: 64 }}>

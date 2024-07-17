@@ -15,7 +15,7 @@ export const Banner = () => {
 
   const handleRedirection = () => {
     const chooseBotSection = document.getElementById("choose-bot");
-    if (!!chooseBotSection) {
+    if (chooseBotSection) {
       chooseBotSection.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
     }
   };
