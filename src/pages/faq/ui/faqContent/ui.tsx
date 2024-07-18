@@ -657,63 +657,6 @@ export const FaqContent = () => {
         <span className={classes.textTitleHighlighted}>F</span>requently <span className={classes.textTitleHighlighted}>A</span>sked{" "}
         <span className={classes.textTitleHighlighted}>Q</span>uestions
       </Title>
-      <Stack gap={"clamp(1.5rem, 2vw, 2rem)"}>
-        <Text className={classes.topicTitle}>Questions topic</Text>
-        <Accordion
-          chevron={<PlusIcon />}
-          classNames={{
-            root: classes.faqAccordionRoot,
-            item: classes.faqAccordionItem,
-            label: classes.faqAccordionLabel,
-            panel: classes.faqAccordionPanel,
-            control: classes.faqAccordionControl,
-            chevron: classes.faqAccordionChevron,
-            content: classes.faqAccordionContent,
-          }}
-          pb={{ 0: 32, md: 87 }}
-        >
-          {firstTopic.map((faqItem) => (
-            <Accordion.Item key={faqItem.title} value={faqItem.title}>
-              <Accordion.Control>
-                <Title order={3}>{faqItem.title}</Title>
-              </Accordion.Control>
-              <Accordion.Panel>
-                <Text c="white" variant="text-2">
-                  {ReactHtmlParser(faqItem.description)}
-                </Text>
-              </Accordion.Panel>
-            </Accordion.Item>
-          ))}
-        </Accordion>
-      </Stack>
-      <Stack gap={rem("32px")}>
-        <Text className={classes.topicTitle}>Questions topic</Text>
-        <Accordion
-          chevron={<PlusIcon />}
-          classNames={{
-            root: classes.faqAccordionRoot,
-            item: classes.faqAccordionItem,
-            label: classes.faqAccordionLabel,
-            panel: classes.faqAccordionPanel,
-            control: classes.faqAccordionControl,
-            chevron: classes.faqAccordionChevron,
-            content: classes.faqAccordionContent,
-          }}
-        >
-          {secondTopic.map((faqItem) => (
-            <Accordion.Item key={faqItem.title} value={faqItem.title}>
-              <Accordion.Control>
-                <Title order={3}>{faqItem.title}</Title>
-              </Accordion.Control>
-              <Accordion.Panel>
-                <Text c="white" variant="text-2">
-                  {ReactHtmlParser(faqItem.description)}
-                </Text>
-              </Accordion.Panel>
-            </Accordion.Item>
-          ))}
-        </Accordion>
-      </Stack>
       <Stack gap={rem("32px")}>
         <Text className={classes.topicTitle}>General Questions</Text>
         <Accordion

@@ -68,7 +68,16 @@ export const OrdersTabMobile = () => {
           ))}
         </Table.Tbody>
       </Table>
-      {selectedData && <TradeDetailsModal opened={modalOpened} onClose={() => setModalOpened(false)} data={selectedData} />}
+      {selectedData && (
+        <TradeDetailsModal
+          onPopup={() => setOpen(true)}
+          openPopup={open}
+          opened={modalOpened}
+          onClose={() => setModalOpened(false)}
+          data={selectedData}
+        />
+      )}
+      <PromoPopup opened={open} handleClose={() => setOpen(false)} handleSave={() => console.log("")} />
     </div>
   );
 };

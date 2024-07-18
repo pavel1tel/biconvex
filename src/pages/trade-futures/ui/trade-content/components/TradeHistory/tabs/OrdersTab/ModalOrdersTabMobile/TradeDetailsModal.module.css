@@ -79,6 +79,12 @@
   }
 }
 
+.infoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .label {
   color: #6c7080;
   font-family: "ProximaNova";

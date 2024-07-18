@@ -50,6 +50,7 @@
 .tradeActions {
   flex-direction: row;
   gap: 32px;
+  margin-top: 55px;
 
   .activeStatistics {
     padding: 21px;
@@ -116,5 +117,8 @@
 @media only screen and (max-width: 30em) {
   .banner-title {
     font-size: 2rem !important;
+  }
+  .banner-sub-title {
+    max-width: 100%;
   }
 }
