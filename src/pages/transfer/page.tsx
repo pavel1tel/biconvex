@@ -38,7 +38,7 @@ export function Page() {
         <Sidebar>
           <Flex className={classes.flexContainer} style={{ height: "100%" }} gap={rem(32)}>
             <DepositsBox
-              height={819}
+              height={770}
               coin={selectedDeposit}
               setCoin={(selected) => {
                 setSelectedDeposit(selected);

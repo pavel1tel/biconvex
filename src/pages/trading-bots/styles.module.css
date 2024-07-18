@@ -119,12 +119,16 @@
   }
 
   .light-cube-two {
-    width: 35%;
+    width: 40%;
+  }
+
+  .light-four {
+    display: none;
   }
 
   .cube-two {
-    width: 8.5%;
-    top: 65.9%;
+    width: 10%;
+    top: 67%;
   }
 
   .light-column {

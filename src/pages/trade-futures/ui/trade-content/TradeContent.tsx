@@ -69,7 +69,7 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
               <TradeHistory />
             </>
           )}
-          {activeCategory === "Chart" && <TradeActions actionsTitle="Spot" buyLabel="Buy/Long" sellLabel="Sell/Long" linkTo="/#/trade" />}
+          {activeCategory === "Chart" && <TradeActions actionsTitle="Spot" buyLabel="Buy/Long" sellLabel="Sell/Short" linkTo="/#/trade" />}
         </Group>
       ) : (
         <>

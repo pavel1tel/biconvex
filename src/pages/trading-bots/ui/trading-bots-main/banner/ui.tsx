@@ -27,7 +27,7 @@ export const Banner = () => {
           variants={{
             hidden: {
               opacity: 0,
-              x: "-100%",
+              x: -100,
             },
             visible: {
               opacity: 1,
@@ -51,21 +51,39 @@ export const Banner = () => {
             {md && <BannerImage />}
 
             <Stack gap={"clamp(2rem, 4vw, 4rem)"}>
-              <Text size={md ? "18px" : "24px"} c="white" className={classes.bannerSubTitle}>
-                Discover and replicate popular trading strategies on the largest exchange with unrivaled liquidity. Choose your tariff and start
-                earning money, but don’t forget about risk management.
-              </Text>
-              <Group align={"center"} justify={"flex-start"} className={classes.tradeActions}>
-                <BannerButton size="extra-large" text="START TRADING" route={routes.tradingBots} {...{ handleRedirection }} />
-                <div className={classes.activeStatistics}>
-                  <Text variant={md ? "text-2" : "text-1"}>
-                    <b>Active Strategies:</b> 56.150
-                  </Text>
-                  <Text variant={md ? "text-2" : "text-1"}>
-                    <b>Total cost:</b> $48.692.023
-                  </Text>
-                </div>
-              </Group>
+              <motion.div
+                variants={{
+                  hidden: {
+                    opacity: 0,
+                    x: -100,
+                  },
+                  visible: {
+                    opacity: 1,
+                    x: 0,
+                  },
+                }}
+                initial="hidden"
+                whileInView={"visible"}
+                viewport={{ once: true }}
+                transition={{ duration: 1, delay: 0.15 }}
+              >
+                <Text size={md ? "18px" : "24px"} c="white" className={classes.bannerSubTitle}>
+                  Discover and replicate popular trading strategies on the largest exchange with unrivaled liquidity. Choose your tariff and start
+                  earning money, but don’t forget about risk management.
+                </Text>
+
+                <Group align={"center"} justify={"flex-start"} className={classes.tradeActions}>
+                  <BannerButton size="extra-large" text="START TRADING" route={routes.tradingBots} {...{ handleRedirection }} />
+                  <div className={classes.activeStatistics}>
+                    <Text variant={md ? "text-2" : "text-1"}>
+                      <b>Active Strategies:</b> 56.150
+                    </Text>
+                    <Text variant={md ? "text-2" : "text-1"}>
+                      <b>Total cost:</b> $48.692.023
+                    </Text>
+                  </div>
+                </Group>
+              </motion.div>
             </Stack>
           </Stack>
         </motion.div>

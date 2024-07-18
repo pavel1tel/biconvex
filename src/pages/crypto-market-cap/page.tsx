@@ -51,13 +51,13 @@ const SELECTORS: Selector[] = [
 ];
 
 async function fetchMarketData(type: string): Promise<Record<string, Coin>> {
-  const response = await fetch(`http://74.234.35.241:8081/market?type=${type}`);
+  const response = await fetch(`http://20.79.188.227:8081/market?type=${type}`);
   const data: Record<string, Coin> = await response.json();
   return data;
 }
 
 async function fetchTopRateData(): Promise<any> {
-  const response = await fetch(`http://74.234.35.241:8081/home/coins?c=BTC&c=DOT&c=ADA&c=MATIC`);
+  const response = await fetch(`http://20.79.188.227:8081/home/coins?c=BTC&c=DOT&c=ADA&c=MATIC`);
   const data = await response.json();
   return data;
 }

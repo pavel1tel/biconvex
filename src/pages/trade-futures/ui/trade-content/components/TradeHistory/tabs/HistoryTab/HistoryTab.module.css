@@ -1,4 +1,6 @@
 .table {
+  --table-vertical-spacing: 40px !important;
+  --table-horizontal-spacing: 60px !important;
   th {
     color: var(--color-grey);
     font-size: 14px;

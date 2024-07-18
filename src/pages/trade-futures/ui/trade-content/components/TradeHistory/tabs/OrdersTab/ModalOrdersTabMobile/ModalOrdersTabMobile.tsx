@@ -6,11 +6,13 @@ import classes from "./TradeDetailsModal.module.css";
 
 interface TradeDetailsModalProps {
   opened: boolean;
+  openPopup: boolean;
+  onPopup: () => void;
   onClose: () => void;
   data: any; // Adjust the type according to your data structure
 }
 
-const TradeDetailsModal: FC<TradeDetailsModalProps> = ({ opened, onClose, data }) => {
+const TradeDetailsModal: FC<TradeDetailsModalProps> = ({ opened, onClose, data, openPopup, onPopup }) => {
   if (!opened) return null;
 
   return (
@@ -51,7 +53,12 @@ const TradeDetailsModal: FC<TradeDetailsModalProps> = ({ opened, onClose, data }
         <div className={classes.info}>
           <div className={classes.infoRow}>
             <span className={classes.label}>P&L</span>
-            <span className={clsx(classes.value, classes.tp)}>5043.267</span>
+            <div className={classes.infoWrapper}>
+              <span className={clsx(classes.value, classes.tp)}>5043.267</span>
+              <button className={classes.settingsButton} onClick={onPopup}>
+                <img src={"/assets/settings-icon.png"} alt="Settings" className={classes.settingsIcon} height={18} width={18} />
+              </button>
+            </div>
           </div>
           <div className={classes.infoRow}>
             <span className={classes.label}>Close By</span>

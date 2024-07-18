@@ -124,24 +124,9 @@ const MobileViewCarousel = () => {
       <Carousel className={classes.botsWrapper} withControls={false} getEmblaApi={setEmbla}>
         {BOTS.map((bot, index) => (
           <Carousel.Slide className={`${classes.bot}`} key={index}>
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  y: "-70%",
-                },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView={"visible"}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 + (index + 1) * 0.2 }}
-            >
+            <div>
               <BotInfo {...bot} />
-            </motion.div>
+            </div>
           </Carousel.Slide>
         ))}
       </Carousel>
