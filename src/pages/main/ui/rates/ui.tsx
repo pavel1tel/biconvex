@@ -1,4 +1,6 @@
+import { useResize } from "@/hooks/useResize";
 import { SwrHomepage, useSwrHomepage } from "@/hooks/useSwrHomepage";
+import { Carousel } from "@mantine/carousel";
 import { Flex, Grid, Group, Image, Pill, Stack, Text, Title, rem } from "@mantine/core";
 import { motion } from "framer-motion";
 import { P, match } from "ts-pattern";
@@ -74,39 +76,54 @@ const Rate = ({ name, price, price_change_percent, symbol, volume24h, history }:
 
 export const Rates = () => {
   const { coins } = useSwrHomepage();
+  const { isAdaptive: sm } = useResize(500);
   return (
     <Stack className={classes.wrapper}>
       <Container>
         <Grid gutter={{ 0: 16, md: 30 }} align={"stretch"}>
-          {coins
-            ?.filter(({ symbol }) => ["BTC", "ETH", "SOL", "BNB"].includes(symbol))
-            .map((coin, i) => {
-              return (
-                <Grid.Col key={coin.name} span={{ md: 3, lg: 3, xl: 3 }} className={classes.col}>
-                  <motion.div
-                    className={classes.rateWrap}
-                    variants={{
-                      hidden: {
-                        opacity: 0,
-                        y: "-70%",
-                      },
-                      visible: {
-                        opacity: 1,
-                        y: 0,
-                      },
-                    }}
-                    initial="hidden"
-                    whileInView={"visible"}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.4 + (i + 1) * 0.2 }}
-                  >
-                    {/* <Link to={routes.trade} params={{ coin: rate.name }} className={classes.rateLink}> */}
+          {sm ? (
+            <Carousel className={classes.ratesWrapper} withControls={false}>
+              {coins
+                ?.filter(({ symbol }) => ["BTC", "ETH", "SOL", "BNB"].includes(symbol))
+                .map((coin, index) => (
+                  <Carousel.Slide className={`${classes.rate}`} key={index}>
                     <Rate {...coin} />
-                    {/* </Link> */}
-                  </motion.div>
-                </Grid.Col>
-              );
-            })}
+                  </Carousel.Slide>
+                ))}
+            </Carousel>
+          ) : (
+            <>
+              {coins
+                ?.filter(({ symbol }) => ["BTC", "ETH", "SOL", "BNB"].includes(symbol))
+                .map((coin, i) => {
+                  return (
+                    <Grid.Col key={coin.name} span={{ md: 3, lg: 3, xl: 3 }} className={classes.col}>
+                      <motion.div
+                        className={classes.rateWrap}
+                        variants={{
+                          hidden: {
+                            opacity: 0,
+                            y: "-70%",
+                          },
+                          visible: {
+                            opacity: 1,
+                            y: 0,
+                          },
+                        }}
+                        initial="hidden"
+                        whileInView={"visible"}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.4 + (i + 1) * 0.2 }}
+                      >
+                        {/* <Link to={routes.trade} params={{ coin: rate.name }} className={classes.rateLink}> */}
+                        <Rate {...coin} />
+                        {/* </Link> */}
+                      </motion.div>
+                    </Grid.Col>
+                  );
+                })}
+            </>
+          )}
           <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/main/4.png`} alt="main-light-4" className={classes.lightFour} />
         </Grid>
       </Container>
