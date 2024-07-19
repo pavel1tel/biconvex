@@ -343,3 +343,20 @@ export interface OpenOrder {
 export interface OpenOrderResponse {
   orders: OpenOrder[];
 }
+
+interface Message {
+  id : number;
+  text: string;
+  time: string;
+  type: number;
+  target: number;
+  supporter_viewed: boolean;
+}
+
+interface ChatMessages {
+  [key: string]: Message[];
+}
+
+export interface ChartResponse {
+  messages : ChatMessages;
+}
