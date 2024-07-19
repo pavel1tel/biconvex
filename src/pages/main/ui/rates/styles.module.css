@@ -44,24 +44,24 @@
   padding: rem(4) rem(12) rem(4) rem(12); */
 }
 
-.ratesWrapper {
+.coinsWrapper {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   /* align-items: center; */
-  gap: 16px;
+  gap: 15px;
   overflow-x: auto;
   height: 100%;
 
-  .rate {
+  .coin {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-items: flex-start;
-    flex-basis: 24%;
+    justify-items: center;
+    flex-basis: 70%;
     height: 100%;
-    flex: 1;
+    /* flex: 1; */
   }
 }
 
@@ -168,5 +168,48 @@
 @media screen and (min-width: 360px) and (max-width: 549px) {
   .col {
     --col-max-width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 45em) {
+  .coinsWrapper {
+    flex-wrap: nowrap;
+    gap: 0;
+    /* margin-bottom: 40px; */
+
+    .coin {
+      flex-shrink: 0;
+      flex-basis: 64%;
+      align-items: center;
+    }
+  }
+
+  .indicators {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .indicator {
+    width: 20px;
+    height: 8px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    transition: background-color 0.3s;
+    cursor: pointer;
+  }
+
+  .indicator.active {
+    background-color: var(--color-blue);
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .coinsWrapper {
+    .coin {
+      flex-basis: 55%;
+    }
   }
 }

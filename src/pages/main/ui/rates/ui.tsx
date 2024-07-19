@@ -1,8 +1,9 @@
 import { useResize } from "@/hooks/useResize";
 import { SwrHomepage, useSwrHomepage } from "@/hooks/useSwrHomepage";
-import { Carousel } from "@mantine/carousel";
+import { Carousel, Embla } from "@mantine/carousel";
 import { Flex, Grid, Group, Image, Pill, Stack, Text, Title, rem } from "@mantine/core";
 import { motion } from "framer-motion";
+import { useCallback, useEffect, useState } from "react";
 import { P, match } from "ts-pattern";
 
 import { getCoinIcon, getCoinVol24 } from "@/pages/main/ui";
@@ -76,21 +77,50 @@ const Rate = ({ name, price, price_change_percent, symbol, volume24h, history }:
 
 export const Rates = () => {
   const { coins } = useSwrHomepage();
+  const viewport = useResize(720);
   const { isAdaptive: sm } = useResize(500);
+  const [_, setScrollProgress] = useState(0);
+  const [embla, setEmbla] = useState<Embla | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    if (!embla) return;
+    const progress = Math.max(0, Math.min(1, embla.scrollProgress()));
+    setScrollProgress(progress * 100);
+    const index = embla.selectedScrollSnap();
+    setSelectedIndex(index);
+  }, [embla, setScrollProgress, setSelectedIndex]);
+
+  useEffect(() => {
+    if (embla) {
+      embla.on("scroll", handleScroll);
+      embla.on("select", handleScroll);
+      handleScroll();
+    }
+  }, [embla, handleScroll]);
   return (
     <Stack className={classes.wrapper}>
       <Container>
-        <Grid gutter={{ 0: 16, md: 30 }} align={"stretch"}>
-          {sm ? (
-            <Carousel className={classes.ratesWrapper} withControls={false}>
-              {coins
-                ?.filter(({ symbol }) => ["BTC", "ETH", "SOL", "BNB"].includes(symbol))
-                .map((coin, index) => (
-                  <Carousel.Slide className={`${classes.rate}`} key={index}>
-                    <Rate {...coin} />
-                  </Carousel.Slide>
-                ))}
-            </Carousel>
+        <Grid gutter={{ 0: 16, md: 30 }} align={"stretch"} justify="center">
+          {sm && viewport.isAdaptive ? (
+            <Stack mb={30}>
+              <Carousel className={classes.coinsWrapper} withControls={false} getEmblaApi={setEmbla}>
+                {coins
+                  ?.filter(({ symbol }) => ["BTC", "ETH", "SOL", "BNB"].includes(symbol))
+                  .map((coin, index) => (
+                    <Carousel.Slide className={`${classes.coin}`} key={index}>
+                      <div style={{ width: "90%" }}>
+                        <Rate {...coin} />
+                      </div>
+                    </Carousel.Slide>
+                  ))}
+              </Carousel>
+              <div className={classes.indicators}>
+                {coins
+                  ?.filter(({ symbol }) => ["BTC", "ETH", "SOL", "BNB"].includes(symbol))
+                  .map((_, index) => <div key={index} className={`${classes.indicator} ${index === selectedIndex ? classes.active : ""}`} />)}
+              </div>
+            </Stack>
           ) : (
             <>
               {coins
