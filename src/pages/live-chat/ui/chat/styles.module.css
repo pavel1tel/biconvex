@@ -11,6 +11,9 @@
   height: 800px;
   width: 100%;
 }
+.chatContainer > div {
+  width: 100%;
+}
 .chatsBlock {
   width: 365px;
 }
