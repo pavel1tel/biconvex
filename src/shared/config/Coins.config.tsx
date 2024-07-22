@@ -22,7 +22,7 @@ export const getCoinTabs = (coins: Crypto[], setCurrentPair: Dispatch<SetStateAc
     },
     {
       title: "FAV",
-      content: <CoinsTable search={search} setCurrentPair={setCurrentPair} coins={[]} isFiat={false} isMain={false} />,
+      content: <CoinsTable search={search} setCurrentPair={setCurrentPair} coins={[]} isFiat={false} isMain={false} isFav={true} />,
       id: "fav",
     },
   ];
