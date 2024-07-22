@@ -42,11 +42,11 @@ export const CoinsTable = ({
         </Table.Thead>
         <Table.Tbody>
           {coins
-            .filter((e) => e.symbol.startsWith(search))
+            .filter((e) => e.symbol.startsWith(search.toUpperCase()))
             .map((row, rowIndex) =>
               isFiat ? (
                 row.fiat_pairs
-                  .filter((e) => e.startsWith(search))
+                  .filter((e) => e.startsWith(search.toUpperCase()))
                   .map((pair) => (
                     <Table.Tr
                       key={pair}
@@ -94,7 +94,7 @@ export const CoinsTable = ({
           {coins.map((row, rowIndex) =>
             isMain
               ? row.fiat_pairs
-                .filter((e) => e.startsWith(search))
+                .filter((e) => e.startsWith(search.toUpperCase()))
                 .map((pair) => (
                   <Table.Tr
                     key={pair}
@@ -120,9 +120,11 @@ export const CoinsTable = ({
           )}
           {
             isFav ?
-              ((localStorage.getItem("fav_coins") != null ? JSON.parse(localStorage.getItem("fav_coins")!) : []).map(coin =>
+              ((localStorage.getItem("fav_coins") != null ? JSON.parse(localStorage.getItem("fav_coins")!) : [])
+              .filter((e) => e.pair.startsWith(search.toUpperCase()))
+              .map(coin =>
               (<Table.Tr
-                key={coin.pair}
+                key={coin.pair + Math.random()}
                 onClick={() => {
                   handleRowClick(coin.pair);
                   setCurrentPair(coin.pair);
