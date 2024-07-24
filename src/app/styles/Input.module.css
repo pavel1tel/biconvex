@@ -29,3 +29,11 @@
     --_right-section-right: rem(28px);
   }
 }
+
+@media screen and (max-width: 330px) {
+  .section {
+    &[data-position="right"] {
+      --_right-section-right: rem(12px);
+    }
+  }
+}

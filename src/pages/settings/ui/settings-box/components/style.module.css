@@ -43,6 +43,7 @@
 
 .input {
   flex: 1 1 calc(50% - 20px);
+  white-space: nowrap;
 
   label {
     font-size: 14px;

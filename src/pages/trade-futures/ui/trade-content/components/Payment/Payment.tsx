@@ -4,7 +4,7 @@ import { Button, Checkbox, Divider, Group, Stack, Text, TextInput } from "@manti
 import clsx from "clsx";
 import { useState } from "react";
 
-import { BitcoinIcon } from "@/shared/ui";
+import { BitcoinIcon, USDTIcon } from "@/shared/ui";
 import { TradeChartTitle } from "@/shared/ui/TradeChartTitle";
 import { Container } from "@/shared/ui/TradePageContainer/Container";
 import { USDIcon } from "@/shared/ui/icon/USDIcon";
@@ -84,8 +84,8 @@ export const Payment = ({ currentPairName, setCurrentPair }) => {
                   rightSectionWidth="fit-content"
                   rightSection={
                     <Group gap={8} wrap="nowrap">
-                      <USDIcon />
-                      USD
+                      <USDTIcon />
+                      USDT
                     </Group>
                   }
                 />
@@ -100,8 +100,8 @@ export const Payment = ({ currentPairName, setCurrentPair }) => {
                 rightSectionWidth="fit-content"
                 rightSection={
                   <Group gap={8} wrap="nowrap">
-                    <USDIcon />
-                    USD
+                    <USDTIcon />
+                    USDT
                   </Group>
                 }
               />

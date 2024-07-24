@@ -11,8 +11,8 @@
   font-family: ProximaNova;
   height: 142px;
   gap: rem(10px);
-  width: rem(310px);
-  padding: rem(24px) rem(32px);
+  width: auto;
+  padding: rem(24px) rem(17px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: rem(8px);
   background: var(--color-black);
