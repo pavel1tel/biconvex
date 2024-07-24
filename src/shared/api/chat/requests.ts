@@ -18,7 +18,7 @@ export const sendTextMessage = createEffect<string, ResponseDto>(async (message)
   data.append("support_text", message);
 
   return requestRegistration({
-    path: "/api/support",
+    path: "/api/chat",
     method: "POST",
     headers: {
       Accept: "*/*",
