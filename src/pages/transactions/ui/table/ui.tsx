@@ -8,7 +8,7 @@ import { DepositIcon, InvestIcon, PromoIcon } from "@/pages/transactions/ui";
 
 import { getTransactions } from "@/shared/api/transactions/requests";
 import { Transaction, TransactionsResponse } from "@/shared/api/types";
-import { ArrowDown, BitcoinIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { ArrowDown, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
 import { TransferIcon, WithdrawIcon } from "@/shared/ui/sidebar/Icons";
 
 import { $transactionsReponse } from "../../model";
@@ -170,7 +170,7 @@ export const TransactionTable = () => {
           </Table.Td>
           <Table.Td w={"135"}>
             <Text c="white" variant="text-3" span>
-              {coin.amount}
+              {parseFloat(parseFloat(coin.amount).toFixed(8))}
             </Text>
           </Table.Td>
           <Table.Td w={"135"}>
@@ -235,6 +235,7 @@ export const TransactionTable = () => {
             transitionProps={{ duration: 200, transition: "pop" }}
             onOptionSubmit={(val) => {
               setValue(val);
+              setPage(1);
               combobox.closeDropdown();
             }}
           >
