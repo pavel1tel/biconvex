@@ -9,9 +9,7 @@ import { chainAuthenticated } from "@/shared/session";
 
 export const currentRoute = routes.deposit;
 
-export const anonymousRoute = chainAuthenticated(currentRoute, {
-  otherwise: routes.deposit.open,
-});
+export const anonymousRoute = chainAuthenticated(currentRoute);
 
 export const $depositResponse = createStore({});
 $depositResponse.on(getDepostFx.doneData, (_: any, data: ResponseDto) => data.message);
