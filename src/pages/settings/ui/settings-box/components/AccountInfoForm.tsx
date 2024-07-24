@@ -14,7 +14,6 @@ type FormType = {
   username: string;
   name: string;
   phone: string;
-  surname: string;
   gender: string;
 };
 
@@ -27,14 +26,13 @@ export const AccountInfoForm = () => {
       username: "",
       name: "",
       phone: "",
-      surname: "",
       gender: "",
     },
     validate: {
       username: (value) => (value.length > 6 && value.length < 32 ? null : "Username should be between 6 and 32 characters"),
       name: (value) => (value.length > 0 && value.length < 128 ? null : "Name should be less than 128 characters"),
       phone: (value) => (/^\+\d{1,3}\d{3}\d{3}\d{4}$/.test(value) ? null : "Invalid phone format"),
-      gender: (value) => (value ? null : "Required field"),
+      gender: (value) => value ? null : "Required field",
     },
   });
   const [value, setValue] = useState<any | null>(null);
@@ -54,22 +52,23 @@ export const AccountInfoForm = () => {
         username: settingsResponse.username,
         name: settingsResponse.name,
         phone: settingsResponse.phone_number,
-        surname: settingsResponse.surname,
         gender: settingsResponse.gender,
       });
+      setValue(settingsResponse.gender);
     }
   }, [settingsResponse, settingsResponsePending]);
 
   return (
     <form
-      onSubmit={form.onSubmit((values) =>
+      onSubmit={form.onSubmit((values) => {
+        console.log("here")
         updateAccount({
           phone: values.phone,
           username: values.username,
           fullname: values.name,
-          gender: values.gender,
-        }),
-      )}
+          gender: values.gender
+        });
+      })}
     >
       <Stack className={classes.container}>
         <Text className={classes.title} variant="text-3">
@@ -99,6 +98,7 @@ export const AccountInfoForm = () => {
             store={combobox}
             onOptionSubmit={(val) => {
               setValue(val);
+              form.setFieldValue("gender", val);
               combobox.closeDropdown();
             }}
           >
@@ -111,7 +111,9 @@ export const AccountInfoForm = () => {
                 label="Sex"
                 placeholder="Select your gender"
                 rightSection={<Combobox.Chevron />}
-                onClick={() => combobox.toggleDropdown()}
+                onClick={() => {
+                  combobox.toggleDropdown()
+                }}
               >
                 {value ? <Input.Placeholder>{value}</Input.Placeholder> : <Input.Placeholder>Select your gender</Input.Placeholder>}
               </TextInput>

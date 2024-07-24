@@ -1,4 +1,4 @@
-import { Group, Table } from "@mantine/core";
+import { Flex, Group, Table } from "@mantine/core";
 import clsx from "clsx";
 import { useState } from "react";
 
@@ -66,12 +66,23 @@ export const OrdersTabDesktop = () => {
                     >
                       {cell.value}
                     </Table.Td>
-                    <Table.Td key={`settings-${i}`} className={classes.settingsIconCell}>
+                  </>
+                );
+              }
+
+              if (cell.key === "P&L") {
+                return (
+                  <Table.Td
+                    key={cell.key}
+                    className={clsx({ [directionClass]: isDirection || (isPL && row[1].value === "Long") || (isPL && row[1].value === "Short") })}
+                  >
+                    <Flex align="center" gap={5}>
                       <button onClick={() => handleSettingsClick(i)} className={classes.settingsButton}>
                         <img src={"/assets/settings-icon.png"} alt="Settings" className={classes.settingsIcon} />
                       </button>
-                    </Table.Td>
-                  </>
+                      {cell.value}
+                    </Flex>
+                  </Table.Td>
                 );
               }
 

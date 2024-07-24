@@ -22,7 +22,7 @@ export const Payment = ({ currentPairName, setCurrentPair }) => {
 
   return (
     <Stack className={classes.payment}>
-      <Container>
+      <Container className={classes.container}>
         {md && <TradeChartTitle currentPairName={currentPairName} setCurrentPair={setCurrentPair} className="withBottomIndent" />}
         <Stack gap={32}>
           <Stack gap={16}>

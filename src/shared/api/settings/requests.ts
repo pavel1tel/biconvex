@@ -9,6 +9,7 @@ export const updateAccount = createEffect<UpdateAccountRequest, ResponseDto>(asy
   data.append("phone", request.phone);
   data.append("fullname", request.fullname);
   data.append("username", request.username);
+  data.append("sex", request.gender);
 
   return requestRegistration({
     path: "/api/edit_settings",

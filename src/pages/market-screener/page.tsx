@@ -594,13 +594,13 @@ export function Page() {
     updateDisplayData(allData, 1, rowsPerPage);
   }, [sortingLabel, sortingDirection]);
 
-  const updateDisplayData = (data: any[], page: number, rows: number) => {
+  const updateDisplayData = (data: any[], page: number, rows: number, ) => {
     const filteredData = data.filter((item) => item.d[2]?.toLowerCase().includes(searchQuery.toLowerCase()));
     setTotalItems(filteredData.length || 0);
     const start = (page - 1) * rows;
     const end = start + rows;
     setDisplayData(filteredData.slice(start, end));
-    setCurrentPage(1);
+    setCurrentPage(page);
   };
 
   const handleBottomTabClick = (selector: (typeof SELECTORS1)[0]) => {

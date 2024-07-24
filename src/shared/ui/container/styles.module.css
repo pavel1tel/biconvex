@@ -1,6 +1,6 @@
 .container {
   margin: 0 auto;
-  z-index: 1;
+  /* z-index: 3; */
   padding: 0 1rem;
   max-width: calc(1330px + 1rem);
   width: 100%;

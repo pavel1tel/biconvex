@@ -74,7 +74,6 @@ export function Page() {
   const [totalItems, setTotalItems] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [topRateData, setTopRateData] = useState<any[]>([]);
-  console.log(topRateData);
 
   useEffect(() => {
     const handleResize = () => {
@@ -253,7 +252,7 @@ export function Page() {
                   <ShowRowsCount onRowsChange={handleRowsPerPageChange} />
                 </Group>
                 <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
-                {md ? <CoinsTableFixedColumn data={filteredData} /> : <CoinsTable data={filteredData} />}
+                {md ? <CoinsTableFixedColumn data={filteredData} /> : <CoinsTable currentPage={currentPage} rowsPerPage={rowsPerPage} data={filteredData} />}
               </Stack>
 
               <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />

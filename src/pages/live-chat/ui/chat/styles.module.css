@@ -11,6 +11,9 @@
   height: 800px;
   width: 100%;
 }
+.chatContainer > div {
+  width: 100%;
+}
 .chatsBlock {
   width: 365px;
 }
@@ -72,8 +75,9 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content:  flex-end;
   padding-right: 15px;
+  overflow: auto;
 }
 
 .message {
@@ -85,12 +89,14 @@
   width: fit-content;
   color: white;
   margin-bottom: 8px;
+  margin-top: 8px;
   &.supportMessage {
     border-radius: 2px 8px 8px 8px;
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.15);
     align-self: start;
     & + .messageTimeWrapper {
       align-self: start;
+      margin-top: 2px;
     }
   }
   &.userMessage {
@@ -99,8 +105,23 @@
     align-self: flex-end;
     & + .messageTimeWrapper {
       align-self: flex-end;
+      margin-top: 2px;
     }
   }
+}
+
+.date {
+  font-size: 13px;
+  font-family: "ProximaNova";
+  font-weight: 400;
+  padding: 5px 10px;
+  border-radius: 12px;
+  max-width: 80%;
+  width: fit-content;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  align-self: center;
 }
 .messageTimeWrapper {
   margin-top: 8px;

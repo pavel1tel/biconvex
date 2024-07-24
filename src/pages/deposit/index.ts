@@ -1,11 +1,12 @@
-import { createRouteView } from "atomic-router-react";
 
-import { PageLoader } from "@/shared/ui";
+import { LoadingScreen } from "@/shared/ui";
 
 import { currentRoute } from "./model";
 import { Page } from "./page";
 
 export const DepositRoute = {
-  view: createRouteView({ route: currentRoute, view: Page, otherwise: PageLoader }),
+  view: Page,
   route: currentRoute,
+  otherwise: LoadingScreen,
 };
+

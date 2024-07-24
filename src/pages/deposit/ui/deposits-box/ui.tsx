@@ -16,11 +16,13 @@ export const DepositsBox = ({
   coin,
   setCoin,
   setCurrentCoin,
+  currentRoute
 }: {
   height?: number;
   coin?: number;
-  setCoin?: Dispatch<SetStateAction<number>>;
+  setCoin: Dispatch<SetStateAction<number>>;
   setCurrentCoin: any;
+  currentRoute: any;
 }) => {
   const [selectedDeposit, setSelectedDeposit] = useState(1);
   const { isAdaptive: md } = useResize(1200);
@@ -29,14 +31,23 @@ export const DepositsBox = ({
   const depositResposePending = useUnit(getDepostFx.pending);
   const [arr, setArr] = useState<DepositCoin[]>([]);
   const [search, setSearch] = useState<string>("");
+  const routeParams = useUnit(currentRoute.$params);
   const loadMore = () => {
     setShowOthersHidden(!showOthersHidden);
   };
 
   useEffect(() => {
     if (!depositResposePending) {
-      setCurrentCoin(depositReponse.deposit_coins![coin!]);
-      setArr(depositReponse.deposit_coins!);
+      let index = depositReponse.deposit_coins!.findIndex(c => c.symbol === routeParams.coin)
+      if (index == -1) {
+        currentRoute.navigate({
+          params: { coin: "BTC" },
+          query: {},
+        })
+      }
+      setCoin(index)
+      setCurrentCoin(depositReponse.deposit_coins![index]);
+      setArr(depositReponse.deposit_coins!)
     }
   }, [depositResposePending, depositReponse]);
 
@@ -62,6 +73,11 @@ export const DepositsBox = ({
             .map((item, itemIndex) => (
               <Box
                 onClick={() => {
+                  currentRoute.navigate({
+                    params: { coin: item.symbol },
+                    query: {},
+                    replace: true,
+                  })
                   setCurrentCoin(item);
                   setCoin ? setCoin(itemIndex) : setSelectedDeposit(itemIndex);
                 }}

@@ -52,11 +52,12 @@ export interface CoinHeader {
 
 interface CoinsTableProps {
   data: Coin[];
+  currentPage: number;
+  rowsPerPage;
 }
 
-export const CoinsTable: React.FC<CoinsTableProps> = ({ data }) => {
+export const CoinsTable: React.FC<CoinsTableProps> = ({ data , currentPage, rowsPerPage }) => {
   const [sortingLabel, setSortingLabel] = useState<string>("#");
-  console.log(data);
 
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
   const { isAdaptive: md } = useResize(1200);
@@ -142,7 +143,7 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data }) => {
           <Table.Td w={70}>
             <Group gap={rem(16)} className={classes.firstTdWrapper}>
               <Text variant="text-3" className={classes.greyText} span>
-                №{index + 1}
+              №{(currentPage - 1) * rowsPerPage + index + 1}
               </Text>
             </Group>
           </Table.Td>

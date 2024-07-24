@@ -1,76 +1,114 @@
-import { ActionIcon, Avatar, Divider, Group, ScrollArea, Stack, Text, TextInput, rem } from "@mantine/core";
+import { ActionIcon, Avatar, Divider, FileInput, Group, Image, ScrollArea, Stack, Text, TextInput, rem } from "@mantine/core";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { ChatsIcon } from "@/shared/ui/icon/ChatsIcon";
 import { Clip } from "@/shared/ui/icon/Clip";
 import { ReadMessage } from "@/shared/ui/icon/ReadMessage";
 import { SendIcon } from "@/shared/ui/icon/SendIcon";
 import { UnreadMessage } from "@/shared/ui/icon/UnreadMessage";
 
-import { mokeChats } from "../../mockedChatData";
-import { ChatItem } from "./chatIem/ui";
+import { getChat, sendTextMessage, uploadChatPhoto } from "@/shared/api/chat/requests";
+import { ChartResponse } from "@/shared/api/types";
+import { useUnit } from "effector-react";
+import { $chatResponse } from "../../model";
 import classes from "./styles.module.css";
 
 export const Chat = () => {
-  const [activeChat, setActiveChat] = useState<(typeof mokeChats)[number] | null>(mokeChats[0]);
+  const chatResponse = useUnit<ChartResponse>($chatResponse);
+  const chatReponsePending = useUnit<boolean>(getChat.pending);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+  const inputFile = useRef<any>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const handleSendClick = () => {
+    if (file) {
+      uploadChatPhoto(file);
+      setFile(null)
+    }
+    if (message) {
+      sendTextMessage(message);
+      setMessage("");
+    }
+  }
+  useEffect(() => {
+    let temp: any = []
+    if (!chatReponsePending) {
+      Object.keys(chatResponse.messages).forEach(key => {
+        let temp2: any[] = []
+        chatResponse.messages[key].forEach(message => {
+          if (temp2.length == 0) {
+            temp2.push(<p key={message.id + key} className={clsx(classes.date)}>{key}</p>)
+          }
+          temp2.push
+            (
+              <>
+                {message.type == 1 ?
+                  // <></> :
+                  <Image src={message.text} className={clsx(classes.message, message.target == 1 ? classes.supportMessage : classes.userMessage)}></Image> :
+                  <p className={clsx(classes.message, message.target == 1 ? classes.supportMessage : classes.userMessage)}>{message.text}</p>
+                }
+                <Group className={classes.messageTimeWrapper} gap={4}>
+                  {message.target == 1 ? <ReadMessage /> : (message.supporter_viewed === true ? <ReadMessage /> : <UnreadMessage />)}
+                  <Text className={classes.messageTimeText}>{message.time}</Text>
+                </Group>
+              </>
+            )
+        })
+        temp.push(temp2)
+      })
+      setMessages(temp)
+    }
+  }, [chatReponsePending, chatResponse])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      getChat();
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <Stack className={classes.pageContainer} gap={rem("64px")}>
       <Text className={classes.chatTitle}>Support</Text>
       <Group gap={32} className={classes.chatContainer}>
-        <Stack gap={32} className={clsx(classes.chatsBlock, classes.chatsWrapper)}>
-          <Group gap={8}>
-            <ChatsIcon />
-            <Text className={classes.chatsBlockTitle}>Chats</Text>
-          </Group>
-          <Divider opacity={"0.12"} color={"white"} />
-          <Stack className={classes.chatsListContainer} gap={16} pr={16}>
-            {mokeChats.map((chat) => (
-              <ChatItem key={chat.id} chat={chat} isActiveChat={chat.id === activeChat?.id} selectChat={() => setActiveChat(chat)} />
-            ))}
-          </Stack>
-        </Stack>
         <Stack gap={32} className={clsx(classes.chatWindow, classes.chatsWrapper)}>
-          <Group gap={16}>
+          <Group id={"head"} gap={16}>
             <div className={classes.avatarWrapper}>
               <Avatar size={64} src={`${import.meta.env.BASE_URL}assets/support-avatar.png`} />
-              {typeof activeChat?.isOnline === "boolean" && (
-                <div className={clsx(classes.indicator, activeChat?.isOnline ? classes.online : classes.offline)} />
-              )}
+              <div className={clsx(classes.online)} />
             </div>
             <Stack gap={4} h={"70%"}>
               <Text className={classes.chatSupportName}>Support</Text>
-              <Text className={classes.online}>{activeChat?.isOnline && "Online"}</Text>
+              <Text className={classes.online}>{"Online"}</Text>
             </Stack>
           </Group>
           <Divider opacity={"0.12"} color={"white"} />
-          <ScrollArea type="never" style={{ flex: 1 }}>
+          <ScrollArea type="auto" style={{ flex: 1 }}>
             <div className={classes.messagesWindow}>
-              <p className={clsx(classes.message, classes.supportMessage)}>Hello Linh!</p>
-              <p className={clsx(classes.message, classes.supportMessage)}>I really love your work great job 👌 </p>
-              <Group className={classes.messageTimeWrapper} gap={4}>
-                <ReadMessage />
-                <Text className={classes.messageTimeText}>03:49PM</Text>
-              </Group>
-              <p className={clsx(classes.message, classes.userMessage)}>Hi Tom </p>
-              <p className={clsx(classes.message, classes.userMessage)}>Thank you, I also love it</p>
-              <Group className={classes.messageTimeWrapper} gap={4}>
-                <UnreadMessage />
-                <Text className={classes.messageTimeText}>03:55PM</Text>
-              </Group>
+              {messages.flatMap(message => message)}
             </div>
           </ScrollArea>
-          <Group className={classes.inputMessageContainer} gap={16}>
-            <Clip />
+          <Group id="foot" className={classes.inputMessageContainer} gap={16}>
+            <div style={{ "cursor": "pointer" }} onClick={() => {
+              inputFile.current ? inputFile.current.click() : "";
+            }}>
+              {file ?
+                <Image h={24} w="auto" src={URL.createObjectURL(file)}></Image>
+                :
+                <Clip />
+              }
+            </div>
             <Divider orientation="vertical" color="white" opacity={0.12} />
-            <TextInput className={classes.input} placeholder="Start a new message" />
-            <ActionIcon className={classes.sendButton}>
+            <TextInput value={message} onChange={(e) => setMessage(e.target.value)} className={classes.input} placeholder="Start a new message" />
+            <ActionIcon onClick={handleSendClick} className={classes.sendButton}>
               <SendIcon />
             </ActionIcon>
           </Group>
         </Stack>
       </Group>
+      <FileInput value={file} onChange={setFile} accept="image/png,image/jpeg" ref={inputFile} display={"none"} />
     </Stack>
   );
 };

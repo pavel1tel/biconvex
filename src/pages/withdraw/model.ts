@@ -11,9 +11,7 @@ import { chainAuthenticated } from "@/shared/session";
 
 export const currentRoute = routes.withdraw;
 
-export const anonymousRoute = chainAuthenticated(currentRoute, {
-  otherwise: routes.withdraw.open,
-});
+export const anonymousRoute = chainAuthenticated(currentRoute);
 
 export const $feesResponse = createStore({});
 $feesResponse.on(getFees.doneData, (_: any, data: ResponseDto) => data.message);

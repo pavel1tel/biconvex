@@ -55,7 +55,7 @@ export const SettingsBox = () => {
             </Flex>
           </div>
           <div className={classes.boxWrapper}>
-            <Flex align={"center"} justify={"space-between"} className={profileReponse.twoFactorEnabled ? classes.boxGreen : classes.boxOrange}>
+            <Flex align={"center"} justify={"space-between"} className={classes.boxOrange}>
               <Stack gap={8}>
                 <Flex gap={4} align={"center"}>
                   <SecureIcon />
@@ -67,13 +67,9 @@ export const SettingsBox = () => {
                   <Text className={classes.textOrange}>MEDIUM</Text>
                 )}
               </Stack>
-              {profileReponse.twoFactorEnabled ? (
-                  <></>
-                ) : (
-                  <button className={classes.actionArrow} onClick={open}>
-                    <ArrowIcon />
-                  </button>
-                )}
+              <button className={classes.actionArrow} onClick={open}>
+                <ArrowIcon />
+              </button>
             </Flex>
           </div>
         </Group>
