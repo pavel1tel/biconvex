@@ -34,11 +34,6 @@ const LINKS = [
     label: "My Profile",
   },
   {
-    icon: <WithdrawIcon />,
-    to: routes.withdraw,
-    label: "Withdraw",
-  },
-  {
     icon: <TransactionsIcon />,
     to: routes.transactions,
     label: "Transactions",
@@ -164,16 +159,23 @@ export const Sidebar = ({
                   </Flex>
                 </Link>
               ))}
-              <Link params={{coin : "BTC"}} to={routes.deposit} activeClassName={classes.activeLink} className={clsx(classes.link)}>
-                  <Flex gap={rem("8px")}> 
-                    <Box><DepositIcon /></Box>
-                    <Text ff={"ProximaNova"} className={classes.textBtn}>
-                      {"Deposit"}
-                    </Text>
-                  </Flex>
-                </Link>
-
-                {LINKS.slice(1).map((item) => (
+              <Link params={{ coin: "BTC" }} to={routes.deposit} activeClassName={classes.activeLink} className={clsx(classes.link)}>
+                <Flex gap={rem("8px")}>
+                  <Box><DepositIcon /></Box>
+                  <Text ff={"ProximaNova"} className={classes.textBtn}>
+                    {"Deposit"}
+                  </Text>
+                </Flex>
+              </Link>
+              <Link params={{ coin: "BTC" }} to={routes.withdraw} activeClassName={classes.activeLink} className={clsx(classes.link)}>
+                <Flex gap={rem("8px")}>
+                  <Box><WithdrawIcon /></Box>
+                  <Text ff={"ProximaNova"} className={classes.textBtn}>
+                    {"Withdraw"}
+                  </Text>
+                </Flex>
+              </Link>
+              {LINKS.slice(1).map((item) => (
                 <Link to={item.to} activeClassName={classes.activeLink} className={clsx(classes.link)}>
                   <Flex gap={rem("8px")}>
                     <Box>{item.icon}</Box>

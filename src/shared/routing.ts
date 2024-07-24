@@ -14,7 +14,7 @@ export const routes = {
   staking: createRoute(),
   finance: createRoute(),
   deposit: createRoute<{ coin: string }>(),
-  withdraw: createRoute(),
+  withdraw: createRoute<{ coin: string }>(),
   transactions: createRoute(),
   transfer: createRoute(),
   affiliate: createRoute(),
@@ -157,7 +157,7 @@ export const router = createHistoryRouter({
       route: routes.deposit,
     },
     {
-      path: "/withdraw",
+      path: "/withdraw/:coin",
       route: routes.withdraw,
     },
     {

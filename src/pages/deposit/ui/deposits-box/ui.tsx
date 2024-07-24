@@ -8,7 +8,7 @@ import { getDepostFx } from "@/shared/api/deposit/request";
 import { DepositCoin, DepositCoinsResponse } from "@/shared/api/types";
 import { SearchIcon } from "@/shared/ui";
 
-import { $depositResponse, currentRoute } from "../../model";
+import { $depositResponse } from "../../model";
 import classes from "./styles.module.css";
 
 export const DepositsBox = ({
@@ -16,11 +16,13 @@ export const DepositsBox = ({
   coin,
   setCoin,
   setCurrentCoin,
+  currentRoute
 }: {
   height?: number;
   coin?: number;
   setCoin: Dispatch<SetStateAction<number>>;
   setCurrentCoin: any;
+  currentRoute: any;
 }) => {
   const [selectedDeposit, setSelectedDeposit] = useState(1);
   const { isAdaptive: md } = useResize(1200);
@@ -41,7 +43,6 @@ export const DepositsBox = ({
         currentRoute.navigate({
           params: { coin: "BTC" },
           query: {},
-          replace: true,
         })
       }
       setCoin(index)

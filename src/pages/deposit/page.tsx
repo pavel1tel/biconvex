@@ -9,6 +9,7 @@ import { DepositCoin } from "@/shared/api/types";
 import { Container, Footer, Header, Sidebar, Wrapper } from "@/shared/ui";
 
 import classes from "./styles.module.css";
+import { currentRoute } from "./model";
 
 export function Page() {
   const [selectedDeposit, setSelectedDeposit] = useState(0);
@@ -37,6 +38,7 @@ export function Page() {
         <Sidebar>
           <Flex className={classes.wrapper} gap={rem(32)}>
             <DepositsBox
+              currentRoute={currentRoute}
               height={819}
               coin={selectedDeposit}
               setCoin={(selected) => {

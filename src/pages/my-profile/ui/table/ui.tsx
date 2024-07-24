@@ -171,12 +171,12 @@ export const TableProfile = () => {
             </Text>
           </Table.Td>
           <Table.Td w={240}>
-            <Link to={routes.deposit} params={{coin : coin.short_name ? coin.short_name : "BTC"}} className={classes.tableLink} onClick={handleRedirection}>
+            <Link to={routes.deposit} params={{ coin: coin.short_name ? coin.short_name : "BTC" }} className={classes.tableLink} onClick={handleRedirection}>
               {laptop ? <img src={downloadIcon} alt="" /> : "Deposit"}
             </Link>
           </Table.Td>
           <Table.Td w={240}>
-            <Link to={routes.withdraw} params={{ coin: coin.short_name }} className={classes.tableLink} onClick={handleRedirection}>
+            <Link to={routes.withdraw} params={{ coin: coin.short_name ? coin.short_name : "BTC" }} className={classes.tableLink} onClick={handleRedirection}>
               {laptop ? <img src={withdrawIcon} alt="" /> : "Withdraw"}
             </Link>
           </Table.Td>

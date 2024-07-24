@@ -9,6 +9,7 @@ import { WithdrawBox } from "@/pages/withdraw/ui";
 import { DepositCoin } from "@/shared/api/types";
 import { Container, Footer, Header, Sidebar, Wrapper } from "@/shared/ui";
 
+import { currentRoute } from "./model";
 import classes from "./styles.module.css";
 
 export function Page() {
@@ -38,6 +39,7 @@ export function Page() {
         <Sidebar>
           <Flex className={classes.boxWrapper}>
             <DepositsBox
+              currentRoute={currentRoute}
               height={804}
               coin={selectedDeposit}
               setCoin={(selected) => {
