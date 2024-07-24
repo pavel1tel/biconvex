@@ -16,13 +16,14 @@
   border-radius: 100px;
 }
 
-.buy-button {
-  @mixin text-3-full var(--color-blue);
+.buy-button a {
+  @mixin text-3-full #625ff4;
   @mixin transition;
   text-transform: uppercase;
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
+  font-size: 16px;
   text-decoration-color: transparent;
   -webkit-text-decoration-color: transparent;
   -moz-text-decoration-color: transparent;

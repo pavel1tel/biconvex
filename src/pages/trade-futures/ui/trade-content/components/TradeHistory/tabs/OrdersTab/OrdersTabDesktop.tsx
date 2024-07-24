@@ -49,7 +49,7 @@ export const OrdersTabDesktop = () => {
         </Table.Tr>
       </Table.Thead>
       <PromoPopup handleSave={() => console.log("")} handleClose={() => setOpen(false)} opened={open} />
-      <Table.Tbody>
+      <Table.Tbody w={"100%"}>
         {data.map((row, i) => (
           <Table.Tr key={i}>
             {row.map((cell, j) => {
