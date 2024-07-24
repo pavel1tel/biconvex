@@ -89,6 +89,7 @@ export const SelectCoin = ({ className }: { className: string }) => {
           placeholder="Available: 0 BTC"
         />
       </Stack>
+      <div id="choose-bot"></div>
     </Stack>
   );
 };
