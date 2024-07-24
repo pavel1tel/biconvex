@@ -306,3 +306,17 @@
     display: block;
   }
 }
+
+@media screen and (max-width: 500px) {
+  /* .table-td {
+    padding: 12px 7px !important;
+  } */
+
+  .text {
+    font-size: 14px !important;
+  }
+
+  .iconByType {
+    margin-right: 4px;
+  }
+}

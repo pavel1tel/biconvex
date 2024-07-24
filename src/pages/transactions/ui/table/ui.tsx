@@ -156,15 +156,15 @@ export const TransactionTable = () => {
             </Flex>
           </Table.Td>
           <Table.Td w={"135"}>
-            <Text c="white" variant="text-3" span style={{ paddingLeft: "7px" }}>
+            <Text c="white" variant="text-3" span style={{ paddingLeft: "7px", paddingRight: "15px" }}>
               {coin.time.slice(0, 10).replaceAll("/", ".")}
             </Text>
           </Table.Td>
           <Table.Td w={"135"}>
             <Text c="white" variant="text-3" span>
               <Flex align={"center"} gap={rem(4)}>
-                {iconsByType[coin.type]}
-                {coin.type}
+                <span className={classes.iconByType}> {iconsByType[coin.type]}</span>
+                <span className={classes.coinTypeText}>{coin.type}</span>
               </Flex>
             </Text>
           </Table.Td>

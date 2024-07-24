@@ -59,8 +59,8 @@ export const TableProfile = () => {
   const calculatePage = (sortFn: ((a: Crypto, b: Crypto) => number) | undefined, searchFn: (a: Crypto) => boolean) => {
     if (!profileReponsepending) {
       const temp: any[] = [];
-      const startIndex = (page - 1) * 5;
-      const endIndex = startIndex + 5;
+      const startIndex = (page - 1) * 10;
+      const endIndex = startIndex + 10;
       profileReponse
         .coins!.filter(searchFn)
         .filter((coin) => {
@@ -163,7 +163,8 @@ export const TableProfile = () => {
           <Table.Td w={220}>
             <Text c="white" variant="text-3" span>
               {parseFloat(parseFloat(coin.Balance).toFixed(4))}
-            </Text>ƒ
+            </Text>
+            ƒ
           </Table.Td>
           <Table.Td w={230}>
             <Text c="white" variant="text-3" span>
@@ -171,12 +172,22 @@ export const TableProfile = () => {
             </Text>
           </Table.Td>
           <Table.Td w={240}>
-            <Link to={routes.deposit} params={{ coin: coin.short_name ? coin.short_name : "BTC" }} className={classes.tableLink} onClick={handleRedirection}>
+            <Link
+              to={routes.deposit}
+              params={{ coin: coin.short_name ? coin.short_name : "BTC" }}
+              className={classes.tableLink}
+              onClick={handleRedirection}
+            >
               {laptop ? <img src={downloadIcon} alt="" /> : "Deposit"}
             </Link>
           </Table.Td>
           <Table.Td w={240}>
-            <Link to={routes.withdraw} params={{ coin: coin.short_name ? coin.short_name : "BTC" }} className={classes.tableLink} onClick={handleRedirection}>
+            <Link
+              to={routes.withdraw}
+              params={{ coin: coin.short_name ? coin.short_name : "BTC" }}
+              className={classes.tableLink}
+              onClick={handleRedirection}
+            >
               {laptop ? <img src={withdrawIcon} alt="" /> : "Withdraw"}
             </Link>
           </Table.Td>

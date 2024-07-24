@@ -10,6 +10,7 @@ import { $profileReponse } from "@/pages/my-profile/model";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { getCoinInfo, getCoinPrice, getTrades } from "@/shared/api/trading/requests";
 import { ProfileReponse } from "@/shared/api/types";
+import { routes } from "@/shared/routing";
 import { ButtonTabs } from "@/shared/ui/ButtonTabs/ui";
 import { TradeActions } from "@/shared/ui/TradeActions/ui";
 
@@ -81,7 +82,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
               <TradeHistory />
             </>
           )}
-          {activeCategory === "Chart" && <TradeActions actionsTitle="Futures" buyLabel="Buy" sellLabel="Sell" linkTo="#/trade-futures" />}
+          {activeCategory === "Chart" && <TradeActions actionsTitle="Futures" buyLabel="Buy" sellLabel="Sell" linkTo="/trade-futures" />}
         </Group>
       ) : (
         <>

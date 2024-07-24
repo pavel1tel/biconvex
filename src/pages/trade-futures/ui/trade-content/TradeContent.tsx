@@ -8,6 +8,7 @@ import { $profileReponse } from "@/pages/my-profile/model";
 
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { ProfileReponse } from "@/shared/api/types";
+import { router, routes } from "@/shared/routing";
 import { ButtonTabs } from "@/shared/ui/ButtonTabs/ui";
 import { TradeActions } from "@/shared/ui/TradeActions/ui";
 
@@ -69,7 +70,7 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
               <TradeHistory />
             </>
           )}
-          {activeCategory === "Chart" && <TradeActions actionsTitle="Spot" buyLabel="Buy/Long" sellLabel="Sell/Short" linkTo="/#/trade" />}
+          {activeCategory === "Chart" && <TradeActions actionsTitle="Spot" buyLabel="Buy/Long" sellLabel="Sell/Short" linkTo="/trade/BTC-USDT" />}
         </Group>
       ) : (
         <>

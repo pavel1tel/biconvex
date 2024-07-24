@@ -8,6 +8,7 @@ import { $profileReponse } from "@/pages/my-profile/model";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { createOrder } from "@/shared/api/trading/requests";
 import { Crypto, ProfileReponse } from "@/shared/api/types";
+import { USDTIcon } from "@/shared/ui";
 import { USDIcon } from "@/shared/ui/icon/USDIcon";
 import { WalletIcon } from "@/shared/ui/icon/WalletIcon";
 
@@ -148,7 +149,7 @@ export const BuyTab = ({ currentPair, priceWs }: { currentPair: string; priceWs:
               rightSectionWidth="fit-content"
               rightSection={
                 <Group gap={8} wrap="nowrap">
-                  <USDIcon />
+                  <USDTIcon />
                   USDT
                 </Group>
               }
@@ -170,7 +171,7 @@ export const BuyTab = ({ currentPair, priceWs }: { currentPair: string; priceWs:
             rightSectionWidth="fit-content"
             rightSection={
               <Group gap={8} wrap="nowrap">
-                <USDIcon />
+                <USDTIcon />
                 USDT
               </Group>
             }

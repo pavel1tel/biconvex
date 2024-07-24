@@ -10,3 +10,5 @@ export { ReactComponent as PolygonIcon } from "./polygon.svg?react";
 export { ReactComponent as BitcoinIcon } from "./bitcoin.svg?react";
 // @ts-expect-error HZ why
 export { ReactComponent as EthereumIcon } from "./ethereum.svg?react";
+// @ts-expect-error HZ why
+export { ReactComponent as USDTIcon } from "./usdt.svg?react";
