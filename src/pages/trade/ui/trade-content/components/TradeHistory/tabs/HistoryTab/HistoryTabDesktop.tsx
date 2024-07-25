@@ -1,4 +1,4 @@
-import { Group, Table } from "@mantine/core";
+import { Flex, Group, Table, Text } from "@mantine/core";
 import clsx from "clsx";
 import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { $historyOrdersResponse } from "@/pages/trade/model";
 
 import { requestHistoryOrders } from "@/shared/api/trading/requests";
 import { OpenOrderResponse } from "@/shared/api/types";
+import { NoRecords } from "@/shared/ui";
 
 import { header } from "./HistoryTab.constants";
 import classes from "./HistoryTab.module.css";
@@ -108,15 +109,32 @@ export const HistoryTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCo
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {data.map((row, i) => (
-          <Table.Tr key={i}>
-            {row.map((cell) => (
-              <Table.Td key={cell.key} className={clsx({ [classes.green]: cell.value === "Buy", [classes.red]: cell.value === "Sell" })}>
-                {cell.value}
+        {data.length > 0 &&
+          data.map((row, i) => (
+            <Table.Tr key={i}>
+              {row.map((cell) => (
+                <Table.Td key={cell.key} className={clsx({ [classes.green]: cell.value === "Buy", [classes.red]: cell.value === "Sell" })}>
+                  {cell.value}
+                </Table.Td>
+              ))}
+            </Table.Tr>
+          ))}
+        {data.length === 0 && (
+          <>
+            <Table.Tr pos="relative" h={400}>
+              <Table.Td>
+                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="120px" gap="10px">
+                  <NoRecords />
+                  <Text className={classes.noRecords}>
+                    No records
+                    <br />
+                    found
+                  </Text>
+                </Flex>
               </Table.Td>
-            ))}
-          </Table.Tr>
-        ))}
+            </Table.Tr>
+          </>
+        )}
       </Table.Tbody>
     </Table>
   );

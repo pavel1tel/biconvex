@@ -76,6 +76,26 @@ export const INVESTMENTS = [
     pl: 200,
     earned: 267,
   },
+  {
+    icon: <AltBitcoinIcon width={29} />,
+    name: "BTC",
+    qty: "0.0004",
+    bot: "Smart Money Trading Bot",
+    tradeType: "Lite",
+    activationTime: "2024.04.24 2:35",
+    pl: 200,
+    earned: 267,
+  },
+  {
+    icon: <AltBitcoinIcon width={29} />,
+    name: "BTC",
+    qty: "0.0004",
+    bot: "Smart Money Trading Bot",
+    tradeType: "Lite",
+    activationTime: "2024.04.24 2:35",
+    pl: 200,
+    earned: 267,
+  },
 ];
 
 export const INVESTMENTS_WITH_HEADINGS = [
@@ -86,30 +106,39 @@ export const INVESTMENTS_WITH_HEADINGS = [
       { icon: <BitcoinIcon width={29} />, name: "BTC" },
       { icon: <BitcoinIcon width={29} />, name: "BTC" },
       { icon: <BitcoinIcon width={29} />, name: "BTC" },
+      { icon: <BitcoinIcon width={29} />, name: "BTC" },
+      { icon: <BitcoinIcon width={29} />, name: "BTC" },
     ],
   },
   {
     heading: "Qty",
-    coins: ["0.0004", "0.0004", "0.0004", "0.0004"],
+    coins: ["0.0004", "0.0004", "0.0004", "0.0004", "0.0004", "0.0004"],
   },
   {
     heading: "Bot",
-    coins: ["Smart Money Trading Bot", "Smart Money Trading Bot", "Smart Money Trading Bot", "Smart Money Trading Bot"],
+    coins: [
+      "Smart Money Trading Bot",
+      "Smart Money Trading Bot",
+      "Smart Money Trading Bot",
+      "Smart Money Trading Bot",
+      "Smart Money Trading Bot",
+      "Smart Money Trading Bot",
+    ],
   },
   {
     heading: "Trade Type",
-    coins: ["Lite", "Lite", "Lite", "Lite"],
+    coins: ["Lite", "Lite", "Lite", "Lite", "Lite", "Lite"],
   },
   {
     heading: "P&L",
-    coins: ["200%", "300%", "234%", "355%"],
+    coins: ["200%", "300%", "234%", "355%", "155%", "255%"],
   },
   {
     heading: "Earned",
-    coins: ["250$", "245$", "267$", "259$"],
+    coins: ["250$", "245$", "267$", "259$", "269$", "279$"],
   },
   {
     heading: "Action",
-    coins: ["Stop", "Stop", "Stop", "Stop"],
+    coins: ["Stop", "Stop", "Stop", "Stop", "Stop", "Stop"],
   },
 ];

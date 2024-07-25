@@ -1,10 +1,10 @@
-import { Flex, Group, Table } from "@mantine/core";
+import { Flex, Group, Table, Text } from "@mantine/core";
 import clsx from "clsx";
 import { useState } from "react";
 
 import { PromoPopup } from "@/pages/trade-futures/ui/promo-popup/PromoPopup";
 
-import { MarketSortIcon } from "@/shared/ui";
+import { MarketSortIcon, NoRecords } from "@/shared/ui";
 
 import { data, header } from "./OrdersTab.constants";
 import classes from "./OrdersTab.module.css";
@@ -50,56 +50,74 @@ export const OrdersTabDesktop = () => {
       </Table.Thead>
       <PromoPopup handleSave={() => console.log("")} handleClose={() => setOpen(false)} opened={open} />
       <Table.Tbody w={"100%"}>
-        {data.map((row, i) => (
-          <Table.Tr key={i}>
-            {row.map((cell, j) => {
-              const isDirection = cell.key === "Direction";
-              const isPL = cell.key === "P&L";
-              const directionClass = cell.value === "Long" ? classes.green : classes.red;
+        {data.length > 0 &&
+          data.map((row, i) => (
+            <Table.Tr key={i}>
+              {row.map((cell, j) => {
+                const isDirection = cell.key === "Direction";
+                const isPL = cell.key === "P&L";
+                const directionClass = cell.value === "Long" ? classes.green : classes.red;
 
-              if (cell.key === "TP/SL") {
-                return (
-                  <>
+                if (cell.key === "TP/SL") {
+                  return (
+                    <>
+                      <Table.Td
+                        key={cell.key}
+                        className={clsx({ [directionClass]: isDirection || (isPL && row[1].value === "Long") || (isPL && row[1].value === "Short") })}
+                      >
+                        {cell.value}
+                      </Table.Td>
+                    </>
+                  );
+                }
+
+                if (cell.key === "P&L") {
+                  return (
                     <Table.Td
                       key={cell.key}
                       className={clsx({ [directionClass]: isDirection || (isPL && row[1].value === "Long") || (isPL && row[1].value === "Short") })}
                     >
-                      {cell.value}
+                      <Flex align="center" gap={5}>
+                        <button onClick={() => handleSettingsClick(i)} className={classes.settingsButton}>
+                          <img src={"/assets/settings-icon.png"} alt="Settings" className={classes.settingsIcon} />
+                        </button>
+                        {cell.value}
+                      </Flex>
                     </Table.Td>
-                  </>
-                );
-              }
+                  );
+                }
 
-              if (cell.key === "P&L") {
                 return (
                   <Table.Td
                     key={cell.key}
                     className={clsx({ [directionClass]: isDirection || (isPL && row[1].value === "Long") || (isPL && row[1].value === "Short") })}
                   >
-                    <Flex align="center" gap={5}>
-                      <button onClick={() => handleSettingsClick(i)} className={classes.settingsButton}>
-                        <img src={"/assets/settings-icon.png"} alt="Settings" className={classes.settingsIcon} />
-                      </button>
-                      {cell.value}
-                    </Flex>
+                    {cell.value}
                   </Table.Td>
                 );
-              }
+              })}
+              <Table.Td key={`market-${i}`}>
+                <button>Market</button>
+              </Table.Td>
+            </Table.Tr>
+          ))}
 
-              return (
-                <Table.Td
-                  key={cell.key}
-                  className={clsx({ [directionClass]: isDirection || (isPL && row[1].value === "Long") || (isPL && row[1].value === "Short") })}
-                >
-                  {cell.value}
-                </Table.Td>
-              );
-            })}
-            <Table.Td key={`market-${i}`}>
-              <button>Market</button>
-            </Table.Td>
-          </Table.Tr>
-        ))}
+        {data.length === 0 && (
+          <>
+            <Table.Tr pos="relative" h={400}>
+              <Table.Td>
+                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="120px" gap="10px">
+                  <NoRecords />
+                  <Text className={classes.noRecords}>
+                    No records
+                    <br />
+                    found
+                  </Text>
+                </Flex>
+              </Table.Td>
+            </Table.Tr>
+          </>
+        )}
       </Table.Tbody>
     </Table>
   );

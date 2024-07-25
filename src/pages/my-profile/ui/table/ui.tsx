@@ -50,7 +50,7 @@ export const TableProfile = () => {
   const [hideZerosTotalPage, setHideZerosTotalPage] = useState<number>(1);
   const profileReponse = useUnit<ProfileReponse>($profileReponse);
   const profileReponsepending = useUnit<boolean>(getStakingHistoryFx.pending);
-  const [COINS, setCOINS] = useState<any[]>([]);
+  const [COINS, setCOINS] = useState<any[]>(defaultC);
   const [page, setPage] = useState(1);
   const [sortFunc, setSortFunc] = useState<any>(() => (a: Crypto, b: Crypto) => true);
   const [searchFunc, setSearchFunc] = useState<any>(() => (a: Crypto) => true);
@@ -59,8 +59,8 @@ export const TableProfile = () => {
   const calculatePage = (sortFn: ((a: Crypto, b: Crypto) => number) | undefined, searchFn: (a: Crypto) => boolean) => {
     if (!profileReponsepending) {
       const temp: any[] = [];
-      const startIndex = COINS.length === 0 ? (page - 1) * 6 : (page - 1) * 10;
-      const endIndex = COINS.length === 0 ? startIndex + 6 : startIndex + 10;
+      const startIndex = COINS.length === 0 || hideZeros ? (page - 1) * 6 : (page - 1) * 10;
+      const endIndex = COINS.length === 0 || hideZeros ? startIndex + 6 : startIndex + 10;
       profileReponse
         .coins!.filter(searchFn)
         .filter((coin) => {
