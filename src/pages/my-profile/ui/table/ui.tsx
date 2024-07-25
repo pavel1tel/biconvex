@@ -50,7 +50,7 @@ export const TableProfile = () => {
   const [hideZerosTotalPage, setHideZerosTotalPage] = useState<number>(1);
   const profileReponse = useUnit<ProfileReponse>($profileReponse);
   const profileReponsepending = useUnit<boolean>(getStakingHistoryFx.pending);
-  const [COINS, setCOINS] = useState<any[]>([]);
+  const [COINS, setCOINS] = useState<any[]>(defaultC);
   const [page, setPage] = useState(1);
   const [sortFunc, setSortFunc] = useState<any>(() => (a: Crypto, b: Crypto) => true);
   const [searchFunc, setSearchFunc] = useState<any>(() => (a: Crypto) => true);
