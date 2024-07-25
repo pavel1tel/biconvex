@@ -8,7 +8,7 @@ import { DepositIcon, InvestIcon, PromoIcon } from "@/pages/transactions/ui";
 
 import { getTransactions } from "@/shared/api/transactions/requests";
 import { Transaction, TransactionsResponse } from "@/shared/api/types";
-import { ArrowDown, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { ArrowDown, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 import { TransferIcon, WithdrawIcon } from "@/shared/ui/sidebar/Icons";
 
 import { $transactionsReponse } from "../../model";
@@ -273,13 +273,23 @@ export const TransactionTable = () => {
               <Table.Tr>{headers}</Table.Tr>
             </Table.Thead>
             <Table.Tbody classNames={{ tbody: classes.tableBody }}>
-              {tableCoins ? (
+              {COINS && COINS.length > 0 ? (
                 tableCoins
               ) : (
-                <Stack align={"center"} ml={323} my={137}>
-                  <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/notes.png`} alt="notes" className={classes.img} />
-                  <Text className={classes.noData}>No records found</Text>
-                </Stack>
+                <>
+                  <Table.Tr pos="relative" h={400}>
+                    <Table.Td className={classes.tableTdNoRecords}>
+                      <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="120px" gap="10px">
+                        <NoRecords />
+                        <Text className={classes.noRecords}>
+                          No records
+                          <br />
+                          found
+                        </Text>
+                      </Flex>
+                    </Table.Td>
+                  </Table.Tr>
+                </>
               )}
             </Table.Tbody>
           </Table>

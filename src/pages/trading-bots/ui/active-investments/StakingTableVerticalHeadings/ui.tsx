@@ -3,7 +3,7 @@ import { Divider, Flex, Group, Pagination, Stack, Table, Text, TextInput, Title,
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 
-import { NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 
 import { INVESTMENTS_WITH_HEADINGS } from "../Investments";
 import classes from "./styles.module.css";
@@ -47,37 +47,54 @@ export const StakingTableVerticalHeadings = () => {
             withRowBorders={true}
           >
             <Table.Tbody classNames={{ tbody: classes.tableBody }}>
-              {INVESTMENTS_WITH_HEADINGS.map((investment, index) => (
-                <Table.Tr key={index}>
-                  <Table.Th className={classes.tableHeadingCell}>{investment.heading}</Table.Th>
-                  {investment.coins.map((coin) => {
-                    if (typeof coin !== "object") {
-                      return (
-                        <Table.Td
-                          className={clsx(
-                            classes.tableCellWithLeftIndent,
-                            { [classes.linkButton]: coin === "Stop" },
-                            { [classes.plAmount]: investment.heading === "P&L" },
-                          )}
-                        >
-                          {coin}
-                        </Table.Td>
-                      );
-                    } else {
-                      return (
-                        <Table.Td px={15} className={classes.tbodyTdWithIcon}>
-                          <Group gap={rem(8)}>
-                            {coin.icon}
-                            <Title c="white" order={4} className={classes.cellWithIconText}>
-                              {coin.name}
-                            </Title>
-                          </Group>
-                        </Table.Td>
-                      );
-                    }
-                  })}
-                </Table.Tr>
-              ))}
+              {INVESTMENTS_WITH_HEADINGS.length > 0 &&
+                INVESTMENTS_WITH_HEADINGS.map((investment, index) => (
+                  <Table.Tr key={index}>
+                    <Table.Th className={classes.tableHeadingCell}>{investment.heading}</Table.Th>
+                    {investment.coins.map((coin) => {
+                      if (typeof coin !== "object") {
+                        return (
+                          <Table.Td
+                            className={clsx(
+                              classes.tableCellWithLeftIndent,
+                              { [classes.linkButton]: coin === "Stop" },
+                              { [classes.plAmount]: investment.heading === "P&L" },
+                            )}
+                          >
+                            {coin}
+                          </Table.Td>
+                        );
+                      } else {
+                        return (
+                          <Table.Td px={15} className={classes.tbodyTdWithIcon}>
+                            <Group gap={rem(8)}>
+                              {coin.icon}
+                              <Title c="white" order={4} className={classes.cellWithIconText}>
+                                {coin.name}
+                              </Title>
+                            </Group>
+                          </Table.Td>
+                        );
+                      }
+                    })}
+                  </Table.Tr>
+                ))}
+              {INVESTMENTS_WITH_HEADINGS.length === 0 && (
+                <>
+                  <Table.Tr pos="relative" h={400}>
+                    <Table.Td className={classes.tableTdNoRecords}>
+                      <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="120px" gap="10px">
+                        <NoRecords />
+                        <Text className={classes.noRecords}>
+                          No records
+                          <br />
+                          found
+                        </Text>
+                      </Flex>
+                    </Table.Td>
+                  </Table.Tr>
+                </>
+              )}
             </Table.Tbody>
           </Table>
         </div>

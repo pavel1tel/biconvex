@@ -2,7 +2,7 @@ import { Box, Button, Divider, Flex, Group, Pagination, Stack, Table, Text, Text
 import clsx from "clsx";
 import { useCallback, useState } from "react";
 
-import { MarketSortIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { MarketSortIcon, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 import { PersonIcon } from "@/shared/ui/icon/PersonIcon";
 import { ProfitIcon } from "@/shared/ui/icon/ProfitIcon";
 import { ProfileIcon } from "@/shared/ui/sidebar/Icons";
@@ -153,21 +153,38 @@ export const AffiliateBox = () => {
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
-              {data.map((data) => (
-                <Table.Tr key={data.id} className={classes.tableBodyTr}>
-                  <Table.Td className={classes.tableTd}>
-                    <Group gap={rem(8)}>
-                      <div className={classes.iconWrapper}>
-                        <ProfileIcon />
-                      </div>
-                      <Text className={classes.accIDCol}>{`ID: ${data.id}`}</Text>
-                    </Group>
-                  </Table.Td>
-                  <Table.Td className={classes.tableTd}>
-                    <Text variant="text-3">{data.reg_time}</Text>
-                  </Table.Td>
-                </Table.Tr>
-              ))}
+              {data.length > 0 &&
+                data.map((data) => (
+                  <Table.Tr key={data.id} className={classes.tableBodyTr}>
+                    <Table.Td className={classes.tableTd}>
+                      <Group gap={rem(8)}>
+                        <div className={classes.iconWrapper}>
+                          <ProfileIcon />
+                        </div>
+                        <Text className={classes.accIDCol}>{`ID: ${data.id}`}</Text>
+                      </Group>
+                    </Table.Td>
+                    <Table.Td className={classes.tableTd}>
+                      <Text variant="text-3">{data.reg_time}</Text>
+                    </Table.Td>
+                  </Table.Tr>
+                ))}
+              {data.length === 0 && (
+                <>
+                  <Table.Tr pos="relative" h={400}>
+                    <Table.Td className={classes.tableTdNoRecords}>
+                      <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="120px" gap="10px">
+                        <NoRecords />
+                        <Text className={classes.noRecords}>
+                          No records
+                          <br />
+                          found
+                        </Text>
+                      </Flex>
+                    </Table.Td>
+                  </Table.Tr>
+                </>
+              )}
             </Table.Tbody>
           </Table>
         </Box>

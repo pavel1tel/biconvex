@@ -1,4 +1,4 @@
-import { Group, Table } from "@mantine/core";
+import { Center, Flex, Group, Stack, Table, Text } from "@mantine/core";
 import clsx from "clsx";
 import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { $openOrdersResponse } from "@/pages/trade/model";
 
 import { cancelOrder, requestOpenOrders } from "@/shared/api/trading/requests";
 import { OpenOrderResponse } from "@/shared/api/types";
+import { NoRecords } from "@/shared/ui";
 
 import { header } from "./OrdersTab.constants";
 import classes from "./OrdersTab.module.css";
@@ -119,20 +120,38 @@ export const OrdersTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCoi
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {data.map((row: any[], i) => (
-          <Table.Tr key={i}>
-            {row.map((cell) => {
-              return cell.key != "id" ? (
-                <Table.Td key={cell.key} className={clsx({ [classes.green]: cell.value === "Buy", [classes.red]: cell.value === "Sell" })}>
-                  {cell.value}
-                </Table.Td>
-              ) : null;
-            })}
-            <Table.Td>
-              <button onClick={() => handleCancel(row.find((cell) => cell.key == "id").value)}>Cancel</button>
-            </Table.Td>
-          </Table.Tr>
-        ))}
+        {data.length > 0 &&
+          data.map((row: any[], i) => (
+            <Table.Tr key={i}>
+              {row.map((cell) => {
+                return cell.key != "id" ? (
+                  <Table.Td key={cell.key} className={clsx({ [classes.green]: cell.value === "Buy", [classes.red]: cell.value === "Sell" })}>
+                    {cell.value}
+                  </Table.Td>
+                ) : null;
+              })}
+              <Table.Td>
+                <button onClick={() => handleCancel(row.find((cell) => cell.key == "id").value)}>Cancel</button>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+
+        {data.length === 0 && (
+          <>
+            <Table.Tr pos="relative" h={400}>
+              <Table.Td>
+                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="120px" gap="10px">
+                  <NoRecords />
+                  <Text className={classes.noRecords}>
+                    No records
+                    <br />
+                    found
+                  </Text>
+                </Flex>
+              </Table.Td>
+            </Table.Tr>
+          </>
+        )}
       </Table.Tbody>
     </Table>
   );

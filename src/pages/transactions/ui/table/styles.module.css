@@ -24,6 +24,21 @@
   }
 }
 
+.noRecords {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+.tableTdNoRecords {
+  height: auto !important;
+  & svg {
+    width: auto !important;
+    height: auto !important;
+  }
+}
+
 .first-td-wrapper {
   & svg {
     width: rem(24);

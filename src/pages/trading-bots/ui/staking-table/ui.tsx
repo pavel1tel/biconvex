@@ -9,7 +9,7 @@ import { getSortingFunc } from "@/pages/staking/ui/staking-table/utils";
 
 import { createUnstakeRequest, getStakingHistory } from "@/shared/api/staking/request";
 import { InvestmentHistory, StakingHistoryResponse } from "@/shared/api/types";
-import { MarketSortIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { MarketSortIcon, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 
 import classes from "./styles.module.css";
 
@@ -224,7 +224,25 @@ export const StakingTable = ({
             <Table.Thead classNames={{ thead: classes.tableHead }}>
               <Table.Tr>{headers}</Table.Tr>
             </Table.Thead>
-            <Table.Tbody classNames={{ tbody: classes.tableBody }}>{tableCoins}</Table.Tbody>
+            <Table.Tbody classNames={{ tbody: classes.tableBody }}>
+              {tableData.length > 0 && tableCoins}
+              {tableData.length === 0 && (
+                <>
+                  <Table.Tr pos="relative" h={400}>
+                    <Table.Td className={classes.tableTdNoRecords}>
+                      <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="120px" gap="10px">
+                        <NoRecords />
+                        <Text className={classes.noRecords}>
+                          No records
+                          <br />
+                          found
+                        </Text>
+                      </Flex>
+                    </Table.Td>
+                  </Table.Tr>
+                </>
+              )}
+            </Table.Tbody>
           </Table>
         </div>
         <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} mt={rem("32px")} />

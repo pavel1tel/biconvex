@@ -7,6 +7,7 @@
     border-top: var(--border1);
     border-bottom: var(--border1);
     padding: 16px 0;
+
     cursor: pointer;
   }
   tr {
@@ -41,6 +42,12 @@
       }
     }
   }
+}
+.noRecords {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
 }
 .sortArrowWrapper {
   transition: 0.3s;
