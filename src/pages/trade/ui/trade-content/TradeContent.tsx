@@ -36,6 +36,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
   const routeParams = useUnit(currentRoute.$params);
   const [currentPair, setCurrentPair] = useState("");
   const [currentPairName, setCurrentPairName] = useState("");
+  const [actionType, setActionType] = useState("Sell");
   useEffect(() => {
     setSocketUrl("wss://stream.binance.com:9443/ws/" + currentPair.split("/").join("").toLocaleLowerCase() + "@kline_1m");
   }, [currentPair]);
@@ -52,6 +53,14 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
       setCurrentPairName(profileResponse.coins!.filter((coin) => coin.symbol == currentPair.split("/")[0])[0].name + "/" + currentPair.split("/")[1]);
     }
   }, [profileResponsePending, currentPair]);
+
+  const handleAction = (name: "Trade" | "Chart") => {
+    setActiveCategory(name);
+  };
+
+  const handleActionType = (name: "Buy" | "Sell") => {
+    setActionType(name);
+  };
 
   useEffect(() => {
     if (currentPair.length > 0) {
@@ -76,13 +85,29 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
           {activeCategory === "Trade" && (
             <>
               <div className={classes.tradeTabContainer}>
-                <Payment priceWs={priceWs} currentPair={currentPair} currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
+                <Payment
+                  actionType={actionType}
+                  priceWs={priceWs}
+                  currentPair={currentPair}
+                  currentPairName={currentPairName}
+                  setCurrentPair={setCurrentPair}
+                />
+                <div id="tradeAction"></div>
                 <OrderBookMobileTradeTab priceWs={priceWs} currentPair={currentPair} activeTab="Trade" activeCategory="All" addScroll={true} />
               </div>
               <TradeHistory />
             </>
           )}
-          {activeCategory === "Chart" && <TradeActions actionsTitle="Futures" buyLabel="Buy" sellLabel="Sell" linkTo="/trade-futures" />}
+          {activeCategory === "Chart" && (
+            <TradeActions
+              handleActionType={handleActionType}
+              handleAction={handleAction}
+              actionsTitle="Futures"
+              buyLabel="Buy"
+              sellLabel="Sell"
+              linkTo="/trade-futures"
+            />
+          )}
         </Group>
       ) : (
         <>
@@ -95,7 +120,13 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
               <MarketStats priceWs={priceWs} currentPair={currentPair} />
             </Stack>
             <Stack gap={20} w={345} className={classes.wrapper}>
-              <Payment priceWs={priceWs} currentPair={currentPair} currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
+              <Payment
+                actionType={""}
+                priceWs={priceWs}
+                currentPair={currentPair}
+                currentPairName={currentPairName}
+                setCurrentPair={setCurrentPair}
+              />
               <MarketTrades currentPair={currentPair} />
             </Stack>
           </Group>

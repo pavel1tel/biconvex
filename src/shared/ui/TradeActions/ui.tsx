@@ -15,9 +15,11 @@ interface TradeActionProps {
   sellLabel: string;
   linkTo: string;
   params?: { pairId: string };
+  handleAction?: (name: "Trade" | "Chart") => void;
+  handleActionType?: (name: "Buy" | "Sell") => void;
 }
 
-export const TradeActions = ({ actionsTitle, buyLabel, sellLabel, linkTo, params }: TradeActionProps) => {
+export const TradeActions = ({ actionsTitle, buyLabel, sellLabel, linkTo, params, handleAction, handleActionType }: TradeActionProps) => {
   const router = useRouter();
   return (
     <div className={classes.tradeActionsView}>
@@ -40,10 +42,26 @@ export const TradeActions = ({ actionsTitle, buyLabel, sellLabel, linkTo, params
           </button>
         </Text>{" "}
         <div className={classes.stockActions}>
-          <Button className={clsx(classes.btn, classes.actionButton)} h={rem("54px")} variant="success">
+          <Button
+            className={clsx(classes.btn, classes.actionButton)}
+            h={rem("54px")}
+            variant="success"
+            onClick={() => {
+              handleAction && handleAction("Trade");
+              handleActionType && handleActionType("Buy");
+            }}
+          >
             {buyLabel}
           </Button>
-          <Button className={clsx(classes.btn, classes.actionButton)} h={rem("54px")} variant="danger">
+          <Button
+            className={clsx(classes.btn, classes.actionButton)}
+            h={rem("54px")}
+            variant="danger"
+            onClick={() => {
+              handleAction && handleAction("Trade");
+              handleActionType && handleActionType("Sell");
+            }}
+          >
             {sellLabel}
           </Button>
         </div>

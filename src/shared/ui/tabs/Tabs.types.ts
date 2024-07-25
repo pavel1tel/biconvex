@@ -9,6 +9,7 @@ export type TabsProps = {
   tabControllFontSize?: CSSProperties["fontSize"];
   onTabChange?: (tab?: Tab) => void;
   overflowContainer?: boolean;
+  activeTabId?: string;
 };
 
 export type Tab = {

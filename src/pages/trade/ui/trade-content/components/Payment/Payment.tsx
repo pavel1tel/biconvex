@@ -9,7 +9,7 @@ import containerClasses from "../../../../../../shared/ui/TradePageContainer/Con
 import { BuyTab } from "./components/tabs/BuyTab/BuyTab";
 import { SellTab } from "./components/tabs/SellTab/SellTab";
 
-export const Payment = ({ currentPairName, setCurrentPair, currentPair, priceWs }) => {
+export const Payment = ({ currentPairName, setCurrentPair, currentPair, priceWs, actionType }) => {
   const { isAdaptive: md } = useResize(1200);
   const tabs = [
     { id: "buy", title: "Buy", content: <BuyTab priceWs={priceWs} currentPair={currentPair} /> },
@@ -19,8 +19,7 @@ export const Payment = ({ currentPairName, setCurrentPair, currentPair, priceWs 
     <Stack className={containerClasses.payment}>
       <Container style={{ padding: "2rem clamp(1.5rem, 2vw, 2rem) 2rem clamp(1.5rem, 2vw, 2rem)" }}>
         {md && <TradeChartTitle currentPairName={currentPair} setCurrentPair={setCurrentPair} className="withBottomIndent" />}
-
-        <Tabs overflowContainer={false} tabs={tabs} />
+        <Tabs activeTabId={actionType === "Buy" ? tabs[0].id : tabs[1].id} overflowContainer={false} tabs={tabs} />
       </Container>
     </Stack>
   );
