@@ -25,6 +25,14 @@ export const SellTab = ({ currentPair, priceWs }: { currentPair: string; priceWs
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [recalculateCoin, setRecalculateCoin] = useState<boolean>(false);
   const [recalculateTotal, setRecalculateTotal] = useState<boolean>(false);
+  const goToSection = () => {
+    const tradeActionSection = document.getElementById("tradeAction");
+    console.log(tradeActionSection);
+
+    if (tradeActionSection) {
+      tradeActionSection.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    }
+  };
 
   useEffect(() => {
     setCoinAmount(NaN);
@@ -40,6 +48,7 @@ export const SellTab = ({ currentPair, priceWs }: { currentPair: string; priceWs
 
   useEffect(() => {
     console.log("here");
+    goToSection();
     if (activeSwitch === 1) {
       if (price && coinAmount) {
         console.log("here");

@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import classes from "./Tabs.module.css";
 import { Tab, TabsProps } from "./Tabs.types";
@@ -13,6 +13,7 @@ export const Tabs = ({
   tabControllPadding = 0,
   tabControllFontSize = 20,
   onTabChange,
+  activeTabId,
   overflowContainer = true,
 }: TabsProps) => {
   const [activeTabID, setActiveTabID] = useState(tabs[0].id);
@@ -22,6 +23,11 @@ export const Tabs = ({
     onTabChange?.(tab);
     setActiveTabID(tab.id);
   };
+  useEffect(() => {
+    if (activeTabId) {
+      setActiveTabID(activeTabId);
+    }
+  }, [activeTabId]);
   return (
     <div style={{ overflow: overflowContainer ? "hidden" : "visible" }} className={classes.tabsContainer}>
       <div style={{ width: tabsControllsWidth }} className={classes.tabsControllWrapper}>
