@@ -66,6 +66,13 @@
   }
 }
 
+.noRecords {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
 @media (max-width: 1380px) {
   .table-wrapper {
     overflow-x: scroll;

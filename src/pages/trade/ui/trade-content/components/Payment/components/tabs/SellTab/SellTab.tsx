@@ -8,6 +8,7 @@ import { $profileReponse } from "@/pages/my-profile/model";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { createOrder } from "@/shared/api/trading/requests";
 import { Crypto, ProfileReponse } from "@/shared/api/types";
+import { USDTIcon } from "@/shared/ui";
 import { USDIcon } from "@/shared/ui/icon/USDIcon";
 import { WalletIcon } from "@/shared/ui/icon/WalletIcon";
 
@@ -24,6 +25,14 @@ export const SellTab = ({ currentPair, priceWs }: { currentPair: string; priceWs
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [recalculateCoin, setRecalculateCoin] = useState<boolean>(false);
   const [recalculateTotal, setRecalculateTotal] = useState<boolean>(false);
+  const goToSection = () => {
+    const tradeActionSection = document.getElementById("tradeAction");
+    console.log(tradeActionSection);
+
+    if (tradeActionSection) {
+      tradeActionSection.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    }
+  };
 
   useEffect(() => {
     setCoinAmount(NaN);
@@ -39,6 +48,7 @@ export const SellTab = ({ currentPair, priceWs }: { currentPair: string; priceWs
 
   useEffect(() => {
     console.log("here");
+    goToSection();
     if (activeSwitch === 1) {
       if (price && coinAmount) {
         console.log("here");
@@ -150,7 +160,7 @@ export const SellTab = ({ currentPair, priceWs }: { currentPair: string; priceWs
               rightSectionWidth="fit-content"
               rightSection={
                 <Group gap={8} wrap="nowrap">
-                  <USDIcon />
+                  <USDTIcon />
                   USDT
                 </Group>
               }
@@ -172,7 +182,7 @@ export const SellTab = ({ currentPair, priceWs }: { currentPair: string; priceWs
             rightSectionWidth="fit-content"
             rightSection={
               <Group gap={8} wrap="nowrap">
-                <USDIcon />
+                <USDTIcon />
                 USDT
               </Group>
             }

@@ -27,6 +27,21 @@
   border-radius: 4px;
 }
 
+.noRecords {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+.tableTdNoRecords {
+  height: auto !important;
+  & svg {
+    width: auto !important;
+    height: auto !important;
+  }
+}
+
 .table-td {
   height: 1px;
 

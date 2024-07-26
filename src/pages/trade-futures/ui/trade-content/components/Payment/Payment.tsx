@@ -115,12 +115,14 @@ export const Payment = ({ currentPairName, setCurrentPair }) => {
                 <TextInput
                   classNames={{ wrapper: classes.tpsiInputWrapper, input: classes.tpsiInput, section: classes.tpsiInputSecton }}
                   type="number"
-                  leftSection={<p>Take Profit</p>}
+                  placeholder="Take Profit"
+                  // leftSection={<p>Take Profit</p>}
                 />
                 <TextInput
                   classNames={{ wrapper: classes.tpsiInputWrapper, input: classes.tpsiInput, section: classes.tpsiInputSecton }}
                   type="number"
-                  leftSection={<p>Stop Loss</p>}
+                  placeholder="Stop Loss"
+                  // leftSection={<p>Stop Loss</p>}
                 />
               </Stack>
             )}

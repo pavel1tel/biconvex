@@ -59,8 +59,8 @@ export const TableProfile = () => {
   const calculatePage = (sortFn: ((a: Crypto, b: Crypto) => number) | undefined, searchFn: (a: Crypto) => boolean) => {
     if (!profileReponsepending) {
       const temp: any[] = [];
-      const startIndex = (page - 1) * 10;
-      const endIndex = startIndex + 10;
+      const startIndex = COINS.length === 0 || hideZeros ? (page - 1) * 6 : (page - 1) * 10;
+      const endIndex = COINS.length === 0 || hideZeros ? startIndex + 6 : startIndex + 10;
       profileReponse
         .coins!.filter(searchFn)
         .filter((coin) => {

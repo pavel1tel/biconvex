@@ -1,8 +1,8 @@
-import { Group, Table } from "@mantine/core";
+import { Flex, Group, Table, Text } from "@mantine/core";
 import clsx from "clsx";
 import { useState } from "react";
 
-import { MarketSortIcon } from "@/shared/ui";
+import { MarketSortIcon, NoRecords } from "@/shared/ui";
 
 import { data, header } from "./HistoryTab.constants";
 import classes from "./HistoryTab.module.css";
@@ -79,23 +79,41 @@ export const HistoryTabDesktop = () => {
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {data.map((row, i) => (
-          <Table.Tr key={i}>
-            {row.map((cell) => {
-              const isDirection = cell.key === "Direction";
-              const isPL = cell.key === "P&L";
-              const directionClass = isDirection ? (cell.value === "Long" ? classes.green : cell.value === "Short" ? classes.red : "") : "";
-              const plClass = isPL ? (parseFloat(cell.value) > 0 ? classes.green : parseFloat(cell.value) < 0 ? classes.red : "") : "";
-              const isBitcoinUsdt = cell.value === "Bitcoin/USDT";
-              const bitusdtClass = isBitcoinUsdt ? classes.bitcoinUSDT : "";
-              return (
-                <Table.Td key={cell.key} className={clsx({ [directionClass]: isDirection, [plClass]: isPL, [bitusdtClass]: isBitcoinUsdt })}>
-                  {cell.value}
-                </Table.Td>
-              );
-            })}
-          </Table.Tr>
-        ))}
+        {data.length > 0 &&
+          data.map((row, i) => (
+            <Table.Tr key={i}>
+              {row.map((cell) => {
+                const isDirection = cell.key === "Direction";
+                const isPL = cell.key === "P&L";
+                const directionClass = isDirection ? (cell.value === "Long" ? classes.green : cell.value === "Short" ? classes.red : "") : "";
+                const plClass = isPL ? (parseFloat(cell.value) > 0 ? classes.green : parseFloat(cell.value) < 0 ? classes.red : "") : "";
+                const isBitcoinUsdt = cell.value === "Bitcoin/USDT";
+                const bitusdtClass = isBitcoinUsdt ? classes.bitcoinUSDT : "";
+                return (
+                  <Table.Td key={cell.key} className={clsx({ [directionClass]: isDirection, [plClass]: isPL, [bitusdtClass]: isBitcoinUsdt })}>
+                    {cell.value}
+                  </Table.Td>
+                );
+              })}
+            </Table.Tr>
+          ))}
+
+        {data.length === 0 && (
+          <>
+            <Table.Tr pos="relative" h={400}>
+              <Table.Td>
+                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="120px" gap="10px">
+                  <NoRecords />
+                  <Text className={classes.noRecords}>
+                    No records
+                    <br />
+                    found
+                  </Text>
+                </Flex>
+              </Table.Td>
+            </Table.Tr>
+          </>
+        )}
       </Table.Tbody>
     </Table>
   );

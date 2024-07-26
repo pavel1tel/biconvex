@@ -21,6 +21,21 @@
   font-size: 18px;
 }
 
+.noRecords {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+.tableTdNoRecords {
+  height: auto !important;
+  & svg {
+    width: auto !important;
+    height: auto !important;
+  }
+}
+
 .closeButton {
   width: 24px;
   height: 24px;

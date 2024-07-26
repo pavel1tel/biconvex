@@ -2,6 +2,7 @@ import { ActionIcon, Avatar, Divider, FileInput, Group, Image, ScrollArea, Stack
 import clsx from "clsx";
 import { useUnit } from "effector-react";
 import { useEffect, useRef, useState } from "react";
+import { Scrollbar } from "react-scrollbars-custom";
 
 import { getChat, sendTextMessage, uploadChatPhoto } from "@/shared/api/chat/requests";
 import { ChartResponse } from "@/shared/api/types";
@@ -103,8 +104,10 @@ export const Chat = () => {
               </Text>
             </Stack>
           ) : (
-            <ScrollArea type="auto" style={{ flex: 1 }}>
-              <div className={classes.messagesWindow}>{messages.flatMap((message) => message)}</div>
+            <ScrollArea type="scroll" style={{ flex: 1 }}>
+              <Scrollbar color="red" style={{ height: "850px", width: "100%" }}>
+                <div className={classes.messagesWindow}>{messages.flatMap((message) => message)}</div>
+              </Scrollbar>
             </ScrollArea>
           )}
 

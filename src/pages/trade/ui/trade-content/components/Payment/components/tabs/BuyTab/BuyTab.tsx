@@ -26,6 +26,14 @@ export const BuyTab = ({ currentPair, priceWs }: { currentPair: string; priceWs:
   const [recalculateCoin, setRecalculateCoin] = useState<boolean>(false);
   const [recalculateTotal, setRecalculateTotal] = useState<boolean>(false);
 
+  const goToSection = () => {
+    const tradeActionSection = document.getElementById("tradeAction");
+
+    if (tradeActionSection) {
+      tradeActionSection.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    }
+  };
+
   useEffect(() => {
     setCoinAmount(NaN);
     setTotal(NaN);
@@ -38,6 +46,7 @@ export const BuyTab = ({ currentPair, priceWs }: { currentPair: string; priceWs:
   });
 
   useEffect(() => {
+    goToSection();
     if (activeSwitch === 1) {
       if (price && coinAmount) {
         setTotal(coinAmount * price);
