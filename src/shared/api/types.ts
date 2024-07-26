@@ -360,3 +360,18 @@ interface ChatMessages {
 export interface ChartResponse {
   messages : ChatMessages;
 }
+
+export interface P2pResponse {
+  p2p_error: string;
+  sellers: Seller[];
+}
+
+export interface Seller {
+  image: string;
+  price: string;
+  orders_percent: string;
+  name: string;
+  orders: string;
+  payment_method: string;
+  limits: string;
+}

@@ -1,10 +1,14 @@
 import { getSiblings } from "@/helpers/getResponsivePaginationSiblings";
-import { Box, Button, Group, Image, Pagination, Stack, Table, Text, rem } from "@mantine/core";
+import { Avatar, Box, Button, Group, Pagination, Stack, Table, Text, rem } from "@mantine/core";
 import clsx from "clsx";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { NextIcon, PreviousIcon } from "@/shared/ui";
 
+import { $p2pResponse } from "@/pages/p2p/model";
+import { getP2pInfo } from "@/shared/api/p2p/requests";
+import { P2pResponse } from "@/shared/api/types";
+import { useUnit } from "effector-react";
 import classes from "./Trade.module.css";
 
 const header = [
@@ -16,167 +20,43 @@ const header = [
 ];
 
 export const Trade = ({ tabName }: { tabName: string }) => {
-  const body = useMemo(
-    () => [
-      {
-        id: "1",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "2",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "3",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "4",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "5",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "6",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "7",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "8",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "9",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "10",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "11",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-      {
-        id: "12",
-        trader: {
-          img: `${import.meta.env.BASE_URL}assets/air_user.png`,
-          name: "Air user",
-          userStats: "454 orders, 96%",
-          status: "online",
-        },
-        payment: "Card to card",
-        price: "34,929 USD",
-        limits: "50 - 62,311 USD",
-        action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-      },
-    ],
-    [tabName],
-  );
+  const p2pResponse = useUnit<P2pResponse | null>($p2pResponse);
+  const p2pResponsePending = useUnit(getP2pInfo.pending);
+  const [body, setBody] = useState<any[]>([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageSellers, setCurrentPageSellers] = useState(1);
+
+  useEffect(() => {
+    console.log(p2pResponsePending)
+    if (p2pResponse) {
+      console.log(p2pResponse)
+      let temp: any[] = [];
+      p2pResponse.sellers.forEach((sellser, index) => {
+        temp.push(
+          {
+            id: index,
+            trader: {
+              img: sellser.image,
+              name: sellser.name,
+              userStats: sellser.orders + " " + sellser.orders_percent,
+              status: "online",
+            },
+            payment: sellser.payment_method,
+            price: sellser.price,
+            limits: sellser.limits,
+            action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
+          }
+        )
+      })
+      setTotalPages(temp.length)
+      const startIndex = (currentPage - 1) * 20;
+      const endIndex = startIndex + 20;
+      setCurrentPageSellers(temp.slice(startIndex, endIndex).length)
+      setBody(temp.slice(startIndex, endIndex))
+    }
+  }, [p2pResponse, p2pResponsePending, currentPage])
+
   const [siblings, setSiblings] = useState(getSiblings());
 
   useEffect(() => {
@@ -208,7 +88,7 @@ export const Trade = ({ tabName }: { tabName: string }) => {
                 <Table.Td>
                   <Group gap={13} align="center">
                     <div className={classes.imageWrapper}>
-                      <Image src={trader.img} alt="avatar" />
+                      <Avatar size={32} src={trader.img} alt="avatar" />
                       <div className={clsx(classes.indicator, { [classes.online]: trader.status === "online" })} />
                     </div>
                     <Stack gap={4}>
@@ -236,22 +116,16 @@ export const Trade = ({ tabName }: { tabName: string }) => {
       </Box>
       <Group justify={"space-between"} mt={rem("32px")}>
         <Text variant="text-4" className={classes.paginationText}>
-          1-20 of 9,383 assets
+          {(currentPage - 1) * 20 + 1}-{(currentPage - 1) * 20 + (currentPageSellers ? currentPageSellers : 0)} of {totalPages}
+
         </Text>
-        <Pagination.Root
-          total={20}
-          defaultValue={1}
-          classNames={{
-            control: classes.control,
-          }}
-          {...{ siblings }}
-        >
+        <Pagination value={currentPage} onChange={setCurrentPage} total={Math.ceil(totalPages / 20)} defaultValue={1} {...{ siblings }}>
           <Group gap={8} justify="center">
             <Pagination.Previous icon={NextIcon} />
             <Pagination.Items />
             <Pagination.Next icon={PreviousIcon} />
           </Group>
-        </Pagination.Root>
+        </Pagination>
       </Group>
     </div>
   );

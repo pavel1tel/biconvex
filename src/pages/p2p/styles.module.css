@@ -35,6 +35,6 @@
 .shape {
   bottom: 6%;
   width: auto;
-  z-index: 0;
+  z-index: -1;
   position: absolute;
 }
