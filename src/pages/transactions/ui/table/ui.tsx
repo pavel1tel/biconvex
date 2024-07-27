@@ -1,4 +1,5 @@
 import { getSiblings } from "@/helpers/getResponsivePaginationSiblings";
+import { useResize } from "@/hooks/useResize";
 import { Box, CloseButton, Combobox, Divider, Flex, Group, Image, Pagination, Stack, Table, Text, TextInput, rem, useCombobox } from "@mantine/core";
 import clsx from "clsx";
 import { useUnit } from "effector-react";
@@ -49,6 +50,7 @@ export const TransactionTable = () => {
   const [page, setPage] = useState(1);
   const [searchFunc, setSearchFunc] = useState<any>(() => (a: Transaction) => true);
   const [search, setSearch] = useState("");
+  const { isAdaptive } = useResize(500);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [value, setValue] = useState<string>("");
 
@@ -139,6 +141,13 @@ export const TransactionTable = () => {
     1: "Completed",
     2: "Failed",
   };
+
+  // const adaptiveHeight = () => {
+  //   if( COINS && COINS?.length < 6 && isAdaptive) {
+  //     return '550px';
+  //   }
+  //   else if(COINS && COINS?.length <)
+  // }
 
   const tableCoins = useMemo(() => {
     return (COINS ? COINS : []).map((coin: Transaction) => {
@@ -273,9 +282,44 @@ export const TransactionTable = () => {
               <Table.Tr>{headers}</Table.Tr>
             </Table.Thead>
             <Table.Tbody classNames={{ tbody: classes.tableBody }}>
-              {COINS && COINS.length > 0 ? (
-                tableCoins
-              ) : (
+              {COINS && COINS.length > 0 && tableCoins}
+              {COINS && COINS.length < 6 && (
+                <>
+                  {new Array(6 - COINS.length).fill("").map((item, i) => (
+                    <Table.Tr key={item + i}>
+                      <Table.Td w={224} className={classes.tbodyTdWithIcon}>
+                        <Flex gap={rem(8)}>
+                          <Image src={""} w="25" h="24" />
+                        </Flex>
+                      </Table.Td>
+                      <Table.Td w={"135"}>
+                        <Text c="white" variant="text-3" span style={{ paddingLeft: "7px", paddingRight: "15px" }}>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                      <Table.Td w={"135"}>
+                        <Text c="white" variant="text-3" span>
+                          <Flex align={"center"} gap={rem(4)}>
+                            <span className={classes.iconByType}>{""}</span>
+                            <span className={classes.coinTypeText}>{""}</span>
+                          </Flex>
+                        </Text>
+                      </Table.Td>
+                      <Table.Td w={"135"}>
+                        <Text c="white" variant="text-3" span>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                      <Table.Td w={"135"}>
+                        <Text c="white" variant="text-3" span className={clsx(classes.status)}>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                    </Table.Tr>
+                  ))}
+                </>
+              )}
+              {COINS && COINS.length === 0 && (
                 <>
                   <Table.Tr pos="relative" h={400}>
                     <Table.Td className={classes.tableTdNoRecords}>

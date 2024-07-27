@@ -32,7 +32,7 @@ export const MarketStats = () => {
                     <Text className={classes.coinName}>Bitcoin</Text>
                     <Text className={classes.coinBadge}>btc</Text>
                   </Group>
-                  <FavoriteStarFilledIcon />
+                  <FavoriteStarFilledIcon type="click" />
                 </Group>
                 <Group>
                   <Text className={classes.grayText}>Rank #1</Text>

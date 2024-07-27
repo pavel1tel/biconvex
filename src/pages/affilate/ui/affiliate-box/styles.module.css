@@ -193,6 +193,15 @@
   }
 }
 
+.iconWrapperPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+}
+
 .accIDCol {
   font-weight: 600;
   font-size: 20px;

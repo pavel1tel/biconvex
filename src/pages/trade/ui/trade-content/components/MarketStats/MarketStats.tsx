@@ -104,7 +104,7 @@ export const MarketStats = ({ currentPair, priceWs }) => {
                     <Text className={classes.coinName}>{currentCoin?.name}</Text>
                     <Text className={classes.coinBadge}>{currentCoin?.symbol}</Text>
                   </Group>
-                  <FavoriteStarFilledIcon />
+                  <FavoriteStarFilledIcon type="click" />
                 </Group>
                 <Group>
                   <Text className={classes.grayText}>

@@ -30,6 +30,21 @@
   }
 }
 
+.noRecords {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+.tableTdNoRecords {
+  height: auto !important;
+  & svg {
+    width: auto !important;
+    height: auto !important;
+  }
+}
+
 .table-link {
   text-decoration: none;
   font-size: rem(18);
@@ -172,6 +187,20 @@
   font-size: var(--text-2-fz);
   line-height: rem(24px);
   font-weight: 600;
+}
+.pillPlaceholder {
+  text-align: center;
+  height: rem(24px);
+  justify-content: space-between;
+  align-items: center;
+  padding: rem(4) rem(10);
+  border-radius: rem(3px);
+  font-size: var(--text-5-fz);
+  line-height: rem(17px);
+  .coin-short-name-label {
+    @mixin text-5-full;
+  }
+  gap: 8px;
 }
 .pill {
   text-align: center;

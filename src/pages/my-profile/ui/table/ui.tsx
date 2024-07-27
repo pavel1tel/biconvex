@@ -10,7 +10,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { Crypto, ProfileReponse } from "@/shared/api/types";
 import { routes } from "@/shared/routing";
-import { MarketSortIcon, NextIcon, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { MarketSortIcon, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 
 import { $profileReponse } from "../../model";
 import classes from "./styles.module.css";
@@ -59,8 +59,8 @@ export const TableProfile = () => {
   const calculatePage = (sortFn: ((a: Crypto, b: Crypto) => number) | undefined, searchFn: (a: Crypto) => boolean) => {
     if (!profileReponsepending) {
       const temp: any[] = [];
-      const startIndex = COINS.length === 0 || hideZeros ? (page - 1) * 6 : (page - 1) * 10;
-      const endIndex = COINS.length === 0 || hideZeros ? startIndex + 6 : startIndex + 10;
+      const startIndex = COINS.length === 0 || hideZeros ? (page - 1) * 10 : (page - 1) * 10;
+      const endIndex = COINS.length === 0 || hideZeros ? startIndex + 10 : startIndex + 10;
       profileReponse
         .coins!.filter(searchFn)
         .filter((coin) => {
@@ -145,8 +145,8 @@ export const TableProfile = () => {
       );
     });
   }, [onTableHeadSortLabelClick, sortingDirection]);
-  const tableCoins = useMemo(() => {
-    return COINS.map((coin) => {
+  const tableCoins = () =>
+    COINS.map((coin) => {
       return (
         <Table.Tr key={coin.name}>
           <Table.Td className={classes.tbodyTdWithIcon} w={300}>
@@ -194,7 +194,53 @@ export const TableProfile = () => {
         </Table.Tr>
       );
     });
-  }, [laptop, COINS]);
+
+  // const renderTbody = () => {
+  //   if (COINS && COINS.length < 10) {
+  //     return (
+  //       <>
+  //         {new Array(10 - COINS.length).fill("").map((item, idx) => (
+  //           <Table.Tr key={idx}>
+  //             <Table.Td className={classes.tbodyTdWithIcon} w={300}>
+  //               <Group gap={rem(8)} px={12}>
+  //                 {item}
+  //                 <Text c="white" className={classes.text}>
+  //                   {item}
+  //                 </Text>
+  //                 {/* <Text ff={"ProximaNova"} className={classes.pill}>
+  //                 {item}
+  //               </Text> */}
+  //               </Group>
+  //             </Table.Td>
+  //             <Table.Td w={220}>
+  //               <Text c="white" variant="text-3" span>
+  //                 {item}
+  //               </Text>
+  //               ƒ
+  //             </Table.Td>
+  //             <Table.Td w={230}>
+  //               <Text c="white" variant="text-3" span>
+  //                 {item}
+  //               </Text>
+  //             </Table.Td>
+  //             <Table.Td w={240}>
+  //               <Link to={routes.deposit} className={classes.tableLink} onClick={handleRedirection}>
+  //                 {item}
+  //               </Link>
+  //             </Table.Td>
+  //             <Table.Td w={240}>
+  //               <Link to={routes.withdraw} className={classes.tableLink} onClick={handleRedirection}>
+  //                 {item}
+  //               </Link>
+  //             </Table.Td>
+  //           </Table.Tr>
+  //         ))}
+  //       </>
+  //     );
+  //   } else if (COINS && COINS.length > 10) {
+  //     return tableCoins;
+  //   }
+  // };
   return (
     <Box my={{ 0: 32, md: 64 }}>
       <Text className={classes.title}>My Coins</Text>
@@ -228,12 +274,64 @@ export const TableProfile = () => {
           </Flex>
 
           <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
-          <div className={classes.tableContainer}>
+          <div className={classes.tableContainer} style={{ maxHeight: COINS.length === 0 || COINS.length < 10 ? "1104px" : "auto" }}>
             <Table classNames={{ tr: classes.tableTr, td: classes.tableTd }} verticalSpacing={rem("16px")} withRowBorders={true}>
               <Table.Thead classNames={{ thead: classes.tableHead }}>
                 <Table.Tr>{headers}</Table.Tr>
               </Table.Thead>
-              <Table.Tbody classNames={{ tbody: classes.tableBody }}>{tableCoins}</Table.Tbody>
+              <Table.Tbody classNames={{ tbody: classes.tableBody }}>
+                {COINS && COINS.length > 0 && <>{tableCoins()}</>}
+                {COINS && COINS.length < 10 && COINS.length !== 0 && (
+                  <>
+                    {new Array(10 - COINS.length).fill("").map((item, index) => (
+                      <Table.Tr key={index}>
+                        <Table.Td className={classes.tbodyTdWithIcon} w={300} h={hideZeros ? 77.7 : 78.7}>
+                          <Group gap={rem(8)} px={12}>
+                            <img />
+                            <Text c="white" className={classes.text}>
+                              {""}
+                            </Text>
+                            <Text ff={"ProximaNova"} className={classes.pillPlaceholder}>
+                              {""}
+                            </Text>
+                          </Group>
+                        </Table.Td>
+                        <Table.Td w={220} h={hideZeros ? 77.7 : 78.7}>
+                          <Text c="white" variant="text-3" span>
+                            {""}
+                          </Text>
+                          <>{""}</>
+                        </Table.Td>
+                        <Table.Td w={230} h={hideZeros ? 77.7 : 78.7}>
+                          <Text c="white" variant="text-3" span>
+                            {""}
+                          </Text>
+                        </Table.Td>
+                        <Table.Td w={240} h={hideZeros ? 77.7 : 78.7}>
+                          <a className={classes.tableLink}>{laptop ? <img src={""} alt="" /> : ""}</a>
+                        </Table.Td>
+                        <Table.Td w={240} h={hideZeros ? 77.7 : 78.7}>
+                          <a className={classes.tableLink}>{laptop ? <img src={""} alt="" /> : ""}</a>
+                        </Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </>
+                )}
+                {COINS && COINS.length === 0 && (
+                  <Table.Tr pos="relative" h={hideZeros ? 779.7 : 770.5}>
+                    <Table.Td className={classes.tableTdNoRecords}>
+                      <Flex direction="column" align="center" gap="5px" top="44%" pos="absolute" left="0" right="0">
+                        <NoRecords />
+                        <Text className={classes.noRecords}>
+                          No records
+                          <br />
+                          found
+                        </Text>
+                      </Flex>
+                    </Table.Td>
+                  </Table.Tr>
+                )}
+              </Table.Tbody>
             </Table>
           </div>
           <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} mt={"clamp(1.5rem, 2vw, 2rem)"} />

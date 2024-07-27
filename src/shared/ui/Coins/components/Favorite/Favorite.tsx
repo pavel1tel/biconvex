@@ -29,7 +29,8 @@ export const Favorite = ({ pair, price, defaultValue }: { pair: string; price: n
         setActive(!active);
       }}
     >
-      <FavoriteStarFilledIcon />
+      {/* {active ? <FavoriteStarFilledIcon /> : < />} */}
+      <FavoriteStarFilledIcon type="active" active={active} handleActive={() => setActive(!active)} />
     </div>
   );
 };
