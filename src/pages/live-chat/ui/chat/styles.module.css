@@ -215,4 +215,8 @@ div[style*="min-width: 100%"][style*="display: table"] {
   .chatWindow {
     padding: 2rem 1.25rem;
   }
+
+  .chatContainer {
+    height: 800px;
+  }
 }
