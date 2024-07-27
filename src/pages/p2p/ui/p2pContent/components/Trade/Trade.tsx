@@ -8,6 +8,7 @@ import { NextIcon, PreviousIcon } from "@/shared/ui";
 import { $p2pResponse } from "@/pages/p2p/model";
 import { getP2pInfo } from "@/shared/api/p2p/requests";
 import { P2pResponse } from "@/shared/api/types";
+import { showErrorNotification } from "@/shared/lib/notification";
 import { useUnit } from "effector-react";
 import classes from "./Trade.module.css";
 
@@ -15,7 +16,7 @@ const header = [
   { title: "Trader", key: "trader" },
   { title: "Payment", key: "payment" },
   { title: "Price", key: "price" },
-  { title: "Limits", key: "limits" },
+  { title: "Limits", key: "lƒimits" },
   { title: "Action", key: "action" },
 ];
 
@@ -45,7 +46,7 @@ export const Trade = ({ tabName }: { tabName: string }) => {
             payment: sellser.payment_method,
             price: sellser.price,
             limits: sellser.limits,
-            action: <Button className={classes.sellButton}>{`${tabName} BTC`}</Button>,
+            action: <Button onClick={ () =>showErrorNotification(p2pResponse.p2p_error)} className={classes.sellButton}>{`${tabName} BTC`}</Button>,
           }
         )
       })
