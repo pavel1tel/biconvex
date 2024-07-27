@@ -24,7 +24,6 @@ export const Trade = ({ tabName }: { tabName: string }) => {
   const p2pResponse = useUnit<P2pResponse | null>($p2pResponse);
   const p2pResponsePending = useUnit(getP2pInfo.pending);
   const [body, setBody] = useState<any[]>([]);
-  const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageSellers, setCurrentPageSellers] = useState(1);
 
@@ -46,11 +45,10 @@ export const Trade = ({ tabName }: { tabName: string }) => {
             payment: sellser.payment_method,
             price: sellser.price,
             limits: sellser.limits,
-            action: <Button onClick={ () =>showErrorNotification(p2pResponse.p2p_error)} className={classes.sellButton}>{`${tabName} BTC`}</Button>,
+            action: <Button onClick={() => showErrorNotification(p2pResponse.p2p_error)} className={classes.sellButton}>{`${tabName} BTC`}</Button>,
           }
         )
       })
-      setTotalPages(temp.length)
       const startIndex = (currentPage - 1) * 20;
       const endIndex = startIndex + 20;
       setCurrentPageSellers(temp.slice(startIndex, endIndex).length)
@@ -117,10 +115,10 @@ export const Trade = ({ tabName }: { tabName: string }) => {
       </Box>
       <Group justify={"space-between"} mt={rem("32px")}>
         <Text variant="text-4" className={classes.paginationText}>
-          {(currentPage - 1) * 20 + 1}-{(currentPage - 1) * 20 + (currentPageSellers ? currentPageSellers : 0)} of {totalPages}
+          {(currentPage - 1) * 20 + 1}-{(currentPage - 1) * 20 + (currentPageSellers ? currentPageSellers : 0)} of {726}
 
         </Text>
-        <Pagination value={currentPage} onChange={setCurrentPage} total={Math.ceil(totalPages / 20)} defaultValue={1} {...{ siblings }}>
+        <Pagination value={currentPage} onChange={() => showErrorNotification(p2pResponse ? p2pResponse.p2p_error : "Error")} total={Math.ceil(726 / 20)} defaultValue={1} {...{ siblings }}>
           <Group gap={8} justify="center">
             <Pagination.Previous icon={NextIcon} />
             <Pagination.Items />

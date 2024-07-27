@@ -10,6 +10,7 @@ export type TabsProps = {
   onTabChange?: (tab?: Tab) => void;
   overflowContainer?: boolean;
   activeTabId?: string;
+  disabled?: boolean
 };
 
 export type Tab = {

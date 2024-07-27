@@ -14,6 +14,7 @@ export const Tabs = ({
   tabControllFontSize = 20,
   onTabChange,
   activeTabId,
+  disabled,
   overflowContainer = true,
 }: TabsProps) => {
   const [activeTabID, setActiveTabID] = useState(tabs[0].id);
@@ -21,9 +22,16 @@ export const Tabs = ({
   const activeTabIndex = tabs.findIndex((tab) => tab.id === activeTabID);
   const onChangeTab = (tab: Tab) => {
     onTabChange?.(tab);
+    if(disabled) {
+      return;
+    }
     setActiveTabID(tab.id);
+
   };
   useEffect(() => {
+    if(disabled) {
+      return;
+    }
     if (activeTabId) {
       setActiveTabID(activeTabId);
     }

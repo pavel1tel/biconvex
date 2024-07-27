@@ -39,7 +39,7 @@ export const Filters = ({ setTab }: { setTab: Dispatch<SetStateAction<string>> }
   return (
     <form onSubmit={form.onSubmit((values) => console.log("values", values))}>
       <div className={classes.filtersContainer}>
-        <Tabs tabs={filterTabs} onTabChange={(tab) => setTab(tab?.title ?? "")} />
+        <Tabs disabled={true} tabs={filterTabs} onTabChange={(tab) => showErrorNotification(p2pResponse ? p2pResponse.p2p_error : "Error")} />
         <Divider opacity={0.12} />
         <Switch label="Verified users" description="Show ads of verified traders only" {...form.getInputProps("verified", { type: "checkbox" })} />
         <Switch label="Active users" description="Show traders who are online only" {...form.getInputProps("active", { type: "checkbox" })} />
