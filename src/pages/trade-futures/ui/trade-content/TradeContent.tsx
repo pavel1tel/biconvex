@@ -42,6 +42,10 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
     }
   }, [profileResponsePending]);
 
+  const handleAction = (name: "Trade" | "Chart") => {
+    setActiveCategory(name);
+  };
+
   useEffect(() => {
     if (!profileResponsePending && currentPair) {
       setCurrentPairName(profileResponse.coins!.filter((coin) => coin.symbol == currentPair.split("/")[0])[0].name + "/" + currentPair.split("/")[1]);
@@ -70,7 +74,9 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
               <TradeHistory />
             </>
           )}
-          {activeCategory === "Chart" && <TradeActions actionsTitle="Spot" buyLabel="Buy/Long" sellLabel="Sell/Short" linkTo="/trade/BTC-USDT" />}
+          {activeCategory === "Chart" && (
+            <TradeActions handleAction={handleAction} actionsTitle="Spot" buyLabel="Buy/Long" sellLabel="Sell/Short" linkTo="/trade/BTC-USDT" />
+          )}
         </Group>
       ) : (
         <>

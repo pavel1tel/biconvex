@@ -79,11 +79,11 @@
 }
 
 .tableBody tr.positive td:first-child {
-  color: rgba(14, 203, 123, 0.65);
+  color: #5adea7;
 }
 
 .tableBody tr.negative td:first-child {
-  color: rgba(244, 74, 74, 0.65);
+  color: #f44a4a;
 }
 
 .tableBody tr:last-child td {
@@ -118,7 +118,7 @@
   border: none;
   border-radius: 5px;
   padding: 20px 32px;
-  background-color: rgba(14, 203, 123, 0.65);
+  background-color: #0ecb7b;
   color: white;
   display: flex;
   gap: 8px;
@@ -129,11 +129,11 @@
 }
 
 .orderBookInfo.positive {
-  background-color: rgba(14, 203, 123, 0.65);
+  background-color: #0ecb7b;
 }
 
 .orderBookInfo.negative {
-  background-color: rgba(228, 34, 34, 0.65);
+  background-color: #e42222;
 }
 
 .flexSpaceBetween {

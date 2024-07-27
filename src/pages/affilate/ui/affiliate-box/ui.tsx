@@ -169,6 +169,23 @@ export const AffiliateBox = () => {
                     </Table.Td>
                   </Table.Tr>
                 ))}
+              {data.length < 6 && (
+                <>
+                  {new Array(6 - data.length).fill("").map((item, idx) => (
+                    <Table.Tr key={idx} className={classes.tableBodyTr}>
+                      <Table.Td className={classes.tableTd}>
+                        <Group gap={rem(8)}>
+                          <div className={classes.iconWrapperPlaceholder}>{``}</div>
+                          <Text className={classes.accIDCol}>{``}</Text>
+                        </Group>
+                      </Table.Td>
+                      <Table.Td className={classes.tableTd}>
+                        <Text variant="text-3">{``}</Text>
+                      </Table.Td>
+                    </Table.Tr>
+                  ))}
+                </>
+              )}
               {data.length === 0 && (
                 <>
                   <Table.Tr pos="relative" h={400}>

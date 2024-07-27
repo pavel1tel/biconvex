@@ -119,11 +119,24 @@ export const HistoryTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCo
               ))}
             </Table.Tr>
           ))}
+        {data.length < 8 && data.length !== 0 && (
+          <>
+            {new Array(8 - data.length).fill("").map((item, idx) => (
+              <Table.Tr key={idx}>
+                {new Array(9).fill("").map((rowItem, index) => (
+                  <Table.Td h={61.1} key={rowItem + index}>
+                    {rowItem}
+                  </Table.Td>
+                ))}
+              </Table.Tr>
+            ))}
+          </>
+        )}
         {data.length === 0 && (
           <>
-            <Table.Tr pos="relative" h={400}>
+            <Table.Tr pos="relative" h={488}>
               <Table.Td>
-                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="120px" gap="10px">
+                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="40%" gap="10px">
                   <NoRecords />
                   <Text className={classes.noRecords}>
                     No records

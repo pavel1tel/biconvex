@@ -196,7 +196,7 @@ export const StakingTable = ({
     <Stack className={classes.wrapper}>
       <Stack className={classes.box} gap={0}>
         <Flex justify={"space-between"} align={"center"} mb={rem("32px")}>
-          <Title order={4}>Active investments</Title>
+          <Title order={4}>tments</Title>
           <TextInput
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -218,6 +218,64 @@ export const StakingTable = ({
             </Table.Thead>
             <Table.Tbody classNames={{ tbody: classes.tableBody }}>
               {investHistory.length > 0 && tableCoins}
+              {investHistory.length < 6 && investHistory.length !== 0 && (
+                <>
+                  {new Array(6 - investHistory.length).fill("").map((item, idx) => (
+                    <Table.Tr key={idx}>
+                      <Table.Td h={61} w={"225"} px={15} className={classes.tbodyTdWithIcon}>
+                        <Group gap={rem(8)} wrap="nowrap">
+                          <>{""}</>
+                          <Title c="white" order={4}>
+                            {""}
+                          </Title>
+                        </Group>
+                      </Table.Td>
+                      <Table.Td h={61} w={"225"}>
+                        <Text c="white" variant="text-3" span>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                      <Table.Td h={61} w={"225"}>
+                        <Text c="white" variant="text-3" span>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                      <Table.Td h={61} w={"225"}>
+                        <Text c="white" variant="text-3" span>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                      <Table.Td h={61} w={"225"}>
+                        <Text c="white" variant="text-3" span>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                      <Table.Td h={61} w={"225"}>
+                        <Center maw={255}>
+                          <div className={classes.closeButtonPlaceholder}>{""}</div>
+                        </Center>
+                      </Table.Td>
+                      {usedForTradingBot && (
+                        <>
+                          <Table.Td h={61} w={"225"}>
+                            <Text variant="text-3" span className={classes.plAmount}>
+                              {""}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td h={61} w={"225"}>
+                            <Text c="white" variant="text-3" span>
+                              {""}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td h={61} w={"225"}>
+                            <div className={classes.linkButton}>{""}</div>
+                          </Table.Td>
+                        </>
+                      )}
+                    </Table.Tr>
+                  ))}
+                </>
+              )}
               {investHistory.length === 0 && (
                 <>
                   <Table.Tr pos="relative" h={400}>

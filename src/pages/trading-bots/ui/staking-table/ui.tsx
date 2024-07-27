@@ -226,6 +226,59 @@ export const StakingTable = ({
             </Table.Thead>
             <Table.Tbody classNames={{ tbody: classes.tableBody }}>
               {tableData.length > 0 && tableCoins}
+              {tableData.length < 6 && tableData.length !== 0 && (
+                <>
+                  {new Array(6 - tableData.length).fill("").map((item, idx) => (
+                    <Table.Tr key={item + idx}>
+                      <Table.Td w={"225"} px={15} className={classes.tbodyTdWithIcon} h={91.2}>
+                        <Group gap={rem(8)} wrap="nowrap">
+                          <>{""}</>
+                          <Title c="white" order={4} className={classes.cellWithIconText}>
+                            {""}
+                          </Title>
+                        </Group>
+                      </Table.Td>
+                      <Table.Td w={"225"} h={91.2}>
+                        <Text c="white" variant="text-3" span>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                      <Table.Td w={"225"} h={91.2}>
+                        <Text c="white" variant="text-3" span>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                      <Table.Td w={"225"} h={91.2}>
+                        <Text c="white" variant="text-3" span>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                      <Table.Td w={"225"} h={91.2}>
+                        <Text c="white" variant="text-3" span>
+                          {""}
+                        </Text>
+                      </Table.Td>
+                      {usedForTradingBot && (
+                        <>
+                          <Table.Td w={"225"} h={91.2}>
+                            <Text c="white" variant="text-3" span className={classes.plAmount}>
+                              {""}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td w={"225"} h={91.2}>
+                            <Text c="white" variant="text-3" span>
+                              {""}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td w={"225"} h={91.2}>
+                            <div className={classes.linkButton}>{""}</div>
+                          </Table.Td>
+                        </>
+                      )}
+                    </Table.Tr>
+                  ))}
+                </>
+              )}
               {tableData.length === 0 && (
                 <>
                   <Table.Tr pos="relative" h={400}>
