@@ -285,7 +285,7 @@ export const TableProfile = () => {
                   <>
                     {new Array(10 - COINS.length).fill("").map((item, index) => (
                       <Table.Tr key={index}>
-                        <Table.Td className={classes.tbodyTdWithIcon} w={300} h={hideZeros ? 77.7 : 78.7}>
+                        <Table.Td className={classes.tbodyTdWithIcon} w={300} h={hideZeros ? 72.7 : 78.7}>
                           <Group gap={rem(8)} px={12}>
                             <img />
                             <Text c="white" className={classes.text}>
@@ -296,21 +296,21 @@ export const TableProfile = () => {
                             </Text>
                           </Group>
                         </Table.Td>
-                        <Table.Td w={220} h={hideZeros ? 77.7 : 78.7}>
+                        <Table.Td w={220} h={hideZeros ? 72.7 : 78.7}>
                           <Text c="white" variant="text-3" span>
                             {""}
                           </Text>
                           <>{""}</>
                         </Table.Td>
-                        <Table.Td w={230} h={hideZeros ? 77.7 : 78.7}>
+                        <Table.Td w={230} h={hideZeros ? 72.7 : 78.7}>
                           <Text c="white" variant="text-3" span>
                             {""}
                           </Text>
                         </Table.Td>
-                        <Table.Td w={240} h={hideZeros ? 77.7 : 78.7}>
+                        <Table.Td w={240} h={hideZeros ? 72.7 : 78.7}>
                           <a className={classes.tableLink}>{laptop ? <img src={""} alt="" /> : ""}</a>
                         </Table.Td>
-                        <Table.Td w={240} h={hideZeros ? 77.7 : 78.7}>
+                        <Table.Td w={240} h={hideZeros ? 72.7 : 78.7}>
                           <a className={classes.tableLink}>{laptop ? <img src={""} alt="" /> : ""}</a>
                         </Table.Td>
                       </Table.Tr>
@@ -318,7 +318,7 @@ export const TableProfile = () => {
                   </>
                 )}
                 {COINS && COINS.length === 0 && (
-                  <Table.Tr pos="relative" h={hideZeros ? 779.7 : 770.5}>
+                  <Table.Tr pos="relative" h={hideZeros ? 770.3 : 770.5}>
                     <Table.Td className={classes.tableTdNoRecords}>
                       <Flex direction="column" align="center" gap="5px" top="44%" pos="absolute" left="0" right="0">
                         <NoRecords />
