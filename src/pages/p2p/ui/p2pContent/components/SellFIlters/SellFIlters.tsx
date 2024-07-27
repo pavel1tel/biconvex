@@ -38,7 +38,7 @@ export const SellFIlters = () => {
       <Stack gap={8}>
         <Text className={classes.label}>Payment</Text>
         <Select
-          data={p2pResponse ? getUniquePaymentMethods(p2pResponse) : []}
+          data={p2pResponse ? getUniquePaymentMethods(p2pResponse) : ["All payment methods"]}
           rightSection={<WhiteTriangle />}
           allowDeselect={false}
           withCheckIcon={false}
