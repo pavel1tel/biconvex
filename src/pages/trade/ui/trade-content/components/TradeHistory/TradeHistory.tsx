@@ -73,7 +73,7 @@ export const TradeHistory = () => {
           <Text className={classes.grayText}>
             {(currentPage - 1) * 5 + 1}-{(currentPage - 1) * 5 + (currentPageCoins ? currentPageCoins : 0)} of {totalPages}
           </Text>
-          <Pagination value={currentPage} onChange={setCurrentPage} total={Math.ceil(totalPages / 20)} defaultValue={1} {...{ siblings }}>
+          <Pagination value={currentPage} onChange={setCurrentPage} total={Math.ceil(totalPages / 5)} defaultValue={1} {...{ siblings }}>
             <Group gap={8} justify="center">
               <Pagination.Previous icon={PreviousIcon} />
               <Pagination.Items />

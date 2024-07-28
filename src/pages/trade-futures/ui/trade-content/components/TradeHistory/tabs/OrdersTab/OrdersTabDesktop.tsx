@@ -51,7 +51,7 @@ export const OrdersTabDesktop = () => {
       <PromoPopup handleSave={() => console.log("")} handleClose={() => setOpen(false)} opened={open} />
       <Table.Tbody w={"100%"}>
         {data.length > 0 &&
-          data.map((row, i) => (
+          data.slice(0, 5).map((row, i) => (
             <Table.Tr key={i}>
               {row.map((cell, j) => {
                 const isDirection = cell.key === "Direction";
@@ -102,9 +102,9 @@ export const OrdersTabDesktop = () => {
             </Table.Tr>
           ))}
 
-        {data.length < 8 && data.length !== 0 && (
+        {data.length < 5 && data.length !== 0 && (
           <>
-            {new Array(8 - data.length).fill("").map((item, idx) => (
+            {new Array(5 - data.length).fill("").map((item, idx) => (
               <Table.Tr key={idx}>
                 {new Array(9).fill("").map((cell, j) => {
                   return (
@@ -123,9 +123,9 @@ export const OrdersTabDesktop = () => {
 
         {data.length === 0 && (
           <>
-            <Table.Tr pos="relative" h={488}>
+            <Table.Tr pos="relative" h={290}>
               <Table.Td>
-                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="40%" gap="10px">
+                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="22%" gap="10px">
                   <NoRecords />
                   <Text className={classes.noRecords}>
                     No records

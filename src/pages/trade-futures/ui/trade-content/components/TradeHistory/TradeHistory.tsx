@@ -47,7 +47,7 @@ export const TradeHistory = () => {
         <Tabs tabs={tabs} />
         <Divider color="white" opacity={0.12} />
         <Group justify={"space-between"}>
-          <Text className={classes.grayText}>1-20 of 9,383 assets</Text>
+          <Text className={classes.grayText}>1-5 of 9,383 assets</Text>
           <Pagination total={20} defaultValue={1} {...{ siblings }}>
             <Group gap={8} justify="center">
               <Pagination.Previous icon={PreviousIcon} />

@@ -338,9 +338,9 @@ export const TableProfile = () => {
 
           <Group justify={"space-between"} mt={rem("32px")}>
             <Text variant="text-4" className={classes.greyText}>
-              {(page - 1) * 5 + 1}-{(page - 1) * 5 + (COINS ? COINS?.length : 0)} of {hideZerosTotalPage}
+              {(page - 1) * 10 + 1}-{(page - 1) * 10 + (COINS ? COINS?.length : 0)} of {hideZerosTotalPage}
             </Text>
-            <Pagination value={page} onChange={setPage} total={hideZerosTotalPage ? Math.ceil(hideZerosTotalPage / 5) : 1} defaultValue={1}>
+            <Pagination value={page} onChange={setPage} total={hideZerosTotalPage ? Math.ceil(hideZerosTotalPage / 10) : 1} defaultValue={1}>
               <Group gap={rem("0px")} justify="center">
                 <Pagination.Previous icon={PreviousIcon} />
                 <Pagination.Items />

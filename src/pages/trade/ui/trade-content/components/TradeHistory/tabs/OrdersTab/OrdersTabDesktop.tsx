@@ -58,8 +58,8 @@ export const OrdersTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCoi
   useEffect(() => {
     if (!openOrdersReponsePending) {
       const temp: any[] = [];
-      const startIndex = (currentPage - 1) * 20;
-      const endIndex = startIndex + 20;
+      const startIndex = (currentPage - 1) * 5;
+      const endIndex = startIndex + 5;
       filterByPeriod(openOrdersReponse.orders, activePeriodValue)
         .slice(startIndex, endIndex)
         .forEach((order) => {
@@ -135,18 +135,18 @@ export const OrdersTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCoi
               </Table.Td>
             </Table.Tr>
           ))}
-        {data.length < 8 && data.length !== 0 && (
+        {data.length < 5 && data.length !== 0 && (
           <>
-            {new Array(8 - data.length).fill("").map((item, idx) => (
+            {new Array(5 - data.length).fill("").map((item, idx) => (
               <Table.Tr key={idx}>
                 {new Array(9).fill("").map((cell, j) => {
                   return (
-                    <Table.Td key={cell.key} h={61}>
+                    <Table.Td key={cell.key} h={58}>
                       {""}
                     </Table.Td>
                   );
                 })}
-                <Table.Td key={`market-${idx}`} h={61}>
+                <Table.Td key={`market-${idx}`} h={58}>
                   <button>{""}</button>
                 </Table.Td>
               </Table.Tr>
@@ -156,9 +156,9 @@ export const OrdersTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCoi
 
         {data.length === 0 && (
           <>
-            <Table.Tr pos="relative" h={488}>
+            <Table.Tr pos="relative" h={290}>
               <Table.Td>
-                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="40%" gap="10px">
+                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="22%" gap="10px">
                   <NoRecords />
                   <Text className={classes.noRecords}>
                     No records
