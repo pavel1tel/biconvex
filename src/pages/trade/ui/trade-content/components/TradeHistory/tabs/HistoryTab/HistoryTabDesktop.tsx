@@ -54,8 +54,8 @@ export const HistoryTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCo
   useEffect(() => {
     if (!historyOrderResponsePending) {
       const temp: any[] = [];
-      const startIndex = (currentPage - 1) * 20;
-      const endIndex = startIndex + 20;
+      const startIndex = (currentPage - 1) * 5;
+      const endIndex = startIndex + 5;
       console.log(activePeriodValue);
       filterByPeriod(historyOrderResponse.orders, activePeriodValue)
         .slice(startIndex, endIndex)
@@ -119,12 +119,12 @@ export const HistoryTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCo
               ))}
             </Table.Tr>
           ))}
-        {data.length < 8 && data.length !== 0 && (
+        {data.length < 5 && data.length !== 0 && (
           <>
-            {new Array(8 - data.length).fill("").map((item, idx) => (
+            {new Array(5 - data.length).fill("").map((item, idx) => (
               <Table.Tr key={idx}>
                 {new Array(9).fill("").map((rowItem, index) => (
-                  <Table.Td h={61.1} key={rowItem + index}>
+                  <Table.Td key={rowItem + index} height={58}>
                     {rowItem}
                   </Table.Td>
                 ))}
@@ -134,9 +134,9 @@ export const HistoryTabDesktop = ({ setTotalPages, currentPage, setCurrentPageCo
         )}
         {data.length === 0 && (
           <>
-            <Table.Tr pos="relative" h={488}>
+            <Table.Tr pos="relative" h={290}>
               <Table.Td>
-                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="40%" gap="10px">
+                <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="23%" gap="10px">
                   <NoRecords />
                   <Text className={classes.noRecords}>
                     No records
