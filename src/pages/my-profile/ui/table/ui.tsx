@@ -287,7 +287,7 @@ export const TableProfile = () => {
                       <Table.Tr key={index}>
                         <Table.Td className={classes.tbodyTdWithIcon} w={300} h={hideZeros ? 72.7 : 78.7}>
                           <Group gap={rem(8)} px={12}>
-                            <img />
+                            <div></div>
                             <Text c="white" className={classes.text}>
                               {""}
                             </Text>
