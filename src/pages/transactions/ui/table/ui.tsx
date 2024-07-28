@@ -283,13 +283,13 @@ export const TransactionTable = () => {
             </Table.Thead>
             <Table.Tbody classNames={{ tbody: classes.tableBody }}>
               {COINS && COINS.length > 0 && tableCoins}
-              {COINS && COINS.length < 6 && (
+              {COINS && COINS.length < 6 && COINS.length !== 0 && (
                 <>
                   {new Array(6 - COINS.length).fill("").map((item, i) => (
                     <Table.Tr key={item + i}>
                       <Table.Td w={224} className={classes.tbodyTdWithIcon}>
                         <Flex gap={rem(8)}>
-                          <Image src={""} w="25" h="24" />
+                          <Box w="25" h="24"></Box>
                         </Flex>
                       </Table.Td>
                       <Table.Td w={"135"}>
@@ -321,9 +321,9 @@ export const TransactionTable = () => {
               )}
               {COINS && COINS.length === 0 && (
                 <>
-                  <Table.Tr pos="relative" h={400}>
+                  <Table.Tr pos="relative" h={468}>
                     <Table.Td className={classes.tableTdNoRecords}>
-                      <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="120px" gap="10px">
+                      <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="35%" gap="10px">
                         <NoRecords />
                         <Text className={classes.noRecords}>
                           No records
