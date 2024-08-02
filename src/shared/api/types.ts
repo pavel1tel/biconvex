@@ -375,3 +375,9 @@ export interface Seller {
   payment_method: string;
   limits: string;
 }
+
+export interface Refs {
+  regDate: number;
+  id: number;
+  avatar: string;
+}

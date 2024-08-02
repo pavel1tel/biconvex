@@ -1,45 +1,33 @@
-import { Box, Button, Divider, Flex, Group, Pagination, Stack, Table, Text, TextInput, rem } from "@mantine/core";
+import { Box, Button, Divider, Flex, Group, Image, Pagination, Stack, Table, Text, TextInput, rem } from "@mantine/core";
 import clsx from "clsx";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { MarketSortIcon, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 import { PersonIcon } from "@/shared/ui/icon/PersonIcon";
 import { ProfitIcon } from "@/shared/ui/icon/ProfitIcon";
 import { ProfileIcon } from "@/shared/ui/sidebar/Icons";
 
+import { $profileReponse } from "@/pages/my-profile/model";
+import { getRef } from "@/shared/api/ref/requests";
+import { ProfileReponse, Refs } from "@/shared/api/types";
+import { showSuccessNotification } from "@/shared/lib/notification";
+import { useUnit } from "effector-react";
+import { $refResponse } from "../../model";
 import classes from "./styles.module.css";
 
 type SortingDirection = "ASC" | "DESC";
-const data = [
-  {
-    id: "2343424",
-    reg_time: "20.12.2023 14:45",
-  },
-  {
-    id: "2356424",
-    reg_time: "20.12.2023 14:45",
-  },
-  {
-    id: "0943424",
-    reg_time: "20.12.2023 14:45",
-  },
-  {
-    id: "2341564",
-    reg_time: "20.12.2023 14:45",
-  },
-  {
-    id: "2343422",
-    reg_time: "20.12.2023 14:45",
-  },
-  {
-    id: "2388424",
-    reg_time: "20.12.2023 14:45",
-  },
-];
 
 export const AffiliateBox = () => {
   const [sortingLabel, setSortingLabel] = useState("");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
+  const refResponse = useUnit($refResponse);
+  const refResponsePending = useUnit(getRef.pending);
+  const [data, setData] = useState<Refs[]>([])
+  const [totalPage, setTotalPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageCoins, setCurrentPageCoins] = useState(1);
+  const [search, setSearch] = useState("");
+  const profileReponse = useUnit<ProfileReponse>($profileReponse);
   const onTableHeadSortLabelClick = useCallback(
     (label: string) => {
       if (sortingLabel != label) {
@@ -51,6 +39,21 @@ export const AffiliateBox = () => {
     },
     [sortingDirection, sortingLabel],
   );
+
+  useEffect(() => {
+    if (!refResponsePending) {
+      const startIndex = (currentPage - 1) * 20;
+      const endIndex = startIndex + 20;
+      setData(refResponse['users'].filter((e: Refs) => e.id.toString().includes(search)).slice(startIndex, endIndex) as Refs[])
+      setCurrentPageCoins(refResponse['users'].filter((e: Refs) => e.id.toString().includes(search)).slice(startIndex, endIndex).length);
+      setTotalPage(refResponse['users'].length);
+    }
+  }, [refResponse, refResponsePending, currentPage, search])
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search])
+
   return (
     <Stack gap={"clamp(2rem, 3vw, 48px)"}>
       <Group gap={rem(32)} wrap="nowrap" className={classes.contentFlex}>
@@ -67,14 +70,14 @@ export const AffiliateBox = () => {
             <ProfitIcon />
             <Group gap={rem(8)} wrap="nowrap">
               <Text className={classes.cardText}>Total Profit</Text>
-              <Text className={classes.cardValue}>0.00</Text>
+              <Text className={classes.cardValue}>${refResponse['users'] ? refResponse['users'].length * 10 : 0}</Text>
             </Group>
           </div>
           <div className={classes.cardWrapper}>
             <PersonIcon />
             <Group gap={rem(8)} wrap="nowrap">
               <Text className={classes.cardText}>People invited</Text>
-              <Text className={classes.cardValue}>0</Text>
+              <Text className={classes.cardValue}>{refResponse['users'] ? refResponse['users'].length : 0}</Text>
             </Group>
           </div>
         </Stack>
@@ -83,8 +86,13 @@ export const AffiliateBox = () => {
         <Stack gap={rem(16)} className={classes.copyRefContainer}>
           <Text className={classes.copyRefTitle}>Referral Link</Text>
           <div className={classes.copyRefWrapper}>
-            <TextInput variant="unstyled" value="http://bitconvex.com/_/?rh=11049d1abf" className={classes.refLink} />
-            <Button className={classes.btn} h={rem("54px")} variant="radial-gradient">
+            <TextInput variant="unstyled" value={window.location.origin + "?ref=" + (profileReponse ? profileReponse.id : 0)} className={classes.refLink} />
+            <Button className={classes.btn} h={rem("54px")} variant="radial-gradient"
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.origin + "?ref=" + (profileReponse ? profileReponse.id : 0));
+                showSuccessNotification("Copied!");
+              }}
+            >
               Copy
             </Button>
           </div>
@@ -92,8 +100,13 @@ export const AffiliateBox = () => {
         <Stack gap={rem(16)} className={classes.copyRefContainer}>
           <Text className={classes.copyRefTitle}>Referral Code</Text>
           <div className={classes.copyRefWrapper}>
-            <TextInput value="11049d1abf" className={classes.refLink} />
-            <Button className={classes.btn} h={rem("54px")} variant="radial-gradient">
+            <TextInput value={profileReponse ? profileReponse.id : 0} className={classes.refLink} />
+            <Button className={classes.btn} h={rem("54px")} variant="radial-gradient"
+              onClick={() => {
+                navigator.clipboard.writeText((profileReponse ? profileReponse.id : 0)!.toString());
+                showSuccessNotification("Copied!");
+              }}
+            >
               Copy
             </Button>
           </div>
@@ -110,6 +123,8 @@ export const AffiliateBox = () => {
               section: classes.searchInputSection,
               input: classes.searchInput,
             }}
+            value={search}
+            onChange={e => setSearch(e.target.value)}
             leftSection={<SearchIcon />}
             placeholder="Search"
           />
@@ -154,18 +169,21 @@ export const AffiliateBox = () => {
             </Table.Thead>
             <Table.Tbody>
               {data.length > 0 &&
-                data.map((data) => (
+                data.reverse().map((data) => (
                   <Table.Tr key={data.id} className={classes.tableBodyTr}>
                     <Table.Td className={classes.tableTd}>
                       <Group gap={rem(8)}>
-                        <div className={classes.iconWrapper}>
-                          <ProfileIcon />
-                        </div>
+                        {data.avatar.startsWith("data:image") ?
+                          <Image h="29" w="29" src={data.avatar} className={classes.iconWrapper} /> :
+                          <div className={classes.iconWrapper}>
+                            <ProfileIcon />
+                          </div>
+                        }
                         <Text className={classes.accIDCol}>{`ID: ${data.id}`}</Text>
                       </Group>
                     </Table.Td>
                     <Table.Td className={classes.tableTd}>
-                      <Text variant="text-3">{data.reg_time}</Text>
+                      <Text variant="text-3">{new Date(data.regDate).toISOString().split(".")[0].replace("T", " ")}</Text>
                     </Table.Td>
                   </Table.Tr>
                 ))}
@@ -209,9 +227,9 @@ export const AffiliateBox = () => {
 
         <Group justify={"space-between"} mt={rem("32px")}>
           <Text variant="text-4" className={classes.greyText}>
-            1-6 of 300 assets
+            {(currentPage - 1) * 5 + 1}-{(currentPage - 1) * 5 + (currentPageCoins ? currentPageCoins : 0)} of {totalPage}
           </Text>
-          <Pagination total={20} defaultValue={1}>
+          <Pagination value={currentPage} onChange={setCurrentPage} total={Math.ceil(totalPage / 5)} defaultValue={1}>
             <Group gap={rem("8px")} justify="center">
               <Pagination.Previous icon={PreviousIcon} />
               <Pagination.Items />
