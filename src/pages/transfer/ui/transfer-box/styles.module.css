@@ -1,0 +1,76 @@
+@import url("@/app/styles/mixin.css");
+
+.wrapper {
+  background: var(--color-black);
+  border: var(--border1);
+  width: rem(540px);
+  /*height: rem(804px);*/
+  height: 100%;
+  border-radius: 8px;
+  padding: rem(32px);
+  align-self: start;
+}
+.title {
+  @mixin text-1-craft;
+}
+.title3 {
+  @mixin text-3;
+  font-weight: 600 !important;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: rem(14px);
+  width: 90%;
+}
+.list-item {
+  @mixin text-5-full;
+  line-height: rem(17px);
+}
+.inputWrapper {
+  z-index: 1;
+}
+
+.textInput {
+  border-left: 4px solid var(--color-blue);
+  border-bottom: none;
+  border-right: 4px solid var(--color-black);
+  border-top: none;
+  box-shadow: 0px 0px 12px 0px #6c70800a inset;
+  background: linear-gradient(0deg, #080808, #080808), linear-gradient(180deg, #625ff4 0%, #625ff8 100%);
+  padding: rem(24px);
+  height: rem(77px);
+}
+.inputValue {
+  @mixin text-3;
+}
+.label {
+  @mixin text-2;
+  line-height: 24px;
+}
+.labelMargin {
+  margin-bottom: rem(8px);
+}
+
+.btn {
+  width: 100%;
+  height: rem(54px);
+  z-index: 0;
+  @mixin text-3;
+}
+.info {
+  @mixin text-2-craft-font;
+  font-weight: 600;
+}
+
+@media (max-width: 1000px) {
+  .wrapper {
+    width: 100%;
+    padding: 2rem 1.25rem;
+  }
+  .labelMargin {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+}

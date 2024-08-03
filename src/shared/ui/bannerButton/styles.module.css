@@ -1,0 +1,42 @@
+.banner-button {
+  z-index: 9;
+  position: relative;
+  padding: 0 2rem;
+  width: 446px;
+  height: 125px;
+  padding: 48px 96px;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: var(--text-btn-fz);
+  font-weight: var(--text-btn-fw);
+  line-height: 28.8px;
+}
+
+@media only screen and (max-width: 75rem) {
+  .home-button {
+    padding: 0;
+    margin: 0;
+
+    .banner-button {
+      padding: 0;
+      width: 345px;
+      height: 92px;
+      font-size: var(--text-3-fz);
+      line-height: 21.6px;
+    }
+  }
+}
+
+@media only screen and (max-width: 48em) {
+  .home-button {
+    order: 2;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .home-button {
+    .banner-button {
+      width: 305px;
+    }
+  }
+}

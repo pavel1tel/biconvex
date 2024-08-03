@@ -1,0 +1,128 @@
+@import url("@/app/styles/mixin.css");
+
+.wrapper {
+  margin: 64px 0;
+  color: var(--color-white);
+}
+.box {
+  border: rem(1px) solid rgba(255, 255, 255, 0.12);
+  background: var(--color-black);
+  border-radius: rem(8px);
+  padding: rem(46px) rem(64px);
+}
+.text {
+  font-size: var(--text-5-fz);
+  color: var(--color-grey);
+  font-weight: 400;
+  line-height: rem(17px);
+  font-family: ProximaNova;
+}
+.title {
+  font-size: var(--text-1-fz);
+  line-height: rem(38.4px);
+  font-weight: 700;
+  text-align: center;
+}
+
+.text16 {
+  font-size: var(--text-4-fz) !important;
+  line-height: rem(19.49px);
+}
+.col1 {
+  width: rem(490px);
+}
+
+.divider {
+  --divider-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.wrap-box {
+  background-color: var(--color-black);
+}
+
+.value {
+  font-size: var(--text-2-fz);
+  font-weight: 600;
+  line-height: var(--text-2-lh);
+}
+.greenText {
+  color: var(--color-green);
+}
+.btn {
+  display: block;
+  width: rem(280px);
+  height: rem(93px);
+  line-height: rem(28px);
+  font-size: var(--text-btn-fz);
+  margin: rem(46px) auto 0 auto;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.expectedProfitWrapper {
+  .expectedProfitTitle {
+    padding-right: 0;
+    flex: 1 0 44%;
+  }
+}
+/* ::-webkit-scrollbar {
+  width: rem(8px);
+}
+
+::-webkit-scrollbar-track {
+  width: rem(8px);
+  background: rgba(255, 255, 255, 0.12);
+}
+::-webkit-scrollbar-thumb {
+  width: rem(8px) !important;
+  background: var(--color-grey);
+  border-radius: 2px;
+} */
+
+@media (max-width: 1300px) {
+  .box {
+    padding: 2rem 1.25rem;
+    flex-direction: column;
+  }
+  .box > div {
+    width: 100%;
+    max-width: 600px;
+  }
+  .grid {
+    grid-gap: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .col1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    grid-gap: 1rem;
+  }
+  .col1 img {
+    width: 60px;
+    height: 60px;
+  }
+  .box > div:nth-child(1) {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .col1 > div:nth-child(2) {
+    grid-gap: 0.5rem;
+  }
+  .col1 > p:nth-child(1) {
+    font-size: 1.75rem !important;
+  }
+  .wrapper {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+  }
+  .wrapper:nth-child(1) {
+    margin-top: 1rem !important;
+  }
+  .value {
+    font-size: 1.25rem;
+    width: auto;
+  }
+}

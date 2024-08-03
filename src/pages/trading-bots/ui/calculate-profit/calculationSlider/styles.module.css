@@ -1,0 +1,117 @@
+.sliderWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  width: 345px;
+
+  .slider {
+    position: relative;
+    --_thumb-bd: #625ff8;
+    --slider-color: #625ff8;
+    --slider-track-bg: rgba(17, 17, 20, 1);
+
+    div[role="slider"] {
+      --_thumb-bg: #625ff8 !important;
+    }
+
+    .sliderTrack {
+      position: absolute;
+      left: -90px;
+      width: 245px;
+    }
+
+    .sliderThumbLabel {
+      position: relative;
+      width: 300px;
+      background: #625ff8;
+      border-radius: 10px;
+      padding: 3px 12px;
+      font-family: var(--text-font-family);
+      font-size: 15px;
+      font-weight: var(--font-weight-semi-bold);
+      line-height: 18.27px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 13px;
+        width: 14px;
+        height: 14px;
+        background: #625ff8;
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        -webkit-transform: translateX(-50%) rotate(45deg);
+        transform: translateX(-50%) rotate(45deg);
+        z-index: -1;
+      }
+    }
+  }
+
+  .sliderMarkWrapper {
+    .sliderMark {
+      display: none;
+    }
+
+    .sliderMarkLabel {
+      position: absolute;
+      top: -7px;
+    }
+
+    &:first-child {
+      .sliderMarkLabel {
+        left: -40px;
+      }
+    }
+
+    &:last-child {
+      .sliderMarkLabel {
+        right: -101px;
+      }
+    }
+  }
+
+  .sliderName {
+    text-align: center;
+    padding-left: 40px;
+  }
+}
+
+@media screen and (max-width: 1096px) {
+  .sliderWrap {
+    width: 385px;
+
+    .slider {
+      .sliderTrack {
+        left: -123px;
+        width: 200px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 834px) {
+  .sliderWrap {
+    margin: 0 auto;
+
+    .slider {
+      .sliderTrack {
+        left: -147px;
+        width: 300px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .sliderWrap {
+    .slider {
+      .sliderTrack {
+        left: -99px;
+        width: 195px;
+      }
+    }
+  }
+}

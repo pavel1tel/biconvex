@@ -1,0 +1,32 @@
+@import url("@/app/styles/mixin.css");
+
+.text-icon {
+  color: var(--color-grey) !important;
+  line-height: rem(24.36px);
+  font-family: ProximaNova;
+  font-size: var(--text-2-fz);
+}
+
+@media (max-width: 1200px) {
+  .sub-header {
+    grid-gap: 1rem !important;
+  }
+  .sub-header p {
+    font-size: 1rem;
+  }
+  .sub-header > div {
+    grid-gap: 8px !important;
+    align-items: center;
+  }
+  .sub-header svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 440px) {
+  .sub-header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

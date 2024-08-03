@@ -1,0 +1,10 @@
+.mantine-Progress-root {
+  background: var(--color-grey);
+  height: 4px;
+  overflow: visible;
+}
+.mantine-Progress-section {
+  height: 5px;
+  transform: translateY(-0.5px);
+  border-radius: 5px;
+}

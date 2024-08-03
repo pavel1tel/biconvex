@@ -1,0 +1,93 @@
+@import url("@/app/styles/mixin.css");
+.step-wrapper {
+  margin: 64px 0;
+  @media (max-width: 1200px) {
+    margin: 54px 0;
+  }
+}
+
+.buy-with-wrapper {
+  height: 444px;
+  padding: rem(64px);
+  border-radius: 8px;
+  position: relative;
+  z-index: 1;
+  border: rem(1px) solid rgba(255, 255, 255, 0.12);
+  background: var(--color-black);
+
+  & img {
+    object-fit: cover;
+    z-index: -1;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+}
+.colBuyWith {
+  min-height: rem(297px);
+  justify-content: space-between;
+}
+.buy-with-title {
+  font-family: "CraftworkGrotesk" !important;
+  font-size: rem(32px);
+  line-height: rem(38);
+  font-weight: 700 !important;
+  color: var(--color-blue) !important;
+}
+.buyWithText {
+  font-size: var(--text-2-fz);
+}
+.btn {
+  font-family: ProximaNova !important;
+  margin-top: rem(16px);
+  width: max-content;
+  padding: 16px 32px;
+  height: rem(54px);
+}
+.text-btn {
+  line-height: 21.92px !important;
+
+  font-size: var(--text-3-fz) !important;
+  color: var(--color-white);
+}
+
+@media (max-width: 1200px) {
+  .buy-with-wrapper {
+    height: auto;
+    padding: 2rem;
+  }
+  .colBuyWith {
+    min-height: auto;
+  }
+  .buy-with-wrapper img {
+    max-width: 60px;
+  }
+  .buy-with-wrapper p {
+    line-height: 100% !important;
+  }
+  .buy-with-wrapper p:nth-child(2) {
+    font-size: 1.25rem;
+  }
+  .buy-with-wrapper p:nth-child(3) {
+    font-size: 0.875rem;
+  }
+  .buy-with-wrapper button p {
+    font-size: 14px !important;
+  }
+  .buy-with-wrapper button {
+    margin: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .step-wrapper > div {
+    display: flex;
+    flex-direction: column;
+  }
+  .buy-with-wrapper {
+    padding: 1.5rem;
+  }
+}

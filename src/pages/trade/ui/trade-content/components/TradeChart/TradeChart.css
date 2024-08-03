@@ -1,0 +1,29 @@
+.apexcharts-xaxistooltip,
+.apexcharts-yaxistooltip {
+  background: var(--color-blue) !important;
+  border: none !important;
+  color: white !important;
+  padding: 8px 16px !important;
+  font-size: 14px !important;
+  font-family: "ProximaNova" !important;
+  border-radius: 4px !important;
+  line-height: 17px !important;
+  font-weight: 400 !important;
+  &::after,
+  &::before {
+    display: none !important;
+  }
+}
+.apexcharts-tooltip {
+  display: none !important;
+}
+.hovering-zoom {
+  cursor:
+    url("@/shared/ui/icon/crosshairCursor/crosshairCursor.png") 10 13,
+    auto !important;
+}
+.hovering-pan {
+  cursor:
+    url("@/shared/ui/icon/crosshairCursor/crosshairCursor.png") 10 13,
+    auto !important;
+}

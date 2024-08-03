@@ -1,0 +1,6 @@
+@import url("slick-carousel/slick/slick.css");
+@import url("slick-carousel/slick/slick-theme.css");
+
+.slick-initialized .slick-slide {
+  padding: 0 48px;
+}

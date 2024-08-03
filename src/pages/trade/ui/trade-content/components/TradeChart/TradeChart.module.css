@@ -1,0 +1,46 @@
+.chartContainer {
+  height: 610px;
+}
+
+.periodButton {
+  padding: 7px 15px;
+  align-self: stretch;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: var(--color-grey);
+  font-family: "ProximaNova";
+  font-size: 14px;
+  cursor: pointer;
+  &.active {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+  }
+}
+
+@media (max-width: 1380px) {
+  .chartContainer {
+    padding: 2rem 1.5rem !important;
+  }
+  .button-flex {
+    grid-gap: 1rem;
+    /* margin-bottom: 0 !important; */
+  }
+  .periodButton {
+    height: 2rem !important;
+    padding: 0 1rem;
+  }
+  .button-flex [aria-haspopup="listbox"] {
+    height: 2rem;
+    padding: 0 1rem !important;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .chartContainer {
+    /* height: 541px; */
+  }
+}

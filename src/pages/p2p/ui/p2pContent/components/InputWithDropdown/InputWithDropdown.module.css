@@ -1,0 +1,99 @@
+.inputWrapper {
+  position: relative;
+}
+.label {
+  font-size: 16px;
+  color: white;
+  line-height: 1.2;
+}
+.input {
+  flex: 1 1 calc(50% - 8px);
+
+  input {
+    font-size: 18px;
+    color: var(--color-grey);
+    padding: 24px 140px 24px 28px;
+    height: 69px;
+    background-color: rgb(8, 8, 8);
+    box-shadow: inset 0px 0px 12px 0px rgba(108, 112, 128, 0.04);
+    border-radius: 8px;
+    border-left: 2px solid var(--color-blue);
+    font-weight: 500;
+    &[data-error] {
+      border-left: rem(2px) solid var(--color-red);
+      color: var(--color-red) !important;
+    }
+  }
+}
+
+.selectTarget {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  height: 69px;
+  background-color: transparent;
+  padding: 24px 28px 24px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  color: white;
+  cursor: pointer;
+  & div:has(svg) {
+    height: 21px;
+    width: 21px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  p {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    align-self: end;
+  }
+  & svg.selectIcon {
+    transform: rotate(0);
+    transition: 0.3s;
+  }
+  &[data-expanded="true"] {
+    & svg.selectIcon {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.selectDropdown {
+  background-color: rgb(8, 8, 8);
+  box-shadow: inset 0px 0px 12px 0px rgba(108, 112, 128, 0.04);
+  border: none;
+}
+.selectOptions {
+  padding: 6px 0;
+  border-radius: 8px;
+}
+.selectOption {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 10px 12px;
+  &:hover {
+    background-color: var(--color-grey);
+  }
+}
+
+@media (max-width: 1360px) {
+  .selectTarget {
+    max-width: 200px;
+  }
+  .input input {
+    padding: 24px 200px 24px 24px;
+  }
+  .label {
+    font-size: 14px;
+  }
+}

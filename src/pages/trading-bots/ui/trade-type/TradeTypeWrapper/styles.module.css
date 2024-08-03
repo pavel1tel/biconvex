@@ -1,0 +1,60 @@
+@import url("../../../../../app/styles//mixin.css");
+
+.tradeWrapper {
+  border-bottom: 5px solid;
+  padding: 15px 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: rgba(10, 10, 12, 1);
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  &.inactive {
+    border-bottom-color: rgba(255, 255, 255, 0.16);
+  }
+
+  &:hover,
+  &.active {
+    border-bottom-color: var(--color-blue);
+    background: linear-gradient(313.06deg, rgba(98, 95, 244, 0.2) 6.43%, rgba(12, 13, 16, 0.2) 99.25%);
+  }
+}
+.tradeTitle {
+  color: var(--color-blue) !important;
+  text-wrap: wrap;
+  width: 130px;
+}
+.tradeDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.tradeInfoText {
+  font-family: var(--text-font-family);
+  @mixin text-2;
+
+  .subTitle {
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width: 1200em) {
+  .tradeWrapper {
+    width: 100%;
+    padding: 20px 22px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .tradeDescription {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .tradeTitle {
+    width: 270px;
+  }
+}

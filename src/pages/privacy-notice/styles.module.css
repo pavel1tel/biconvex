@@ -1,0 +1,13 @@
+@import url("../../app/styles/Policy.module.css");
+
+.icon-wrapper > img {
+  --icon-ratio: 112px;
+  width: var(--icon-ratio);
+  height: var(--icon-ratio);
+}
+
+@media (max-width: 1200px) {
+  .icon-wrapper > img {
+    --icon-ratio: 54px;
+  }
+}

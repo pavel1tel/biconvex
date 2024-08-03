@@ -1,0 +1,136 @@
+.payment {
+  width: rem(345px);
+  /* height: fit-content; */
+  height: auto;
+}
+
+.iconWrapper {
+  width: 19px;
+  height: 19px;
+  svg {
+    width: 100%;
+    height: 100%;
+    rotate: -30deg;
+  }
+}
+.text {
+  color: white;
+  font-size: 16px;
+  font-family: "ProximaNova";
+  line-height: 19px;
+}
+
+.container {
+  padding: 31px 31px 44px 31px !important;
+  height: auto;
+  max-height: 100%;
+}
+
+.textInput {
+  margin-top: 8px;
+  border: none;
+  border-left: 2px solid var(--color-blue);
+  box-shadow: inset 0px 0px 12px 0px rgba(108, 112, 128, 0.04);
+  background: linear-gradient(0deg, #080808, #080808);
+  padding: 24px 100px 24px 28px;
+  height: rem(69px);
+  font-family: "CraftworkGrotesk";
+  &[data-error] {
+    color: red;
+  }
+}
+.section {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21px;
+  svg {
+    width: 21px;
+    height: 21px;
+  }
+  div.btcIcon {
+    width: 21px;
+    height: 21px;
+    svg {
+      rotate: -30deg;
+    }
+  }
+}
+
+.tpsiInputWrapper {
+  padding: 16px 28px 16px 0;
+  border-left: 2px solid var(--color-blue);
+  border-bottom: none;
+  border-right: none;
+  border-top: none;
+  box-shadow: inset 0px 0px 12px 0px rgba(108, 112, 128, 0.04);
+  background: linear-gradient(0deg, #080808, #080808);
+  font-family: "CraftworkGrotesk";
+  border-radius: 8px;
+  &[data-error] {
+    color: red;
+  }
+}
+.tpsiInput {
+  padding: 0 0 0 20px;
+  min-height: 0;
+  height: 21px;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+  &.mantine-TextInput-input {
+    height: 21px;
+  }
+}
+.tpsiInputSecton {
+  width: fit-content;
+  margin-left: 28px;
+  justify-content: start;
+  p {
+    white-space: nowrap;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21px;
+    color: var(--color-grey);
+  }
+}
+
+.button {
+  flex: 1;
+  height: 54px;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: "ProximaNova";
+}
+
+.switchButton {
+  flex: 1;
+  border-radius: 4px;
+  background-color: var(--color-black-bg);
+  border: var(--border1);
+  padding: 15px 32px;
+  font-family: "ProximaNova";
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--color-grey);
+  cursor: pointer;
+  transition: 0.3s;
+  &.active {
+    background-color: var(--color-blue);
+    border-color: var(--color-blue);
+    color: white;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .payment {
+    width: calc(60% - 16px);
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .payment {
+    width: 100%;
+  }
+}

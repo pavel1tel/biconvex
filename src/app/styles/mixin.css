@@ -1,0 +1,178 @@
+@define-mixin text-1 {
+  --text-fz: var(--text-1-fz);
+  --text-color: var(--color-white);
+  --_text-line-height: var(--text-1-lh);
+
+  font-style: var(--text-1-fs);
+  font-weight: var(--text-1-fw);
+  font-family: var(--text-font-family);
+}
+@define-mixin text-title {
+  font-size: var(--text-title);
+  line-height: var(--text-title-lh);
+  font-weight: 600;
+  color: var(--color-white);
+}
+@define-mixin text-1-craft {
+  --text-fz: var(--text-1-fz);
+  --text-color: var(--color-white);
+  --_text-line-height: var(--text-1-lh);
+
+  font-style: var(--text-1-fs);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-sans);
+}
+@define-mixin text-1-full {
+  @mixin text-1;
+  color: var(--text-color);
+  font-size: var(--text-fz);
+  line-height: var(--_text-line-height);
+}
+
+@define-mixin text-2 {
+  --text-fz: var(--text-2-fz);
+  --text-color: var(--color-white);
+  --_text-line-height: var(--text-2-lh);
+
+  font-style: var(--text-2-fs);
+  font-weight: var(--text-2-fw);
+  font-family: var(--text-font-family);
+}
+@define-mixin text-2-craft-font {
+  --text-fz: var(--text-2-fz);
+  --text-color: var(--color-white);
+  --_text-line-height: var(--text-2-lh);
+
+  font-style: var(--text-2-fs);
+  font-weight: var(--text-2-fw);
+  font-family: var(--font-sans) !important;
+}
+@define-mixin text-2-full {
+  @mixin text-2;
+  color: var(--text-color);
+  font-size: var(--text-fz);
+  line-height: var(--_text-line-height);
+}
+
+@define-mixin text-3 $color: var(--color-white) {
+  --text-fz: var(--text-3-fz);
+  --text-color: $color;
+  --_text-line-height: var(--text-3-lh);
+
+  font-style: var(--text-3-fs);
+  font-weight: var(--text-3-fw);
+  font-family: var(--text-font-family);
+}
+@define-mixin text-3-full $color: var(--color-white) {
+  @mixin text-3 $color;
+  color: var(--text-color);
+  font-size: var(--text-fz);
+  line-height: var(--_text-line-height);
+}
+
+@define-mixin text-4 $color: var(--color-white) {
+  --text-fz: var(--text-4-fz);
+  --text-color: $color;
+  --_text-line-height: var(--text-4-lh);
+
+  font-style: var(--text-4-fs);
+  font-weight: var(--text-4-fw);
+  font-family: var(--text-font-family);
+}
+
+@define-mixin text-4-full $color: var(--color-white) {
+  @mixin text-4 $color;
+  color: var(--text-color);
+  font-size: var(--text-fz);
+  line-height: var(--_text-line-height);
+}
+
+@define-mixin text-5 $color: var(--color-white) {
+  --text-fz: var(--text-5-fz);
+  --text-color: $color;
+  --_text-line-height: var(--text-5-lh);
+
+  font-style: var(--text-5-fs);
+  font-weight: var(--text-5-fw);
+  font-family: var(--text-font-family);
+}
+@define-mixin text-5-full $color: var(--color-white) {
+  @mixin text-5 $color;
+  color: var(--text-color);
+  font-size: var(--text-fz);
+  line-height: var(--_text-line-height);
+}
+
+@define-mixin text-btn {
+  --text-fz: var(--text-btn-fz);
+  --text-color: var(--color-white);
+  --_text-line-height: var(--text-btn-lh);
+
+  font-style: var(--text-btn-fs);
+  font-weight: var(--text-btn-fw);
+  font-family: var(--font-sans);
+}
+@define-mixin text-btn-full {
+  @mixin text-btn;
+  color: var(--text-color);
+  font-size: var(--text-fz);
+  line-height: var(--_text-line-height);
+}
+
+@define-mixin text-input {
+  --text-fz: var(--text-input-fz);
+  --text-color: var(--color-white);
+  --_text-line-height: var(--text-input-lh);
+
+  font-style: var(--text-input-fs);
+  font-weight: var(--text-input-fw);
+  font-family: var(--font-sans);
+}
+@define-mixin text-input-full {
+  @mixin text-input;
+  color: var(--text-color);
+  font-size: var(--text-fz);
+  line-height: var(--_text-line-height);
+}
+
+@define-mixin transition {
+  transition: all 0.3s ease;
+}
+
+@define-mixin textGrey {
+  --text-color: var(--color-grey) !important;
+}
+
+@define-mixin textLinearGradient {
+  /* Fallback: Set a background color. */
+  background-color: #625ff4;
+
+  /* Create the gradient. */
+  background-image: var(--gradient-linear);
+
+  /* Set the background size and repeat properties. */
+  background-size: 100%;
+  background-repeat: repeat;
+
+  /* Use the text as a mask for the background. */
+  /* This will show the gradient as a text color rather than element bg. */
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  text-fill-color: transparent;
+
+  color: white;
+
+  transition:
+    color 200ms linear,
+    background-position 2000ms ease-out;
+}
+
+@define-mixin box-with-border {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: rem(8px);
+  background: var(--color-black);
+}

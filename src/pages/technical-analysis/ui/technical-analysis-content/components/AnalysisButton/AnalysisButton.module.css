@@ -1,0 +1,41 @@
+.analysisButton {
+  color: white;
+  font-size: 18px;
+  font-family: "ProximaNova";
+  border-radius: 8px;
+  padding: 16px 32px;
+  background-color: none;
+  border: none;
+  z-index: 10;
+  margin-top: 48px;
+  &.red {
+    background-color: #e42222;
+    box-shadow: 0px 0px 64px 0px rgba(228, 34, 34, 0.64);
+  }
+  &.pink {
+    background-color: #f44a4a;
+    box-shadow: 0px 0px 64px 0px rgba(244, 74, 74, 0.64);
+  }
+  &.yellow {
+    background-color: #ff9e2b;
+    box-shadow: 0px 0px 64px 0px rgba(255, 158, 43, 0.64);
+  }
+  &.lightGreen {
+    background-color: #64d15a;
+    box-shadow: 0px 0px 64px 0px rgba(100, 209, 90, 0.64);
+  }
+  &.green {
+    background-color: #0ecb7b;
+    box-shadow: 0px 0px 64px 0px rgba(14, 203, 123, 0.64);
+  }
+}
+
+@media (max-width: 1200px) {
+  .analysisButton {
+    min-height: 32px;
+    padding: 0 1rem;
+    border-radius: 2px;
+    font-size: 12px;
+    margin-top: 1rem;
+  }
+}

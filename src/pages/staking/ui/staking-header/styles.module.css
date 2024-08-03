@@ -1,0 +1,116 @@
+@import url("@/app/styles/mixin.css");
+
+.wrapper {
+  margin: var(--adaptive-section-py) 0 clamp(28px, 4vw, 64px) 0;
+}
+
+.hide {
+  cursor: pointer;
+}
+.title-colored-part {
+  font-size: inherit !important;
+  font-style: inherit !important;
+  font-weight: 600 !important;
+  line-height: inherit !important;
+  background: var(--gradient-linear);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-right: rem(15px);
+}
+.text {
+  color: var(--color-white);
+}
+.title {
+  max-width: rem(763px);
+  font-size: rem(50px);
+  font-weight: 600;
+  line-height: rem(64px);
+  @media (max-width: 1690px) {
+    font-size: rem(50px);
+  }
+}
+.value {
+  text-shadow: 0px 4px 32px rgba(12, 13, 16, 0.64);
+}
+.coins {
+  width: rem(48px);
+}
+.coinsText {
+  font-size: var(--text-2-fz);
+  line-height: var(--text-2-lh);
+  color: var(--color-white);
+  font-family: ProximaNova;
+}
+.total {
+  font-weight: 600;
+  font-size: rem(24px);
+  line-height: rem(28.8);
+  margin-bottom: rem(16px);
+}
+.box {
+  width: 636px !important;
+  position: relative;
+  border: rem(1px) solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(313.06deg, rgba(98, 95, 244, 0.2) 6.43%, rgba(12, 13, 16, 0.2) 99.25%);
+  border-radius: 8px;
+  padding: rem(50px) rem(214px) rem(50px) rem(64px);
+  overflow: hidden;
+}
+.image {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+@media (max-width: 1200px) {
+  .mainFlex {
+    flex-direction: column;
+    grid-gap: 1.5rem !important;
+  }
+  .mainFlex h1 {
+    max-width: 100%;
+    font-size: 40px;
+    line-height: 100%;
+  }
+  .mainFlex h1 span {
+    font-size: 40px;
+    line-height: 100%;
+  }
+  .inner p {
+    font-size: 40px;
+  }
+  .coinsText {
+    font-size: 1rem;
+  }
+  .coins {
+    width: 2.375rem;
+    height: 2.375rem;
+  }
+  .inner svg {
+    width: 2rem;
+    height: 2rem;
+  }
+  .box {
+    padding: 2rem 3rem;
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .box {
+    padding: 1.5rem;
+  }
+  .inner p {
+    line-height: 100%;
+  }
+  .box img {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .coinsText {
+    font-size: 14px;
+    line-height: 100%;
+  }
+}

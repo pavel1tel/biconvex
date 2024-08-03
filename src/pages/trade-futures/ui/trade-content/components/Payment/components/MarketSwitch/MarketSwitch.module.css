@@ -1,0 +1,66 @@
+.text {
+  font-size: 16px;
+  font-family: "ProximaNova";
+  color: var(--color-grey);
+  &.active {
+    color: var(--color-blue);
+  }
+}
+
+.iconWrapper {
+  width: 16px;
+  height: 16px;
+  svg {
+    path {
+      fill: var(--color-grey);
+    }
+  }
+  &.active {
+    svg {
+      path {
+        fill: var(--color-blue);
+      }
+    }
+  }
+}
+
+.button {
+  flex: 1;
+  padding: 19px 13px;
+  justify-content: space-evenly;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 5px;
+  gap: 10px;
+  cursor: pointer;
+  &.active {
+    background-color: var(--color-black-bg);
+    border-color: rgba(98, 95, 248, 0.12);
+  }
+}
+
+.radio {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--color-grey);
+  &::before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-blue);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 0.3s;
+  }
+
+  &.active {
+    border-color: var(--color-blue);
+    &::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+}
