@@ -14,6 +14,54 @@
   }
 }
 
+.imageBlock {
+  width: 100%;
+}
+
+.current {
+  height: rem(142px);
+  padding: rem(38.5px) rem(56px) rem(38.5px) rem(32px);
+  border-radius: 8px;
+}
+.title {
+  line-height: var(--text-4-lh);
+  font-family: ProximaNova;
+  font-size: rem(16px);
+  color: #fff;
+}
+.hide {
+  cursor: pointer;
+}
+.amount {
+  font-size: rem(16px);
+  line-height: rem(38px) !important;
+  font-family: ProximaNova;
+  color: #fff;
+}
+.title-graph {
+  color: var(--color-grey);
+  font-size: rem(14px);
+  line-height: rem(17px) !important;
+}
+.amount-graph {
+  font-size: var(--text-3-fz);
+  line-height: rem(21.92px) !important;
+  font-weight: 600;
+}
+.graph {
+  width: 249px;
+  overflow: hidden;
+  /*@media (max-width: 1690px) {*/
+  /*  width: 249px;*/
+  /*}*/
+  /*@media (max-width: 1590px) {*/
+  /*  width: 249px;*/
+  /*}*/
+  /*@media (max-width: 1490px) {*/
+  /*  width: 249px;*/
+  /*}*/
+}
+
 .logo-links-root {
   background: transparent;
   --group-gap: rem(16) !important;

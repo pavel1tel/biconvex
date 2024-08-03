@@ -1,15 +1,16 @@
 import { getSiblings } from "@/helpers/getResponsivePaginationSiblings";
 import { Avatar, Box, Button, Group, Pagination, Stack, Table, Text, rem } from "@mantine/core";
 import clsx from "clsx";
+import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
 
-import { NextIcon, PreviousIcon } from "@/shared/ui";
-
 import { $p2pResponse } from "@/pages/p2p/model";
+
 import { getP2pInfo } from "@/shared/api/p2p/requests";
 import { P2pResponse } from "@/shared/api/types";
 import { showErrorNotification } from "@/shared/lib/notification";
-import { useUnit } from "effector-react";
+import { NextIcon, PreviousIcon } from "@/shared/ui";
+
 import classes from "./Trade.module.css";
 
 const header = [
@@ -25,36 +26,34 @@ export const Trade = ({ tabName }: { tabName: string }) => {
   const p2pResponsePending = useUnit(getP2pInfo.pending);
   const [body, setBody] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageSellers, setCurrentPageSellers] = useState(1);
+  const [currentPageSellers, setCurrentPageSellers] = useState(5);
 
   useEffect(() => {
-    console.log(p2pResponsePending)
+    console.log(p2pResponsePending);
     if (p2pResponse) {
-      console.log(p2pResponse)
+      console.log(p2pResponse);
       let temp: any[] = [];
       p2pResponse.sellers.forEach((sellser, index) => {
-        temp.push(
-          {
-            id: index,
-            trader: {
-              img: sellser.image,
-              name: sellser.name,
-              userStats: sellser.orders + " " + sellser.orders_percent,
-              status: "online",
-            },
-            payment: sellser.payment_method,
-            price: sellser.price,
-            limits: sellser.limits,
-            action: <Button onClick={() => showErrorNotification(p2pResponse.p2p_error)} className={classes.sellButton}>{`${tabName} BTC`}</Button>,
-          }
-        )
-      })
+        temp.push({
+          id: index,
+          trader: {
+            img: sellser.image,
+            name: sellser.name,
+            userStats: sellser.orders + " " + sellser.orders_percent,
+            status: "online",
+          },
+          payment: sellser.payment_method,
+          price: sellser.price,
+          limits: sellser.limits,
+          action: <Button onClick={() => showErrorNotification(p2pResponse.p2p_error)} className={classes.sellButton}>{`${tabName} BTC`}</Button>,
+        });
+      });
       const startIndex = (currentPage - 1) * 20;
       const endIndex = startIndex + 20;
-      setCurrentPageSellers(temp.slice(startIndex, endIndex).length)
-      setBody(temp.slice(startIndex, endIndex))
+      setCurrentPageSellers(temp.slice(startIndex, endIndex).length);
+      setBody(temp.slice(startIndex, endIndex));
     }
-  }, [p2pResponse, p2pResponsePending, currentPage])
+  }, [p2pResponse, p2pResponsePending, currentPage]);
 
   const [siblings, setSiblings] = useState(getSiblings());
 
@@ -115,13 +114,19 @@ export const Trade = ({ tabName }: { tabName: string }) => {
       </Box>
       <Group justify={"space-between"} mt={rem("32px")}>
         <Text variant="text-4" className={classes.paginationText}>
-          {(currentPage - 1) * 20 + 1}-{(currentPage - 1) * 20 + (currentPageSellers ? currentPageSellers : 0)} of {726}
-
+          {(currentPage - 1) * 20 + 1}-{(currentPage - 1) * 20 + (currentPageSellers ? currentPageSellers : 0)} of {223}
         </Text>
-        <Pagination value={currentPage} onChange={() => showErrorNotification(p2pResponse ? p2pResponse.p2p_error : "Error")} total={Math.ceil(726 / 20)} defaultValue={1} {...{ siblings }}>
+        <Pagination
+          value={currentPage}
+          onChange={() => showErrorNotification(p2pResponse ? p2pResponse.p2p_error : "Error")}
+          total={Math.ceil(223 / 15)}
+          defaultValue={1}
+          {...{ siblings }}
+        >
           <Group gap={8} justify="center">
             <Pagination.Previous icon={NextIcon} />
             <Pagination.Items />
+
             <Pagination.Next icon={PreviousIcon} />
           </Group>
         </Pagination>
