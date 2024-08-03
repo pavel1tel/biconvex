@@ -259,7 +259,7 @@ export const Header = ({ className = "" }: { className?: string }) => {
     <>
       <div className={classes.mobHeaderRow}>
         <a href="/">
-          <img src={logo} alt="logo" />
+          <LogoIcon />
         </a>
         <button onClick={() => setMenuActive(true)} className={classes.mobButton}>
           <img src={buttonMenuIcon} alt="" />
