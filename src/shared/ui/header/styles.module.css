@@ -227,10 +227,3 @@
     justify-content: space-between;
   }
 }
-
-/* @media screen and (max-width: 500px) {
-  .imageBlock {
-    display: flex;
-    justify-content: center;
-  }
-} */
