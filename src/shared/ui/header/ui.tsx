@@ -1,15 +1,20 @@
 // @ts-nocheck
 import { useResize } from "@/hooks/useResize";
-import { Button, Divider, Group, Menu, Stack, Text, rem } from "@mantine/core";
+import { BASE_API_FAST_SWAP_URL, BASE_API_URL, fetcher } from "@/swr";
+import { BackgroundImage, Box, Button, Divider, Flex, Group, Menu, Stack, Text, rem } from "@mantine/core";
 import { redirect } from "atomic-router";
 import { Link } from "atomic-router-react";
 import clsx from "clsx";
 import { createEvent, sample } from "effector";
 import { useUnit } from "effector-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { $profileReponse } from "@/pages/my-profile/model";
+import { CloseEyeIcon, EyeIcon } from "@/pages/staking/ui";
 import { ArrowMenuIcon } from "@/pages/staking/ui/icons/ArrowIcon";
 
+import { getStakingHistoryFx } from "@/shared/api/profile/profile";
+import { ProfileReponse } from "@/shared/api/types";
 import { AuthStatus } from "@/shared/lib/types";
 import { routes } from "@/shared/routing";
 import { $authenticationStatus } from "@/shared/session";
@@ -136,6 +141,11 @@ const LINKS = [
 
 export const Header = ({ className = "" }: { className?: string }) => {
   const logout = createEvent();
+  const [value, setValue] = useState("$0");
+  const profileReponse = useUnit<ProfileReponse>($profileReponse);
+  const profileReponsepending = useUnit<boolean>(getStakingHistoryFx.pending);
+  const [isHide, setIsHide] = useState(false);
+  const [hiddenValue, setHiddenValue] = useState("");
   const eraseCookie = (name: string) => {
     document.cookie = name + "=; Max-Age=-99999999;";
   };
@@ -155,6 +165,15 @@ export const Header = ({ className = "" }: { className?: string }) => {
     clock: logout,
     route: routes.home,
   });
+
+  const hideValue = () => {
+    setHiddenValue("*".repeat(value.length));
+    setIsHide(true);
+  };
+  const showValue = () => {
+    setValue(value);
+    setIsHide(false);
+  };
   const [isMenuActive, setMenuActive] = useState<boolean>(false);
   const [activeHiddenIndex, setActiveHiddenIndex] = useState<number>();
   const { isAdaptive: md } = useResize(1200);
@@ -217,11 +236,30 @@ export const Header = ({ className = "" }: { className?: string }) => {
   const handleDropdownClick = (index: number) => {
     index === activeHiddenIndex ? setActiveHiddenIndex(undefined) : setActiveHiddenIndex(index);
   };
+
+  useEffect(() => {
+    if (!profileReponsepending) {
+      // console.log(profileReponse);
+      // setValue("$" + profileReponse.total_balance!);
+      fetcher(`${BASE_API_FAST_SWAP_URL}/api/wallet`)
+        .then((data) => setValue("$" + data.total_balance! || profileReponse))
+        .catch((err) => console.log(err));
+    }
+  }, [profileReponse]);
+  useEffect(() => {
+    if (!profileReponsepending) {
+      // console.log(profileReponse);
+      // setValue("$" + profileReponse.total_balance!);
+      fetcher(`${BASE_API_FAST_SWAP_URL}/api/wallet`)
+        .then((data) => setValue("$" + data.total_balance!))
+        .catch((err) => console.log(err));
+    }
+  }, []);
   return md ? (
     <>
       <div className={classes.mobHeaderRow}>
         <a href="/">
-          <img src={logo} alt="logo" />
+          <LogoIcon />
         </a>
         <button onClick={() => setMenuActive(true)} className={classes.mobButton}>
           <img src={buttonMenuIcon} alt="" />
@@ -426,12 +464,22 @@ export const Header = ({ className = "" }: { className?: string }) => {
         </Group>
       ) : (
         <Group gap={rem("32px")}>
-          <Button size="xl" color="white" variant="transparent" classNames={{ root: classes.signInButtonRoot }} onClick={() => logout()}>
+          {/* <Button size="xl" color="white" variant="transparent" classNames={{ root: classes.signInButtonRoot }} onClick={() => logout()}>
             Log out
-          </Button>
-          <Button to={routes.myProfile} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
-            Profile
-          </Button>
+          </Button> */}
+          <Flex className={classes.imageBlock}>
+            <Stack gap={rem("8px")}>
+              <Flex align={"center"} gap={rem("16px")}>
+                <Flex align="center" gap={rem("1.5px")}>
+                  <Text className={classes.title}>Wallet:</Text>
+                  <Text className={classes.amount}>{value}</Text>
+                </Flex>
+                <Button to={routes.myProfile} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
+                  Profile
+                </Button>
+              </Flex>
+            </Stack>
+          </Flex>
         </Group>
       )}
     </header>

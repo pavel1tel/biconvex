@@ -413,6 +413,9 @@ div[style*="min-width: 100%"][style*="display: table"] > div > div {
     display: flex;
     flex-direction: column;
   }
+  /* .mobMenuButtons {
+    justify-content: center;
+  } */
 }
 
 .mantine-Pagination-control:hover {
