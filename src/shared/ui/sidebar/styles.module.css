@@ -1,0 +1,171 @@
+@import url("@/app/styles/mixin.css");
+
+.wrapper {
+  padding: var(--adaptive-section-py) 0;
+}
+.box {
+  min-width: 365px;
+  padding: rem(32);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: rem(8px);
+  background: var(--color-black);
+  @media (max-width: 1361px) {
+  }
+}
+.name {
+  width: rem(117px);
+  font-size: var(--text-2-fz);
+  line-height: rem(24px);
+}
+.pill {
+  height: rem(24px);
+  justify-content: space-between;
+  align-items: center;
+  padding: rem(4) rem(10);
+  background: var(--gradient-linear);
+  border-radius: rem(3px);
+  box-shadow: 0px 0px 16px 0px #625ff452;
+
+  .coin-short-name-label {
+    @mixin text-5-full;
+  }
+  gap: rem(4px);
+}
+.vip {
+  font-size: rem(14px);
+  line-height: rem(17px);
+  font-family: ProximaNova;
+}
+.img {
+  width: rem(16px);
+  height: rem(16px);
+}
+.avatar {
+  width: rem(96px);
+  height: rem(96px);
+  border-radius: 50%;
+  background: #2a2a2d;
+  position: relative;
+}
+.downloadAvatarAction {
+  background: linear-gradient(180deg, #625ff4 0%, #625ff8 100%);
+  position: absolute;
+  top: 75%;
+  left: 0;
+  width: 24px;
+  border: none !important;
+
+  &:hover {
+    span:nth-child(2) {
+      svg path {
+        fill: white !important;
+      }
+    }
+  }
+
+  span:nth-child(2) {
+    position: relative;
+
+    span {
+      position: absolute;
+      top: 5%;
+    }
+  }
+}
+.text {
+  color: var(--color-grey);
+  font-size: var(--text-5-fz);
+  line-height: rem(17px);
+}
+.link {
+  border-radius: 4px;
+  padding: 16px;
+  text-decoration: none;
+  background: transparent;
+  display: flex;
+  color: var(--color-grey);
+  max-width: rem(352px);
+  min-width: 200px;
+
+  height: rem(54px);
+  &:hover {
+    background: #191a1e;
+  }
+  & svg {
+    & path {
+      fill: var(--color-grey);
+    }
+  }
+}
+.active-link {
+  background: #000;
+  border-left: 2px solid var(--color-blue);
+  border-top: none;
+  border-bottom: none;
+  color: var(--color-blue);
+  &:hover {
+    background: #000;
+  }
+  & svg {
+    & path {
+      fill: var(--color-blue);
+    }
+  }
+}
+.textBtn {
+  font-size: var(--text-3-fz) !important;
+  line-height: rem(21px) !important;
+}
+.btn {
+  font-family: ProximaNova;
+  font-size: rem(18px) !important;
+  line-height: rem(22px) !important;
+  font-weight: 400 !important;
+}
+
+.contentWrapper {
+  flex: 1;
+}
+
+@media (max-width: 1400px) {
+  .wrapper > div {
+    flex-direction: column;
+  }
+  .box a {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px;
+    min-width: auto;
+    height: auto;
+  }
+  .name {
+    font-size: 0.875rem;
+  }
+  .text {
+    font-size: 12px;
+  }
+  .contentWrapper {
+    width: 100%;
+  }
+  .box a > div {
+    align-items: center;
+  }
+  .box div:nth-child(2) > div {
+    grid-gap: 0.5rem;
+  }
+  .box {
+    grid-gap: 1rem !important;
+    padding: 1.25rem !important;
+    min-width: auto;
+  }
+  .avatar {
+    width: 4rem;
+    height: 4rem;
+  }
+  .box button {
+    max-width: 100% !important;
+  }
+  .box {
+    width: 100%;
+  }
+}

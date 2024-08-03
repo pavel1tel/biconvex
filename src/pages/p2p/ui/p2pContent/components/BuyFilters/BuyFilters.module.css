@@ -1,0 +1,54 @@
+.rootSelect {
+  flex: 1 1 calc(50% - 8px);
+
+  input {
+    font-size: 18px;
+    color: var(--color-grey);
+    padding: 24px 28px;
+    height: 69px;
+    background-color: rgb(8, 8, 8);
+    box-shadow: inset 0px 0px 12px 0px rgba(108, 112, 128, 0.04);
+    border-radius: 8px;
+    border-left: 2px solid var(--color-blue);
+    font-weight: 500;
+    &[data-error] {
+      border-left: rem(2px) solid var(--color-red);
+      color: var(--color-red) !important;
+    }
+    &[data-expanded="true"] + div > svg {
+      rotate: 180deg;
+    }
+  }
+  svg {
+    transition: 0.3s;
+    rotate: 0;
+  }
+}
+
+.label {
+  font-size: 16px;
+  color: white;
+  line-height: 1.2;
+}
+.selectDropdown {
+  background-color: rgb(8, 8, 8) !important;
+  box-shadow: inset 0px 0px 12px 0px rgba(108, 112, 128, 0.04);
+  border: none;
+}
+.selectOptions {
+  padding: 6px 0;
+  border-radius: 8px;
+}
+.selectOption {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 10px 12px;
+  flex: 0 !important;
+  &:hover {
+    background-color: var(--color-grey);
+  }
+}

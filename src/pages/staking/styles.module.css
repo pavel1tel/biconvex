@@ -1,0 +1,40 @@
+@import url("@/app/styles/mixin.css");
+
+.light-one {
+  top: 0;
+  width: auto;
+  right: 0;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-two {
+  top: 0;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-three {
+  top: rem(-100);
+  right: rem(-50);
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-four {
+  left: rem(-100);
+  width: auto;
+  bottom: rem(100);
+  z-index: -1;
+  position: absolute;
+}
+.light-five {
+  right: 0px;
+  width: auto;
+  bottom: rem(0);
+  z-index: -1;
+  position: absolute;
+}

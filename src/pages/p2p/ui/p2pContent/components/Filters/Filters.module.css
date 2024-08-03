@@ -1,0 +1,29 @@
+.filtersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  border: var(--border1);
+  padding: 31px;
+  border-radius: 8px;
+  background-color: var(--color-black);
+  width: 365px;
+}
+
+.searchButton {
+  height: 54px;
+  font-weight: 400;
+  font-family: "ProximaNova";
+  font-size: 18px;
+  line-height: 1.2;
+  padding: 16px 30px;
+}
+
+@media (max-width: 1360px) {
+  form {
+    width: 100%;
+  }
+  .filtersContainer {
+    width: 100%;
+    padding: 2rem 1.25rem;
+  }
+}

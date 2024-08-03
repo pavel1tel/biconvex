@@ -1,0 +1,147 @@
+@import url("@/app/styles/mixin.css");
+
+.content-wrapper {
+  flex: 1;
+  padding: clamp(62px, 5.625vw, 90px) rem(165) var(--adaptive-section-py);
+  position: relative;
+  min-height: 880px;
+}
+
+.z-index {
+  z-index: 10;
+}
+
+.form-wrapper {
+  z-index: 10;
+}
+
+.form {
+  min-width: rem(600);
+}
+
+.grey-text {
+  @mixin textGrey;
+}
+
+.blue-text {
+  --text-color: var(--color-blue) !important;
+  @mixin transition;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.passwordInput {
+  padding-right: 80px !important;
+}
+
+.blue-text-hovered {
+  @mixin transition;
+  color: var(--color-blue);
+  cursor: pointer;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  @mixin hover {
+    text-shadow: 0px 2px 8px rgba(98, 95, 244, 0.64);
+    text-decoration-color: var(--color-blue);
+  }
+}
+
+.form-light-left {
+  bottom: 0;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.form-light-right {
+  bottom: 0;
+  right: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.email-confirm-light-left {
+  bottom: 0;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.email-confirm-light-right {
+  bottom: 0;
+  right: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.email-confirm-code-light-left {
+  bottom: 0;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.email-confirm-code-light-right {
+  bottom: 0;
+  right: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+@media (max-width: 1200px) {
+  .form {
+    min-width: auto;
+  }
+  .notification svg {
+    width: 14px !important;
+  }
+  .form-light-left,
+  .form-light-right {
+    opacity: 0.5;
+  }
+  .notification p {
+    font-size: 14px;
+  }
+  .notification a {
+    font-size: 14px;
+  }
+  .btnContinue span {
+    font-size: 18px;
+  }
+  .btnContinue svg {
+    width: 22px;
+    height: 22px;
+  }
+  .grey-text {
+    font-size: 1rem;
+  }
+  .wrapper button span {
+    font-size: 18px !important;
+  }
+  .wrapper svg {
+    width: 22px;
+    height: 22px;
+  }
+  .wrapper button {
+    height: 78px;
+  }
+  .form-wrapper > div {
+    width: 100%;
+  }
+  .content-wrapper {
+    padding: 3.875rem 1rem 3.875rem 1rem;
+    align-items: center;
+    min-height: 500px;
+  }
+}

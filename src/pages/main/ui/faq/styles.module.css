@@ -1,0 +1,138 @@
+@import url("@/app/styles/mixin.css");
+
+.faq-wrapper {
+  flex: 1;
+  padding: var(--adaptive-section-py) 0;
+  position: relative;
+}
+
+.faq-accordion-root {
+  --accordion-chevron-size: 24px;
+
+  gap: rem(20px);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.faq-accordion-item {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: rem(32px) clamp(2rem, 4vw, 4rem);
+  background: var(--color-black);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  gap: 0;
+  display: flex;
+  flex-direction: column;
+
+  @mixin light {
+    --_item-border-color: rgba(255, 255, 255, 0.12) !important;
+    --_item-filled-color: transparent;
+  }
+
+  &[data-active] {
+    gap: rem(32);
+    padding: clamp(2rem, 4vw, 4rem);
+  }
+
+  @mixin hover {
+    & :local(.faq-accordion-chevron) {
+      & svg {
+        & path {
+          fill: var(--color-blue);
+        }
+      }
+    }
+  }
+}
+
+.faq-accordion-label {
+  color: white;
+  padding: 0;
+  @mixin transition;
+}
+
+.faq-accordion-panel {
+  /*margin-top: rem(32px);*/
+}
+
+.faq-accordion-control {
+  --_control-padding-left: 0;
+  --_control-padding-right: 0;
+  --_control-background-color: transparent !important;
+
+  @mixin light {
+    --_control-color: white !important;
+  }
+
+  &[aria-expanded="true"] {
+    @mixin light {
+      background-image: var(--gradient-webkit-linear);
+      background-image: var(--gradient-linear);
+      background-position: right center;
+      background-size: 400% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: white;
+      -webkit-text-fill-color: transparent;
+      text-fill-color: transparent;
+      transition:
+        color 200ms linear,
+        background-position 2000ms ease-out;
+    }
+  }
+}
+
+.faq-accordion-chevron {
+  & svg {
+    & path {
+      @mixin transition;
+    }
+  }
+
+  &[data-rotate] {
+    & svg {
+      & path {
+        fill: var(--color-blue);
+      }
+    }
+  }
+}
+
+.text-title-highlighted {
+  color: var(--color-blue);
+}
+
+.faq-accordion-content {
+  padding: 0;
+}
+
+.object-six {
+  top: 19%;
+  right: 0;
+  width: auto;
+  position: absolute;
+}
+
+.light-nine {
+  top: 0;
+  right: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+  transform: translate(0, -28%);
+}
+
+@media screen and (max-width: 1200px) {
+  .light-nine {
+    top: 49em;
+  }
+
+  .light-eight {
+    top: -22em;
+    left: 33%;
+    width: 70%;
+    transform: rotate(-180deg);
+  }
+}

@@ -1,0 +1,115 @@
+.modalText {
+  font-size: 16px;
+  color: white;
+  line-height: 1.2;
+  font-family: "ProximaNova";
+  span {
+    line-height: 1.2;
+  }
+}
+
+.modalTextDescription {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-grey);
+  font-family: "ProximaNova";
+}
+
+.qrCodeWrapper {
+  padding: 16px;
+  background-color: white;
+  border-radius: 4px;
+  height: 160px;
+  width: 160px;
+}
+
+.copyRefWrapper {
+  padding: 11px 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--color-black-bg);
+}
+
+.refLink {
+  width: 100%;
+  input {
+    all: unset;
+    width: 100%;
+    font-size: 18px;
+    color: white;
+    font-weight: 500;
+  }
+}
+
+.btn {
+  min-width: max-content;
+  padding: 16px 32px;
+  span {
+    font-size: 18px;
+    line-height: 1.2;
+    color: white !important;
+    height: fit-content;
+    font-weight: 400;
+    font-family: "ProximaNova";
+  }
+}
+
+.activateCodeInput {
+  input {
+    padding: 32px;
+    border-radius: 8px;
+    border-left: 4px solid var(--color-blue);
+    background: var(--color-black-bg);
+    box-shadow: 0px 0px 12px 0px rgba(108, 112, 128, 0.04) inset;
+    height: 85px;
+  }
+}
+
+.modalCloseIcon {
+  min-height: 0;
+  min-width: 0;
+  height: 24px;
+  width: 24px;
+  svg {
+    width: 100% !important;
+    height: 100% !important;
+    path {
+      fill: var(--color-grey);
+    }
+  }
+  &:hover {
+    background: var(--color-black);
+  }
+}
+.modalContent {
+  max-height: 100%;
+  border-radius: 8px;
+  border: var(--border1);
+  background: var(--color-black);
+  box-shadow: 0px 0px 128px 0px rgba(12, 13, 16, 0.64);
+  span {
+    color: var(--color-blue);
+  }
+}
+
+.modalHeader {
+  background-color: transparent;
+  padding: 48px 47px 24px;
+  min-height: 0;
+  height: fit-content;
+  background: var(--color-black);
+  h2 {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    color: white;
+    line-height: 1.2;
+  }
+}
+
+.modalBody {
+  padding: 0 47px 48px;
+}

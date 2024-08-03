@@ -1,0 +1,78 @@
+@import url("@/app/styles/mixin.css");
+
+.faq-title {
+  color: white;
+  font-size: 54px;
+}
+
+.faq-sub-title {
+  @mixin textGrey;
+}
+
+.more-questions-text {
+  @mixin text-2-full;
+  @mixin transition;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--color-blue);
+  cursor: pointer;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+
+  & svg {
+    @mixin transition;
+  }
+
+  @mixin hover {
+    text-shadow: 0px 2px 8px rgba(98, 95, 244, 0.64);
+    text-decoration-color: var(--color-blue);
+
+    & svg {
+      filter: drop-shadow(0px 2px 8px rgba(98, 95, 244, 0.64));
+    }
+  }
+}
+
+.text-title-highlighted {
+  color: var(--color-blue);
+}
+
+@media screen and (max-width: 1200px) {
+  .faq-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .faq-title-wrapper {
+    flex: 1 1 38%;
+
+    .faq-title {
+      font-size: 40px;
+    }
+  }
+
+  .more-questions-text {
+    margin-top: 1em;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .faq-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .faq-title-wrapper {
+    flex: 1 1 80%;
+
+    .faq-title {
+      font-size: 40px;
+    }
+  }
+}

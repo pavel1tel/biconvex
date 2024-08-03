@@ -1,0 +1,55 @@
+.chatItemContainer {
+  width: 100%;
+  padding: 16px 32px;
+  padding-left: 30px;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: var(--color-black);
+  flex: 0 0 auto;
+  border-left: 2px solid transparent;
+}
+
+.activeChat {
+  background-color: var(--color-black-bg);
+  border-left: 2px solid var(--color-blue);
+}
+
+.chatItemHeader {
+  overflow: hidden;
+}
+
+.chatInfo {
+  max-height: 40px;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.chatName {
+  font-size: 18px;
+  color: white;
+  font-weight: 600;
+  line-height: 1.2;
+  font-family: "ProximaNova";
+}
+.chatRole {
+  font-size: 14px;
+  font-family: "ProximaNova";
+  line-height: 1.2;
+  color: var(--color-grey);
+}
+.chatDate {
+  font-size: 14px;
+  font-family: "ProximaNova";
+  line-height: 1.2;
+  color: var(--color-grey);
+  margin-left: auto;
+  white-space: nowrap;
+}
+.chatDescription {
+  font-size: 16px;
+  font-family: "ProximaNova";
+  line-height: 1.2;
+  color: white;
+  text-align: justify;
+}

@@ -1,0 +1,184 @@
+@import url("@/app/styles/mixin.css");
+
+.light-one {
+  top: 0;
+  width: auto;
+  right: 0;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-two {
+  top: 0;
+  left: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.light-three {
+  top: rem(75);
+  right: 0;
+  width: auto;
+  z-index: -1;
+  position: absolute;
+}
+
+.text-wrapper {
+  flex: 1;
+  padding: var(--adaptive-section-py) 0;
+  position: relative;
+}
+
+.text-title {
+  color: white;
+}
+
+.text-title-highlighted {
+  font-size: inherit !important;
+  font-style: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  @mixin textLinearGradient;
+}
+
+.text-sub-title {
+  @mixin textGrey;
+}
+
+.object-five {
+  top: 50%;
+  left: 0;
+  width: auto;
+  position: absolute;
+  transform: translate(0, -50%);
+}
+
+.light-eight {
+  top: 50%;
+  left: 0%;
+  width: auto;
+  position: absolute;
+  transform: translate(0, -50%);
+  pointer-events: none;
+}
+
+.trading-banner-wrapper {
+  flex: 1;
+  padding: 0 0 var(--adaptive-section-py) 0;
+  position: relative;
+}
+
+.crypto-text-container {
+  display: grid;
+  position: relative;
+}
+
+.trading-banner-inner-wrapper {
+  flex: 1;
+  padding: clamp(2rem, 3vw, 3rem) clamp(1.25rem, 4vw, 4rem);
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--gradient-linear);
+  box-shadow: 0 8px 32px 0 rgba(98, 95, 244, 0.32);
+  row-gap: 32px;
+}
+.banner-button {
+  max-width: 446px !important;
+}
+.banner-button button {
+  min-width: 440px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .trading-banner-inner-wrapper {
+    align-items: center;
+    justify-content: center;
+  }
+  .crypto-section-container {
+    text-align: center;
+  }
+  .crypto-section-container p {
+    font-size: 16px;
+  }
+  .crypto-adaptive-image {
+    margin: 0 auto;
+  }
+  .text-container {
+    max-width: 100% !important;
+  }
+  .banner-button {
+    margin: 0 auto;
+  }
+  .banner-button span {
+    font-size: 18px !important;
+  }
+  .banner-button {
+    button {
+      min-width: auto !important;
+    }
+  }
+}
+
+.trading-banner-image {
+  left: 0;
+  bottom: 0;
+  position: absolute;
+}
+
+.trading-banner-second-image {
+  top: 0;
+  left: unset;
+  right: 44%;
+}
+
+.trading-banner-third-image {
+  left: unset;
+  right: 0;
+  bottom: 0;
+}
+
+.light-ten {
+  left: 0;
+  width: auto;
+  bottom: 0;
+  z-index: -1;
+  position: absolute;
+}
+
+.text-image-wrap {
+  max-width: clamp(250px, 28.1875vw, 451px);
+}
+
+.text-text-wrap {
+  flex: 1;
+}
+
+@media (max-width: 1200px) {
+  .btn svg {
+    width: 22px;
+    height: 22px;
+  }
+  .light-eight {
+    top: -22em;
+    left: 33%;
+    width: 70%;
+    transform: rotate(-180deg);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .light-eight {
+    top: 7%;
+    left: 33%;
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .light-eight {
+    top: 17em;
+    left: 34%;
+  }
+}

@@ -1,0 +1,45 @@
+.chartContainer {
+  /* height: 610px; */
+}
+
+.subtitle {
+  font-size: 14px;
+  font-family: "ProximaNova";
+  color: white;
+  line-height: 17px;
+}
+.subtitleMarked {
+  font-size: 14px;
+  font-family: "ProximaNova";
+  color: var(--color-blue);
+  line-height: 17px;
+}
+.subtitleIcon {
+  width: 12px;
+  height: 12px;
+  svg {
+    width: 12px;
+    height: 12px;
+    path {
+      fill: var(--color-blue);
+    }
+  }
+}
+.periodButton {
+  padding: 7px 15px;
+  align-self: stretch;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: var(--color-grey);
+  font-family: "ProximaNova";
+  font-size: 14px;
+  cursor: pointer;
+  &.active {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+  }
+}

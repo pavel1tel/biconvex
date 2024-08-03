@@ -1,0 +1,110 @@
+@import url("@/app/styles/mixin.css");
+@import url("../../../../app/styles/Dropdown.module.css");
+
+.wrapper {
+  background: var(--color-black);
+  border: var(--border1);
+  width: rem(540px);
+  border-radius: 8px;
+  padding: rem(32px) rem(28px);
+}
+.title {
+  @mixin text-1-craft;
+}
+.title3 {
+  @mixin text-3;
+  font-weight: 700 !important;
+}
+
+.select-wrap {
+  padding: 7px 10px 7px 16px;
+  border: var(--border2);
+  border-radius: 4px;
+  cursor: pointer;
+  span {
+    color: var(--color-blue);
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1.2;
+    font-family: "ProximaNova";
+  }
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-left: 10px;
+}
+.list-item {
+  @mixin text-5-full;
+  line-height: rem(17px);
+}
+.qrcodeContainer {
+  position: relative;
+  overflow: hidden;
+  min-height: 300px;
+}
+.qrcode {
+}
+.animate {
+  position: absolute;
+  top: 100%;
+  z-index: 100;
+  animation: scaner 2s backwards ease-in-out;
+}
+.line {
+  width: rem(315px);
+  height: rem(5px);
+  z-index: 100;
+  background: linear-gradient(180deg, #625ff4 0%, #625ff8 100%);
+  border-radius: 8px;
+}
+.shadow {
+  background: linear-gradient(180deg, rgba(98, 95, 244, 0.6) 0%, rgba(98, 95, 244, 0.29) 24.7%, rgba(98, 95, 244, 0) 100%);
+  width: rem(310px);
+  height: rem(105px);
+  margin-left: 3px;
+}
+@keyframes scaner {
+  0% {
+    top: 99%;
+  }
+  100% {
+    top: 0%;
+  }
+}
+.copy {
+  height: rem(78px);
+  border: var(--border1);
+  border-radius: 8px;
+  padding: rem(12px) rem(24px);
+}
+.btn {
+  width: rem(106px);
+  height: rem(54px);
+}
+.btn-text {
+  @mixin text-3;
+}
+
+@media (max-width: 1200px) {
+  .wrapper {
+    width: 100%;
+    padding: 1.75rem 1.25rem;
+    grid-gap: 2rem;
+  }
+  .header {
+    align-items: flex-start;
+  }
+  .copy .list-item {
+    max-width: 240px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .header p {
+    font-size: 1.75rem;
+  }
+}

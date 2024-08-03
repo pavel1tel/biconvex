@@ -1,0 +1,1 @@
+export { CoinsTableFixedColumn } from "./ui";

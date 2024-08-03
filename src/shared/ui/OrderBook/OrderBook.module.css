@@ -1,0 +1,360 @@
+.orderBookTitle {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.orderBookButtonsWrapper {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 16px;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* .content {
+  height: auto;
+} */
+
+.table {
+  width: 100%;
+}
+
+.orderBooksButton {
+  border-radius: 4px;
+  background-color: var(--color-black-bg);
+  border: var(--border1);
+  padding: 8px 24px;
+  font-family: "ProximaNova";
+  font-size: 16px;
+  color: var(--color-grey);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.orderBooksButton.active {
+  background-color: var(--color-blue);
+  border-color: var(--color-blue);
+  color: white;
+}
+
+.tableTh {
+  padding: 0 0 10px 0;
+  cursor: pointer;
+  font-family: "ProximaNova";
+  font-weight: 400;
+}
+
+.tableTh:first-child {
+  /* padding-left: 12px; */
+}
+
+.tableTh p {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--color-grey);
+}
+
+.tableTh div {
+  display: flex;
+  align-items: center;
+}
+
+.tableTHead tr {
+  border: none;
+}
+
+.positive {
+  position: relative;
+  z-index: 2;
+}
+
+.tableBody tr {
+  border: none;
+  position: relative;
+}
+
+.tableBody tr.positive td:first-child {
+  color: #5adea7;
+}
+
+.tableBody tr.negative td:first-child {
+  color: #f44a4a;
+}
+
+.tableBody tr:last-child td {
+  border-bottom: none;
+}
+
+.tableBody tr:last-child:has(.totalCell) td {
+  padding-bottom: 0;
+}
+
+.tableBody td {
+  height: 35px;
+  border-bottom: 5px solid var(--color-black);
+  padding: 4px 0 4px;
+  color: white;
+  font-family: "ProximaNova";
+}
+
+.tableBody td:first-child {
+  /* padding-left: 12px; */
+}
+
+.tableBody td.totalCell {
+  border: none;
+  padding: 0 0;
+}
+
+.orderBookInfo {
+  font-size: 20px;
+  font-family: "ProximaNova";
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 20px 32px;
+  background-color: #0ecb7b;
+  color: white;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  cursor: default;
+  transition: 0.3s;
+  order: 1;
+}
+
+.orderBookInfo.positive {
+  background-color: #0ecb7b;
+}
+
+.orderBookInfo.negative {
+  background-color: #e42222;
+}
+
+.flexSpaceBetween {
+  display: flex;
+  justify-content: space-between;
+}
+
+.columnDirected {
+  flex-direction: column;
+}
+
+.rowDirected {
+  flex-direction: row;
+}
+
+@media (max-width: 1380px) {
+  .content {
+    padding: 2rem 1.5rem !important;
+  }
+
+  .orderBooksButton {
+    height: 34px;
+    padding: 0 1.5rem;
+  }
+
+  .orderBookButtonsWrapper {
+    grid-gap: 12px;
+  }
+
+  .table td p {
+    font-size: 14px !important;
+  }
+
+  .table {
+    /* min-width: 440px; */
+  }
+
+  .orderBookInfo {
+    padding: 0;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .table-container {
+    /* overflow-x: scroll; */
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  table {
+    min-width: 40% !important;
+  }
+
+  table.leftPositionedTable .tableBody tr .tableCell.tableCellNegative:first-child .tableCellValue {
+    color: rgb(228, 34, 34) !important;
+  }
+
+  table.leftPositionedTable .tableBody tr .tableCell.tableCellNegative:last-child .tableCellValue {
+    color: white !important;
+  }
+
+  table.leftPositionedTable .tableBody tr:first-child .tableCellValue {
+    color: rgb(14, 203, 123);
+  }
+
+  table.leftPositionedTable .tableBody tr:last-child .tableCellValue {
+    color: white;
+  }
+
+  table.rightPositionedTable {
+    border-left: 5px solid #0c0d10;
+  }
+
+  table.rightPositionedTable .tableBody tr:first-child .tableCellValue {
+    color: white;
+  }
+
+  table.rightPositionedTable .tableBody tr:last-child .tableCellValue {
+    color: rgb(228, 34, 34);
+  }
+
+  .ordersAll .tableBody tr td .tableCellValue {
+    font-size: 0.6em;
+  }
+
+  .tradeOrderBookInfo {
+    font-size: 24px;
+    color: rgba(14, 203, 123, 1);
+    padding: rem(16px) 7px;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-bold);
+    line-height: 19.2px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  table {
+    min-width: 30% !important;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  table.rightPositionedTable {
+    border-left-width: 3px;
+  }
+
+  .tableTh {
+    /* width: 40%; */
+  }
+
+  .tableTh p {
+    font-size: 0.7em;
+  }
+
+  .tableCell {
+    width: 30%;
+  }
+
+  td .tableCellValue {
+    font-size: 0.8em !important;
+    line-height: 17px;
+  }
+}
+
+.tableContainer {
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableRow {
+  display: flex;
+  /* justify-content: space-between; */
+  margin: 4px 0;
+  padding-left: 12px;
+}
+
+.tabelRowNegative {
+  flex-direction: row-reverse;
+}
+
+.tableTh,
+.tableCell {
+  padding: 8px 0;
+  text-align: left;
+
+  font-family: "ProximaNova";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17.05px;
+  text-align: left;
+  color: white;
+}
+
+.tableCell {
+  flex-grow: 1;
+}
+
+.tableTh div {
+  display: flex;
+  align-items: center;
+}
+
+.positive {
+  /* Add positive specific styles */
+}
+
+.negative .tableCell:first-child {
+  color: rgba(244, 74, 74, 0.8);
+}
+
+.positive .tableCell:first-child {
+  color: rgba(14, 203, 123, 1);
+}
+
+.negativeText:first-child {
+  color: rgba(244, 74, 74, 0.8);
+}
+
+.totalCell {
+  text-align: center;
+}
+
+.orderBookInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 450px) {
+  .tableCell {
+    font-size: 12px;
+  }
+}
+
+.number {
+  color: #5adea7cc;
+  font-size: 24px;
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+.Upnumber {
+  color: #5adea7cc;
+  font-size: 24px;
+  font-weight: 600;
+  align-self: flex-start;
+}
+
+.Downnumber {
+  color: rgba(244, 74, 74, 0.8);
+  font-size: 24px;
+  font-weight: 600;
+  align-self: flex-start;
+
+  svg {
+    fill: rgba(244, 74, 74, 0.8);
+  }
+}

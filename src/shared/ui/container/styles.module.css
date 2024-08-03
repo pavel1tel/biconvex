@@ -1,0 +1,22 @@
+.container {
+  margin: 0 auto;
+  /* z-index: 3; */
+  padding: 0 1rem;
+  max-width: calc(1330px + 1rem);
+  width: 100%;
+
+  &.tradeContainer {
+    padding: 0;
+    max-width: calc(1450px + 1rem) !important;
+    z-index: 2;
+  }
+}
+
+@media screen and (max-width: 1420em) {
+  .container {
+    &.tradeContainer {
+      padding: 0 1rem;
+      max-width: calc(1330px + 1rem);
+    }
+  }
+}

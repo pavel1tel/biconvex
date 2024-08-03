@@ -1,0 +1,134 @@
+.table {
+  th {
+    color: var(--color-grey);
+    font-size: 14px;
+    font-weight: 400;
+    font-family: "ProximaNova";
+    border-top: var(--border1);
+    border-bottom: var(--border1);
+    padding: 16px 0;
+    cursor: pointer;
+  }
+  tr {
+    border: none;
+  }
+  tbody {
+    td {
+      padding: 29px 0 5px;
+      color: white;
+      font-size: 16px;
+      font-weight: 400;
+      font-family: "ProximaNova";
+      &.green {
+        color: var(--color-green);
+      }
+      &.red {
+        color: var(--color-red);
+      }
+      &:first-child {
+        font-size: 20px;
+        font-family: "CraftworkGrotesk";
+        font-weight: 600;
+      }
+      button {
+        border: none;
+        background: none;
+        color: var(--color-blue);
+        text-decoration: underline;
+        font-size: 16px;
+        font-family: "ProximaNova";
+        cursor: pointer;
+      }
+      .settingsIcon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+.open-order-btn {
+  width: 100%;
+  white-space: nowrap;
+}
+.sortArrowWrapper {
+  transition: 0.3s;
+  width: 20px;
+  height: 20px;
+  &.active {
+    svg {
+      path {
+        fill: var(--color-blue);
+      }
+    }
+    &.rotate {
+      rotate: 180deg;
+    }
+  }
+}
+
+.noRecords {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+}
+
+@media (max-width: 1380px) {
+  .table-wrapper {
+    overflow-x: scroll;
+  }
+  .table-wrapper table {
+    min-width: 1000px;
+  }
+  .trHeaders th {
+    padding: 12px 0;
+    font-size: 14px;
+  }
+  .trHeaders th div {
+    flex-wrap: nowrap;
+  }
+  .row td {
+    padding: 12px 2px !important;
+    font-size: 1rem !important;
+  }
+  .row td:first-child {
+    font-size: 20px !important;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .table {
+    th {
+      font-size: 17px;
+    }
+
+    tbody {
+      td {
+        font-size: 1.1em !important;
+        line-height: 16.8px;
+        padding-right: 3em;
+
+        &.green,
+        &.red {
+          font-size: 16px;
+        }
+
+        &:nth-child(2) {
+          padding-right: 4.5em;
+        }
+
+        &:nth-child(3) {
+          padding-right: 5em;
+        }
+
+        .openOrderBtn {
+          width: 72px;
+          padding: 8px 16px;
+          border-radius: 4px;
+          color: white !important;
+          text-decoration: none !important;
+        }
+      }
+    }
+  }
+}
