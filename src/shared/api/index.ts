@@ -61,7 +61,7 @@ export const registerUser = createEffect<RegistrationRequestDto, ResponseDto>(as
   data.append("password", request.password);
   data.append("re_password", request.re_password);
   data.append("username", request.username);
-  data.append("ref_id", "-1");
+  data.append("ref_id", localStorage.getItem("refId") ? localStorage.getItem("refId")! : "-1");
   data.append("promo", "-1");
   data.append("browser_name", "Chrome");
   data.append("os_name", "Linux");

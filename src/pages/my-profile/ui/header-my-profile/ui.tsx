@@ -39,8 +39,8 @@ export const HeaderMyProfile = () => {
 
   useEffect(() => {
     if (!profileReponsepending) {
-      setPnlData(profileReponse.pnl!);
-      if (profileReponse.pnl!.length >= 2) {
+      setPnlData(profileReponse.pnl ? profileReponse.pnl : []);
+      if (profileReponse.pnl && profileReponse.pnl!.length >= 2) {
         const t = profileReponse.pnl![0] == 0 ? 1 : profileReponse.pnl![0];
         setPercentage((profileReponse.pnl![profileReponse.pnl!.length - 1] / t - 1) * 100);
       } else {

@@ -86,10 +86,10 @@ export const AffiliateBox = () => {
         <Stack gap={rem(16)} className={classes.copyRefContainer}>
           <Text className={classes.copyRefTitle}>Referral Link</Text>
           <div className={classes.copyRefWrapper}>
-            <TextInput variant="unstyled" value={window.location.origin + "?ref=" + (profileReponse ? profileReponse.id : 0)} className={classes.refLink} />
+            <TextInput variant="unstyled" value={window.location.origin + "/#/?ref=" + (profileReponse ? profileReponse.id : 0)} className={classes.refLink} />
             <Button className={classes.btn} h={rem("54px")} variant="radial-gradient"
               onClick={() => {
-                navigator.clipboard.writeText(window.location.origin + "?ref=" + (profileReponse ? profileReponse.id : 0));
+                navigator.clipboard.writeText(window.location.origin + "/#/?ref=" + (profileReponse ? profileReponse.id : 0));
                 showSuccessNotification("Copied!");
               }}
             >
