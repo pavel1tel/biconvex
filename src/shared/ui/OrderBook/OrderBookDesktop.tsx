@@ -10,6 +10,7 @@ import { getOrderBook } from "@/shared/api/trading/requests";
 import { NegativeTrendIcon } from "../icon/NegativeTrendIcon";
 import { PositiveTrendIcon } from "../icon/PositiveTrendIcon";
 import { SortIcon } from "../icon/SortIcon";
+import { LoadingScreen } from "../loading";
 import classes from "./OrderBook.module.css";
 
 const header = ["Price USD", "Qty BTC", "Total USD"];
@@ -31,6 +32,7 @@ export const OrderBookDesktop = ({
   const orderBookResponsePending = useUnit(getOrderBook.pending);
   const [asks, setAsks] = useState<any[]>([]);
   const [bids, setBids] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [fullAsks, setFullAsks] = useState<any[]>([]);
   const [fullBids, setFullBids] = useState<any[]>([]);
   const coinPriceReponse = useUnit<any>($coinPrice);
@@ -59,6 +61,9 @@ export const OrderBookDesktop = ({
         });
         setAsks(tempAsks.slice(0, 11));
         setFullAsks(tempAsks);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       }
       {
         const max = Math.max.apply(
@@ -77,6 +82,9 @@ export const OrderBookDesktop = ({
         });
         setBids(tempAsks.slice(0, 11).reverse());
         setFullBids(tempAsks);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       }
     }
   }, [orderBookReponse, orderBookReponse]);
@@ -109,95 +117,97 @@ export const OrderBookDesktop = ({
   }, [coinPriceReponse, currentPair]);
 
   return (
-    <div className={classes.tableContainer}>
-      <Table className={classes.table}>
-        <Table.Thead className={classes.tableTHead}>
-          <Table.Tr>
-            {header.map((head) => (
-              <Table.Th key={head} className={classes.tableTh}>
-                <div>
-                  <p>{head}</p>
-                  <SortIcon />
-                </div>
-              </Table.Th>
-            ))}
-          </Table.Tr>
-        </Table.Thead>
-      </Table>
-
-      <div style={addScroll && activeCategory === "All" ? { height: "202.355px", overflow: "auto" } : {}}>
-        <div className={classes.table}>
-          <div className={classes.tableBody}>
-            {(activeCategory === "All"
-              ? bids
-              : isFullRows
-                ? activeCategory === "Bids"
-                  ? fullBids
-                  : fullAsks
-                : activeCategory === "Bids"
-                  ? bids
-                  : asks
-            ).map((row) => (
-              <div
-                key={row.id}
-                className={clsx(classes.tableRow, activeCategory === "All" || activeCategory === "Bids" ? classes.positive : classes.negative)}
-                style={{
-                  background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${
-                    activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
-                  } ${100 - row.fill}%)`,
-                }}
-              >
-                {row.cells.map((td) => (
-                  <div key={td} className={classes.tableCell}>
-                    <p>{td}</p>
+    <>
+      <div className={classes.tableContainer}>
+        {loading && <LoadingScreen type="block" opened={loading} />}
+        <Table className={classes.table}>
+          <Table.Thead className={classes.tableTHead}>
+            <Table.Tr>
+              {header.map((head) => (
+                <Table.Th key={head} className={classes.tableTh}>
+                  <div>
+                    <p>{head}</p>
+                    <SortIcon />
                   </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className={classes.table}>
-        <div className={classes.tableBody}>
-          <div className={classes.tableRow} style={{ paddingLeft: "0px" }}>
-            <div className={clsx(classes.tableCell, classes.totalCell)} style={{ width: "100%" }}>
-              <p
-                className={clsx(classes.orderBookInfo, {
-                  [classes.negative]: !price.up,
-                  [classes.positive]: price.up,
-                })}
-              >
-                $ {price.price} {!price.up ? <NegativeTrendIcon fill="#fff" /> : <PositiveTrendIcon fill="#fff" />}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      {activeCategory === "All" ? (
-        <div style={addScroll ? { height: "202.355px", overflow: "auto" } : {}}>
+                </Table.Th>
+              ))}
+            </Table.Tr>
+          </Table.Thead>
+        </Table>
+        <div style={addScroll && activeCategory === "All" ? { height: "202.355px", overflow: "auto" } : {}}>
           <div className={classes.table}>
             <div className={classes.tableBody}>
-              {activeCategory === "All" &&
-                asks.map((row) => (
-                  <div
-                    key={row.id}
-                    className={clsx(classes.tableRow, classes.negative)}
-                    style={{
-                      background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, rgba(244, 74, 74, 0.8) ${100 - row.fill}%)`,
-                    }}
-                  >
-                    {row.cells.map((td) => (
-                      <div key={td} className={clsx(classes.tableCell, classes.negativeText)}>
-                        <p>{td}</p>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+              {(activeCategory === "All"
+                ? bids
+                : isFullRows
+                  ? activeCategory === "Bids"
+                    ? fullBids
+                    : fullAsks
+                  : activeCategory === "Bids"
+                    ? bids
+                    : asks
+              ).map((row) => (
+                <div
+                  key={row.id}
+                  className={clsx(classes.tableRow, activeCategory === "All" || activeCategory === "Bids" ? classes.positive : classes.negative)}
+                  style={{
+                    background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, ${
+                      activeCategory === "All" || activeCategory === "Bids" ? "#5adea7cc" : "rgba(244, 74, 74, 0.8)"
+                    } ${100 - row.fill}%)`,
+                  }}
+                >
+                  {row.cells.map((td) => (
+                    <div key={td} className={classes.tableCell}>
+                      <p>{td}</p>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      ) : null}
-    </div>
+
+        <div className={classes.table}>
+          <div className={classes.tableBody}>
+            <div className={classes.tableRow} style={{ paddingLeft: "0px" }}>
+              <div className={clsx(classes.tableCell, classes.totalCell)} style={{ width: "100%" }}>
+                <p
+                  className={clsx(classes.orderBookInfo, {
+                    [classes.negative]: !price.up,
+                    [classes.positive]: price.up,
+                  })}
+                >
+                  $ {price.price} {!price.up ? <NegativeTrendIcon fill="#fff" /> : <PositiveTrendIcon fill="#fff" />}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {activeCategory === "All" ? (
+          <div style={addScroll ? { height: "202.355px", overflow: "auto" } : {}}>
+            <div className={classes.table}>
+              <div className={classes.tableBody}>
+                {activeCategory === "All" &&
+                  asks.map((row) => (
+                    <div
+                      key={row.id}
+                      className={clsx(classes.tableRow, classes.negative)}
+                      style={{
+                        background: `linear-gradient(90deg, rgba(12,13,16,1) ${100 - row.fill}%, rgba(244, 74, 74, 0.8) ${100 - row.fill}%)`,
+                      }}
+                    >
+                      {row.cells.map((td) => (
+                        <div key={td} className={clsx(classes.tableCell, classes.negativeText)}>
+                          <p>{td}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </>
   );
 };

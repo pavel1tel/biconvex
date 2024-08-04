@@ -12,6 +12,32 @@
   z-index: 1000;
 }
 
+.overlayBlock {
+  position: absolute;
+  top: 1%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  /* z-index: 90; */
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dotsBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 30px;
+  vertical-align: center;
+  margin-bottom: 13px;
+}
+
 .content {
   background-color: transparent;
   color: #fff;
@@ -23,6 +49,20 @@
   padding: 32px 20px 32px 20px;
   width: 90%;
   max-width: 500px;
+}
+
+.contentBlock {
+  position: absolute;
+  background-color: transparent;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  padding: 32px 10px 32px 10px;
+  width: 80%;
+  max-width: fit-content;
 }
 
 .dots {
@@ -37,5 +77,9 @@
 }
 
 .loader {
+  margin-bottom: 80px;
+}
+
+.loaderBlock {
   margin-bottom: 80px;
 }
