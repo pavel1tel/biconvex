@@ -1,12 +1,13 @@
 import { Select, Stack, Text } from "@mantine/core";
+import { useUnit } from "effector-react";
 
-import { BitcoinIcon } from "@/shared/ui";
+import { $p2pResponse } from "@/pages/p2p/model";
+
+import { P2pResponse } from "@/shared/api/types";
+import { BNBIcon, BitcoinIcon, EthereumIcon, USDCoinIcon, USDTIcon } from "@/shared/ui";
 import { USDIcon } from "@/shared/ui/icon/USDIcon";
 import { WhiteTriangle } from "@/shared/ui/icon/WhiteTriangle";
 
-import { $p2pResponse } from "@/pages/p2p/model";
-import { P2pResponse } from "@/shared/api/types";
-import { useUnit } from "effector-react";
 import { InputWithDropdown } from "../InputWithDropdown/InputWithDropdown";
 import classes from "./SellFIlters.module.css";
 
@@ -17,17 +18,37 @@ const coins = [
     icon: <BitcoinIcon width={21} height={21} />,
   },
   {
-    label: "USD",
-    value: "USD",
-    icon: <USDIcon />,
+    label: "USDT",
+    value: "USDT",
+    icon: <USDTIcon width={21} height={21} />,
   },
+  {
+    label: "ETH",
+    value: "ETH",
+    icon: <EthereumIcon width={21} height={21} />,
+  },
+  {
+    label: "BNB",
+    value: "BNB",
+    icon: <BNBIcon width={21} height={21} />,
+  },
+  {
+    label: "USDC",
+    value: "USDC",
+    icon: <USDCoinIcon width={21} height={21} />,
+  },
+  // {
+  //   label: "USD",
+  //   value: "USD",
+  //   icon: <USDIcon />,
+  // },
 ];
 
 export const SellFIlters = () => {
   const p2pResponse = useUnit<P2pResponse | null>($p2pResponse);
 
   function getUniquePaymentMethods(response: P2pResponse) {
-    const paymentMethods = response.sellers.map(seller => seller.payment_method);
+    const paymentMethods = response.sellers.map((seller) => seller.payment_method);
     const uniquePaymentMethods = [...new Set(paymentMethods)];
     return ["All payment methods", ...uniquePaymentMethods];
   }

@@ -12,6 +12,7 @@
 
 .table-container {
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 16px;
 }
@@ -22,6 +23,7 @@
 
 .table {
   width: 100%;
+  position: relative;
 }
 
 .orderBooksButton {
@@ -181,6 +183,7 @@
 
   .table-container {
     /* overflow-x: scroll; */
+    position: relative;
   }
 }
 
@@ -262,6 +265,7 @@
 
 .tableContainer {
   width: 100%;
+  position: relative;
 }
 
 .table {

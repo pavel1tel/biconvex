@@ -85,11 +85,11 @@ export const Chat = () => {
         <Stack gap={32} className={clsx(classes.chatWindow, classes.chatsWrapper)}>
           <Group id={"head"} gap={16}>
             <div className={classes.avatarWrapper}>
-              <Avatar size={64} src={`${import.meta.env.BASE_URL}assets/support-avatar.png`} />
+              <Avatar size={64} src={`${import.meta.env.BASE_URL}assets/support-avatar.webp`} />
               <div className={clsx(classes.online)} />
             </div>
             <Stack gap={4} h={"70%"}>
-              <Text className={classes.chatSupportName}>Support</Text>
+              <Text className={classes.chatSupportName}>Support agent</Text>
               <Text className={classes.online}>{"Online"}</Text>
             </Stack>
           </Group>

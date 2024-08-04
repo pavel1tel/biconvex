@@ -196,7 +196,7 @@ export const StakingTable = ({
     <Stack className={classes.wrapper}>
       <Stack className={classes.box} gap={0}>
         <Flex justify={"space-between"} align={"center"} mb={rem("32px")}>
-          <Title order={4}>tments</Title>
+          <Title order={4}>Investments</Title>
           <TextInput
             value={search}
             onChange={(e) => setSearch(e.target.value)}
