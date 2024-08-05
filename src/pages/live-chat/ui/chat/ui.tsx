@@ -80,7 +80,7 @@ export const Chat = () => {
 
   return (
     <Stack className={classes.pageContainer} gap={rem("64px")}>
-      <Text className={classes.chatTitle}>Support</Text>
+      <Text className={classes.chatTitle}>Support Chat</Text>
       <Group gap={32} className={classes.chatContainer}>
         <Stack gap={32} className={clsx(classes.chatWindow, classes.chatsWrapper)}>
           <Group id={"head"} gap={16}>

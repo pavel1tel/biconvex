@@ -1,0 +1,103 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  /* z-index: 90; */
+  justify-content: center;
+  z-index: 1000;
+}
+
+.content {
+  background-color: #0c0d10;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+  padding: 32px 20px 32px 20px;
+  width: 100%;
+  max-width: 750px;
+}
+
+.contentIcon {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  flex-basis: 40%;
+}
+
+.contentWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 15px;
+  gap: 10px;
+  align-items: center;
+}
+
+.contentTitle {
+  color: #fff;
+  font-size: 32px;
+}
+
+.contentDescription {
+  color: #6c7080;
+  width: 100%;
+  font-size: 16px;
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 60%;
+  gap: 20px;
+}
+
+.buttonsWrapper {
+  display: flex;
+  gap: 15px;
+  flex-direction: row;
+}
+
+.closeButton {
+  background-color: #6c7080;
+  width: 50%;
+}
+
+.proceedButton {
+  width: 50%;
+}
+
+@media screen and (max-width: 550px) {
+  .content {
+    height: fit-content;
+    max-height: 610px;
+    margin: 0 10px;
+  }
+  .contentIcon {
+    width: 100%;
+    height: 250px;
+    max-height: 250px;
+  }
+  .contentDescription {
+    font-size: 14px;
+  }
+  .contentWrapper {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    height: auto;
+  }
+  .textWrapper {
+    text-align: center;
+    flex-basis: 100%;
+  }
+}
