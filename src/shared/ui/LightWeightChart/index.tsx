@@ -95,6 +95,7 @@ const LightWeightChart = ({ period, currentPair, priceWs }: { period: string; cu
         },
         timeScale: {
           borderColor: "rgba(255, 255, 255, 0.12)",
+          timeVisible: true
         },
       });
 
