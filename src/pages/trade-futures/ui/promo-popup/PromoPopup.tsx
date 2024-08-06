@@ -1,7 +1,9 @@
 import { useResize } from "@/hooks/useResize";
 import { Center, CloseButton, CloseIcon, Divider, Flex, Stack, Text, Title } from "@mantine/core";
 import { motion } from "framer-motion";
-import React from "react";
+import html2canvas from "html2canvas";
+import React, { useRef } from "react";
+import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from "react-component-export-image";
 
 import { CashPromoIcon, LogoIcon, PromoLogo, SaveIcon } from "@/shared/ui";
 
@@ -19,12 +21,34 @@ export const PromoPopup = ({ opened = true, handleClose, handleSave }: PromoPopu
 
   const { isAdaptive: sm } = useResize(500);
   const { isAdaptive: lg } = useResize(1200);
+  const popupRef = useRef<HTMLDivElement>(null);
+  const handleDownloadImage = async () => {
+    const element = document.getElementById("promo-popup"),
+      canvas =
+        element &&
+        (await html2canvas(element, {
+          useCORS: true,
+        })),
+      data = canvas?.toDataURL("image/jpg"),
+      link = document.createElement("a");
+
+    if (link) {
+      if (data) {
+        link.href = data;
+        link.download = "BitConwex-Promo.jpg";
+      }
+    }
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className={classes.overlay}>
-      <div className={classes.content} onClick={(e) => e.stopPropagation()}>
+      <div className={classes.content} onClick={(e) => e.stopPropagation()} id="promo-popup">
         <Flex justify="center" gap={15} pos="absolute" align="center" right={4} top={20}>
-          <button className={classes.saveButton} onClick={handleSave}>
+          <button className={classes.saveButton} onClick={handleDownloadImage}>
             <SaveIcon />
           </button>
           <CloseButton c="white" className={classes.closeButton} onClick={handleClose} />

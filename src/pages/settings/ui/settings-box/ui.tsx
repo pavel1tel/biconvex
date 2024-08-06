@@ -2,6 +2,7 @@ import { Flex, Group, Stack, Text, rem } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Link } from "atomic-router-react";
 import { useUnit } from "effector-react";
+import { useEffect, useState } from "react";
 
 import { $kycResponse } from "@/pages/kyc/model";
 import { $profileReponse } from "@/pages/my-profile/model";
@@ -9,6 +10,7 @@ import { ArrowIcon, CopyIcon, SecureIcon } from "@/pages/my-profile/ui";
 
 import { ProfileReponse } from "@/shared/api/types";
 import { routes } from "@/shared/routing";
+import { LoadingScreen } from "@/shared/ui";
 
 import { TwoFAModal } from "../TwoFAModal";
 import { AccountInfoForm } from "./components/AccountInfoForm";
@@ -20,8 +22,15 @@ export const SettingsBox = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const profileReponse = useUnit<ProfileReponse>($profileReponse);
   const kycResponse = useUnit<any>($kycResponse);
+  const [loading, setLoading] = useState(true);
 
   const handleRedirection = () => window.scrollTo(0, 0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
+  }, []);
 
   return (
     <>
@@ -73,7 +82,8 @@ export const SettingsBox = () => {
             </Flex>
           </div>
         </Group>
-        <Stack gap={rem(16)}>
+        <Stack gap={rem(16)} style={{ position: "relative" }}>
+          {loading && <LoadingScreen type="block" opened={loading} />}
           <AccountInfoForm />
           <PersonalInfoFrom />
           <PasswordForm />

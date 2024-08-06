@@ -119,7 +119,6 @@ export const OrderBookDesktop = ({
   return (
     <>
       <div className={classes.tableContainer}>
-        {/* {loading && <LoadingScreen type="block" opened={loading} />} */}
         <Table className={classes.table}>
           <Table.Thead className={classes.tableTHead}>
             <Table.Tr>

@@ -7,6 +7,7 @@ import { $settingsResponse } from "@/pages/settings/model";
 
 import { requestSettings, updateAccount } from "@/shared/api/settings/requests";
 import { SettingsReponse } from "@/shared/api/types";
+import { LoadingScreen } from "@/shared/ui";
 
 import classes from "./style.module.css";
 
@@ -32,7 +33,7 @@ export const AccountInfoForm = () => {
       username: (value) => (value.length > 6 && value.length < 32 ? null : "Username should be between 6 and 32 characters"),
       name: (value) => (value.length > 0 && value.length < 128 ? null : "Name should be less than 128 characters"),
       phone: (value) => (/^\+\d{1,3}\d{3}\d{3}\d{4}$/.test(value) ? null : "Invalid phone format"),
-      gender: (value) => value ? null : "Required field",
+      gender: (value) => (value ? null : "Required field"),
     },
   });
   const [value, setValue] = useState<any | null>(null);
@@ -61,12 +62,12 @@ export const AccountInfoForm = () => {
   return (
     <form
       onSubmit={form.onSubmit((values) => {
-        console.log("here")
+        console.log("here");
         updateAccount({
           phone: values.phone,
           username: values.username,
           fullname: values.name,
-          gender: values.gender
+          gender: values.gender,
         });
       })}
     >
@@ -112,7 +113,7 @@ export const AccountInfoForm = () => {
                 placeholder="Select your gender"
                 rightSection={<Combobox.Chevron />}
                 onClick={() => {
-                  combobox.toggleDropdown()
+                  combobox.toggleDropdown();
                 }}
               >
                 {value ? <Input.Placeholder>{value}</Input.Placeholder> : <Input.Placeholder>Select your gender</Input.Placeholder>}

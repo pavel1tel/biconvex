@@ -7,6 +7,7 @@ import classes from "./styles.module.css";
 interface LoadingScreenProps {
   opened: boolean;
   type?: "main" | "block";
+  styles?: React.CSSProperties;
 }
 
 const loadingContainerVariants = {
@@ -41,22 +42,38 @@ const lgRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reve
 const mdRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reverse" as const, ease: "easeInOut", duration: 4 };
 const smRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reverse" as const, ease: "easeInOut", duration: 3.5 };
 
-export const LoadingScreen = ({ opened = true, type = "main" }: LoadingScreenProps) => {
+export const LoadingScreen = ({ opened = true, type = "main", styles }: LoadingScreenProps) => {
   if (!opened) return null;
 
   const { isAdaptive: sm } = useResize(500);
 
   return (
     <div className={type === "main" ? classes.overlay : classes.overlayBlock}>
-      <div className={type === "main" ? classes.content : classes.contentBlock} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={type === "main" ? classes.content : classes.contentBlock}
+        style={styles ? styles : undefined}
+        onClick={(e) => e.stopPropagation()}
+      >
         <Center className={type === "main" ? classes.loader : classes.loaderBlock}>
           <motion.div style={{ position: "absolute" }} animate={{ rotate: 180 }} transition={lgRingTransition}>
-            <svg width="248" height="247" viewBox="0 0 248 247" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width={type === "main" ? "248" : "180"}
+              height={type === "main" ? "247" : "182"}
+              viewBox="0 0 248 247"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <circle cx="124" cy="123.5" r="121" stroke="#9747FF" stroke-opacity="0.1" stroke-width="5" stroke-dasharray="5 5" />
             </svg>
           </motion.div>
           <motion.div style={{ position: "absolute" }} animate={{ rotate: 180 }} transition={mdRingTransition}>
-            <svg width="184" height="185" viewBox="0 0 184 185" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width={type === "main" ? "184" : "132"}
+              height={type === "main" ? "185" : "133"}
+              viewBox="0 0 184 185"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <g filter="url(#filter0_f_2001_25)">
                 <circle cx="91.9981" cy="92.4999" r="87.2223" stroke="#9747FF" stroke-opacity="0.3" stroke-width="5" stroke-dasharray="5 5" />
               </g>
@@ -78,7 +95,13 @@ export const LoadingScreen = ({ opened = true, type = "main" }: LoadingScreenPro
             </svg>
           </motion.div>
           <motion.div style={{ position: "relative" }} animate={{ rotate: 180 }} transition={smRingTransition}>
-            <svg width="114" height="115" viewBox="0 0 114 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width={type === "main" ? "114" : "80"}
+              height={type === "main" ? "115" : "82"}
+              viewBox="0 0 114 115"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <g filter="url(#filter0_f_2001_31)">
                 <circle cx="57.0009" cy="57.5001" r="52.037" stroke="#9747FF" stroke-opacity="0.8" stroke-width="5" stroke-dasharray="5 5" />
               </g>
@@ -99,18 +122,12 @@ export const LoadingScreen = ({ opened = true, type = "main" }: LoadingScreenPro
               </defs>
             </svg>
           </motion.div>
-          <motion.div
-            style={{ position: "absolute" }}
-            className={type === "main" ? classes.dots : classes.dotsBlock}
-            variants={loadingContainerVariants}
-            initial="start"
-            animate="end"
-          >
+          <motion.div style={{ position: "absolute" }} className={classes.dots} variants={loadingContainerVariants} initial="start" animate="end">
             <motion.svg
               variants={loadingCircleVariants}
               transition={loadingCircleTransition}
-              width="6"
-              height="6"
+              width={type === "main" ? "6" : "5"}
+              height={type === "main" ? "6" : "5"}
               viewBox="0 0 6 6"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -120,8 +137,8 @@ export const LoadingScreen = ({ opened = true, type = "main" }: LoadingScreenPro
             <motion.svg
               variants={loadingCircleVariants}
               transition={loadingCircleTransition}
-              width="6"
-              height="6"
+              width={type === "main" ? "6" : "5"}
+              height={type === "main" ? "6" : "5"}
               viewBox="0 0 6 6"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -131,8 +148,8 @@ export const LoadingScreen = ({ opened = true, type = "main" }: LoadingScreenPro
             <motion.svg
               variants={loadingCircleVariants}
               transition={loadingCircleTransition}
-              width="6"
-              height="6"
+              width={type === "main" ? "6" : "5"}
+              height={type === "main" ? "6" : "5"}
               viewBox="0 0 6 6"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

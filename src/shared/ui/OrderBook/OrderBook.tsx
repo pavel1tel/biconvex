@@ -1,9 +1,10 @@
 import { useResize } from "@/hooks/useResize";
 import { Stack } from "@mantine/core";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Container } from "../TradePageContainer/Container";
+import { LoadingScreen } from "../loading";
 import classes from "./OrderBook.module.css";
 import { OrderBookDesktop } from "./OrderBookDesktop";
 import { OrderBookMobile } from "./OrderBookMobile";
@@ -25,9 +26,16 @@ export const OrderBook = ({
 }) => {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>(categories[0]);
   const { isAdaptive: md } = useResize(1200);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+  }, []);
   return (
-    <Container className={classes.content} style={{ height: orderBookHeight }}>
+    <Container className={classes.content} style={{ height: orderBookHeight, position: "relative" }}>
       <Stack gap={"clamp(1rem, 2vw, 2rem)"}>
+        {loading && <LoadingScreen type="block" opened={loading} />}
         <p className={classes.orderBookTitle}>Order Book</p>
         <div className={classes.orderBookButtonsWrapper}>
           {categories.map((cat) => (
