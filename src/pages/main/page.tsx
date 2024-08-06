@@ -10,7 +10,7 @@ import { routes } from "@/shared/routing";
 import { Container, Footer, Header, StartTradingDarkIcon, Wrapper } from "@/shared/ui";
 import { ErrorModal } from "@/shared/ui/error-modal/ui";
 
-import { TradeHistory } from "../trade/ui/trade-content/components/TradeHistory/TradeHistory";
+import { currentRoute } from "./model";
 import classes from "./styles.module.css";
 import { Banner, Collaborators, Faq, HighestAprs, Markets, Metrics, Rates } from "./ui";
 
@@ -18,6 +18,11 @@ export function Page() {
   const { isAdaptive: md } = useResize(1200);
   const [opened, setOpened] = useState<boolean>(true);
 
+  currentRoute.$query.watch(e => {
+    if (e.ref) {
+      localStorage.setItem("refId", e.ref);
+    }
+  })
   const handleRedirection = () => window.scrollTo(0, 0);
 
   return (

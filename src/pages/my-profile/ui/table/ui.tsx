@@ -164,7 +164,6 @@ export const TableProfile = () => {
             <Text c="white" variant="text-3" span>
               {parseFloat(parseFloat(coin.Balance).toFixed(4))}
             </Text>
-            ƒ
           </Table.Td>
           <Table.Td w={230}>
             <Text c="white" variant="text-3" span>
