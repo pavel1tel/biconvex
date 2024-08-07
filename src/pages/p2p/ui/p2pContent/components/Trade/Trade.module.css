@@ -4,6 +4,7 @@
   background-color: var(--color-black);
   padding: 64px;
   flex: 1;
+  position: relative;
 }
 .tableHeaderTr,
 .tableBodyTr {
@@ -71,6 +72,7 @@
 .badge {
   padding: 4px 8px;
   border-radius: 8px;
+  white-space: nowrap;
   font-size: 16px;
   font-weight: 400;
   font-family: "ProximaNova";
@@ -173,5 +175,22 @@
       background-color: rgba(255, 158, 43, 0.1);
       color: #ff9e2b;
     }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .badge {
+    padding: 4px 10px;
+    margin: 0 !important;
+  }
+
+  .tableTd {
+    padding: 12px 12px !important;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  .tableTh {
+    padding: 12px 12px !important;
   }
 }

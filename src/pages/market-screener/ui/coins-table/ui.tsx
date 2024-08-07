@@ -1,10 +1,10 @@
 import { useResize } from "@/hooks/useResize";
 import { Group, Table, Text, rem } from "@mantine/core";
 import clsx from "clsx";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { SortingLabel } from "@/shared/types/CoinsTable";
-import { MarketSortIcon } from "@/shared/ui";
+import { LoadingScreen, MarketSortIcon } from "@/shared/ui";
 
 import classes from "./styles.module.css";
 
@@ -101,7 +101,7 @@ export const CoinsTable = ({
   }, [onTableHeadSortLabelClick, sortingDirection, headers]);
 
   return (
-    <Table classNames={{ tr: classes.tableTr, td: classes.tableTd }} verticalSpacing={rem("16px")} withRowBorders={true}>
+    <Table classNames={{ tr: classes.tableTr, td: classes.tableTd }} verticalSpacing={rem("16px")} withRowBorders={true} pos="relative">
       <Table.Thead classNames={{ thead: classes.tableHead }}>
         <Table.Tr>{hdrs}</Table.Tr>
       </Table.Thead>

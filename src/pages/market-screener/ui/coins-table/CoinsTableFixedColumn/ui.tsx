@@ -1,9 +1,9 @@
 import { Group, Table, Text, rem } from "@mantine/core";
 import clsx from "clsx";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { SortingLabel } from "@/shared/types/CoinsTable";
-import { MarketSortIcon } from "@/shared/ui";
+import { LoadingScreen, MarketSortIcon } from "@/shared/ui";
 
 import classes from "./styles.module.css";
 
@@ -44,6 +44,7 @@ export const CoinsTableFixedColumn = ({
   setSortingLabel,
   setSortingDirection,
 }: CoinsTableFixedColumnProps) => {
+  const [loading, setLoading] = useState(true);
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {
       if (sortingLabel !== label) {
@@ -86,7 +87,10 @@ export const CoinsTableFixedColumn = ({
         classNames={{ table: classes.scrollableTable, tr: classes.tableTr, td: classes.tableTd }}
         verticalSpacing={rem("16px")}
         withRowBorders={true}
+        h={loading ? "1920px" : "100%"}
+        pos="relative"
       >
+        {loading && <LoadingScreen type="block" opened={loading} />}
         <Table.Thead className={classes.tableHead}>
           <Table.Tr>{hdrs}</Table.Tr>
         </Table.Thead>

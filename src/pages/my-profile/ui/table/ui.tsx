@@ -42,7 +42,7 @@ const HEADERS = [
   },
 ];
 const defaultC = [{}];
-export const TableProfile = () => {
+export const TableProfile = ({ handleLoading }: { handleLoading?: () => void }) => {
   const { isAdaptive: laptop } = useResize(1200);
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("Coin");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
@@ -90,6 +90,9 @@ export const TableProfile = () => {
       );
       setCOINS(temp);
     }
+    setTimeout(() => {
+      handleLoading && handleLoading();
+    }, 3500);
   };
 
   useEffect(() => {

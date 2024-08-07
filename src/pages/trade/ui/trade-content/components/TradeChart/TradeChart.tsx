@@ -1,7 +1,8 @@
 import { Group } from "@mantine/core";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import { LoadingScreen } from "@/shared/ui";
 import LightWeightChart from "@/shared/ui/LightWeightChart";
 import { TradeChartTitle } from "@/shared/ui/TradeChartTitle";
 import { Container } from "@/shared/ui/TradePageContainer/Container";
@@ -22,9 +23,17 @@ const period = [
 
 export const TradeChart = ({ currentPairName, setCurrentPair, currentPair, priceWs }) => {
   const [activePeriod, setActivePeriod] = useState("1m");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
+  }, []);
 
   return (
-    <Container padding={48} className={classes.chartContainer}>
+    <Container padding={48} className={classes.chartContainer} style={{ position: "relative" }}>
+      {loading && <LoadingScreen type="block" opened={loading} styles={{ height: "98.5% !important" }} />}
       <TradeChartTitle currentPairName={currentPair} setCurrentPair={setCurrentPair} />
       <Group className={classes.buttonFlex} mt={20} mb={32}>
         {period.map((item) => (

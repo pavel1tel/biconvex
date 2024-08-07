@@ -6,7 +6,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { getDepostFx } from "@/shared/api/deposit/request";
 import { DepositCoin, DepositCoinsResponse } from "@/shared/api/types";
-import { SearchIcon } from "@/shared/ui";
+import { LoadingScreen, SearchIcon } from "@/shared/ui";
 
 import { $depositResponse } from "../../model";
 import classes from "./styles.module.css";
@@ -16,7 +16,7 @@ export const DepositsBox = ({
   coin,
   setCoin,
   setCurrentCoin,
-  currentRoute
+  currentRoute,
 }: {
   height?: number;
   coin?: number;
@@ -32,29 +32,35 @@ export const DepositsBox = ({
   const [arr, setArr] = useState<DepositCoin[]>([]);
   const [search, setSearch] = useState<string>("");
   const routeParams = useUnit(currentRoute.$params);
+
+  const [loading, setLoading] = useState(true);
   const loadMore = () => {
     setShowOthersHidden(!showOthersHidden);
   };
 
   useEffect(() => {
     if (!depositResposePending) {
-      let index = depositReponse.deposit_coins!.findIndex(c => c.symbol === routeParams.coin)
+      let index = depositReponse.deposit_coins!.findIndex((c) => c.symbol === routeParams.coin);
       if (index == -1) {
         currentRoute.navigate({
           params: { coin: "BTC" },
           query: {},
-        })
+        });
       }
-      setCoin(index)
+      setCoin(index);
       setCurrentCoin(depositReponse.deposit_coins![index]);
-      setArr(depositReponse.deposit_coins!)
+      setArr(depositReponse.deposit_coins!);
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
   }, [depositResposePending, depositReponse]);
 
   return (
     <Stack className={classes.container}>
       <Stack>
-        <Stack className={classes.wrapDepositItems} style={{ height }}>
+        <Stack className={classes.wrapDepositItems} style={{ height, overflow: loading ? "hidden" : "auto" }}>
+          {loading && <LoadingScreen type="block" opened={loading} />}
           <Box>
             <TextInput
               value={search}
@@ -77,7 +83,7 @@ export const DepositsBox = ({
                     params: { coin: item.symbol },
                     query: {},
                     replace: true,
-                  })
+                  });
                   setCurrentCoin(item);
                   setCoin ? setCoin(itemIndex) : setSelectedDeposit(itemIndex);
                 }}
@@ -90,7 +96,7 @@ export const DepositsBox = ({
               >
                 <Flex justify={"space-between"} align={"center"}>
                   <Flex gap={rem(8)}>
-                    <Image src={item.image} w={24} h={24}></Image>
+                    <Image src={item.image} w={24} h={24} className={classes.coinIcon}></Image>
                     <Text className={classes.label}>{item.name}</Text>
                   </Flex>
                   <Text className={clsx(classes.value, itemIndex === (coin ?? selectedDeposit) && classes.activeValue)}>

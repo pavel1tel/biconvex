@@ -27,12 +27,20 @@
   width: 90%;
   height: 100%;
   max-height: 665px;
-  max-width: 770px;
+  max-width: max-content;
 }
 
-.logo {
-  width: 222px;
-  height: 72px;
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+  align-items: flex-end;
+  position: relative;
+
+  .logo {
+    width: 222px;
+    height: 65px;
+  }
 }
 
 .variants {

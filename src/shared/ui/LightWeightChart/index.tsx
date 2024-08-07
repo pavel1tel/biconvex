@@ -6,6 +6,7 @@ import { $candlesReponse } from "@/pages/trade/model";
 
 import { getCandles } from "@/shared/api/trading/requests";
 
+import { LoadingScreen } from "../loading";
 import classes from "./TradeChart.module.css";
 
 const LightWeightChart = ({ period, currentPair, priceWs }: { period: string; currentPair: string; priceWs: any }) => {
@@ -137,7 +138,11 @@ const LightWeightChart = ({ period, currentPair, priceWs }: { period: string; cu
     }
   }, [redraw]);
 
-  return <div ref={chartContainerRef} className={classes.chart} />;
+  return (
+    <>
+      <div ref={chartContainerRef} className={classes.chart} />
+    </>
+  );
 };
 
 export default LightWeightChart;

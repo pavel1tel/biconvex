@@ -39,7 +39,7 @@ export const HistoryTabMobile = () => {
         </Table.Thead>
         <Table.Tbody>
           {dataMobile.map((row, i) => (
-            <Table.Tr key={i}>
+            <Table.Tr key={i} h="70.05px">
               {row.map((cell) => (
                 <Table.Td key={cell.key} className={clsx({ [classes.green]: cell.value === "Buy", [classes.red]: cell.value === "Sell" })}>
                   {cell.value}

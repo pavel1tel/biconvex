@@ -2,6 +2,10 @@
   height: 610px;
 }
 
+.chat {
+  position: relative;
+}
+
 .periodButton {
   padding: 7px 15px;
   align-self: stretch;

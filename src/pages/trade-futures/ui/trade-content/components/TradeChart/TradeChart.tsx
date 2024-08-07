@@ -2,6 +2,7 @@ import { Group, Stack, Text } from "@mantine/core";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 
+import { LoadingScreen } from "@/shared/ui";
 import LightWeightChart from "@/shared/ui/LightWeightChart";
 import { TradeChartTitle } from "@/shared/ui/TradeChartTitle";
 import { Container } from "@/shared/ui/TradePageContainer/Container";
@@ -270,6 +271,7 @@ export const TradeChart = ({ currentPair, setCurrentPair, currentPairName, price
   const [activePeriod, setActivePeriod] = useState("1m");
   const [minZoomIndex, setMinZoomIndex] = useState(0);
   const [maxZoomIndex, setMaxZoomIndex] = useState(series[0].data.length - 1);
+  const [loading, setLoading] = useState(true);
   const ref = useRef<any>(null);
   useEffect(() => {
     const refElement = ref?.current;
@@ -307,6 +309,9 @@ export const TradeChart = ({ currentPair, setCurrentPair, currentPairName, price
       const sectionWidth = chartWidth / 5;
       refElement?.chartRef?.current?.addEventListener("wheel", (e: WheelEvent) => zoomHandler(e, sectionWidth));
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
     return () => {
       refElement?.chartRef?.current?.removeEventListener("wheel", zoomHandler);
     };
@@ -314,6 +319,7 @@ export const TradeChart = ({ currentPair, setCurrentPair, currentPairName, price
 
   return (
     <Container padding={48} className={classes.chartContainer}>
+      {loading && <LoadingScreen type="block" opened={loading} />}
       <Group justify="space-between">
         <TradeChartTitle setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
         <Stack gap={4}>

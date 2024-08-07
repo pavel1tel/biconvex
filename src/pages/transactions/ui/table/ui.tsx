@@ -9,7 +9,7 @@ import { DepositIcon, InvestIcon, PromoIcon } from "@/pages/transactions/ui";
 
 import { getTransactions } from "@/shared/api/transactions/requests";
 import { Transaction, TransactionsResponse } from "@/shared/api/types";
-import { ArrowDown, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { ArrowDown, LoadingScreen, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 import { TransferIcon, WithdrawIcon } from "@/shared/ui/sidebar/Icons";
 
 import { $transactionsReponse } from "../../model";
@@ -51,6 +51,7 @@ export const TransactionTable = () => {
   const [searchFunc, setSearchFunc] = useState<any>(() => (a: Transaction) => true);
   const [search, setSearch] = useState("");
   const { isAdaptive } = useResize(500);
+  const [loading, setLoading] = useState(true);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [value, setValue] = useState<string>("");
 
@@ -77,6 +78,9 @@ export const TransactionTable = () => {
       filterFunc = (a: Transaction) => statusById[a.status] == value;
     }
     calculatePage(searchFunc, filterFunc);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
   }, [isTransactionsPending, transactionsResponse, page, totalPage, searchFunc, value]);
 
   useEffect(() => {
@@ -225,7 +229,8 @@ export const TransactionTable = () => {
   return (
     <Stack gap={rem(32)} className={classes.wrapper}>
       <Text className={classes.title}>Transaction history</Text>
-      <Stack className={classes.box} gap={32}>
+      <Stack className={classes.box} gap={32} pos="relative" h={loading ? "800.95px" : "auto"}>
+        {loading && <LoadingScreen type="block" opened={loading} />}
         <Group className={classes.boxHeader} justify="space-between" align={"center"}>
           <TextInput
             h={51}

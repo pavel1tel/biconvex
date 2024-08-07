@@ -1,4 +1,4 @@
-import { CloseButton, Group, Table } from "@mantine/core";
+import { CloseButton, Flex, Group, Table, Text } from "@mantine/core";
 import clsx from "clsx";
 import { useUnit } from "effector-react";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import { $openOrdersResponse } from "@/pages/trade/model";
 
 import { cancelOrder, requestOpenOrders } from "@/shared/api/trading/requests";
 import { OpenOrderResponse } from "@/shared/api/types";
+import { NoRecords } from "@/shared/ui";
 
 import tradeHistoryClasses from "../../TradeHistory.module.css";
 import { headerMobile } from "./OrdersTab.constants";
@@ -121,6 +122,41 @@ export const OrdersTabMobile = ({ setTotalPages, currentPage, setCurrentPageCoin
               </Table.Td>
             </Table.Tr>
           ))}
+          {data.length < 5 && data.length !== 0 && (
+            <>
+              {new Array(5 - data.length).fill("").map((item, idx) => (
+                <Table.Tr key={idx}>
+                  {new Array(9).fill("").map((cell, j) => {
+                    return (
+                      <Table.Td key={cell.key} h={58}>
+                        {""}
+                      </Table.Td>
+                    );
+                  })}
+                  <Table.Td key={`market-${idx}`} h={58}>
+                    <button>{""}</button>
+                  </Table.Td>
+                </Table.Tr>
+              ))}
+            </>
+          )}
+
+          {data.length === 0 && (
+            <>
+              <Table.Tr pos="relative" h={290}>
+                <Table.Td>
+                  <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="22%" gap="10px">
+                    <NoRecords />
+                    <Text className={classes.noRecords}>
+                      No records
+                      <br />
+                      found
+                    </Text>
+                  </Flex>
+                </Table.Td>
+              </Table.Tr>
+            </>
+          )}
         </Table.Tbody>
       </Table>
     </div>

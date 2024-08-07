@@ -17,6 +17,10 @@
   }
 }
 
+.coinIcon {
+  border-radius: 12px;
+}
+
 .search-input-wrapper {
   min-height: rem(51px);
   margin-bottom: 8px;
@@ -30,6 +34,7 @@
   height: rem(731px);
   overflow: auto;
   padding-right: 16px;
+  position: relative;
 }
 .deposit-item {
   border: var(--border1);

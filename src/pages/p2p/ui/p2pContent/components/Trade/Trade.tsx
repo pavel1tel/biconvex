@@ -9,7 +9,7 @@ import { $p2pResponse } from "@/pages/p2p/model";
 import { getP2pInfo } from "@/shared/api/p2p/requests";
 import { P2pResponse } from "@/shared/api/types";
 import { showErrorNotification } from "@/shared/lib/notification";
-import { NextIcon, PreviousIcon } from "@/shared/ui";
+import { LoadingScreen, NextIcon, PreviousIcon } from "@/shared/ui";
 
 import classes from "./Trade.module.css";
 
@@ -27,6 +27,7 @@ export const Trade = ({ tabName }: { tabName: string }) => {
   const [body, setBody] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageSellers, setCurrentPageSellers] = useState(5);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     console.log(p2pResponsePending);
@@ -53,6 +54,9 @@ export const Trade = ({ tabName }: { tabName: string }) => {
       setCurrentPageSellers(temp.slice(startIndex, endIndex).length);
       setBody(temp.slice(startIndex, endIndex));
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
   }, [p2pResponse, p2pResponsePending, currentPage]);
 
   const [siblings, setSiblings] = useState(getSiblings());
@@ -70,7 +74,8 @@ export const Trade = ({ tabName }: { tabName: string }) => {
   }, []);
 
   return (
-    <div className={classes.tableContainer}>
+    <div className={classes.tableContainer} style={{ height: loading ? "1667.8px" : "auto" }}>
+      {loading && <LoadingScreen type="block" opened={loading} />}
       <Box className={classes.tableWrapper}>
         <Table classNames={{ thead: classes.tableHead, th: classes.tableTh, tr: classes.tableBodyTr, td: classes.tableTd }} withRowBorders={false}>
           <Table.Thead>
@@ -83,8 +88,8 @@ export const Trade = ({ tabName }: { tabName: string }) => {
           <Table.Tbody>
             {body.map(({ id, trader, payment, price, limits, action }) => (
               <Table.Tr key={id}>
-                <Table.Td>
-                  <Group gap={13} align="center">
+                <Table.Td w="350px">
+                  <Group gap={13} display="flex" dir="row" align="center">
                     <div className={classes.imageWrapper}>
                       <Avatar size={32} src={trader.img} alt="avatar" />
                       <div className={clsx(classes.indicator, { [classes.online]: trader.status === "online" })} />
@@ -95,16 +100,16 @@ export const Trade = ({ tabName }: { tabName: string }) => {
                     </Stack>
                   </Group>
                 </Table.Td>
-                <Table.Td>
+                <Table.Td w="180px">
                   <Text className={clsx(classes.badge, classes.orange)}>{payment}</Text>
                 </Table.Td>
-                <Table.Td>
+                <Table.Td w="140px">
                   <Text className={classes.price}>{price}</Text>
                 </Table.Td>
-                <Table.Td>
+                <Table.Td w="180px">
                   <Text>{limits}</Text>
                 </Table.Td>
-                <Table.Td>
+                <Table.Td w="170px">
                   <Group justify="center">{action}</Group>
                 </Table.Td>
               </Table.Tr>

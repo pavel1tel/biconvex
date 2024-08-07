@@ -45,3 +45,7 @@ export { ReactComponent as SaveIcon } from "./save.svg?react";
 export { ReactComponent as NoMsgIcon } from "./no-msg.svg?react";
 // @ts-expect-error HZ why
 export { ReactComponent as NoRecords } from "./no-records.svg?react";
+// @ts-expect-error HZ why
+export { ReactComponent as ErrorIcon } from "./error-sign.svg?react";
+// @ts-expect-error HZ why
+export { ReactComponent as LightLogo } from "./light-logo.svg?react";

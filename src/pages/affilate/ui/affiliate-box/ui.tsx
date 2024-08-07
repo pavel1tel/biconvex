@@ -1,17 +1,18 @@
 import { Box, Button, Divider, Flex, Group, Image, Pagination, Stack, Table, Text, TextInput, rem } from "@mantine/core";
 import clsx from "clsx";
+import { useUnit } from "effector-react";
 import { useCallback, useEffect, useState } from "react";
 
-import { MarketSortIcon, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { $profileReponse } from "@/pages/my-profile/model";
+
+import { getRef } from "@/shared/api/ref/requests";
+import { ProfileReponse, Refs } from "@/shared/api/types";
+import { showSuccessNotification } from "@/shared/lib/notification";
+import { LoadingScreen, MarketSortIcon, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 import { PersonIcon } from "@/shared/ui/icon/PersonIcon";
 import { ProfitIcon } from "@/shared/ui/icon/ProfitIcon";
 import { ProfileIcon } from "@/shared/ui/sidebar/Icons";
 
-import { $profileReponse } from "@/pages/my-profile/model";
-import { getRef } from "@/shared/api/ref/requests";
-import { ProfileReponse, Refs } from "@/shared/api/types";
-import { showSuccessNotification } from "@/shared/lib/notification";
-import { useUnit } from "effector-react";
 import { $refResponse } from "../../model";
 import classes from "./styles.module.css";
 
@@ -20,9 +21,10 @@ type SortingDirection = "ASC" | "DESC";
 export const AffiliateBox = () => {
   const [sortingLabel, setSortingLabel] = useState("");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
+  const [loading, setLoading] = useState(true);
   const refResponse = useUnit($refResponse);
   const refResponsePending = useUnit(getRef.pending);
-  const [data, setData] = useState<Refs[]>([])
+  const [data, setData] = useState<Refs[]>([]);
   const [totalPage, setTotalPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageCoins, setCurrentPageCoins] = useState(1);
@@ -44,15 +46,18 @@ export const AffiliateBox = () => {
     if (!refResponsePending) {
       const startIndex = (currentPage - 1) * 20;
       const endIndex = startIndex + 20;
-      setData(refResponse['users'].filter((e: Refs) => e.id.toString().includes(search)).slice(startIndex, endIndex) as Refs[])
-      setCurrentPageCoins(refResponse['users'].filter((e: Refs) => e.id.toString().includes(search)).slice(startIndex, endIndex).length);
-      setTotalPage(refResponse['users'].length);
+      setData(refResponse["users"].filter((e: Refs) => e.id.toString().includes(search)).slice(startIndex, endIndex) as Refs[]);
+      setCurrentPageCoins(refResponse["users"].filter((e: Refs) => e.id.toString().includes(search)).slice(startIndex, endIndex).length);
+      setTotalPage(refResponse["users"].length);
     }
-  }, [refResponse, refResponsePending, currentPage, search])
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
+  }, [refResponse, refResponsePending, currentPage, search]);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search])
+  }, [search]);
 
   return (
     <Stack gap={"clamp(2rem, 3vw, 48px)"}>
@@ -70,14 +75,14 @@ export const AffiliateBox = () => {
             <ProfitIcon />
             <Group gap={rem(8)} wrap="nowrap">
               <Text className={classes.cardText}>Total Profit</Text>
-              <Text className={classes.cardValue}>${refResponse['users'] ? refResponse['users'].length * 10 : 0}</Text>
+              <Text className={classes.cardValue}>${refResponse["users"] ? refResponse["users"].length * 10 : 0}</Text>
             </Group>
           </div>
           <div className={classes.cardWrapper}>
             <PersonIcon />
             <Group gap={rem(8)} wrap="nowrap">
               <Text className={classes.cardText}>People invited</Text>
-              <Text className={classes.cardValue}>{refResponse['users'] ? refResponse['users'].length : 0}</Text>
+              <Text className={classes.cardValue}>{refResponse["users"] ? refResponse["users"].length : 0}</Text>
             </Group>
           </div>
         </Stack>
@@ -87,8 +92,7 @@ export const AffiliateBox = () => {
           <Text className={classes.copyRefTitle}>Referral Link</Text>
           <div className={classes.copyRefWrapper}>
             <TextInput variant="unstyled" value={window.location.origin + "/#/?ref=" + (profileReponse ? profileReponse.id : 0)} className={classes.refLink} />
-            <Button className={classes.btn} h={rem("54px")} variant="radial-gradient"
-              onClick={() => {
+            <Button className={classes.btn} h={rem("54px")} variant="radial-gradient" onClick={() => {
                 navigator.clipboard.writeText(window.location.origin + "/#/?ref=" + (profileReponse ? profileReponse.id : 0));
                 showSuccessNotification("Copied!");
               }}
@@ -101,7 +105,10 @@ export const AffiliateBox = () => {
           <Text className={classes.copyRefTitle}>Referral Code</Text>
           <div className={classes.copyRefWrapper}>
             <TextInput value={profileReponse ? profileReponse.id : 0} className={classes.refLink} />
-            <Button className={classes.btn} h={rem("54px")} variant="radial-gradient"
+            <Button
+              className={classes.btn}
+              h={rem("54px")}
+              variant="radial-gradient"
               onClick={() => {
                 navigator.clipboard.writeText((profileReponse ? profileReponse.id : 0)!.toString());
                 showSuccessNotification("Copied!");
@@ -114,7 +121,8 @@ export const AffiliateBox = () => {
       </Group>
       <Divider opacity={"0.12"} color={"white"} />
 
-      <Stack className={classes.box} gap={0}>
+      <Stack className={classes.box} gap={0} pos="relative">
+        {loading && <LoadingScreen type="block" opened={loading} styles={{ height: "98.5% !important" }} />}
         <Flex className={classes.tableHeader} justify={"space-between"} align={"center"} mb={rem("32px")}>
           <Text className={classes.tableTitle}>Referral Overview</Text>
           <TextInput
@@ -124,7 +132,7 @@ export const AffiliateBox = () => {
               input: classes.searchInput,
             }}
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             leftSection={<SearchIcon />}
             placeholder="Search"
           />
@@ -173,12 +181,13 @@ export const AffiliateBox = () => {
                   <Table.Tr key={data.id} className={classes.tableBodyTr}>
                     <Table.Td className={classes.tableTd}>
                       <Group gap={rem(8)}>
-                        {data.avatar.startsWith("data:image") ?
-                          <Image h="29" w="29" src={data.avatar} className={classes.iconWrapper} /> :
+                        {data.avatar.startsWith("data:image") ? (
+                          <Image h="29" w="29" src={data.avatar} className={classes.iconWrapper} />
+                        ) : (
                           <div className={classes.iconWrapper}>
                             <ProfileIcon />
                           </div>
-                        }
+                        )}
                         <Text className={classes.accIDCol}>{`ID: ${data.id}`}</Text>
                       </Group>
                     </Table.Td>

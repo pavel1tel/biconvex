@@ -1,5 +1,6 @@
 .chartContainer {
   /* height: 610px; */
+  position: relative;
 }
 
 .subtitle {

@@ -16,7 +16,7 @@ import {
   fetchTrendFollowingData,
 } from "@/shared/api/market-screene/request";
 import { SortingDirection } from "@/shared/types/CoinsTable";
-import { Container, Footer, Header, NextIcon, PreviousIcon, RateIcon, ShowRowsCount, Wrapper } from "@/shared/ui";
+import { Container, Footer, Header, LoadingScreen, NextIcon, PreviousIcon, RateIcon, ShowRowsCount, Wrapper } from "@/shared/ui";
 import { TableSelectionHeader } from "@/shared/ui/tableSelectionHeader";
 import { TitleWithIcon } from "@/shared/ui/titleWithIcon";
 
@@ -90,6 +90,7 @@ export function Page() {
   const { isAdaptive: md } = useResize(1200);
   const [activeTopTab, setActiveTopTab] = useState(SELECTORS[0]);
   const [allData, setAllData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [displayData, setDisplayData] = useState<any[]>([]);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
@@ -580,6 +581,9 @@ export function Page() {
 
   useEffect(() => {
     loadData(activeBottomTab.fetchData, activeTopTab.sort, activeTopTab.filter, activeTopTab.preset);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
   }, [activeBottomTab]);
 
   useEffect(() => {
@@ -673,7 +677,7 @@ export function Page() {
                 onSearchChange={handleSearchChange}
               />{" "}
               {/* Pass search query and change handler */}
-              <Stack gap={0}>
+              <Stack gap={0} h={loading ? "1920px" : "auto"}>
                 <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
 
                 <Group justify={"space-between"}>
@@ -695,7 +699,8 @@ export function Page() {
                 <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
 
                 {displayData && displayData.length > 0 ? (
-                  <div className={classes.tableContainer}>
+                  <div className={classes.tableContainer} style={{ height: loading ? "1920px" : "auto" }}>
+                    {loading && <LoadingScreen type="block" opened={loading} />}
                     {!md ? (
                       <CoinsTable
                         sortingLabel={sortingLabel}

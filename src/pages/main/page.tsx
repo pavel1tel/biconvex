@@ -3,10 +3,12 @@ import { Box, Button, Group, Image, Stack, Text, Title, rem } from "@mantine/cor
 import { Link } from "atomic-router-react";
 import clsx from "clsx";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 
 import { routes } from "@/shared/routing";
 import { Container, Footer, Header, StartTradingDarkIcon, Wrapper } from "@/shared/ui";
+import { ErrorModal } from "@/shared/ui/error-modal/ui";
 
 import { currentRoute } from "./model";
 import classes from "./styles.module.css";
@@ -14,6 +16,7 @@ import { Banner, Collaborators, Faq, HighestAprs, Markets, Metrics, Rates } from
 
 export function Page() {
   const { isAdaptive: md } = useResize(1200);
+  const [opened, setOpened] = useState<boolean>(true);
 
   currentRoute.$query.watch(e => {
     if (e.ref) {
@@ -35,6 +38,7 @@ export function Page() {
         <Banner />
         <Rates />
         <Metrics />
+        {/* <ErrorModal opened={opened} handleClose={() => setOpened(false)} handleProceed={() => console.log("proceed")} /> */}
         <HighestAprs />
         <Markets />
         <Collaborators />
@@ -181,7 +185,6 @@ export function Page() {
 
           <Image draggable={false} src={`${import.meta.env.BASE_URL}assets/light/main/10.png`} alt="main-light-10" className={classes.lightTen} />
         </Group>
-
         <Footer />
       </Box>
     </Wrapper>
