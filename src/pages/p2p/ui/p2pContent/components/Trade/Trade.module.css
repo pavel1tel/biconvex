@@ -181,5 +181,16 @@
 @media screen and (max-width: 500px) {
   .badge {
     padding: 4px 10px;
+    margin: 0 !important;
+  }
+
+  .tableTd {
+    padding: 12px 12px !important;
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  .tableTh {
+    padding: 12px 12px !important;
   }
 }

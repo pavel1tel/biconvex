@@ -6,7 +6,7 @@ import { Scrollbar } from "react-scrollbars-custom";
 
 import { getChat, sendTextMessage, uploadChatPhoto } from "@/shared/api/chat/requests";
 import { ChartResponse } from "@/shared/api/types";
-import { NoMsgIcon } from "@/shared/ui";
+import { LoadingScreen, NoMsgIcon } from "@/shared/ui";
 import { Clip } from "@/shared/ui/icon/Clip";
 import { ReadMessage } from "@/shared/ui/icon/ReadMessage";
 import { SendIcon } from "@/shared/ui/icon/SendIcon";
@@ -21,6 +21,7 @@ export const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const inputFile = useRef<any>(null);
+  const [loading, setLoading] = useState(true);
   const [file, setFile] = useState<File | null>(null);
   const handleSendClick = () => {
     if (file) {
@@ -67,6 +68,9 @@ export const Chat = () => {
       });
       setMessages(temp);
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
   }, [chatReponsePending, chatResponse]);
 
   useEffect(() => {
@@ -81,7 +85,7 @@ export const Chat = () => {
   return (
     <Stack className={classes.pageContainer} gap={rem("64px")}>
       <Text className={classes.chatTitle}>Support Chat</Text>
-      <Group gap={32} className={classes.chatContainer}>
+      <Group gap={32} className={classes.chatContainer} pos="relative">
         <Stack gap={32} className={clsx(classes.chatWindow, classes.chatsWrapper)}>
           <Group id={"head"} gap={16}>
             <div className={classes.avatarWrapper}>
@@ -95,7 +99,8 @@ export const Chat = () => {
           </Group>
           <Divider opacity={"0.12"} color={"white"} />
           {messages.length === 0 ? (
-            <Stack display="flex" justify="center" align="center" h="100%">
+            <Stack display="flex" justify="center" align="center" h="100%" pos="relative">
+              {loading && <LoadingScreen type="block" opened={loading} />}
               <NoMsgIcon />
               <Text className={classes.notContactedText}>
                 You have not contacted the support center
@@ -104,7 +109,8 @@ export const Chat = () => {
               </Text>
             </Stack>
           ) : (
-            <ScrollArea type="scroll" style={{ flex: 1 }}>
+            <ScrollArea type="scroll" style={{ flex: 1, position: "relative" }}>
+              {loading && <LoadingScreen type="block" opened={loading} />}
               <Scrollbar color="red" style={{ height: "850px", width: "100%" }}>
                 <div className={classes.messagesWindow}>{messages.flatMap((message) => message)}</div>
               </Scrollbar>

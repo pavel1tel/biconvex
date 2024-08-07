@@ -201,3 +201,9 @@
   border: none;
   text-decoration: underline;
 }
+
+@media screen and (max-width: 500px) {
+  .table-td {
+    padding: 0.75rem 1.5rem 0.75rem 0 !important;
+  }
+}

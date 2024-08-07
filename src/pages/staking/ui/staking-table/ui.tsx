@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { createUnstakeRequest, getStakingHistory } from "@/shared/api/staking/request";
 import { InvestmentHistory, StakingHistoryResponse } from "@/shared/api/types";
-import { MarketSortIcon, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { LoadingScreen, MarketSortIcon, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 
 import { $historyResponse } from "../../model";
 import classes from "./styles.module.css";
@@ -30,6 +30,7 @@ export const StakingTable = ({
   const historyResponsePending = useUnit<boolean>(getStakingHistory.pending);
   const [investHistory, setInvestHistory] = useState<Array<any>>([]);
   const [siblings, setSiblings] = useState(getSiblings());
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [totalPage, setTotalPage] = useState<number>(1);
@@ -71,6 +72,9 @@ export const StakingTable = ({
 
   useEffect(() => {
     calculatePage(sortFunc, searchFunc);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
   }, [historyResponse, historyResponsePending, page, sortFunc, searchFunc]);
 
   useEffect(() => {
@@ -194,7 +198,8 @@ export const StakingTable = ({
   }, [investHistory]);
   return (
     <Stack className={classes.wrapper}>
-      <Stack className={classes.box} gap={0}>
+      <Stack className={classes.box} gap={0} pos="relative">
+        {loading && <LoadingScreen type="block" opened={loading} />}
         <Flex justify={"space-between"} align={"center"} mb={rem("32px")}>
           <Title order={4}>Investments</Title>
           <TextInput

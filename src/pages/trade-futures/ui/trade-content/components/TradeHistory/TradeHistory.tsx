@@ -2,7 +2,7 @@ import { getSiblings } from "@/helpers/getResponsivePaginationSiblings";
 import { Divider, Group, Pagination, Stack, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 
-import { NextIcon, PreviousIcon } from "@/shared/ui";
+import { LoadingScreen, NextIcon, PreviousIcon } from "@/shared/ui";
 import { Container } from "@/shared/ui/TradePageContainer/Container";
 import { CalendarIcon } from "@/shared/ui/icon/CalendarIcon";
 
@@ -19,6 +19,7 @@ export const tabs = [
 ];
 export const TradeHistory = () => {
   const [activePeriodValue, setActivePeriodValue] = useState("1d");
+  const [loading, setLoading] = useState(true);
 
   const [siblings, setSiblings] = useState(getSiblings());
 
@@ -29,13 +30,18 @@ export const TradeHistory = () => {
 
     window.addEventListener("resize", handleResize);
 
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
-    <Container className={classes.container} padding={48}>
+    <Container className={classes.container} padding={48} style={{ position: "relative" }}>
+      {loading && <LoadingScreen type="block" opened={loading} styles={{ height: "98.5% !important" }} />}
       <Stack gap={32}>
         <Group justify="space-between">
           <Text className={classes.tradeHistoryBigText}>Trade History</Text>
