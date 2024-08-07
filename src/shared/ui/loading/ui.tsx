@@ -8,6 +8,8 @@ interface LoadingScreenProps {
   opened: boolean;
   type?: "main" | "block";
   styles?: React.CSSProperties;
+  overlayStyles?: React.CSSProperties;
+  title?: string;
 }
 
 const loadingContainerVariants = {
@@ -42,13 +44,13 @@ const lgRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reve
 const mdRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reverse" as const, ease: "easeInOut", duration: 4 };
 const smRingTransition = { repeat: Infinity, repeatDelay: 1.5, repeatType: "reverse" as const, ease: "easeInOut", duration: 3.5 };
 
-export const LoadingScreen = ({ opened = true, type = "main", styles }: LoadingScreenProps) => {
+export const LoadingScreen = ({ opened = true, type = "main", styles, overlayStyles, title = "Loading Spot Trading" }: LoadingScreenProps) => {
   if (!opened) return null;
 
   const { isAdaptive: sm } = useResize(500);
 
   return (
-    <div className={type === "main" ? classes.overlay : classes.overlayBlock}>
+    <div className={type === "main" ? classes.overlay : classes.overlayBlock} style={overlayStyles ? overlayStyles : undefined}>
       <div
         className={type === "main" ? classes.content : classes.contentBlock}
         style={styles ? styles : undefined}
@@ -161,7 +163,7 @@ export const LoadingScreen = ({ opened = true, type = "main", styles }: LoadingS
 
         {type === "main" ? (
           <Title fz={sm ? "24px" : "36px"} ff="Inter">
-            Loading Spot Trading
+            {title}
           </Title>
         ) : null}
       </div>

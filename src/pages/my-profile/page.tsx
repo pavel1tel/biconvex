@@ -1,15 +1,17 @@
 import { Box, Image } from "@mantine/core";
+import { useEffect, useState } from "react";
 import "react-circular-progressbar/dist/styles.css";
 import { Helmet } from "react-helmet-async";
 
 import { HeaderMyProfile, TableProfile } from "@/pages/my-profile/ui";
 import { Promocode } from "@/pages/my-profile/ui/promo-code";
 
-import { Container, Footer, Header, Sidebar, Wrapper } from "@/shared/ui";
+import { Container, Footer, Header, LoadingScreen, Sidebar, Wrapper } from "@/shared/ui";
 
 import classes from "./styles.module.css";
 
 export function Page() {
+  const [loading, setLoading] = useState(true);
   return (
     <Wrapper>
       <Helmet>
@@ -23,10 +25,11 @@ export function Page() {
       <Header />
       <Container>
         <Sidebar>
-          <Box className={classes.box} style={{ alignItems: "flex-start " }}>
+          <Box className={classes.box} style={{ alignItems: "flex-start ", position: "relative" }}>
+            {loading && <LoadingScreen title="" type="block" opened={loading} overlayStyles={{ top: "0 !important" }} />}
             <HeaderMyProfile />
             <Promocode />
-            <TableProfile />
+            <TableProfile handleLoading={() => setLoading(false)} />
           </Box>
         </Sidebar>
       </Container>

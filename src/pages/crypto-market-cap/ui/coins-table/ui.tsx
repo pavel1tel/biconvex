@@ -2,11 +2,11 @@ import { trimLongName } from "@/helpers/trimLongName";
 import { useResize } from "@/hooks/useResize";
 import { Group, Pill, Table, Text, Title, rem } from "@mantine/core";
 import clsx from "clsx";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { P, match } from "ts-pattern";
 
 import { SortingDirection, SortingLabel } from "@/shared/types/CoinsTable";
-import { MarketSortIcon, RateChart, RateIcon, RateType } from "@/shared/ui";
+import { LoadingScreen, MarketSortIcon, RateChart, RateIcon, RateType } from "@/shared/ui";
 
 import { HEADERS } from "./cryptoMarketTableData";
 import classes from "./styles.module.css";
@@ -56,11 +56,18 @@ interface CoinsTableProps {
   rowsPerPage;
 }
 
-export const CoinsTable: React.FC<CoinsTableProps> = ({ data , currentPage, rowsPerPage }) => {
+export const CoinsTable: React.FC<CoinsTableProps> = ({ data, currentPage, rowsPerPage }) => {
   const [sortingLabel, setSortingLabel] = useState<string>("#");
+  const [loading, setLoading] = useState(true);
 
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
   const { isAdaptive: md } = useResize(1200);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
+  }, [data]);
 
   const onTableHeadSortLabelClick = useCallback(
     (label: SortingLabel) => {
@@ -143,7 +150,7 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data , currentPage, rows
           <Table.Td w={70}>
             <Group gap={rem(16)} className={classes.firstTdWrapper}>
               <Text variant="text-3" className={classes.greyText} span>
-              №{(currentPage - 1) * rowsPerPage + index + 1}
+                №{(currentPage - 1) * rowsPerPage + index + 1}
               </Text>
             </Group>
           </Table.Td>
@@ -195,7 +202,14 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data , currentPage, rows
   }, [md, data, sortingDirection, sortingLabel]);
 
   return (
-    <Table classNames={{ tr: classes.tableTr, td: classes.tableTd }} verticalSpacing={rem("16px")} withRowBorders={true}>
+    <Table
+      classNames={{ tr: classes.tableTr, td: classes.tableTd }}
+      h={loading ? "1529.8px" : "auto"}
+      verticalSpacing={rem("16px")}
+      withRowBorders={true}
+      pos="relative"
+    >
+      {loading && <LoadingScreen type="block" opened={loading} />}
       <Table.Thead classNames={{ thead: classes.tableHead }}>
         <Table.Tr>{headers}</Table.Tr>
       </Table.Thead>

@@ -51,16 +51,16 @@ export const DepositsBox = ({
       setCurrentCoin(depositReponse.deposit_coins![index]);
       setArr(depositReponse.deposit_coins!);
     }
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 3500);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
   }, [depositResposePending, depositReponse]);
 
   return (
     <Stack className={classes.container}>
       <Stack>
-        <Stack className={classes.wrapDepositItems} style={{ height }}>
-          {/* {loading && <LoadingScreen type="block" opened={loading} />} */}
+        <Stack className={classes.wrapDepositItems} style={{ height, overflow: loading ? "hidden" : "auto" }}>
+          {loading && <LoadingScreen type="block" opened={loading} />}
           <Box>
             <TextInput
               value={search}

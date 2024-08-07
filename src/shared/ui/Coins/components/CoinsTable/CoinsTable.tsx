@@ -54,8 +54,8 @@ export const CoinsTable = ({
                       key={pair}
                       onClick={() => {
                         handleRowClick(pair);
-                        // setCurrentPair(pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length));
-                        // navv(pair.substring(0, row.symbol.length) + "-" + pair.substring(row.symbol.length));
+                        setCurrentPair(pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length));
+                        navv(pair.substring(0, row.symbol.length) + "-" + pair.substring(row.symbol.length));
                       }}
                       className={clsx(classes.tableRow, classes.noSelect, { [classes.rowHover]: true, [classes.rowSelected]: selectedRow === pair })}
                     >
@@ -85,8 +85,8 @@ export const CoinsTable = ({
                   key={row.symbol + "USDT"}
                   onClick={() => {
                     handleRowClick(row.symbol + "USDT");
-                    // setCurrentPair(row.symbol + "/USDT");
-                    // navv(row.symbol + "-USDT");
+                    setCurrentPair(row.symbol + "/USDT");
+                    navv(row.symbol + "-USDT");
                   }}
                   className={clsx(classes.tableRow, classes.noSelect, {
                     [classes.rowHover]: true,
@@ -120,8 +120,8 @@ export const CoinsTable = ({
                       key={pair}
                       onClick={() => {
                         handleRowClick(pair);
-                        // setCurrentPair(pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length));
-                        // navv(pair.substring(0, row.symbol.length) + "-" + pair.substring(row.symbol.length));
+                        setCurrentPair(pair.substring(0, row.symbol.length) + "/" + pair.substring(row.symbol.length));
+                        navv(pair.substring(0, row.symbol.length) + "-" + pair.substring(row.symbol.length));
                       }}
                       className={clsx(classes.tableRow, classes.noSelect, { [classes.rowHover]: true, [classes.rowSelected]: selectedRow === pair })}
                     >
@@ -156,8 +156,8 @@ export const CoinsTable = ({
                     key={coin.pair + Math.random()}
                     onClick={() => {
                       handleRowClick(coin.pair);
-                      // setCurrentPair(coin.pair);
-                      // navv(coin.replace("/", "-"));
+                      setCurrentPair(coin.pair);
+                      navv(coin.replace("/", "-"));
                     }}
                     className={clsx(classes.tableRow, classes.noSelect, {
                       [classes.rowHover]: true,

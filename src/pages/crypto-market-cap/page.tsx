@@ -10,6 +10,7 @@ import {
   Container,
   Footer,
   Header,
+  LoadingScreen,
   NextIcon,
   PolkadotIcon,
   PolygonIcon,
@@ -252,7 +253,11 @@ export function Page() {
                   <ShowRowsCount onRowsChange={handleRowsPerPageChange} />
                 </Group>
                 <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
-                {md ? <CoinsTableFixedColumn data={filteredData} /> : <CoinsTable currentPage={currentPage} rowsPerPage={rowsPerPage} data={filteredData} />}
+                {md ? (
+                  <CoinsTableFixedColumn data={filteredData} />
+                ) : (
+                  <CoinsTable currentPage={currentPage} rowsPerPage={rowsPerPage} data={filteredData} />
+                )}
               </Stack>
 
               <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />

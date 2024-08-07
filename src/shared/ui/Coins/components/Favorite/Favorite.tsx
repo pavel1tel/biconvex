@@ -14,7 +14,8 @@ export const Favorite = ({ pair, price, defaultValue }: { pair: string; price: n
     <div
       className={classes.wrapper}
       role="button"
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         let fav_coins: {
           pair: string;
           price: number | string;
