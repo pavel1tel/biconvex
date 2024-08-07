@@ -229,135 +229,137 @@ export const TransactionTable = () => {
   return (
     <Stack gap={rem(32)} className={classes.wrapper}>
       <Text className={classes.title}>Transaction history</Text>
-      <Stack className={classes.box} gap={32} pos="relative" h={loading ? "800.95px" : "auto"}>
-        {loading && <LoadingScreen type="block" opened={loading} />}
-        <Group className={classes.boxHeader} justify="space-between" align={"center"}>
-          <TextInput
-            h={51}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            classNames={{
-              input: classes.searchInput,
-              wrapper: classes.searchInputWrapper,
-            }}
-            leftSection={<SearchIcon />}
-            placeholder="Search Transaction"
-          />
-          <Combobox
-            store={combobox}
-            withinPortal={false}
-            transitionProps={{ duration: 200, transition: "pop" }}
-            onOptionSubmit={(val) => {
-              setValue(val);
-              setPage(1);
-              combobox.closeDropdown();
-            }}
-          >
-            <Combobox.Target>
-              <Group gap={rem(4)} className={classes.showFilterWrapper} onClick={() => combobox.toggleDropdown()}>
-                <Text variant="text-3" className={classes.greyText}>
-                  {value || "Type"}
-                </Text>
-                {value ? (
-                  <CloseButton
-                    size="sm"
-                    style={{ background: "none" }}
-                    onMouseDown={(event) => event.preventDefault()}
-                    onClick={() => setValue("")}
-                    aria-label="Clear value"
-                  />
-                ) : (
-                  <ArrowDown />
+      <Stack pos="relative">
+        {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+        <Stack className={classes.box} gap={32} h={loading ? "800.95px" : "auto"}>
+          <Group className={classes.boxHeader} justify="space-between" align={"center"}>
+            <TextInput
+              h={51}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              classNames={{
+                input: classes.searchInput,
+                wrapper: classes.searchInputWrapper,
+              }}
+              leftSection={<SearchIcon />}
+              placeholder="Search Transaction"
+            />
+            <Combobox
+              store={combobox}
+              withinPortal={false}
+              transitionProps={{ duration: 200, transition: "pop" }}
+              onOptionSubmit={(val) => {
+                setValue(val);
+                setPage(1);
+                combobox.closeDropdown();
+              }}
+            >
+              <Combobox.Target>
+                <Group gap={rem(4)} className={classes.showFilterWrapper} onClick={() => combobox.toggleDropdown()}>
+                  <Text variant="text-3" className={classes.greyText}>
+                    {value || "Type"}
+                  </Text>
+                  {value ? (
+                    <CloseButton
+                      size="sm"
+                      style={{ background: "none" }}
+                      onMouseDown={(event) => event.preventDefault()}
+                      onClick={() => setValue("")}
+                      aria-label="Clear value"
+                    />
+                  ) : (
+                    <ArrowDown />
+                  )}
+                </Group>
+              </Combobox.Target>
+              <Combobox.Dropdown className={classes.dropdown}>
+                <Combobox.Options classNames={{ options: classes.dropdownOptions }}>{options}</Combobox.Options>
+              </Combobox.Dropdown>
+            </Combobox>
+          </Group>
+          <Box className={classes.tableWrapper}>
+            <Table
+              classNames={{ tr: classes.tableTr, td: classes.tableTd }}
+              horizontalSpacing={rem(24)}
+              verticalSpacing={rem("24px")}
+              withRowBorders={true}
+            >
+              <Table.Thead classNames={{ thead: classes.tableHead }}>
+                <Table.Tr>{headers}</Table.Tr>
+              </Table.Thead>
+              <Table.Tbody classNames={{ tbody: classes.tableBody }}>
+                {COINS && COINS.length > 0 && tableCoins}
+                {COINS && COINS.length < 6 && COINS.length !== 0 && (
+                  <>
+                    {new Array(6 - COINS.length).fill("").map((item, i) => (
+                      <Table.Tr key={item + i}>
+                        <Table.Td w={224} className={classes.tbodyTdWithIcon}>
+                          <Flex gap={rem(8)}>
+                            <Box w="25" h="24"></Box>
+                          </Flex>
+                        </Table.Td>
+                        <Table.Td w={"135"}>
+                          <Text c="white" variant="text-3" span style={{ paddingLeft: "7px", paddingRight: "15px" }}>
+                            {""}
+                          </Text>
+                        </Table.Td>
+                        <Table.Td w={"135"}>
+                          <Text c="white" variant="text-3" span>
+                            <Flex align={"center"} gap={rem(4)}>
+                              <span className={classes.iconByType}>{""}</span>
+                              <span className={classes.coinTypeText}>{""}</span>
+                            </Flex>
+                          </Text>
+                        </Table.Td>
+                        <Table.Td w={"135"}>
+                          <Text c="white" variant="text-3" span>
+                            {""}
+                          </Text>
+                        </Table.Td>
+                        <Table.Td w={"135"}>
+                          <Text c="white" variant="text-3" span className={clsx(classes.status)}>
+                            {""}
+                          </Text>
+                        </Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </>
                 )}
-              </Group>
-            </Combobox.Target>
-            <Combobox.Dropdown className={classes.dropdown}>
-              <Combobox.Options classNames={{ options: classes.dropdownOptions }}>{options}</Combobox.Options>
-            </Combobox.Dropdown>
-          </Combobox>
-        </Group>
-        <Box className={classes.tableWrapper}>
-          <Table
-            classNames={{ tr: classes.tableTr, td: classes.tableTd }}
-            horizontalSpacing={rem(24)}
-            verticalSpacing={rem("24px")}
-            withRowBorders={true}
-          >
-            <Table.Thead classNames={{ thead: classes.tableHead }}>
-              <Table.Tr>{headers}</Table.Tr>
-            </Table.Thead>
-            <Table.Tbody classNames={{ tbody: classes.tableBody }}>
-              {COINS && COINS.length > 0 && tableCoins}
-              {COINS && COINS.length < 6 && COINS.length !== 0 && (
-                <>
-                  {new Array(6 - COINS.length).fill("").map((item, i) => (
-                    <Table.Tr key={item + i}>
-                      <Table.Td w={224} className={classes.tbodyTdWithIcon}>
-                        <Flex gap={rem(8)}>
-                          <Box w="25" h="24"></Box>
+                {COINS && COINS.length === 0 && (
+                  <>
+                    <Table.Tr pos="relative" h={468}>
+                      <Table.Td className={classes.tableTdNoRecords}>
+                        <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="35%" gap="10px">
+                          <NoRecords />
+                          <Text className={classes.noRecords}>
+                            No records
+                            <br />
+                            found
+                          </Text>
                         </Flex>
                       </Table.Td>
-                      <Table.Td w={"135"}>
-                        <Text c="white" variant="text-3" span style={{ paddingLeft: "7px", paddingRight: "15px" }}>
-                          {""}
-                        </Text>
-                      </Table.Td>
-                      <Table.Td w={"135"}>
-                        <Text c="white" variant="text-3" span>
-                          <Flex align={"center"} gap={rem(4)}>
-                            <span className={classes.iconByType}>{""}</span>
-                            <span className={classes.coinTypeText}>{""}</span>
-                          </Flex>
-                        </Text>
-                      </Table.Td>
-                      <Table.Td w={"135"}>
-                        <Text c="white" variant="text-3" span>
-                          {""}
-                        </Text>
-                      </Table.Td>
-                      <Table.Td w={"135"}>
-                        <Text c="white" variant="text-3" span className={clsx(classes.status)}>
-                          {""}
-                        </Text>
-                      </Table.Td>
                     </Table.Tr>
-                  ))}
-                </>
-              )}
-              {COINS && COINS.length === 0 && (
-                <>
-                  <Table.Tr pos="relative" h={468}>
-                    <Table.Td className={classes.tableTdNoRecords}>
-                      <Flex direction="column" align="center" pos="absolute" left="0" right="0" top="35%" gap="10px">
-                        <NoRecords />
-                        <Text className={classes.noRecords}>
-                          No records
-                          <br />
-                          found
-                        </Text>
-                      </Flex>
-                    </Table.Td>
-                  </Table.Tr>
-                </>
-              )}
-            </Table.Tbody>
-          </Table>
-        </Box>
-        <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
+                  </>
+                )}
+              </Table.Tbody>
+            </Table>
+          </Box>
+          <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
 
-        <Group justify={"space-between"}>
-          <Text className={classes.greyText}>
-            {" "}
-            {(page - 1) * 6 + 1}-{(page - 1) * 6 + (COINS ? COINS?.length : 0)} of {totalPage}
-          </Text>
-          <Pagination value={page} onChange={setPage} total={totalPage ? Math.ceil(totalPage / 6) : 1} defaultValue={1} {...{ siblings }}>
-            <Group gap={rem("8px")} justify="center">
-              <Pagination.Previous icon={PreviousIcon} />
-              <Pagination.Items />
-              <Pagination.Next icon={NextIcon} />
-            </Group>
-          </Pagination>
-        </Group>
+          <Group justify={"space-between"}>
+            <Text className={classes.greyText}>
+              {" "}
+              {(page - 1) * 6 + 1}-{(page - 1) * 6 + (COINS ? COINS?.length : 0)} of {totalPage}
+            </Text>
+            <Pagination value={page} onChange={setPage} total={totalPage ? Math.ceil(totalPage / 6) : 1} defaultValue={1} {...{ siblings }}>
+              <Group gap={rem("8px")} justify="center">
+                <Pagination.Previous icon={PreviousIcon} />
+                <Pagination.Items />
+                <Pagination.Next icon={NextIcon} />
+              </Group>
+            </Pagination>
+          </Group>
+        </Stack>
       </Stack>
     </Stack>
   );

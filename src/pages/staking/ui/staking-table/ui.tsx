@@ -197,9 +197,9 @@ export const StakingTable = ({
     });
   }, [investHistory]);
   return (
-    <Stack className={classes.wrapper}>
-      <Stack className={classes.box} gap={0} pos="relative">
-        {loading && <LoadingScreen type="block" opened={loading} />}
+    <Stack className={classes.wrapper} pos="relative">
+      {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+      <Stack className={classes.box} gap={0}>
         <Flex justify={"space-between"} align={"center"} mb={rem("32px")}>
           <Title order={4}>Investments</Title>
           <TextInput

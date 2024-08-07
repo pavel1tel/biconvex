@@ -63,8 +63,7 @@ export const TradeHistory = () => {
   }, []);
 
   return (
-    <Container className={classes.container} padding={48} style={{ position: "relative" }}>
-      {loading && <LoadingScreen type="block" opened={loading} styles={{ height: "98.5% !important" }} />}
+    <Container className={classes.container} padding={48}>
       <Stack gap={32}>
         <Group justify="space-between">
           <Text className={classes.tradeHistoryBigText}>Trade History</Text>

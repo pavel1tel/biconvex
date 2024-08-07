@@ -11,6 +11,7 @@ import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { getCoinInfo, getCoinPrice, getTrades } from "@/shared/api/trading/requests";
 import { ProfileReponse } from "@/shared/api/types";
 import { routes } from "@/shared/routing";
+import { LoadingScreen } from "@/shared/ui";
 import { ButtonTabs } from "@/shared/ui/ButtonTabs/ui";
 import { TradeActions } from "@/shared/ui/TradeActions/ui";
 
@@ -32,6 +33,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
   const profileResponse = useUnit<ProfileReponse>($profileReponse);
   const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
   const [socketUrl, setSocketUrl] = useState("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
+  const [loading, setLoading] = useState(true);
   const { lastMessage: priceWs } = useWebSocket(socketUrl);
   const routeParams = useUnit(currentRoute.$params);
   const [currentPair, setCurrentPair] = useState("");
@@ -46,6 +48,9 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
       setCurrentPair(routeParams.pairId.replace("-", "/"));
       setCurrentPairName(routeParams.pairId.replace("-", "/"));
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
   }, [profileResponsePending, routeParams]);
 
   useEffect(() => {
@@ -112,11 +117,15 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
       ) : (
         <>
           <Group className={classes.tableFlex} gap={20} align="stretch" h={1134} wrap="nowrap">
-            <Stack className={classes.firstCol} gap={20} w={345}>
+            <Stack className={classes.firstCol} gap={20} w={345} pos="relative">
+              {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
               <OrderBook priceWs={priceWs} currentPair={currentPair} orderBookHeight={orderBookHeight} isFullRows={true} />
             </Stack>
             <Stack className={classes.secondCol} style={{ flex: 1 }} gap={20}>
-              <TradeChart priceWs={priceWs} currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
+              <Stack pos="relative">
+                {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+                <TradeChart priceWs={priceWs} currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
+              </Stack>
               <MarketStats priceWs={priceWs} currentPair={currentPair} />
             </Stack>
             <Stack gap={20} w={345} className={classes.wrapper}>
@@ -130,7 +139,10 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
               <MarketTrades currentPair={currentPair} />
             </Stack>
           </Group>
-          <TradeHistory />
+          <Stack pos="relative">
+            {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+            <TradeHistory />
+          </Stack>
         </>
       )}
     </Stack>

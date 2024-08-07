@@ -26,7 +26,7 @@ export function Page() {
       <Container>
         <Sidebar>
           <Box className={classes.box} style={{ alignItems: "flex-start ", position: "relative" }}>
-            {loading && <LoadingScreen title="" type="block" opened={loading} overlayStyles={{ top: "0 !important" }} />}
+            {loading && <LoadingScreen title="" type="block" opened={loading} overlayStyles={{ top: 0 }} />}
             <HeaderMyProfile />
             <Promocode />
             <TableProfile handleLoading={() => setLoading(false)} />

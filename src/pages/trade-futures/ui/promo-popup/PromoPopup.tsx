@@ -80,7 +80,7 @@ export const PromoPopup = ({ opened = true, handleClose, handleSave }: PromoPopu
                   </Text>
                 </Flex>
                 <Text className={classes.textGreen}>
-                  <span>+240,22%</span> (+76430.10 USDT)
+                  <span>+0.22%</span> (+0.10 USDT)
                 </Text>
                 <Stack>
                   <Flex justify="flex-start" gap={55}>
