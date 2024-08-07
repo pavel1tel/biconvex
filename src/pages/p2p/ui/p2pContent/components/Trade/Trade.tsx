@@ -88,7 +88,7 @@ export const Trade = ({ tabName }: { tabName: string }) => {
           <Table.Tbody>
             {body.map(({ id, trader, payment, price, limits, action }) => (
               <Table.Tr key={id}>
-                <Table.Td w="330px">
+                <Table.Td w="350px">
                   <Group gap={13} display="flex" dir="row" align="center">
                     <div className={classes.imageWrapper}>
                       <Avatar size={32} src={trader.img} alt="avatar" />
