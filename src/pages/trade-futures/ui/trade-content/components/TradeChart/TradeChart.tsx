@@ -319,7 +319,6 @@ export const TradeChart = ({ currentPair, setCurrentPair, currentPairName, price
 
   return (
     <Container padding={48} className={classes.chartContainer}>
-      {loading && <LoadingScreen type="block" opened={loading} />}
       <Group justify="space-between">
         <TradeChartTitle setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
         <Stack gap={4}>

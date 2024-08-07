@@ -9,6 +9,7 @@ import { $profileReponse } from "@/pages/my-profile/model";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { ProfileReponse } from "@/shared/api/types";
 import { router, routes } from "@/shared/routing";
+import { LoadingScreen } from "@/shared/ui";
 import { ButtonTabs } from "@/shared/ui/ButtonTabs/ui";
 import { TradeActions } from "@/shared/ui/TradeActions/ui";
 
@@ -27,6 +28,7 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>(categories[0]);
   const profileResponse = useUnit<ProfileReponse>($profileReponse);
   const profileResponsePending = useUnit<boolean>(getStakingHistoryFx.pending);
+  const [loading, setLoading] = useState(true);
   const [currentPair, setCurrentPair] = useState("");
   const [currentPairName, setCurrentPairName] = useState("");
   const [socketUrl, setSocketUrl] = useState("wss://stream.binance.com:9443/ws/btcusdt@kline_1m");
@@ -40,6 +42,10 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
       setCurrentPair(profileResponse.coins![0].symbol + "/USDT");
       setCurrentPairName(profileResponse.coins![0].name + "/USDT");
     }
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
   }, [profileResponsePending]);
 
   const handleAction = (name: "Trade" | "Chart") => {
@@ -82,16 +88,26 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
         <>
           <Group gap={20} wrap="nowrap" align="stretch">
             <Stack gap={20} w={345}>
-              <OrderBook priceWs={priceWs} currentPair={currentPair} addScroll={addScroll} orderBookHeight="auto" />
+              <Stack pos="relative">
+                {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+                <OrderBook priceWs={priceWs} currentPair={currentPair} addScroll={addScroll} orderBookHeight="auto" />
+              </Stack>
               <MarketTrades />
             </Stack>
             <Stack style={{ flex: 1 }} gap={20}>
-              <TradeChart priceWs={priceWs} currentPairName={currentPairName} setCurrentPair={setCurrentPair} currentPair={currentPair} />
+              <Stack pos="relative">
+                {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+                <TradeChart priceWs={priceWs} currentPairName={currentPairName} setCurrentPair={setCurrentPair} currentPair={currentPair} />
+              </Stack>
+
               <MarketStats />
             </Stack>
             <Payment currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
           </Group>
-          <TradeHistory />
+          <Stack pos="relative">
+            {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+            <TradeHistory />
+          </Stack>
         </>
       )}
     </Stack>

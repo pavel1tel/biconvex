@@ -5,6 +5,11 @@
   gap: 32px;
 }
 
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+
 @media (max-width: 1360px) {
   .flex {
     flex-direction: column;

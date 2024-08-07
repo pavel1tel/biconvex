@@ -60,7 +60,7 @@ export const DepositsBox = ({
     <Stack className={classes.container}>
       <Stack>
         <Stack className={classes.wrapDepositItems} style={{ height, overflow: loading ? "hidden" : "auto" }}>
-          {loading && <LoadingScreen type="block" opened={loading} />}
+          {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0, borderRadius: "0.25rem 8px 0.25rem 8px" }} />}
           <Box>
             <TextInput
               value={search}
