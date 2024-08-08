@@ -14,7 +14,7 @@ export const P2PContent = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 4200);
+    }, 3500);
   }, []);
   return (
     <div className={classes.wrapper}>
@@ -23,8 +23,7 @@ export const P2PContent = () => {
         <Flex className={classes.flex} gap={32} align="start">
           <Filters setTab={setTab} />
 
-          <Stack pos="relative" className={classes.flex} w="100%" gap={32}>
-            {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+          <Stack className={classes.flex} w="100%" gap={32}>
             <Trade tabName={tab} />
           </Stack>
         </Flex>

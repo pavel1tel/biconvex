@@ -27,8 +27,14 @@ export const OrderBook = ({
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>(categories[0]);
   const { isAdaptive: md } = useResize(1200);
   const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 4500);
+  }, []);
   return (
-    <Container className={classes.content} style={{ height: orderBookHeight }}>
+    <Container className={classes.content} style={{ height: orderBookHeight, position: "relative" }}>
+      {loading ? <LoadingScreen type="block" title="" opened={loading} overlayStyles={{ top: 0 }} /> : null}
       <Stack gap={"clamp(1rem, 2vw, 2rem)"}>
         <p className={classes.orderBookTitle}>Order Book</p>
         <div className={classes.orderBookButtonsWrapper}>

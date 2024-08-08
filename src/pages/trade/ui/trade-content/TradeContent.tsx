@@ -48,9 +48,6 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
       setCurrentPair(routeParams.pairId.replace("-", "/"));
       setCurrentPairName(routeParams.pairId.replace("-", "/"));
     }
-    setTimeout(() => {
-      setLoading(false);
-    }, 4200);
   }, [profileResponsePending, routeParams]);
 
   useEffect(() => {
@@ -82,15 +79,11 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
           <ButtonTabs {...{ categories, activeCategory, setActiveCategory }} />
           {activeCategory === "Chart" && (
             <>
-              <Stack pos="relative">
-                {loading ? <LoadingScreen type="block" title="" opened={loading} overlayStyles={{ top: 0 }} /> : null}
-                <TradeChart priceWs={priceWs} currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
-              </Stack>
+              <TradeChart priceWs={priceWs} currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
+
               <MarketStats priceWs={priceWs} currentPair={currentPair} />
-              <Stack w="100%" pos="relative">
-                {loading ? <LoadingScreen type="block" title="" opened={loading} overlayStyles={{ top: 0 }} /> : null}
-                <OrderBook orderBookHeight={loading ? "569px" : "auto"} priceWs={priceWs} currentPair={currentPair} />
-              </Stack>
+
+              <OrderBook orderBookHeight={loading ? "569px" : "auto"} priceWs={priceWs} currentPair={currentPair} />
             </>
           )}
           {activeCategory === "Trade" && (
@@ -123,15 +116,12 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
       ) : (
         <>
           <Group className={classes.tableFlex} gap={20} align="stretch" h={1134} wrap="nowrap">
-            <Stack className={classes.firstCol} gap={20} w={345} pos="relative">
-              {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+            <Stack className={classes.firstCol} gap={20} w={345}>
               <OrderBook priceWs={priceWs} currentPair={currentPair} orderBookHeight={orderBookHeight} isFullRows={true} />
             </Stack>
             <Stack className={classes.secondCol} style={{ flex: 1 }} gap={20}>
-              <Stack pos="relative">
-                {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
-                <TradeChart priceWs={priceWs} currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
-              </Stack>
+              <TradeChart priceWs={priceWs} currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
+
               <MarketStats priceWs={priceWs} currentPair={currentPair} />
             </Stack>
             <Stack gap={20} w={345} className={classes.wrapper}>
@@ -145,10 +135,8 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
               <MarketTrades currentPair={currentPair} />
             </Stack>
           </Group>
-          <Stack pos="relative">
-            {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
-            <TradeHistory />
-          </Stack>
+
+          <TradeHistory />
         </>
       )}
     </Stack>

@@ -318,7 +318,8 @@ export const TradeChart = ({ currentPair, setCurrentPair, currentPairName, price
   }, [minZoomIndex, maxZoomIndex]);
 
   return (
-    <Container padding={48} className={classes.chartContainer}>
+    <Container padding={48} className={classes.chartContainer} style={{ position: "relative" }}>
+      {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
       <Group justify="space-between">
         <TradeChartTitle setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
         <Stack gap={4}>

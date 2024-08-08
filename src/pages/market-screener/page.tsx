@@ -667,9 +667,9 @@ export function Page() {
                 trading pairs based on specific criteria, such as trading volume, price changes, market capitalization, or other metrics.
               </Text>
             </Stack>
-            <Stack pos="relative">
-              {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
-              <Stack gap={"clamp(12px, 1vw, 1rem)"} className={classes.ratesTableWrapper}>
+            <Stack>
+              <Stack gap={"clamp(12px, 1vw, 1rem)"} className={classes.ratesTableWrapper} pos="relative">
+                {loading && <LoadingScreen type="block" opened={loading} styles={{ top: 170 }} overlayStyles={{ top: 0 }} />}
                 <TableSelectionHeader
                   selectors={SELECTORS}
                   handleTabClick={handleTopTabClick}

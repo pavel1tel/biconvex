@@ -74,7 +74,8 @@ export const Trade = ({ tabName }: { tabName: string }) => {
   }, []);
 
   return (
-    <div className={classes.tableContainer} style={{ height: loading ? "1667.8px" : "auto" }}>
+    <div className={classes.tableContainer} style={{ height: loading ? "1667.8px" : "auto", position: "relative" }}>
+      {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
       <Box className={classes.tableWrapper}>
         <Table classNames={{ thead: classes.tableHead, th: classes.tableTh, tr: classes.tableBodyTr, td: classes.tableTd }} withRowBorders={false}>
           <Table.Thead>

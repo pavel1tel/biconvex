@@ -87,26 +87,19 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
         <>
           <Group gap={20} wrap="nowrap" align="stretch">
             <Stack gap={20} w={345}>
-              <Stack pos="relative">
-                {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
-                <OrderBook priceWs={priceWs} currentPair={currentPair} addScroll={addScroll} orderBookHeight="auto" />
-              </Stack>
+              <OrderBook priceWs={priceWs} currentPair={currentPair} addScroll={addScroll} orderBookHeight="auto" />
+
               <MarketTrades />
             </Stack>
             <Stack style={{ flex: 1 }} gap={20}>
-              <Stack pos="relative">
-                {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
-                <TradeChart priceWs={priceWs} currentPairName={currentPairName} setCurrentPair={setCurrentPair} currentPair={currentPair} />
-              </Stack>
+              <TradeChart priceWs={priceWs} currentPairName={currentPairName} setCurrentPair={setCurrentPair} currentPair={currentPair} />
 
               <MarketStats />
             </Stack>
             <Payment currentPairName={currentPairName} setCurrentPair={setCurrentPair} />
           </Group>
-          <Stack pos="relative">
-            {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
-            <TradeHistory />
-          </Stack>
+
+          <TradeHistory />
         </>
       )}
     </Stack>

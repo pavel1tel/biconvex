@@ -74,10 +74,9 @@ export const AccountInfoForm = () => {
           gender: values.gender,
         });
       })}
-      style={{ position: "relative" }}
     >
-      {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0, marginBottom: 50, padding: 0 }} />}
-      <Stack className={classes.container}>
+      <Stack className={classes.container} style={{ position: "relative" }}>
+        {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0, marginBottom: 50, padding: 0 }} />}
         <Text className={classes.title} variant="text-3">
           Account Information
         </Text>
