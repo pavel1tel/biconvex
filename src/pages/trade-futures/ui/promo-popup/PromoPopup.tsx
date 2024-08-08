@@ -48,9 +48,7 @@ export const PromoPopup = ({ opened = true, handleClose, handleSave }: PromoPopu
     <div className={classes.overlay}>
       <div className={classes.content} onClick={(e) => e.stopPropagation()} id="promo-popup">
         <Flex justify="center" gap={15} pos="absolute" align="center" right={50} top={20}>
-          <button className={classes.saveButton} onClick={handleDownloadImage}>
-            <SaveIcon />
-          </button>
+          <CloseButton icon={<SaveIcon />} className={classes.saveButton} onClick={handleDownloadImage} />
           <CloseButton c="white" className={classes.closeButton} onClick={handleClose} />
         </Flex>
         <div className={classes.wrapper}>

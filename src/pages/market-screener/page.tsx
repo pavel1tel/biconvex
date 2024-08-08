@@ -571,6 +571,9 @@ export function Page() {
       setAllData(result || []);
       setTotalItems(result.length || 0);
       updateDisplayData(result, 1, rowsPerPage);
+      setTimeout(() => {
+        setLoading(false);
+      }, 4200);
     } catch (error) {
       console.error("Error fetching data:", error);
       setAllData([]);
@@ -581,9 +584,6 @@ export function Page() {
 
   useEffect(() => {
     loadData(activeBottomTab.fetchData, activeTopTab.sort, activeTopTab.filter, activeTopTab.preset);
-    setTimeout(() => {
-      setLoading(false);
-    }, 3500);
   }, [activeBottomTab]);
 
   useEffect(() => {
@@ -667,83 +667,85 @@ export function Page() {
                 trading pairs based on specific criteria, such as trading volume, price changes, market capitalization, or other metrics.
               </Text>
             </Stack>
-            <Stack gap={"clamp(12px, 1vw, 1rem)"} className={classes.ratesTableWrapper}>
-              <TableSelectionHeader
-                selectors={SELECTORS}
-                handleTabClick={handleTopTabClick}
-                activeTab={activeTopTab}
-                isGeneralTab={determineActiveTab(activeTopTab)}
-                searchQuery={searchQuery}
-                onSearchChange={handleSearchChange}
-              />{" "}
-              {/* Pass search query and change handler */}
-              <Stack gap={0} h={loading ? "1920px" : "auto"}>
-                <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
+            <Stack pos="relative">
+              {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+              <Stack gap={"clamp(12px, 1vw, 1rem)"} className={classes.ratesTableWrapper}>
+                <TableSelectionHeader
+                  selectors={SELECTORS}
+                  handleTabClick={handleTopTabClick}
+                  activeTab={activeTopTab}
+                  isGeneralTab={determineActiveTab(activeTopTab)}
+                  searchQuery={searchQuery}
+                  onSearchChange={handleSearchChange}
+                />{" "}
+                {/* Pass search query and change handler */}
+                <Stack gap={0} h={loading ? "1920px" : "auto"}>
+                  <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
 
+                  <Group justify={"space-between"}>
+                    <Group gap={rem(32)} className={classes.categoriesWrapper}>
+                      {SELECTORS1.map((selector) => (
+                        <Box
+                          key={selector.label}
+                          data-active={selector.label === activeBottomTab.label ? 1 : 0}
+                          className={classes.categoryButtonWrapper}
+                          onClick={() => handleBottomTabClick(selector)}
+                        >
+                          <UnstyledButton classNames={{ root: classes.categoryButton }}>{selector.label}</UnstyledButton>
+                        </Box>
+                      ))}
+                    </Group>
+                    <ShowRowsCount onRowsChange={handleRowsPerPageChange} />
+                  </Group>
+
+                  <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
+
+                  {displayData && displayData.length > 0 ? (
+                    <div className={classes.tableContainer} style={{ height: loading ? "1920px" : "auto" }}>
+                      {!md ? (
+                        <CoinsTable
+                          sortingLabel={sortingLabel}
+                          sortingDirection={sortingDirection}
+                          setSortingDirection={setSortingDirection}
+                          setSortingLabel={setSortingLabel}
+                          headers={md ? activeBottomTab.headers.slice(1) : activeBottomTab.headers}
+                          data={displayData}
+                          transformData={activeBottomTab.transformData}
+                          rowsPerPage={rowsPerPage}
+                          currentPage={currentPage}
+                        />
+                      ) : (
+                        <CoinsTableFixedColumn
+                          sortingLabel={sortingLabel}
+                          sortingDirection={sortingDirection}
+                          setSortingDirection={setSortingDirection}
+                          setSortingLabel={setSortingLabel}
+                          headers={md ? activeBottomTab.headers.slice(1) : activeBottomTab.headers}
+                          data={displayData}
+                          transformData={activeBottomTab.transformData}
+                          rowsPerPage={rowsPerPage}
+                          currentPage={currentPage}
+                        />
+                      )}
+                    </div>
+                  ) : (
+                    <Text>No data available.</Text>
+                  )}
+                </Stack>
+                <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
                 <Group justify={"space-between"}>
-                  <Group gap={rem(32)} className={classes.categoriesWrapper}>
-                    {SELECTORS1.map((selector) => (
-                      <Box
-                        key={selector.label}
-                        data-active={selector.label === activeBottomTab.label ? 1 : 0}
-                        className={classes.categoryButtonWrapper}
-                        onClick={() => handleBottomTabClick(selector)}
-                      >
-                        <UnstyledButton classNames={{ root: classes.categoryButton }}>{selector.label}</UnstyledButton>
-                      </Box>
-                    ))}
-                  </Group>
-                  <ShowRowsCount onRowsChange={handleRowsPerPageChange} />
+                  <Text variant="text-4" className={classes.greyText}>
+                    {currentPage * rowsPerPage - rowsPerPage + 1}-{Math.min(currentPage * rowsPerPage, totalItems)} of {totalItems} assets
+                  </Text>
+                  <Pagination total={Math.ceil(totalItems / rowsPerPage)} value={currentPage} onChange={handlePageChange}>
+                    <Group gap={rem("8px")} justify="center">
+                      <Pagination.Previous icon={PreviousIcon} />
+                      <Pagination.Items />
+                      <Pagination.Next icon={NextIcon} />
+                    </Group>
+                  </Pagination>
                 </Group>
-
-                <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
-
-                {displayData && displayData.length > 0 ? (
-                  <div className={classes.tableContainer} style={{ height: loading ? "1920px" : "auto" }}>
-                    {loading && <LoadingScreen type="block" opened={loading} />}
-                    {!md ? (
-                      <CoinsTable
-                        sortingLabel={sortingLabel}
-                        sortingDirection={sortingDirection}
-                        setSortingDirection={setSortingDirection}
-                        setSortingLabel={setSortingLabel}
-                        headers={md ? activeBottomTab.headers.slice(1) : activeBottomTab.headers}
-                        data={displayData}
-                        transformData={activeBottomTab.transformData}
-                        rowsPerPage={rowsPerPage}
-                        currentPage={currentPage}
-                      />
-                    ) : (
-                      <CoinsTableFixedColumn
-                        sortingLabel={sortingLabel}
-                        sortingDirection={sortingDirection}
-                        setSortingDirection={setSortingDirection}
-                        setSortingLabel={setSortingLabel}
-                        headers={md ? activeBottomTab.headers.slice(1) : activeBottomTab.headers}
-                        data={displayData}
-                        transformData={activeBottomTab.transformData}
-                        rowsPerPage={rowsPerPage}
-                        currentPage={currentPage}
-                      />
-                    )}
-                  </div>
-                ) : (
-                  <Text>No data available.</Text>
-                )}
               </Stack>
-              <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
-              <Group justify={"space-between"}>
-                <Text variant="text-4" className={classes.greyText}>
-                  {currentPage * rowsPerPage - rowsPerPage + 1}-{Math.min(currentPage * rowsPerPage, totalItems)} of {totalItems} assets
-                </Text>
-                <Pagination total={Math.ceil(totalItems / rowsPerPage)} value={currentPage} onChange={handlePageChange}>
-                  <Group gap={rem("8px")} justify="center">
-                    <Pagination.Previous icon={PreviousIcon} />
-                    <Pagination.Items />
-                    <Pagination.Next icon={NextIcon} />
-                  </Group>
-                </Pagination>
-              </Group>
             </Stack>
           </Stack>
         </Container>

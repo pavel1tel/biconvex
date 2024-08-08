@@ -29,7 +29,7 @@ export const SettingsBox = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, []);
 
   return (
@@ -83,7 +83,6 @@ export const SettingsBox = () => {
           </div>
         </Group>
         <Stack gap={rem(16)} style={{ position: "relative" }}>
-          {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
           <AccountInfoForm />
           <PersonalInfoFrom />
           <PasswordForm />

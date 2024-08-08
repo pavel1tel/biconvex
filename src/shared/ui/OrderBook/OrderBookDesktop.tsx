@@ -61,9 +61,6 @@ export const OrderBookDesktop = ({
         });
         setAsks(tempAsks.slice(0, 11));
         setFullAsks(tempAsks);
-        // setTimeout(() => {
-        //   setLoading(false);
-        // }, 3000);
       }
       {
         const max = Math.max.apply(
@@ -82,9 +79,6 @@ export const OrderBookDesktop = ({
         });
         setBids(tempAsks.slice(0, 11).reverse());
         setFullBids(tempAsks);
-        // setTimeout(() => {
-        //   setLoading(false);
-        // }, 3000);
       }
     }
   }, [orderBookReponse, orderBookReponse]);

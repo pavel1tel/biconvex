@@ -90,7 +90,6 @@ export const CoinsTableFixedColumn = ({
         h={loading ? "1920px" : "100%"}
         pos="relative"
       >
-        {loading && <LoadingScreen type="block" opened={loading} />}
         <Table.Thead className={classes.tableHead}>
           <Table.Tr>{hdrs}</Table.Tr>
         </Table.Thead>

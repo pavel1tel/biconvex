@@ -80,7 +80,7 @@ export const TransactionTable = () => {
     calculatePage(searchFunc, filterFunc);
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, [isTransactionsPending, transactionsResponse, page, totalPage, searchFunc, value]);
 
   useEffect(() => {

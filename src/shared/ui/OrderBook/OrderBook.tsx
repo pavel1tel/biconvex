@@ -27,11 +27,6 @@ export const OrderBook = ({
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>(categories[0]);
   const { isAdaptive: md } = useResize(1200);
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 2500);
-  }, []);
   return (
     <Container className={classes.content} style={{ height: orderBookHeight }}>
       <Stack gap={"clamp(1rem, 2vw, 2rem)"}>

@@ -126,7 +126,7 @@ export const OrdersTabMobile = ({ setTotalPages, currentPage, setCurrentPageCoin
             <>
               {new Array(5 - data.length).fill("").map((item, idx) => (
                 <Table.Tr key={idx}>
-                  {new Array(9).fill("").map((cell, j) => {
+                  {new Array(4).fill("").map((cell, j) => {
                     return (
                       <Table.Td key={cell.key} h={58}>
                         {""}

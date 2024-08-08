@@ -66,7 +66,7 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data, currentPage, rowsP
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, [data]);
 
   const onTableHeadSortLabelClick = useCallback(
@@ -207,9 +207,7 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data, currentPage, rowsP
       h={loading ? "1529.8px" : "auto"}
       verticalSpacing={rem("16px")}
       withRowBorders={true}
-      pos="relative"
     >
-      {loading && <LoadingScreen type="block" opened={loading} />}
       <Table.Thead classNames={{ thead: classes.tableHead }}>
         <Table.Tr>{headers}</Table.Tr>
       </Table.Thead>

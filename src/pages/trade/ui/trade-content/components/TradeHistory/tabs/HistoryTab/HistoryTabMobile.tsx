@@ -56,8 +56,8 @@ export const HistoryTabMobile = ({ setTotalPages, currentPage, setCurrentPageCoi
   useEffect(() => {
     if (!historyOrderResponsePending) {
       const temp: any[] = [];
-      const startIndex = (currentPage - 1) * 20;
-      const endIndex = startIndex + 20;
+      const startIndex = (currentPage - 1) * 5;
+      const endIndex = startIndex + 5;
       filterByPeriod(historyOrderResponse.orders, activePeriodValue)
         .slice(startIndex, endIndex)
         .forEach((order) => {
@@ -111,14 +111,10 @@ export const HistoryTabMobile = ({ setTotalPages, currentPage, setCurrentPageCoi
             <>
               {new Array(5 - data.length).fill("").map((item, idx) => (
                 <Table.Tr key={idx}>
-                  {new Array(9).fill("").map((cell, j) => {
-                    return (
-                      <Table.Td key={cell.key} h={58}>
-                        {""}
-                      </Table.Td>
-                    );
+                  {new Array(4).fill("").map((cell, j) => {
+                    return <Table.Td key={cell.key}>{""}</Table.Td>;
                   })}
-                  <Table.Td key={`market-${idx}`} h={58}>
+                  <Table.Td key={`market-${idx}`}>
                     <button>{""}</button>
                   </Table.Td>
                 </Table.Tr>

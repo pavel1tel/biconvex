@@ -1,8 +1,10 @@
 import { Button, Flex, PasswordInput, Stack, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
+import { useEffect, useState } from "react";
 
 import { updatePassword } from "@/shared/api/settings/requests";
+import { LoadingScreen } from "@/shared/ui";
 
 import classes from "./style.module.css";
 
@@ -14,6 +16,7 @@ type FormType = {
 export const PasswordForm = () => {
   const [visible, { toggle }] = useDisclosure(false);
   const [visible2, second] = useDisclosure(false);
+  const [loading, setLoading] = useState(true);
 
   const form = useForm<FormType>({
     initialValues: {
@@ -25,6 +28,12 @@ export const PasswordForm = () => {
       newPass: (value) => (value.length > 0 ? null : "Invalid password"),
     },
   });
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3500);
+  }, []);
   return (
     <form
       onSubmit={form.onSubmit((values) => {
@@ -33,7 +42,9 @@ export const PasswordForm = () => {
           new_password: values.newPass,
         });
       })}
+      style={{ position: "relative" }}
     >
+      {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0, marginBottom: 50, padding: 0 }} />}
       <Stack className={classes.container}>
         <Text className={classes.title} variant="text-3">
           Password

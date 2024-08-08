@@ -311,7 +311,7 @@ export const TradeChart = ({ currentPair, setCurrentPair, currentPairName, price
     }
     setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, 4200);
     return () => {
       refElement?.chartRef?.current?.removeEventListener("wheel", zoomHandler);
     };

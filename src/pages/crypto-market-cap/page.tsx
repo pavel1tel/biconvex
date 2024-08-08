@@ -74,6 +74,7 @@ export function Page() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [loading, setLoading] = useState(true);
   const [topRateData, setTopRateData] = useState<any[]>([]);
 
   useEffect(() => {
@@ -130,6 +131,9 @@ export function Page() {
 
   useEffect(() => {
     loadData(activeTab.fetchData);
+    setTimeout(() => {
+      setLoading(false);
+    }, 4200);
   }, [activeTab]);
 
   useEffect(() => {
@@ -223,57 +227,59 @@ export function Page() {
                 />
               </Grid.Col>
             </Grid>
+            <Stack pos="relative">
+              {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+              <Stack gap={rem("32px")} className={classes.ratesTableWrapper}>
+                <TableSelectionHeader
+                  activeTab={activeTab}
+                  selectors={SELECTORS}
+                  handleTabClick={handleTabClick}
+                  searchQuery={searchQuery}
+                  onSearchChange={(e) => setSearchQuery(e.target.value)}
+                />
 
-            <Stack gap={rem("32px")} className={classes.ratesTableWrapper}>
-              <TableSelectionHeader
-                activeTab={activeTab}
-                selectors={SELECTORS}
-                handleTabClick={handleTabClick}
-                searchQuery={searchQuery}
-                onSearchChange={(e) => setSearchQuery(e.target.value)}
-              />
+                <Stack gap={0}>
+                  <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
+                  <Group justify={"space-between"}>
+                    <Group gap={rem(32)} className={classes.categoriesWrapper}>
+                      {Object.keys(TAG_FILTERS).map((filter) => {
+                        return (
+                          <Box
+                            key={filter}
+                            data-active={filter === activeFilter ? "1" : "0"}
+                            className={classes.categoryButtonWrapper}
+                            onClick={() => handleFilterClick(filter)}
+                          >
+                            <UnstyledButton classNames={{ root: classes.categoryButton }}>{filter}</UnstyledButton>
+                          </Box>
+                        );
+                      })}
+                    </Group>
+                    <ShowRowsCount onRowsChange={handleRowsPerPageChange} />
+                  </Group>
+                  <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
+                  {md ? (
+                    <CoinsTableFixedColumn data={filteredData} />
+                  ) : (
+                    <CoinsTable currentPage={currentPage} rowsPerPage={rowsPerPage} data={filteredData} />
+                  )}
+                </Stack>
 
-              <Stack gap={0}>
                 <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
+
                 <Group justify={"space-between"}>
-                  <Group gap={rem(32)} className={classes.categoriesWrapper}>
-                    {Object.keys(TAG_FILTERS).map((filter) => {
-                      return (
-                        <Box
-                          key={filter}
-                          data-active={filter === activeFilter ? "1" : "0"}
-                          className={classes.categoryButtonWrapper}
-                          onClick={() => handleFilterClick(filter)}
-                        >
-                          <UnstyledButton classNames={{ root: classes.categoryButton }}>{filter}</UnstyledButton>
-                        </Box>
-                      );
-                    })}
-                  </Group>
-                  <ShowRowsCount onRowsChange={handleRowsPerPageChange} />
+                  <Text variant="text-4" className={classes.greyText}>
+                    {currentPage * rowsPerPage - rowsPerPage + 1}-{Math.min(currentPage * rowsPerPage, totalItems)} of {totalItems} assets
+                  </Text>
+                  <Pagination total={Math.ceil(totalItems / rowsPerPage)} value={currentPage} onChange={handlePageChange}>
+                    <Group gap={rem("8px")} justify="center">
+                      <Pagination.Previous icon={PreviousIcon} />
+                      <Pagination.Items />
+                      <Pagination.Next icon={NextIcon} />
+                    </Group>
+                  </Pagination>
                 </Group>
-                <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
-                {md ? (
-                  <CoinsTableFixedColumn data={filteredData} />
-                ) : (
-                  <CoinsTable currentPage={currentPage} rowsPerPage={rowsPerPage} data={filteredData} />
-                )}
               </Stack>
-
-              <Divider size="xs" classNames={{ root: classes.ratesDividerRoot }} />
-
-              <Group justify={"space-between"}>
-                <Text variant="text-4" className={classes.greyText}>
-                  {currentPage * rowsPerPage - rowsPerPage + 1}-{Math.min(currentPage * rowsPerPage, totalItems)} of {totalItems} assets
-                </Text>
-                <Pagination total={Math.ceil(totalItems / rowsPerPage)} value={currentPage} onChange={handlePageChange}>
-                  <Group gap={rem("8px")} justify="center">
-                    <Pagination.Previous icon={PreviousIcon} />
-                    <Pagination.Items />
-                    <Pagination.Next icon={NextIcon} />
-                  </Group>
-                </Pagination>
-              </Group>
             </Stack>
           </Stack>
         </Container>

@@ -74,7 +74,7 @@ export const StakingTable = ({
     calculatePage(sortFunc, searchFunc);
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, [historyResponse, historyResponsePending, page, sortFunc, searchFunc]);
 
   useEffect(() => {

@@ -25,11 +25,10 @@ export function Page() {
       <Header />
       <Container>
         <Sidebar>
-          <Box className={classes.box} style={{ alignItems: "flex-start ", position: "relative" }}>
-            {loading && <LoadingScreen title="" type="block" opened={loading} overlayStyles={{ top: 0 }} />}
+          <Box className={classes.box} style={{ alignItems: "flex-start " }}>
             <HeaderMyProfile />
             <Promocode />
-            <TableProfile handleLoading={() => setLoading(false)} />
+            <TableProfile />
           </Box>
         </Sidebar>
       </Container>

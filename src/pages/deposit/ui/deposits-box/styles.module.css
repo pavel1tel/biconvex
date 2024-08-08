@@ -83,3 +83,10 @@
     }
   }
 }
+
+@media screen and (max-width: 500px) {
+  .wrap-deposit-items {
+    height: 609px !important;
+    padding-right: 0 !important;
+  }
+}
