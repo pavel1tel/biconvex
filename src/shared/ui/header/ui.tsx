@@ -472,8 +472,20 @@ export const Header = ({ className = "" }: { className?: string }) => {
               <Flex align={"center"} gap={rem("16px")}>
                 <Flex align="center" gap={rem("1.5px")}>
                   <Text className={classes.title}>Wallet:</Text>
-                  <Text className={classes.amount}>{value}</Text>
+                  <Text className={classes.amount}>{isHide ? hiddenValue : value}</Text>
+                  <Box className={classes.hide}>
+                    {isHide ? (
+                      <Box onClick={() => showValue()}>
+                        <CloseEyeIcon width="20" height="20" />
+                      </Box>
+                    ) : (
+                      <Flex onClick={() => hideValue()}>
+                        <EyeIcon width="20" height="20" />
+                      </Flex>
+                    )}
+                  </Box>
                 </Flex>
+
                 <Button to={routes.myProfile} size="xl" variant="radial-gradient" component={Link} classNames={{ root: classes.signUpButtonRoot }}>
                   Profile
                 </Button>

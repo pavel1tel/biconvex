@@ -10,7 +10,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { getStakingHistoryFx } from "@/shared/api/profile/profile";
 import { Crypto, ProfileReponse } from "@/shared/api/types";
 import { routes } from "@/shared/routing";
-import { MarketSortIcon, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { LoadingScreen, MarketSortIcon, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 
 import { $profileReponse } from "../../model";
 import classes from "./styles.module.css";
@@ -42,11 +42,12 @@ const HEADERS = [
   },
 ];
 const defaultC = [{}];
-export const TableProfile = ({ handleLoading }: { handleLoading?: () => void }) => {
+export const TableProfile = () => {
   const { isAdaptive: laptop } = useResize(1200);
   const [sortingLabel, setSortingLabel] = useState<SortingLabel>("Coin");
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>("ASC");
   const [hideZeros, setHideZeros] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
   const [hideZerosTotalPage, setHideZerosTotalPage] = useState<number>(1);
   const profileReponse = useUnit<ProfileReponse>($profileReponse);
   const profileReponsepending = useUnit<boolean>(getStakingHistoryFx.pending);
@@ -89,10 +90,10 @@ export const TableProfile = ({ handleLoading }: { handleLoading?: () => void }) 
         }).length,
       );
       setCOINS(temp);
+      setTimeout(() => {
+        setLoading(false);
+      }, 3500);
     }
-    setTimeout(() => {
-      handleLoading && handleLoading();
-    }, 3500);
   };
 
   useEffect(() => {
@@ -246,7 +247,8 @@ export const TableProfile = ({ handleLoading }: { handleLoading?: () => void }) 
   return (
     <Box my={{ 0: 32, md: 64 }}>
       <Text className={classes.title}>My Coins</Text>
-      <Box className={classes.scrollContainer}>
+      <Box className={classes.scrollContainer} pos="relative">
+        {loading && <LoadingScreen title="" type="block" opened={loading} overlayStyles={{ top: 0 }} />}
         <Stack className={classes.box} gap={0}>
           <Flex className={classes.boxHeader} gap={rem(32)} align={"center"} mb={rem("32px")}>
             <TextInput

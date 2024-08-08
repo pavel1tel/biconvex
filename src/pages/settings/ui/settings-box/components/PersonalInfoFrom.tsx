@@ -8,6 +8,7 @@ import { $settingsResponse } from "@/pages/settings/model";
 
 import { requestSettings, updatePersonalInfo } from "@/shared/api/settings/requests";
 import { SettingsReponse } from "@/shared/api/types";
+import { LoadingScreen } from "@/shared/ui";
 
 import classes from "./style.module.css";
 
@@ -22,6 +23,7 @@ type FormType = {
 
 export const PersonalInfoFrom = () => {
   const { countries } = useCountries();
+  const [loading, setLoading] = useState(true);
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
@@ -42,6 +44,9 @@ export const PersonalInfoFrom = () => {
         country: settigsReponse.country,
       });
       setValue(countries.find((a) => a.name == settigsReponse.country));
+      setTimeout(() => {
+        setLoading(false);
+      }, 3500);
     }
   }, [settigsReponse, settigsReponsePending]);
 
@@ -85,7 +90,9 @@ export const PersonalInfoFrom = () => {
           user_country: form.values.country,
         });
       })}
+      style={{ position: "relative" }}
     >
+      {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0, marginBottom: 50, padding: 0 }} />}
       <Stack className={classes.container}>
         <Text className={classes.title} variant="text-3">
           Personal Information

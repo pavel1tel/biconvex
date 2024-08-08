@@ -106,6 +106,12 @@
   cursor: pointer;
 }
 
+.save-button:hover,
+.save-button:active,
+.save-button:focus {
+  background-color: transparent;
+}
+
 .prise,
 .text-orange {
   font-size: 32px;

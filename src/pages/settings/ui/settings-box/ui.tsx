@@ -83,7 +83,6 @@ export const SettingsBox = () => {
           </div>
         </Group>
         <Stack gap={rem(16)} style={{ position: "relative" }}>
-          {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
           <AccountInfoForm />
           <PersonalInfoFrom />
           <PasswordForm />

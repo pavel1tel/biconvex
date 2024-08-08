@@ -21,6 +21,7 @@ type FormType = {
 export const AccountInfoForm = () => {
   const settingsResponse = useUnit<SettingsReponse>($settingsResponse);
   const settingsResponsePending = useUnit<boolean>(requestSettings.pending);
+  const [loading, setLoading] = useState(true);
 
   const form = useForm<FormType>({
     initialValues: {
@@ -56,6 +57,9 @@ export const AccountInfoForm = () => {
         gender: settingsResponse.gender,
       });
       setValue(settingsResponse.gender);
+      setTimeout(() => {
+        setLoading(false);
+      }, 3500);
     }
   }, [settingsResponse, settingsResponsePending]);
 
@@ -70,7 +74,9 @@ export const AccountInfoForm = () => {
           gender: values.gender,
         });
       })}
+      style={{ position: "relative" }}
     >
+      {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0, marginBottom: 50, padding: 0 }} />}
       <Stack className={classes.container}>
         <Text className={classes.title} variant="text-3">
           Account Information

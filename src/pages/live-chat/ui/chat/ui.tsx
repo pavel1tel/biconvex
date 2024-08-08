@@ -101,12 +101,16 @@ export const Chat = () => {
           {messages.length === 0 ? (
             <Stack display="flex" justify="center" align="center" h="100%" pos="relative">
               {loading && <LoadingScreen type="block" opened={loading} />}
-              <NoMsgIcon />
-              <Text className={classes.notContactedText}>
-                You have not contacted the support center
-                <br />
-                Ask your question right now
-              </Text>
+              {loading ? null : (
+                <>
+                  <NoMsgIcon />
+                  <Text className={classes.notContactedText}>
+                    You have not contacted the support center
+                    <br />
+                    Ask your question right now
+                  </Text>
+                </>
+              )}
             </Stack>
           ) : (
             <ScrollArea type="scroll" style={{ flex: 1, position: "relative" }}>
