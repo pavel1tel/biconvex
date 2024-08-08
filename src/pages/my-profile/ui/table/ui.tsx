@@ -247,9 +247,9 @@ export const TableProfile = () => {
   return (
     <Box my={{ 0: 32, md: 64 }}>
       <Text className={classes.title}>My Coins</Text>
-      <Box className={classes.scrollContainer} pos="relative">
-        {loading && <LoadingScreen title="" type="block" opened={loading} overlayStyles={{ top: 0 }} />}
-        <Stack className={classes.box} gap={0}>
+      <Box className={classes.scrollContainer}>
+        <Stack className={classes.box} gap={0} pos="relative">
+          {loading && <LoadingScreen title="" type="block" opened={loading} overlayStyles={{ top: 0 }} />}
           <Flex className={classes.boxHeader} gap={rem(32)} align={"center"} mb={rem("32px")}>
             <TextInput
               value={search}

@@ -57,61 +57,59 @@ export const DepositsBox = ({
   }, [depositResposePending, depositReponse]);
 
   return (
-    <Stack className={classes.container} h={loading ? "609px" : "auto"}>
-      <Stack>
-        <Stack className={classes.wrapDepositItems} style={{ height: loading ? "609px" : height, overflow: loading ? "hidden" : "auto" }}>
-          {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0, borderRadius: "0.25rem 8px 0.25rem 8px" }} />}
-          <Box>
-            <TextInput
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              classNames={{
-                input: classes.searchInput,
-                wrapper: classes.searchInputWrapper,
-                section: classes.icon,
+    <Stack className={classes.container}>
+      <Stack className={classes.wrapDepositItems} style={{ height, overflow: loading ? "hidden" : "auto" }}>
+        {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0, borderRadius: "0.25rem 8px 0.25rem 8px" }} />}
+        <Box>
+          <TextInput
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            classNames={{
+              input: classes.searchInput,
+              wrapper: classes.searchInputWrapper,
+              section: classes.icon,
+            }}
+            leftSection={<SearchIcon />}
+            placeholder="Search Crypto"
+          />
+        </Box>
+        {arr
+          .filter((i) => i.name.includes(search))
+          .map((item, itemIndex) => (
+            <Box
+              onClick={() => {
+                currentRoute.navigate({
+                  params: { coin: item.symbol },
+                  query: {},
+                  replace: true,
+                });
+                setCurrentCoin(item);
+                setCoin ? setCoin(itemIndex) : setSelectedDeposit(itemIndex);
               }}
-              leftSection={<SearchIcon />}
-              placeholder="Search Crypto"
-            />
-          </Box>
-          {arr
-            .filter((i) => i.name.includes(search))
-            .map((item, itemIndex) => (
-              <Box
-                onClick={() => {
-                  currentRoute.navigate({
-                    params: { coin: item.symbol },
-                    query: {},
-                    replace: true,
-                  });
-                  setCurrentCoin(item);
-                  setCoin ? setCoin(itemIndex) : setSelectedDeposit(itemIndex);
-                }}
-                key={item.symbol}
-                className={clsx(
-                  classes.depositItem,
-                  itemIndex === (coin ?? selectedDeposit) && classes.depositItemActive,
-                  showOthersHidden && itemIndex > 5 ? classes.hidden : classes.shown,
-                )}
-              >
-                <Flex justify={"space-between"} align={"center"}>
-                  <Flex gap={rem(8)}>
-                    <Image src={item.image} w={24} h={24} className={classes.coinIcon}></Image>
-                    <Text className={classes.label}>{item.name}</Text>
-                  </Flex>
-                  <Text className={clsx(classes.value, itemIndex === (coin ?? selectedDeposit) && classes.activeValue)}>
-                    {parseFloat(parseFloat(item.balance).toFixed(4))} {item.symbol}
-                  </Text>
+              key={item.symbol}
+              className={clsx(
+                classes.depositItem,
+                itemIndex === (coin ?? selectedDeposit) && classes.depositItemActive,
+                showOthersHidden && itemIndex > 5 ? classes.hidden : classes.shown,
+              )}
+            >
+              <Flex justify={"space-between"} align={"center"}>
+                <Flex gap={rem(8)}>
+                  <Image src={item.image} w={24} h={24} className={classes.coinIcon}></Image>
+                  <Text className={classes.label}>{item.name}</Text>
                 </Flex>
-              </Box>
-            ))}
+                <Text className={clsx(classes.value, itemIndex === (coin ?? selectedDeposit) && classes.activeValue)}>
+                  {parseFloat(parseFloat(item.balance).toFixed(4))} {item.symbol}
+                </Text>
+              </Flex>
+            </Box>
+          ))}
 
-          {md && (
-            <Button variant="radial-gradient" className={classes.loadMoreAction} onClick={loadMore}>
-              {showOthersHidden ? "Load more" : "Hide"}
-            </Button>
-          )}
-        </Stack>
+        {md && (
+          <Button variant="radial-gradient" className={classes.loadMoreAction} onClick={loadMore}>
+            {showOthersHidden ? "Load more" : "Hide"}
+          </Button>
+        )}
       </Stack>
     </Stack>
   );

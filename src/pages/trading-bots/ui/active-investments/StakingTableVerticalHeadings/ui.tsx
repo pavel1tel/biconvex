@@ -3,13 +3,14 @@ import { Divider, Flex, Group, Pagination, Stack, Table, Text, TextInput, Title,
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 
-import { NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
+import { LoadingScreen, NextIcon, NoRecords, PreviousIcon, SearchIcon } from "@/shared/ui";
 
 import { INVESTMENTS_WITH_HEADINGS } from "../Investments";
 import classes from "./styles.module.css";
 
 export const StakingTableVerticalHeadings = () => {
   const [siblings, setSiblings] = useState(getSiblings());
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
@@ -18,6 +19,10 @@ export const StakingTableVerticalHeadings = () => {
 
     window.addEventListener("resize", handleResize);
 
+    setTimeout(() => {
+      setLoading(false);
+    }, 4200);
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -25,7 +30,8 @@ export const StakingTableVerticalHeadings = () => {
 
   return (
     <Stack className={classes.wrapper}>
-      <Stack className={classes.box} gap={0}>
+      <Stack className={classes.box} gap={0} pos="relative">
+        {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0 }} />}
         <Flex justify={"space-between"} align={"center"} mb={rem("32px")}>
           <Title order={4}>Active investments</Title>
           <TextInput
