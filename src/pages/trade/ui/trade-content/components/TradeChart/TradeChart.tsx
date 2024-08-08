@@ -32,8 +32,7 @@ export const TradeChart = ({ currentPairName, setCurrentPair, currentPair, price
   }, []);
 
   return (
-    <Container padding={48} className={classes.chartContainer} style={{ position: "relative" }}>
-      {loading && <LoadingScreen type="block" opened={loading} styles={{ height: "98.5% !important" }} />}
+    <Container padding={48} className={classes.chartContainer}>
       <TradeChartTitle currentPairName={currentPair} setCurrentPair={setCurrentPair} />
       <Group className={classes.buttonFlex} mt={20} mb={32}>
         {period.map((item) => (

@@ -82,9 +82,15 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
           <ButtonTabs {...{ categories, activeCategory, setActiveCategory }} />
           {activeCategory === "Chart" && (
             <>
-              <TradeChart priceWs={priceWs} currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
+              <Stack pos="relative">
+                {loading ? <LoadingScreen type="block" title="" opened={loading} overlayStyles={{ top: 0 }} /> : null}
+                <TradeChart priceWs={priceWs} currentPair={currentPair} setCurrentPair={setCurrentPair} currentPairName={currentPairName} />
+              </Stack>
               <MarketStats priceWs={priceWs} currentPair={currentPair} />
-              <OrderBook priceWs={priceWs} currentPair={currentPair} />
+              <Stack w="100%" pos="relative">
+                {loading ? <LoadingScreen type="block" title="" opened={loading} overlayStyles={{ top: 0 }} /> : null}
+                <OrderBook orderBookHeight={loading ? "569px" : "auto"} priceWs={priceWs} currentPair={currentPair} />
+              </Stack>
             </>
           )}
           {activeCategory === "Trade" && (
