@@ -66,7 +66,7 @@ export const CoinsTable: React.FC<CoinsTableProps> = ({ data, currentPage, rowsP
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, [data]);
 
   const onTableHeadSortLabelClick = useCallback(

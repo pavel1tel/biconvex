@@ -41,11 +41,10 @@ export const TradeContent = ({ addScroll }: { addScroll?: boolean }) => {
     if (!profileResponsePending) {
       setCurrentPair(profileResponse.coins![0].symbol + "/USDT");
       setCurrentPairName(profileResponse.coins![0].name + "/USDT");
+      setTimeout(() => {
+        setLoading(false);
+      }, 4200);
     }
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 3500);
   }, [profileResponsePending]);
 
   const handleAction = (name: "Trade" | "Chart") => {

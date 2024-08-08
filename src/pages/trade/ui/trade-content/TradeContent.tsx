@@ -50,7 +50,7 @@ export const TradeContent = ({ orderBookHeight }: { orderBookHeight?: string }) 
     }
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, [profileResponsePending, routeParams]);
 
   useEffect(() => {

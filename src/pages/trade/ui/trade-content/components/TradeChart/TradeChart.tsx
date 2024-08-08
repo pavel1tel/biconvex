@@ -28,7 +28,7 @@ export const TradeChart = ({ currentPairName, setCurrentPair, currentPair, price
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, []);
 
   return (

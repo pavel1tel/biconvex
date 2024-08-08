@@ -70,7 +70,7 @@ export const Chat = () => {
     }
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, [chatReponsePending, chatResponse]);
 
   useEffect(() => {

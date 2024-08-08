@@ -573,7 +573,7 @@ export function Page() {
       updateDisplayData(result, 1, rowsPerPage);
       setTimeout(() => {
         setLoading(false);
-      }, 3500);
+      }, 4200);
     } catch (error) {
       console.error("Error fetching data:", error);
       setAllData([]);

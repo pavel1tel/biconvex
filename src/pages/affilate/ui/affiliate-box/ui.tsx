@@ -52,7 +52,7 @@ export const AffiliateBox = () => {
     }
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, [refResponse, refResponsePending, currentPage, search]);
 
   useEffect(() => {

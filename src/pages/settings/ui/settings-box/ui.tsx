@@ -29,7 +29,7 @@ export const SettingsBox = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, []);
 
   return (

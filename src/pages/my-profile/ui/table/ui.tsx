@@ -92,7 +92,7 @@ export const TableProfile = () => {
       setCOINS(temp);
       setTimeout(() => {
         setLoading(false);
-      }, 3500);
+      }, 4200);
     }
   };
 

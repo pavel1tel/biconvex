@@ -55,7 +55,7 @@ export const TradeHistory = () => {
 
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
 
     return () => {
       window.removeEventListener("resize", handleResize);

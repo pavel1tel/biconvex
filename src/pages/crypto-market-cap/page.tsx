@@ -133,7 +133,7 @@ export function Page() {
     loadData(activeTab.fetchData);
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, [activeTab]);
 
   useEffect(() => {

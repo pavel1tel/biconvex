@@ -14,7 +14,7 @@ export const P2PContent = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, []);
   return (
     <div className={classes.wrapper}>

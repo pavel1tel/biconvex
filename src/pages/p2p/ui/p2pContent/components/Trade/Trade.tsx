@@ -56,7 +56,7 @@ export const Trade = ({ tabName }: { tabName: string }) => {
     }
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, [p2pResponse, p2pResponsePending, currentPage]);
 
   const [siblings, setSiblings] = useState(getSiblings());

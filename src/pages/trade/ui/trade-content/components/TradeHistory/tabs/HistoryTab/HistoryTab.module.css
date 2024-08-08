@@ -139,3 +139,12 @@
     }
   }
 }
+
+@media screen and (max-width: 500px) {
+  tbody {
+    td {
+      padding-right: 12px !important;
+      white-space: nowrap;
+    }
+  }
+}

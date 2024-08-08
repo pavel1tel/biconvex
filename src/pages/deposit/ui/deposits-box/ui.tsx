@@ -53,13 +53,13 @@ export const DepositsBox = ({
     }
     setTimeout(() => {
       setLoading(false);
-    }, 3500);
+    }, 4200);
   }, [depositResposePending, depositReponse]);
 
   return (
-    <Stack className={classes.container}>
+    <Stack className={classes.container} h={loading ? "609px" : "auto"}>
       <Stack>
-        <Stack className={classes.wrapDepositItems} style={{ height, overflow: loading ? "hidden" : "auto" }}>
+        <Stack className={classes.wrapDepositItems} style={{ height: loading ? "609px" : height, overflow: loading ? "hidden" : "auto" }}>
           {loading && <LoadingScreen type="block" opened={loading} overlayStyles={{ top: 0, borderRadius: "0.25rem 8px 0.25rem 8px" }} />}
           <Box>
             <TextInput
